@@ -6,7 +6,7 @@ body {
     width: 1080px;
     margin: auto;
     background: #EEE;
-    color: bisque;
+    color: black;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 10px 10px 0px rgba(0, 0, 0, 0.8);
@@ -30,29 +30,42 @@ body {
 }
  
 #pestanas li{
+	display:block;
     list-style-type: none;
     float: left;
     text-align: center;
     margin: 0px 2px -2px -0px;
-    background: darkgrey;
+    background: white;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    border: 2px solid bisque;
+    border: 2px solid black;
     border-bottom: dimgray;
-    padding: 0px 20px 0px 20px;
+    padding: 0px 10px 0px 10px;
 }
  
 #pestanas a:link{
     text-decoration: none;
-    color: bisque;
+    color: black;
+    display:block;
 }
  
 #contenidopestanas{
+	list-style-type:none;
     clear: both;  
-    background: dimgray;
+    background: LightSkyBlue;
     padding: 20px 0px 20px 20px;
     border-radius: 5px;
     border-top-left-radius: 0px;
-    border: 2px solid bisque;
+    border: 2px solid black;
     width: 1025px;
+}
+
+ul
+{
+	list-style-type:none;
+}
+
+a
+{
+	text-decoration:none;
 }

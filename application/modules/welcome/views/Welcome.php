@@ -11,11 +11,11 @@
     <div class="contenedor">
         <div id="pestanas">
             <ul id=lista>
-                <li id="pestana1"><a href='javascript:cambiarPestana(pestanas,pestana1);'>HTML</a></li>
-                <li id="pestana2"><a href='javascript:cambiarPestana(pestanas,pestana2);'>CSS</a></li>
+                <li id="pestana1"><a href='javascript:cambiarPestana(pestanas,pestana1);'>Gestión de proyectos</a></li>
+                <li id="pestana2"><a href='javascript:cambiarPestana(pestanas,pestana2);'>RRHH</a></li>
                 <li id="pestana3"><a href='javascript:cambiarPestana(pestanas,pestana3);'>3</a></li>
                 <li id="pestana4"><a href='javascript:cambiarPestana(pestanas,pestana4);'>4</a></li>
-                <li id="pestana5"><a href='javascript:cambiarPestana(pestanas,pestana5);'>5</a></li>              
+                <li id="pestana5"><a href='javascript:cambiarPestana(pestanas,pestana5);'>General</a></li>              
             </ul>
         </div>        
  
@@ -33,7 +33,11 @@
                 Contenido de la pestaña 4
             </div>
             <div id="cpestana5">
-                Contenido de la pestaña 5
+                <ul>
+                	<li><a href="<?php base_url()?>Vacaciones/index.php">Vacaciones</a></li>
+                	<li><a href="<?php base_url()?>HojaGastos/index.php">Hoja de Gastos</a></li>
+                	<li><a href="<?php base_url()?>IMC/index.php">IMC</a></li>
+                </ul>
             </div>
     	</div>
     </div>
