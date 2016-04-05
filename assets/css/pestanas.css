@@ -1,5 +1,6 @@
 body {
-    background: #EEE;    
+    background: #EEE; 
+    font-size:14px;   
 }
  
 .contenedor{
@@ -20,6 +21,7 @@ body {
 }
  
 #pestanas {
+	margin-top:50px;
     float: top;
     font-size: 3ex;
     font-weight: bold;
@@ -40,25 +42,28 @@ body {
     border-top-right-radius: 5px;
     border: 2px solid black;
     border-bottom: dimgray;
-    padding: 0px 10px 0px 10px;
+    padding: 0px 0px 0px 0px;
 }
  
 #pestanas a:link{
     text-decoration: none;
     color: black;
     display:block;
+    padding:0px 10px 0px 10px;
 }
  
 #contenidopestanas{
 	list-style-type:none;
     clear: both;  
     background: LightSkyBlue;
+    background: #99DDFF;
     padding: 20px 0px 20px 20px;
     border-radius: 5px;
     border-top-left-radius: 0px;
     border: 2px solid black;
     width: 1025px;
 }
+
 
 ul
 {

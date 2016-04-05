@@ -1,14 +1,34 @@
+<!--  
 <!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" type="text/css" href="<?php base_url()?>assets/css/pestanas.css"/>
-    <script type="text/javascript" src="<?php base_url()?>assets/js/cambiarPestana.js"></script>
+    <link rel="stylesheet" type="text/css" href="<?php base_url()?>assets/css/estilos.css"/>
+    <script type="text/javascript" src="<?php base_url()?>assets/js/cambiarPestana.js"></script>    
     <script type="text/javascript" src="<?php base_url()?>assets/js/jquery-2.1.3.js"></script>
-    <title></title>
+    <title>Bienvenido a appSOL</title>
+   
 </head>
-<body onload="javascript:cambiarPestana(pestanas,pestana1);">
+-->
+<body>
     <div class="contenedor">
+    	
+    	<div class="menu_superior_derecha">
+    		<span>Usuario activo</span>
+	    	<select id="usuarioActivo">
+	    		<option value="<?php echo $this->session->userdata('usuario')?>"><?php echo $this->session->userdata('usuario')?></option>
+	    	</select>
+    		<button id="cambiarPassword"
+				onclick='location.href="<?php echo base_url()?>Login/cambiarPass"'>
+				Cambiar	contraseña
+			</button>
+			<button id="passwordsCliente"
+				onclick='location.href="<?php echo base_url()?>PasswordEnCliente"'>
+				Contraseñas en cliente
+			</button>
+    	</div>
+    	
         <div id="pestanas">
             <ul id=lista>
                 <li id="pestana1"><a href='javascript:cambiarPestana(pestanas,pestana1);'>Gestión de proyectos</a></li>

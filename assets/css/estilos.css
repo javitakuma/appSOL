@@ -1,0 +1,26 @@
+#cabecera
+{
+	height:100px;
+	margin:0 100px;
+}
+
+.menu_superior_derecha
+{
+	float:right;
+	clear:both;
+}
+
+.flotarDerecha
+{
+	float:right;	
+}
+
+.logout
+{
+	background:#F44;
+	width:100px;
+	height:40px;
+	font-size:25px;
+	font-weight:bold;
+	cursor:pointer;
+}

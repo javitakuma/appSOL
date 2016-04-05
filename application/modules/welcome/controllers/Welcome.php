@@ -11,9 +11,20 @@ class Welcome extends MX_Controller
 	}
 	
 	public function index()
-	{		
-		//$data['users'] = $this->data_users(); TODO
-		$this->load->view('Welcome');			
+	{	
+		//VALIDAMOS SI HAY USUARIO ACTIVO
+		if($this->session->userdata('logueado'))
+		{
+			//MOSTRAMOS LA VISTA DE BIENVENIDA
+			enmarcar($this, 'Welcome');				
+		}
+		//SI NO ESTA LOGUEADO LE MANDAMOS AL LOGIN CON UN CAMPO DE ERROR
+		else
+		{
+			$this->session->set_flashdata('errorLoginMensaje','Por favor inicia sesión');
+			header("Location:".base_url().'Login');    //TODO
+		}		
+		
 	}	
 	
 	public function indexPost()

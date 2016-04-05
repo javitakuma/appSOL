@@ -11,13 +11,13 @@
 
    
 <form action="<?php echo base_url()?>Login/indexPost" method="post">
-<h2 class="centrado">LOGIN</h2>
+<h2 class="centrado">CAMBIO CONTRASEÑA</h2>
   <div class="group">
   	<p>Usuario</p>
-    <input type="text" name="usuario" id="usuario" value="<?php echo $errorLoginUsuario?>">    
+    <input type="text" name="usuario" id="usuario" disabled value="<?php echo $usuario?>">    
   </div>
   <div class="group">
-    <p>Contraseña</p>
+    <p>Nueva Contraseña</p>
     <input type="password" name="pass" id="pass">
   </div>
  	<p class="error"><?php echo $errorLoginMensaje?></p>

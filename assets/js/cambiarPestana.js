@@ -28,8 +28,15 @@ function cambiarPestana(pestannas,pestanna) {
         // borde superior del contenido que esta juesto debajo y se vea de este 
         // modo que esta seleccionada.
         $(cpestanna).css('display','');
-        $(pestanna).css('background','LightSkyBlue');
+        $(pestanna).css('background','#99DDFF');
         $(pestanna).css('padding-bottom','2px'); 
     });
  
+}
+
+//NOS PONE LA PRIMERA PESTAÑA AZUL
+
+window.onload=function()
+{
+	cambiarPestana(pestanas,pestana1);
 }
