@@ -17,10 +17,17 @@
 
 .logout
 {
-	background:#F44;
+	background:#F55;
 	width:100px;
 	height:40px;
 	font-size:25px;
 	font-weight:bold;
 	cursor:pointer;
+	border:none;
+	border-radius:10px;
+}
+
+.logout:hover
+{
+	background:#F11;	
 }

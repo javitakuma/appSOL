@@ -166,6 +166,7 @@ input:focus ~ .highlight {
 .buttonBlue {
   background: #4a89dc;
   text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
+  border-radius:10px;
 }
 
 .buttonBlue:hover { background: #357bd8; }

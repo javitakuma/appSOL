@@ -20,7 +20,7 @@
 	    		<option value="<?php echo $this->session->userdata('usuario')?>"><?php echo $this->session->userdata('usuario')?></option>
 	    	</select>
     		<button id="cambiarPassword"
-				onclick='location.href="<?php echo base_url()?>login/cambiarPass"'>
+				onclick='location.href="<?php echo base_url()?>login/cambiar_pass"'>
 				Cambiar	contraseña
 			</button>
 			<button id="passwordsCliente"

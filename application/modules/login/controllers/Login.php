@@ -7,15 +7,28 @@ class Login extends MX_Controller
 	{		
 		parent::__construct();
 		$this->load->model('Login_model');	
-		//AQUI SE PUEDEN CARGAR LIBRERIAS QUE NO ESTEN AUTOCARGADAS
+		//AQUI SE PUEDEN CARGAR LIBRERIAS QUE NO ESTEN AUTOCARGADAS EN AUTOLOAD
 	}
 	
 	//FORMULARIO LOGIN
 	public function index()
 	{	
-		$datos['errorLoginUsuario']=$this->session->flashdata('errorLoginUsuario');
-		$datos['errorLoginMensaje']=$this->session->flashdata('errorLoginMensaje');
-		enmarcar($this,'Login',$datos);
+		//VALIDAMOS SI HAY USUARIO ACTIVO
+		//SI ESTA LOGUEADO LE MANDAMOS AL WELCOME
+		if($this->session->userdata('logueado'))
+		{
+			header("Location:".base_url().'welcome');
+				
+		}
+		//SI NO ESTA LOGUEADO LE MANDAMOS AL LOGIN
+		else
+		{
+			$datos['errorLoginUsuario']=$this->session->flashdata('errorLoginUsuario');
+			$datos['errorLoginMensaje']=$this->session->flashdata('errorLoginMensaje');
+			enmarcar($this,'Login',$datos);
+		}
+		
+		
 	}	
 	
 	public function indexPost()//FORMULARIO LOGIN POST
@@ -40,15 +53,15 @@ class Login extends MX_Controller
 		}
 	}
 	
-	public function cambiarPass()
+	public function cambiar_pass()
 	{
 		//VALIDAMOS SI HAY USUARIO ACTIVO
 		if($this->session->userdata('logueado'))
 		{
 			$datos['usuario']=$this->session->userdata('usuario');
 			$datos['errorLoginMensaje']=$this->session->userdata('errorLoginMensaje');
-			//enmarcar($this,'usuario/cambiarPassword.php',$datos);
-			$this->load->view('Cambio_pass',$datos);
+			enmarcar($this,'Cambio_pass.php',$datos);
+			//$this->load->view('Cambio_pass',$datos);
 			
 		}
 		//SI NO ESTA LOGUEADO LE MANDAMOS AL LOGIN CON UN CAMPO DE ERROR

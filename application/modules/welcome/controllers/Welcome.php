@@ -10,6 +10,7 @@ class Welcome extends MX_Controller
 		
 	}
 	
+	//FUNCION PRINCIPAL INDEX, MOSTRAR MENU
 	public function index()
 	{	
 		//VALIDAMOS SI HAY USUARIO ACTIVO
@@ -22,15 +23,10 @@ class Welcome extends MX_Controller
 		else
 		{
 			$this->session->set_flashdata('errorLoginMensaje','Por favor inicia sesión');
-			header("Location:".base_url().'login');    //TODO
+			header("Location:".base_url().'login');    
 		}		
 		
 	}	
 	
-	public function indexPost()
-	{
-		//$data['users'] = $this->data_users();
-		//$this->load->view('Login');
-		echo "--";
-	}
+	
 }
