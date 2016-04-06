@@ -12,9 +12,21 @@ class Login_model extends CI_Model
 	
 	public function get_users()
 	{		
-		//$query = $this->db->get('users');
-		
-		return "Datos desde modelo";		
+		$this->load->database();		
+		$query=$this->db->query('select * from t_imcs LIMIT 3');		
+		var_dump($query->result());
+		$resultado=$query->result_array();		
+		echo "<br/>";		
+		foreach ($resultado as $r)
+		{
+			echo $r['i_tot_horas_imc'];
+			echo "<br/>";
+		}
+		$this->db->close();		
 	}
+	
+	
+	
+	
 	
 }

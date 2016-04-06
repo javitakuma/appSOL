@@ -36,13 +36,17 @@ class Login extends MX_Controller
 		//LOGIN CORRECTO   //TODO
 		if($this->input->post('usuario')=="admin"&&$this->input->post('pass')=="admin")
 		{
+			$this->Login_model->get_users();
+			
 			//INICIALIZACION DE SESIONES
+			/*
 			$usuario_data = array(
 					'usuario' => $this->input->post('usuario'),//TODO lo que venga del modelo					
 					'logueado' => TRUE
 			);
 			$this->session->set_userdata($usuario_data);
-			header("Location:".base_url().'welcome'); 
+			header("Location:".base_url().'welcome');
+			*/ 
 		}
 		else//LOGIN INCORRECTO
 		{
@@ -91,4 +95,10 @@ class Login extends MX_Controller
 		$this->session->sess_destroy();
 		header("Location:".base_url().'login');
 	}
+	
+	public function prueba_basedatos()
+	{		
+		 	
+	}
+	
 }
