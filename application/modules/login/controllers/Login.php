@@ -33,10 +33,17 @@ class Login extends MX_Controller
 	
 	public function indexPost()//FORMULARIO LOGIN POST
 	{	
+		
+		$id=$this->input->post('usuario');
+		$pass=$this->input->post('pass');
+		
+		//COMPROBAMOS EN EL MODELO QUE EXISTE ESE USUARIO
+		$usuarioEncontrado=$this->Login_model->validar_usuario($id,$pass);
+		
 		//LOGIN CORRECTO   //TODO
 		if($this->input->post('usuario')=="admin"&&$this->input->post('pass')=="admin")
 		{
-			$this->Login_model->get_users();
+			
 			
 			//INICIALIZACION DE SESIONES
 			/*
@@ -82,7 +89,7 @@ class Login extends MX_Controller
 	{
 		//TODO 
 		$cambioPassword['passwd']=$this->input->post('pass');
-		$cambioPassword['usuario']=$this->session->userdata('logueado')?$this->session->userdata('usuario'):null;
+		$cambioPassword['usuario']=$this->session->userdata('logueado')?$this->session->userdata('usuario'):NULL;
 	}
 	
 	public function logout()
