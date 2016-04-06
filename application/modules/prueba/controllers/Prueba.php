@@ -7,7 +7,7 @@ class Prueba extends MX_Controller
 	{
 		
 		parent::__construct();
-		$this->load->model('prueba_model');
+		$this->load->model('Prueba_model');
 		
 	}
 	

@@ -6,7 +6,7 @@ class Login extends MX_Controller
 	public function __construct()
 	{		
 		parent::__construct();
-		$this->load->model('Login_Model');	
+		$this->load->model('Login_model');	
 		//AQUI SE PUEDEN CARGAR LIBRERIAS QUE NO ESTEN AUTOCARGADAS
 	}
 	
@@ -29,14 +29,14 @@ class Login extends MX_Controller
 					'logueado' => TRUE
 			);
 			$this->session->set_userdata($usuario_data);
-			header("Location:".base_url().'Welcome'); 
+			header("Location:".base_url().'welcome'); 
 		}
 		else//LOGIN INCORRECTO
 		{
 			//GUARDAMOS DOS VALORES EN SESIONES TEMPORALES(SOLO DISPONIBLE EN LA SIGUIENTE PETICION AL SERVIDOR)
 			$this->session->set_flashdata('errorLoginUsuario',$this->input->post('usuario'));
 			$this->session->set_flashdata('errorLoginMensaje','Usuario o contraseña inválidos');			
-			header("Location:".base_url().'Login');
+			header("Location:".base_url().'login');
 		}
 	}
 	
@@ -48,7 +48,7 @@ class Login extends MX_Controller
 			$datos['usuario']=$this->session->userdata('usuario');
 			$datos['errorLoginMensaje']=$this->session->userdata('errorLoginMensaje');
 			//enmarcar($this,'usuario/cambiarPassword.php',$datos);
-			$this->load->view('CambioPass',$datos);
+			$this->load->view('Cambio_pass',$datos);
 			
 		}
 		//SI NO ESTA LOGUEADO LE MANDAMOS AL LOGIN CON UN CAMPO DE ERROR
@@ -76,6 +76,6 @@ class Login extends MX_Controller
 		);
 		$this->session->set_userdata($usuario_data);
 		$this->session->sess_destroy();
-		header("Location:".base_url().'Login');
+		header("Location:".base_url().'login');
 	}
 }

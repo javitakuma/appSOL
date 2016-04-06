@@ -6,7 +6,7 @@ class Welcome extends MX_Controller
 	public function __construct()
 	{		
 		parent::__construct();
-		$this->load->model('Welcome_Model');
+		$this->load->model('Welcome_model');
 		
 	}
 	
@@ -22,7 +22,7 @@ class Welcome extends MX_Controller
 		else
 		{
 			$this->session->set_flashdata('errorLoginMensaje','Por favor inicia sesión');
-			header("Location:".base_url().'Login');    //TODO
+			header("Location:".base_url().'login');    //TODO
 		}		
 		
 	}	

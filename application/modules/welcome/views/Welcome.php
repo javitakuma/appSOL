@@ -20,11 +20,11 @@
 	    		<option value="<?php echo $this->session->userdata('usuario')?>"><?php echo $this->session->userdata('usuario')?></option>
 	    	</select>
     		<button id="cambiarPassword"
-				onclick='location.href="<?php echo base_url()?>Login/cambiarPass"'>
+				onclick='location.href="<?php echo base_url()?>login/cambiarPass"'>
 				Cambiar	contraseña
 			</button>
 			<button id="passwordsCliente"
-				onclick='location.href="<?php echo base_url()?>PasswordEnCliente"'>
+				onclick='location.href="<?php echo base_url()?>Password_en_cliente"'>
 				Contraseñas en cliente
 			</button>
     	</div>
@@ -55,8 +55,8 @@
             <div id="cpestana5">
                 <ul>
                 	<li><a href="<?php base_url()?>Vacaciones/index.php">Vacaciones</a></li>
-                	<li><a href="<?php base_url()?>HojaGastos/index.php">Hoja de Gastos</a></li>
-                	<li><a href="<?php base_url()?>IMC/index.php">IMC</a></li>
+                	<li><a href="<?php base_url()?>Hoja_gastos/index.php">Hoja de Gastos</a></li>
+                	<li><a href="<?php base_url()?>Imc/index.php">IMC</a></li>
                 </ul>
             </div>
     	</div>

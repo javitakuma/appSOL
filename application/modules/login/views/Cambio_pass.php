@@ -10,7 +10,7 @@
 
 
    
-<form action="<?php echo base_url()?>Login/indexPost" method="post">
+<form action="<?php echo base_url()?>login/indexPost" method="post">
 <h2 class="centrado">CAMBIO CONTRASEÑA</h2>
   <div class="group">
   	<p>Usuario</p>
