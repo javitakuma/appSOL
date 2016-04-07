@@ -11,10 +11,14 @@
     <!-- CSS 
     ============================================================-->  
 	
+	<!--
+	<link rel="stylesheet" href="<?php echo base_url()?>assets/css/reset.css">
+	-->
+	<link rel="stylesheet" href="<?php echo base_url()?>assets/css/reset.css">
 	<link rel="stylesheet" href="<?php echo base_url()?>assets/css/estilos.css">
 	<link rel="stylesheet" href="<?php echo base_url()?>assets/css/formulario.css">
 	<link rel="stylesheet" href="<?php echo base_url()?>assets/css/pestanas.css"> 
-	<link rel="stylesheet" href="<?php echo base_url()?>assets/css/reset.css">
+	
 	 
 
 

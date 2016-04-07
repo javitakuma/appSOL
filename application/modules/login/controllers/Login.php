@@ -38,7 +38,7 @@ class Login extends MX_Controller
 		$pass=$this->input->post('pass');
 		
 		//COMPROBAMOS EN EL MODELO QUE EXISTE ESE USUARIO
-		$usuarioEncontrado=$this->Login_model->validar_usuario($id,$pass);
+		//$usuarioEncontrado=$this->Login_model->validar_usuario($id,$pass);
 		
 		//LOGIN CORRECTO   //TODO
 		if($this->input->post('usuario')=="admin"&&$this->input->post('pass')=="admin")
@@ -46,14 +46,14 @@ class Login extends MX_Controller
 			
 			
 			//INICIALIZACION DE SESIONES
-			/*
+			
 			$usuario_data = array(
 					'usuario' => $this->input->post('usuario'),//TODO lo que venga del modelo					
 					'logueado' => TRUE
 			);
 			$this->session->set_userdata($usuario_data);
 			header("Location:".base_url().'welcome');
-			*/ 
+			 
 		}
 		else//LOGIN INCORRECTO
 		{

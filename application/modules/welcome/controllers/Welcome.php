@@ -24,8 +24,7 @@ class Welcome extends MX_Controller
 		{
 			$this->session->set_flashdata('errorLoginMensaje','Por favor inicia sesión');
 			header("Location:".base_url().'login');    
-		}		
-		
+		}			
 	}	
 	
 	

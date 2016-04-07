@@ -43,13 +43,19 @@
 	font-weight:bold;		
 }
 
+.titulo-mediano
+{
+	font-size:24px;
+	color:black;
+	font-weight:bold;		
+}
+
 /*
 	=========ESTILOS IMC===========
 */
 
 #contenedorImc
 {
-	background:#CCC;
 	width:90%;
 	height:100px;
 	margin:0 auto;	
@@ -57,14 +63,15 @@
 
 .botonera
 {
-	width:40%;
+	width:310px;
 	margin:10px auto;
 }
 
 .boton-imc
 {
-	width:31%;
-	margin:3px;
+	width:100px;
+	margin:0px;
+	min-width:30px;
 }
 
 #rejillaImc
@@ -94,6 +101,7 @@ table
 	text-align:center;
 	border-collapse: collapse;
 	border:solid 1px black;
+	font-weight:bold;
 }
 
 #listadoImcGeneral td
@@ -102,4 +110,14 @@ table
 	text-align:center;
 	border-collapse: collapse;
 	border:solid 1px black;
+}
+
+#listadoImcGeneral tr:nth-child(even)
+{
+	background-color:#AADDFF;
+}
+
+.abrirCell
+{
+	cursor:pointer;
 }

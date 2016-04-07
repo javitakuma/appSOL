@@ -15,13 +15,9 @@ class Login_model extends CI_Model
 		mb_internal_encoding ( "UTF-8" );
 		header('Content-Type: text/html; charset=UTF-8');
 		echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
-		echo mb_strlen("uña");
-		
-		//die;
-		
-		
-		
-		
+		echo mb_strlen("uña");		
+		//die;	
+			
 		echo mb_detect_encoding($pass);
 		
 		$pp=mb_convert_encoding($pass, "UTF-8");

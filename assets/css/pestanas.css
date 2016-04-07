@@ -28,7 +28,8 @@ body {
 }
  
 #pestanas ul{
-    margin-left: -40px;    
+	
+    /*margin-left: -40px;     CAMBIADO DESPUES DE RESET */
 }
  
 #pestanas li{
