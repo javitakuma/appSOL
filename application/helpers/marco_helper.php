@@ -14,6 +14,10 @@ function enmarcar($controlador,$vista,$datos=[]) {
 	$controlador->load->view('templates/end');
 	*/
 	$controlador->load->view('templates/head');	
+	if(isset($datos['js']))
+	{
+		$controlador->load->view('templates/masScripts',$datos);
+	}
 	$controlador->load->view('templates/header');
 	$controlador->load->view($vista,$datos);//ESTA ES LA VISTA QUE HEMOS MANDADO
 	$controlador->load->view('templates/footer');

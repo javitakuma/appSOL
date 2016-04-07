@@ -1,3 +1,4 @@
+</head>
 <body>
 <div id="cabecera">
 	<p>AQUI IRA EL LOGO</p>

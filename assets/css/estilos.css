@@ -31,3 +31,75 @@
 {
 	background:#F11;	
 }
+
+/*
+	=========ESTILOS TITULOS===========
+*/
+
+.titulo-grande
+{
+	font-size:30px;
+	color:black;
+	font-weight:bold;		
+}
+
+/*
+	=========ESTILOS IMC===========
+*/
+
+#contenedorImc
+{
+	background:#CCC;
+	width:90%;
+	height:100px;
+	margin:0 auto;	
+}
+
+.botonera
+{
+	width:40%;
+	margin:10px auto;
+}
+
+.boton-imc
+{
+	width:31%;
+	margin:3px;
+}
+
+#rejillaImc
+{	
+	margin-top:100px;
+	margin:0 auto;
+	width:100%;
+	clear:both;
+}
+
+table
+{
+	border-collapse: collapse;
+	border:solid 1px black;
+}
+
+#listadoImcGeneral
+{	
+	margin:0 auto;
+	width:80%;	
+	
+}
+
+#listadoImcGeneral th
+{
+	width:14%;
+	text-align:center;
+	border-collapse: collapse;
+	border:solid 1px black;
+}
+
+#listadoImcGeneral td
+{
+	width:14%;
+	text-align:center;
+	border-collapse: collapse;
+	border:solid 1px black;
+}

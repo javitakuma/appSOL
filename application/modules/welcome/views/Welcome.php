@@ -54,9 +54,9 @@
             </div>
             <div id="cpestana5">
                 <ul>
-                	<li><a href="<?php base_url()?>Vacaciones/index.php">Vacaciones</a></li>
-                	<li><a href="<?php base_url()?>Hoja_gastos/index.php">Hoja de Gastos</a></li>
-                	<li><a href="<?php base_url()?>Imc/index.php">IMC</a></li>
+                	<li><a href="<?php base_url()?>vacaciones/index.php">Vacaciones</a></li>
+                	<li><a href="<?php base_url()?>hoja_gastos/index.php">Hoja de Gastos</a></li>
+                	<li><a href="<?php base_url()?>general/imc/index.php">IMC</a></li>
                 </ul>
             </div>
     	</div>
