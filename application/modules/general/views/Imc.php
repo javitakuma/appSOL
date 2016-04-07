@@ -33,7 +33,7 @@
 			
 			<?php foreach($imc_mensuales as $fila):?>
 				<tr>
-					<td class="abrirCell" onclick="mostrarImcMes()">Abrir</td>
+					<td class="abrirCell" onclick='location.href="<?php echo base_url()?>general/Imc/mostrarImcMes/<?php echo $fila['year_imc']?>/<?php echo $fila['mes_imc']?>"'>Abrir</td>
 					<td class="consultorCell"><?php echo $fila['k_consultor']?></td>
 					<td class="imcYearCell"><?php echo $fila['year_imc']?></td>
 					<td class="imcMonthCell"><?php echo $fila['mes_imc']?></td>
