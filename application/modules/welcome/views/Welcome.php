@@ -11,7 +11,7 @@
    
 </head>
 -->
-<body>
+
     <div class="contenedor">
     	
     	<div class="menu_superior_derecha">
@@ -61,5 +61,3 @@
             </div>
     	</div>
     </div>
-</body>
-</html>
