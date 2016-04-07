@@ -40,9 +40,11 @@
 					<td class="horas"><?php echo $fila['i_tot_horas_imc']?></td>
 					<td class="horasVal"><?php echo $fila['i_tot_horas_imc_validadas']?></td>
 					<td class="enviado"><?php echo $fila['sw_validacion']?></td>
-			</tr>	
+				</tr>	
 			<?php endforeach;?>
 			 
+			 
+			
 			<!-- 
 			<tr>
 				<td id="kk"class="abrirCell">aa</td>
@@ -55,6 +57,8 @@
 			</tr>
 			 -->
 		</table>
+		<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="50px" onclick='location.href="<?php echo base_url()?>welcome"'/>
+		<h3 class="titulo-peque">Volver al menú principal.</h3> 
 	</div>
 </div>
 

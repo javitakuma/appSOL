@@ -13,20 +13,25 @@
 	
 	<!--
 	<link rel="stylesheet" href="<?php echo base_url()?>assets/css/reset.css">
+	
 	-->
 	<link rel="stylesheet" href="<?php echo base_url()?>assets/css/reset.css">
 	<link rel="stylesheet" href="<?php echo base_url()?>assets/css/estilos.css">
 	<link rel="stylesheet" href="<?php echo base_url()?>assets/css/formulario.css">
-	<link rel="stylesheet" href="<?php echo base_url()?>assets/css/pestanas.css"> 
+	<link rel="stylesheet" href="<?php echo base_url()?>assets/css/pestanas.css">
+	 
 	
 	 
 
 
     <!-- SCRIPT 
     ============================================================-->  
-    <!-- <script src="http://code.jquery.com/jquery.js"></script> -->
+    <!--
+     <script src="http://code.jquery.com/jquery.js"></script>
+     <script type="text/javascript" src="<?php echo base_url()?>assets/js/cambiarPestana.js"></script>
+     -->
     
-    <script type="text/javascript" src="<?php echo base_url()?>assets/js/cambiarPestana.js"></script>
+    
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-2.1.3.js"></script>
     
 

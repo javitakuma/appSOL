@@ -50,6 +50,13 @@
 	font-weight:bold;		
 }
 
+.titulo-peque
+{
+	font-size:18px;
+	color:black;
+	font-weight:bold;		
+}
+
 /*
 	=========ESTILOS IMC===========
 */
@@ -121,3 +128,11 @@ table
 {
 	cursor:pointer;
 }
+
+.cursor_pointer
+{
+	cursor:pointer;
+}
+
+
+

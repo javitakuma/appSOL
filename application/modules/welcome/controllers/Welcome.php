@@ -17,7 +17,8 @@ class Welcome extends MX_Controller
 		if($this->session->userdata('logueado'))
 		{
 			//MOSTRAMOS LA VISTA DE BIENVENIDA
-			enmarcar($this, 'Welcome');				
+			$datos['js']='CambiarPestana';
+			enmarcar($this, 'Welcome',$datos);				
 		}
 		//SI NO ESTA LOGUEADO LE MANDAMOS AL LOGIN CON UN CAMPO DE ERROR
 		else
