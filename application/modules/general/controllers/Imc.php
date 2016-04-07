@@ -13,7 +13,8 @@ class Imc extends MX_Controller
 	
 	public function index($condicion=2)
 	{
-		$datos['imc_mensuales']=$this->Imc_model->get_imc_mensuales($condicion);
+		$k_consultor=$this->session->userdata('k_consultor');
+		$datos['imc_mensuales']=$this->Imc_model->get_imc_mensuales($condicion,$k_consultor);
 		$datos['js'] ="imc";
 		$datos['condicion']=$condicion;
 		//$this->Imc_model->cargar_general();

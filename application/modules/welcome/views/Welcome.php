@@ -1,31 +1,15 @@
-<!--  
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" type="text/css" href="<?php base_url()?>assets/css/pestanas.css"/>
-    <link rel="stylesheet" type="text/css" href="<?php base_url()?>assets/css/estilos.css"/>
-    <script type="text/javascript" src="<?php base_url()?>assets/js/cambiarPestana.js"></script>    
-    <script type="text/javascript" src="<?php base_url()?>assets/js/jquery-2.1.3.js"></script>
-    <title>Bienvenido a appSOL</title>
-   
-</head>
--->
+
 
     <div class="contenedor">
     	
     	<div class="menu_superior_derecha">
     		<span>Usuario activo</span>
 	    	<select id="usuarioActivo">
-	    		<option value="<?php echo $this->session->userdata('usuario')?>"><?php echo $this->session->userdata('usuario')?></option>
+	    		<option value="<?php echo $this->session->userdata('id_consultor')?>"><?php echo $this->session->userdata('id_consultor')?></option>
 	    	</select>
     		<button id="cambiarPassword"
 				onclick='location.href="<?php echo base_url()?>login/cambiar_pass"'>
 				Cambiar	contraseña
-			</button>
-			<button id="passwordsCliente"
-				onclick='location.href="<?php echo base_url()?>Password_en_cliente"'>
-				Contraseñas en cliente
 			</button>
     	</div>
     	

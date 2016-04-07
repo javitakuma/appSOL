@@ -8,7 +8,7 @@ class Imc_model extends CI_Model
 		parent::__construct();		
 	}
 	
-	public function get_imc_mensuales($condicion)
+	public function get_imc_mensuales($condicion,$k_consultor)
 	{		
 		//$condicion   1=enviados   2=no enviados   3= todos
 		
@@ -21,8 +21,8 @@ class Imc_model extends CI_Model
 				FROM t_imcs
 				GROUP BY t_imcs.k_consultor, t_imcs.i_tot_horas_imc, t_imcs.i_tot_horas_imc_validadas, 
 						t_imcs.sw_validacion, t_imcs.mes_imc, t_imcs.año_imc, t_imcs.k_imc
-				HAVING (((t_imcs.k_consultor)=3) AND ((t_imcs.sw_validacion)=0) AND ($condicion=2)) OR (((t_imcs.k_consultor)=3) AND ((t_imcs.sw_validacion)=-1) AND 
-						($condicion=1)) OR (((t_imcs.k_consultor)=3) AND ($condicion=3))
+				HAVING (((t_imcs.k_consultor)=$k_consultor) AND ((t_imcs.sw_validacion)=0) AND ($condicion=2)) OR (((t_imcs.k_consultor)=$k_consultor) AND ((t_imcs.sw_validacion)=-1) AND 
+						($condicion=1)) OR (((t_imcs.k_consultor)=$k_consultor) AND ($condicion=3))
 				ORDER BY  t_imcs.año_imc DESC,t_imcs.mes_imc DESC";
 		
 		

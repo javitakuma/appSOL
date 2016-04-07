@@ -12,60 +12,28 @@ class Login_model extends CI_Model
 	
 	public function validar_usuario($id,$pass)//TODO  probar
 	{	
-		mb_internal_encoding ( "UTF-8" );
-		header('Content-Type: text/html; charset=UTF-8');
-		echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
-		echo mb_strlen("uña");		
-		//die;	
-			
-		echo mb_detect_encoding($pass);
-		
-		$pp=mb_convert_encoding($pass, "UTF-8");
-		
-		$pp1=$string = iconv('ASCII', 'UTF-8', $pass);
-		
-		echo mb_detect_encoding($pp);
-		echo mb_detect_encoding($pp1);
-		
-		echo $this->codificar_pass($pass);
-		die;
+		/*
+		select A.k_consultor, A.id_consultor, B.pwd_guacd, A.nom_consultor, A.sw_baja, A.sw_resp_proyectos, A.sw_administrador_petra, A.sw_administracion, A.sw_comercial, A.sw_consultor, A.sw_rrhh, A.sw_imc_sol from t_consultores A, t_consultores_websol B
+		where A.k_consultor=B.k_consultor
+		*/
 		
 		$this->load->database();		
 		
-		$sql = "SELECT * FROM t_consultores WHERE id_consultor = ? && pswd_consultor = ?";
+		$sql = "select A.k_consultor, A.id_consultor, B.pwd_guacd, A.nom_consultor, A.sw_baja, A.sw_resp_proyectos, A.sw_administrador_petra, 
+						A.sw_administracion,A.sw_comercial, A.sw_consultor, A.sw_rrhh, A.sw_imc_sol from t_consultores A, t_consultores_websol B
+				where A.k_consultor=B.k_consultor AND A.id_consultor=? AND pwd_guacd=?";
 		
 		$usuarioEncontrado=FALSE;
 		
-		if($this->db->query($sql, array($id,$this->codificar_pass($pass)))->num_rows()>0)
+		if($this->db->query($sql, array($id,$pass))->num_rows()>0)
 		{
-			$usuarioEncontrado=TRUE;
-			echo "encontrado";
-		}
-		else
-		{
-			echo "no encontrado";
-		}		
+			$usuarioEncontrado=$this->db->query($sql, array($id,$pass))->row_array();
+		}	
 		
 		$this->db->close();	
 		
-		//return $usuarioEncontrado;
-		
-		
-		/*//TODO PRUEBA
-		$this->load->database();
-		$query=$this->db->query('select * from t_imcs LIMIT 3');
-		var_dump($query->result());
-		$resultado=$query->result_array();
-		echo "<br/>";
-		foreach ($resultado as $r)
-		{
-			echo $r['i_tot_horas_imc'];
-			echo "<br/>";
-		}
-		$this->db->close();
-		*/
-		
-		
+		return $usuarioEncontrado;
+				
 	}
 	
 	public function codificar_pass($pass)

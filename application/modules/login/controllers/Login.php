@@ -38,17 +38,27 @@ class Login extends MX_Controller
 		$pass=$this->input->post('pass');
 		
 		//COMPROBAMOS EN EL MODELO QUE EXISTE ESE USUARIO
-		//$usuarioEncontrado=$this->Login_model->validar_usuario($id,$pass);
-		
+		$usuarioEncontrado=$this->Login_model->validar_usuario($id,$pass);
+				
 		//LOGIN CORRECTO   //TODO
-		if($this->input->post('usuario')=="admin"&&$this->input->post('pass')=="admin")
+		if($usuarioEncontrado!=FALSE)
 		{
 			
 			
 			//INICIALIZACION DE SESIONES
 			
 			$usuario_data = array(
-					'usuario' => $this->input->post('usuario'),//TODO lo que venga del modelo					
+					'k_consultor'=> $usuarioEncontrado['k_consultor'],
+					'id_consultor'=> $usuarioEncontrado['id_consultor'],
+					'nom_consultor'=> $usuarioEncontrado['nom_consultor'],
+					'sw_baja'=> $usuarioEncontrado['sw_baja'],
+					'sw_resp_proyectos'=> $usuarioEncontrado['sw_resp_proyectos'],
+					'sw_administrador_petra'=> $usuarioEncontrado['sw_administrador_petra'],
+					'sw_administracion'=> $usuarioEncontrado['sw_administracion'],
+					'sw_comercial'=> $usuarioEncontrado['sw_comercial'],
+					'sw_consultor'=> $usuarioEncontrado['sw_consultor'],
+					'sw_rrhh'=> $usuarioEncontrado['sw_rrhh'],
+					'sw_imc_sol'=> $usuarioEncontrado['sw_rrhh'],					
 					'logueado' => TRUE
 			);
 			$this->session->set_userdata($usuario_data);
