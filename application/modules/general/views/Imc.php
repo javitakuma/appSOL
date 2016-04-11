@@ -39,7 +39,7 @@
 					<td class="imcMonthCell"><?php echo $fila['mes_imc']?></td>
 					<td class="horas"><?php echo $fila['i_tot_horas_imc']?></td>
 					<td class="horasVal"><?php echo $fila['i_tot_horas_imc_validadas']?></td>
-					<td class="enviado"><?php echo $fila['sw_validacion']?></td>
+					<td class="enviado"><input type="checkbox" onclick="return false"<?php echo ($fila['sw_validacion']==-1)?' checked':''?> /></td>
 				</tr>	
 			<?php endforeach;?>
 			 

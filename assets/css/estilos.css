@@ -36,6 +36,11 @@
 	=========ESTILOS TITULOS===========
 */
 
+h1,h2,h3,h4,h5,h6,h7
+{
+	margin-bottom:20px;
+}
+
 .titulo-grande
 {
 	font-size:30px;
@@ -134,5 +139,110 @@ table
 	cursor:pointer;
 }
 
+
+/*
+	=========ESTILOS IMC MENSUAL===========
+*/
+
+
+#imc_mensual table
+{
+    border-collapse: collapse;
+}
+#imc_mensual td,th
+{
+    height: 15px;
+    width: 20px;
+    min-width: 20px;
+    padding: 0px;
+    text-align: center;
+    border-collapse: collapse;
+    border:solid black 1px;
+    vertical-align:middle;
+}
+#imc_mensual div
+{
+    margin:0;
+    padding:0;
+    width: 25%;
+}
+#imc_mensual #superior_izquierda
+{
+    float:left;
+}
+#imc_mensual #superior_derecha
+{
+    float:left;
+}
+
+#imc_mensual #inferior
+{
+    margin:50px auto;
+    clear: both;
+    float: left;
+}
+#imc_mensual #id_horas
+{
+    width: 30px;
+}
+
+#imc_mensual .input_horas
+{
+    margin:0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: none;
+    text-align: center;
+}
+
+/*TRAMPA PARA HACER BORDER TRANSPARENTE PORQUE NO SE QUITABA*/
+
+#imc_mensual .borde_invisible
+{
+	border:1px rgba(0,0,0,0) solid;
+}
+
+#imc_mensual .no_fondo
+{
+	background-color:"#FFF";
+}
+
+#imc_mensual .festivo 
+{
+	background-color:#F33;
+}
+
+#imc_mensual .especial .input_horas
+{
+	background-color:moccasin;
+}
+
+#imc_mensual .especial .color_proy
+{
+	background-color:moccasin;
+}
+
+#imc_mensual .interno .input_horas
+{
+	background-color:lime;
+}
+
+#imc_mensual .interno .color_proy
+{
+	background-color:lime;
+}
+
+
+
+#imc_mensual .externo .input_horas
+{
+	background-color:lightblue;
+}
+
+#imc_mensual .externo .color_proy
+{
+	background-color:lightblue;
+}
 
 

@@ -26,15 +26,14 @@ class Login extends MX_Controller
 			$datos['errorLoginUsuario']=$this->session->flashdata('errorLoginUsuario');
 			$datos['errorLoginMensaje']=$this->session->flashdata('errorLoginMensaje');
 			enmarcar($this,'Login',$datos);
-		}
-		
+		}	
 		
 	}	
 	
 	public function indexPost()//FORMULARIO LOGIN POST
 	{	
-		
-		$id=$this->input->post('usuario');
+		//CONVERTIMOS EL USUARIO A MAYUSCULAS, PUES ASI ESTA EN LA BASE DE DATOS.
+		$id=mb_strtoupper($this->input->post('usuario'));
 		$pass=$this->input->post('pass');
 		
 		//COMPROBAMOS EN EL MODELO QUE EXISTE ESE USUARIO
@@ -62,10 +61,11 @@ class Login extends MX_Controller
 					'logueado' => TRUE
 			);
 			$this->session->set_userdata($usuario_data);
+			//REDIRECCIONAMOS A LA PANTALLA DE BIENVENIDA
 			header("Location:".base_url().'welcome');
 			 
 		}
-		else//LOGIN INCORRECTO
+		else//LOGIN INCORRECTO, REDIRECCIONAMOS A LOGIN CON ERRORES
 		{
 			//GUARDAMOS DOS VALORES EN SESIONES TEMPORALES(SOLO DISPONIBLE EN LA SIGUIENTE PETICION AL SERVIDOR)
 			$this->session->set_flashdata('errorLoginUsuario',$this->input->post('usuario'));
@@ -79,8 +79,8 @@ class Login extends MX_Controller
 		//VALIDAMOS SI HAY USUARIO ACTIVO
 		if($this->session->userdata('logueado'))
 		{
-			$datos['usuario']=$this->session->userdata('usuario');
-			$datos['errorLoginMensaje']=$this->session->userdata('errorLoginMensaje');
+			$datos['errorCambioPassUsuario']=$this->session->flashdata('errorCambioPassUsuario');
+			$datos['errorCambioPassMensaje']=$this->session->flashdata('errorCambioPassMensaje');
 			enmarcar($this,'Cambio_pass.php',$datos);
 			//$this->load->view('Cambio_pass',$datos);
 			
@@ -91,15 +91,28 @@ class Login extends MX_Controller
 			$datos['errorLoginUsuario']='';
 			$datos['errorLoginMensaje']='Por favor inicia sesion';
 			enmarcar($this,'Login',$datos);    //TODO
-		}
-		
+		}		
 	}
 	
-	public function cambioPassPost()
+	public function cambio_pass_post()
 	{
 		//TODO 
-		$cambioPassword['passwd']=$this->input->post('pass');
-		$cambioPassword['usuario']=$this->session->userdata('logueado')?$this->session->userdata('usuario'):NULL;
+		$nuevo_password=$this->input->post('pass');
+		//RECOGEMOS AQUI LOS DATOS DEL SESION PORQUE DESDE EL MODELO NO SON ACCESIBLES
+		$k_consultor=$this->session->userdata('logueado')?$this->session->userdata('k_consultor'):NULL;
+		$Password_cambiado=$this->Login_model->cambiar_password($nuevo_password,$k_consultor);
+		
+		if($Password_cambiado)
+		{
+			enmarcar($this,'Cambio_pass_post.php');
+		}
+		else
+		{
+			$this->session->set_flashdata('errorCambioPassUsuario',$this->session->userdata('k_consultor'));
+			$this->session->set_flashdata('errorCambioPassMensaje','No ha sido posible cambiar la contraseña, inténtelo más tarde o comunique con el administrador');
+			header("Location:".base_url().'login/cambiar_pass');
+		}
+		
 	}
 	
 	public function logout()
@@ -111,11 +124,7 @@ class Login extends MX_Controller
 		$this->session->set_userdata($usuario_data);
 		$this->session->sess_destroy();
 		header("Location:".base_url().'login');
-	}
+	}	
 	
-	public function prueba_basedatos()
-	{		
-		 	
-	}
 	
 }

@@ -22,11 +22,20 @@ class Imc extends MX_Controller
 	}
 	
 	public function mostrarImcMes($year,$month)
-	{
-		
+	{		
 		$datos['year'] =$year;
-		$datos['mes'] =$month;		
+		$datos['mes'] =$month;
+		$datos['js']="imc_mensual";
+		$datos['datos_imc_mes']=$this->Imc_model->cargar_datos_imc($this->session->userdata('k_consultor'),$year,$month);
 		enmarcar($this,"MostrarImcMes.php",$datos);
+	}
+	
+	public function mostrar_imc_mes_post()
+	{
+		var_dump($_REQUEST['itemsServidor']);
+		var_dump($_REQUEST['itemsServidor2']);
+		//echo "servidor";
+		die;
 	}
 	
 }

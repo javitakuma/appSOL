@@ -36,19 +36,33 @@ class Login_model extends CI_Model
 				
 	}
 	
-	public function codificar_pass($pass)
-	{
-		$pass_codificado="";
+	public function cambiar_password($nuevo_password,$k_consultor)
+	{	
+		//INICIALIZAMOS BASE DE DATOS E INICIAMOS TRANSACCION
+		$this->load->database();
+		$this->db->trans_start();
 		
-		$pass=utf8_encode($pass);
-		for($i=0;$i<strlen($pass);$i++)
+		//HACEMOS UNA CONSULTA CUALQUIERA PARA PROBRAR QUE EL ID LOGADO SEA CORRECTO
+		$sql = "select user_guacd from t_consultores_websol
+				where k_consultor=?";		
+		//SI LA CONSULTA DEVUELVE ALGUNA FILA(SOLO DEVOLVERIA 1 COMO MUCHO..) ENTRAMOS EN EL IF Y ACTUALIZAMOS
+		if($this->db->query($sql, array($k_consultor))->num_rows()>0)
 		{
-			$en_asci=ord($pass[$i]);			
-			
-			$pass_codificado.=chr($en_asci+10);
+			$sql = "update t_consultores_websol set pwd_guacd=?
+					where k_consultor=?";
+			$password_cambiado=$this->db->query($sql,array($nuevo_password,$k_consultor));	
 		}
-		return $pass_codificado;
+		//CHEQUEAMOS SI EL UPDATE HA ACTUALIZADO FILAS(DEVOLVERA 0 EN CASO CONTRARIO)
+		$correcto=$this->db->affected_rows();
+		
+		$this->db->trans_complete();
+		$this->db->close();
+		//SI AFECTO A FILAS DEVOLVEMOS TRUE
+		
+		return ($correcto>0)?TRUE:FALSE;
 	}
+	
+	
 	
 	
 	
