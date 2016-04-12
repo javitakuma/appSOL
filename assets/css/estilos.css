@@ -169,6 +169,11 @@ table
     vertical-align:middle;
 }
 
+#titulo_comentarios
+{
+	width:250px;
+}
+
 #imc_mensual .comentarios
 {
 	width:250px;

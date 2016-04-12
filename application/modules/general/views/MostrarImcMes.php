@@ -49,7 +49,7 @@
                     <?php for ($i=1;$i<=$datos_imc_mes['dias_por_mes'];$i++):?>                    	
                     	<th id="titulo_dia<?php echo $i<10?'0'.$i:$i?> "
                     	class="<?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>"><?php echo $i?></th>	
-                    <?php endfor;?>             
+                    <?php endfor;?>         
                                   
                     <th id="titulo_horas_totales">TOT</th>                    
                     <th id="titulo_comentarios">Comentarios</th>
@@ -63,8 +63,8 @@
                  -->
                 
                 <?php foreach ($datos_imc_mes['lineas_imc'] as $linea_imc):?>
-                <tr id="<?php echo $linea_imc['k_proyecto']?>" class="celda-color <?php echo ($linea_imc['sw_proy_especial']==-1?'especial':(($linea_imc['sw_interno']==-1)?'interno':'externo'))?>">
-                    <td class="<?php echo $linea_imc['k_linea_imc']?> color_proy"><?php echo $linea_imc['id_proyecto']?></td>
+                <tr id="<?php echo $linea_imc['k_proyecto']?>" class="celda-color fila-datos <?php echo ($linea_imc['sw_proy_especial']==-1?'especial':(($linea_imc['sw_interno']==-1)?'interno':'externo'))?>">
+                    <td class="<?php echo $linea_imc['k_linea_imc']?> grabada color_proy"><?php echo $linea_imc['id_proyecto']?></td>
                     
                     <?php for ($i=1;$i<=$datos_imc_mes['dias_por_mes'];$i++):?>
                     	<td class="celda-color dia<?php echo $i<10?'0'.$i:$i?>"><input type="text" class="input_horas" value="<?php echo $i<10?$linea_imc["i_horas_0$i"]:$linea_imc["i_horas_$i"]?>"/></td>	
@@ -114,7 +114,7 @@
         
         <!-- CAMPOS CON VARIABLES QUE NECESITAREMOS LUEGO EN LADO CLIENTE -->
 		<input type="hidden" id="dias_mes" value="<?php echo $datos_imc_mes['dias_por_mes']?>"/>
-		
+		<input type="hidden" id="k_imc" value="<?php echo $datos_imc_mes['t_imcs'][0]['k_imc']?>"/>		
 		
 		<input type="hidden" id="celdas_deshabilitadas" value="<?php echo $datos_imc_mes['t_imcs'][0]['sw_validacion']==0?'habilitadas':'deshabilitadas'?>"/>
 		
