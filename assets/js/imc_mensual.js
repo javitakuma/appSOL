@@ -1,13 +1,22 @@
 
 //Nuestra url base en desarrollo
-//var baseUrl='http://localhost/appSOL/';
-var baseUrl='';
+//NOURLBASE BASEURL CAMBIAR
+var baseUrl='http://localhost/appSOL/';
+//var baseUrl='';
 
 //HASTA QUE NO SE CARGA EL DOCUMENTO NO CARGA ESTAS FUNCIONES
 $(document).ready(function() {
 	
 	//Con esta funcion actualizamos los totales al cargar la página	
 	actualizarTotalesVertical(); 
+	
+	if($('#celdas_deshabilitadas').val()=='deshabilitadas')
+	{
+		$('.input_horas').each(function()
+		{
+			$(this).prop('disabled', 'disabled');
+		});
+	}
 	
 	//EVENTO CLICK PARA EL BOTON AGREGAR PROYECTO
 	$("#agregar_proyecto").click(function() 
@@ -41,7 +50,7 @@ $(document).ready(function() {
     	//SUCCESS INDICA LA ACCION A SEGUIR DESPUES DE LA RESPUESTA
     	$.ajax({        
     	       type: "POST",
-    	       url: baseUrl+"http://localhost/appSOL/general/Imc/mostrar_imc_mes_post",
+    	       url: baseUrl+"general/Imc/mostrar_imc_mes_post",
     	       data: { itemsServidor : itemsCliente,itemsServidor2 : itemsCliente2 },
     	       success: function(respuesta) {
     	            alert(respuesta);        
@@ -71,7 +80,7 @@ $(document).ready(function() {
     				$('#cod_proyecto_select').prop('disabled', false);
     				$.ajax({        
      	    	       type: "POST",
-     	    	       url: baseUrl+"http://localhost/appSOL/general/Imc/obtener_lista_proyectos_por_tipo",
+     	    	       url: baseUrl+"general/Imc/obtener_lista_proyectos_por_tipo",
      	    	       data: { tipoProyecto : tipoProyecto,mes : mes,year : year},
      	    	       dataType:'json',
      	    	       success: function(respuestaAjax) {

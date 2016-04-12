@@ -141,6 +141,7 @@ class Imc_model extends CI_Model
 			
 			$hoy=date('Y-m-d');
 			$hoy_menos_mes=date('Y-m-d',strtotime ( '-1 month'));
+			//TODO
 			$codigos_proyecto=$this->db->query($sql,array($k_consultor,$hoy,$hoy_menos_mes))->result_array();
 		}
 		

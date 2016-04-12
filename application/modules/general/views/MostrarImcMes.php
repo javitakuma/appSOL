@@ -6,27 +6,30 @@
         <p class="titulo-peque">AÑO </p><p class="titulo-peque" id="year_imc"><?php echo $year?></p>
         <br/>
         <br/>
-        <h2>Agregar un proyecto a la tabla</h2>
-        <div id="superior_izquierda">
-            Tipo de proyecto
-            <select id="tipo_proyecto">
-                <option value="0">Selecciona una opcion</option>
-                <option value="1">Proyecto externo</option>
-                <option value="2">Proyecto interno</option>
-                <option value="3">Proyecto especial</option>
-            </select><br/><br/>
-            
-            Código de proyecto
-            <select id="cod_proyecto_select" disabled>
-                <option value="0">Selecciona un proyecto</option>
-            </select><br/><br/>
-            
-            
-            <input type="button" id="agregar_proyecto" value="Agregar proyecto"/>
-            <br/><br/>  
-              
-        </div>    
         
+        <!-- SOLO PINTAMOS ESTA PARTE SI EL IMC NO ESTA ENVIADO -->
+        <?php if($datos_imc_mes['t_imcs'][0]['sw_validacion']==0):?>
+	        <h2>Agregar un proyecto a la tabla</h2>
+	        <div id="superior_izquierda">
+	            Tipo de proyecto
+	            <select id="tipo_proyecto">
+	                <option value="0">Selecciona una opcion</option>
+	                <option value="1">Proyecto externo</option>
+	                <option value="2">Proyecto interno</option>
+	                <option value="3">Proyecto especial</option>
+	            </select><br/><br/>
+	            
+	            Código de proyecto
+	            <select id="cod_proyecto_select" disabled>
+	                <option value="0">Selecciona un proyecto</option>
+	            </select><br/><br/>
+	            
+	            
+	            <input type="button" id="agregar_proyecto" value="Agregar proyecto"/>
+	            <br/><br/>  
+	              
+	        </div>    
+        <?php endif;?>
         
         
           
@@ -70,7 +73,9 @@
                                        
                     <td class="celda-color total_horas_imc color_proy"><?php echo $linea_imc['i_tot_horas_linea_imc']?></td>
                     <td class="comentarios"><textarea><?php echo $linea_imc['desc_comentarios']?></textarea></td>
-                    <td class="borde_invisible no_fondo"><input class="eliminar_fila" type="button" value="Eliminar fila"/></td>
+                    <?php if($datos_imc_mes['t_imcs'][0]['sw_validacion']==0):?>
+                    	<td class="borde_invisible no_fondo"><input class="eliminar_fila" type="button" value="Eliminar fila"/></td>
+                    <?php endif;?>
                 </tr>	
                 <?php endforeach;?>      
                 
@@ -109,3 +114,7 @@
         
         <!-- CAMPOS CON VARIABLES QUE NECESITAREMOS LUEGO EN LADO CLIENTE -->
 		<input type="hidden" id="dias_mes" value="<?php echo $datos_imc_mes['dias_por_mes']?>"/>
+		
+		
+		<input type="hidden" id="celdas_deshabilitadas" value="<?php echo $datos_imc_mes['t_imcs'][0]['sw_validacion']==0?'habilitadas':'deshabilitadas'?>"/>
+		
