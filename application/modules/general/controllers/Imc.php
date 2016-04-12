@@ -38,4 +38,20 @@ class Imc extends MX_Controller
 		die;
 	}
 	
+	public function obtener_lista_proyectos_por_tipo()
+	{
+		
+		$tipo=$_REQUEST['tipoProyecto'];
+		$year=$_REQUEST['year'];
+		$month=$_REQUEST['mes'];
+		/*
+		//PARA PROBAR
+		$tipo=1;
+		$year=05;
+		$month=2012;
+		*/
+		$codigos_solo_id=$this->Imc_model->listar_proyectos_por_tipo($this->session->userdata('k_consultor'),$tipo,$year,$month);
+		print json_encode($codigos_solo_id);
+	}
+	
 }

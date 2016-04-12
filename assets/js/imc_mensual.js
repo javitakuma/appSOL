@@ -3,11 +3,28 @@
 //var baseUrl='http://localhost/appSOL/';
 var baseUrl='';
 
-
+//HASTA QUE NO SE CARGA EL DOCUMENTO NO CARGA ESTAS FUNCIONES
 $(document).ready(function() {
 	
 	//Con esta funcion actualizamos los totales al cargar la página	
 	actualizarTotalesVertical(); 
+	
+	//EVENTO CLICK PARA EL BOTON AGREGAR PROYECTO
+	$("#agregar_proyecto").click(function() 
+	{
+		if($('#cod_proyecto_select').val()==0||$('#tipo_proyecto').val()==0)
+		{
+			alert("No has seleccionado ningún proyecto");
+		}
+		else
+		{
+			//alert(proyectosArray);
+			agregar_proyecto_a_tabla();
+		}
+		
+	});
+	
+	
 	
 	//TODO lO QUE HAREMOS CUANDO MANDEMOS DATOS
     $("#grabar").click(function(event) 
@@ -17,7 +34,7 @@ $(document).ready(function() {
     	var itemsCliente2 = [[11,22],[33,44],[55,66]];
     	//alert(items[0][0]); // 1
     	
-    	//NOURLBASE BASEURL
+    	//NOURLBASE BASEURL CAMBIAR
     	
     	//EN DATA EL PRIMER DATO ES EL NOMBRE EN LADO SERVIDOR DE LA VARIABLE, EL SEGUNDO EN LADO CLIENTE
     	
@@ -29,20 +46,99 @@ $(document).ready(function() {
     	       success: function(respuesta) {
     	            alert(respuesta);        
     	       }
-    	    });
-    	//Y reenviamos a un nuevo controlador que nos muestra el IMC de ese mes
-    	//location.href=baseUrl+"general/Imc/mostrarImcMes/"+month+"/"+year;    		
+    	    });   		
       });
+    
+    //EVENTO CHANGE PRIMER SELECT 
+    $("#tipo_proyecto").on('change',function(event) 
+    	    {    
+    	    	    	    	
+    	    	//NOURLBASE BASEURL CAMBIAR
+    	    	
+    	    	//EN DATA EL PRIMER DATO ES EL NOMBRE EN LADO SERVIDOR DE LA VARIABLE, EL SEGUNDO EN LADO CLIENTE
+    	    	
+    	    	//SUCCESS INDICA LA ACCION A SEGUIR DESPUES DE LA RESPUESTA
+    	
+    			var tipoProyecto=$('#tipo_proyecto').val();
+    			var mes=$('#mes_imc').html();
+    			var year=$('#year_imc').html();
+    			if(tipoProyecto==0)
+    			{
+    				deshabilitarSelectProyecto();
+    			}
+    			else
+    			{
+    				$('#cod_proyecto_select').prop('disabled', false);
+    				$.ajax({        
+     	    	       type: "POST",
+     	    	       url: baseUrl+"http://localhost/appSOL/general/Imc/obtener_lista_proyectos_por_tipo",
+     	    	       data: { tipoProyecto : tipoProyecto,mes : mes,year : year},
+     	    	       dataType:'json',
+     	    	       success: function(respuestaAjax) {
+     	    	    	    proyectosArray=respuestaAjax;
+     	    	            pintarCodigosSelect(respuestaAjax);        
+     	    	       }
+     	    	    });
+    			}    	    	    		
+    	      });
     
     
     //EVENTO CHANGE DELEGADO PARA LOS INPUT
+    /*
     $('#tabla_imc').delegate('input', 'change', function(event) {
     	//alert($(this).parent().parent().find('.total_horas_imc').html());
-    	actualizarTotalesHorizontal(this);
-    	actualizarTotalesVertical();
+    	if (validarValorCelda(this))
+    	{
+    		actualizarTotalesHorizontal(this);
+        	actualizarTotalesVertical();
+    	}
+    	else
+    	{
+    		alert("Has introducido un valor erroneo en la celda");
+    		$(this).focus();
+    	}
     	
         // ...
     });
+    */
+    $('#tabla_imc').delegate(".input_horas", 'blur', function(event) {
+    	//alert($(this).parent().parent().find('.total_horas_imc').html());
+    	if (validarValorCelda(this))
+    	{
+    		actualizarTotalesHorizontal(this);
+        	actualizarTotalesVertical();
+    	}
+    	else
+    	{
+    		alert("Has introducido un valor erroneo en la celda blur");
+    		$(this).focus();
+    	}
+    	
+        // ...
+    });
+    
+    $('#tabla_imc').delegate(".eliminar_fila", 'click', function(event) {
+    	//alert($(this).parent().parent().html());
+    	
+    	if (true)
+    	{
+    		$(this).parent().parent().remove();
+    		actualizarTotalesVertical();
+    		/*
+    		actualizarTotalesHorizontal(this);
+        	actualizarTotalesVertical();
+        	*/
+    	}
+    	else
+    	{
+    		alert("Has introducido un valor erroneo en la celda blur");
+    		$(this).focus();
+    	}
+    	
+    	
+        // ...
+    });
+    
     
 });
 
@@ -85,3 +181,90 @@ function actualizarTotalesHorizontal(element)
     });
 	$(element).parent().parent().find('.total_horas_imc').html(sum);
 }
+
+function validarValorCelda(elemento)
+{
+	var respuesta=false;
+	
+	if(Number($(elemento).val())>=0&&Number($(elemento).val())<=24)
+	{
+		respuesta=true;
+	}
+	
+	return respuesta;
+}
+
+function deshabilitarSelectProyecto()
+{
+	$('#cod_proyecto_select').html('<option value="0">Selecciona un proyecto</option>');
+
+	$('#cod_proyecto_select').prop('disabled', 'disabled');
+}
+
+function pintarCodigosSelect(respuestaAjax)
+{
+	$('#cod_proyecto_select').html('<option value="0">Selecciona un proyecto</option>');
+	for(i=0;i<respuestaAjax.length;i++)
+	{
+		
+		$('#cod_proyecto_select').append($('<option>', {
+		    value: respuestaAjax[i].k_proyecto,
+		    text: respuestaAjax[i].id_proyecto
+		}));
+	}
+}
+
+
+function agregar_proyecto_a_tabla()
+{
+	
+	
+	//CON ESTO SACAMOS EL K_PROYECTO Y EL ID DEL ELEMENTO SELECT
+	var tipo_proyecto=$('#tipo_proyecto').val();
+	var k_proyecto=$('#cod_proyecto_select').val();
+	var id_proyecto=$('#cod_proyecto_select').find('option[value|='+k_proyecto+']').html();
+	
+	
+	//creamos el elemento fila
+	var fila;
+	if(tipo_proyecto==1)
+	{
+		fila=$('<tr id="'+k_proyecto+'" class="celda-color externo"></tr>');
+	}
+	if(tipo_proyecto==2)
+	{
+		fila=$('<tr id="'+k_proyecto+'" class="celda-color interno"></tr>');
+	}
+	if(tipo_proyecto==3)
+	{
+		fila=$('<tr id="'+k_proyecto+'" class="celda-color especial"></tr>');
+	}
+	
+	//al ponerle clase nueva_linea lo tendremos en cuanta a la hora de insertar en la base de datos
+	var primeraCelda=$('<td class="nueva color_proy">'+id_proyecto+'</td>');
+	//Esto inserta la fila antes de la ultima
+	fila.append(primeraCelda);	
+	
+	for(i=1;i<=$('#dias_mes').val();i++)
+	{
+		if(i<10)
+		{
+			i="0"+i;
+		}
+		var celdaNueva=$('<td class="celda_color dia'+i+'"><input type="text" class="input_horas" value="0"/></td>');
+		fila.append(celdaNueva);
+	}
+	var ultimaCelda=$('<td class="celda_color total_horas_imc color_proy">0</td>');
+	fila.append(ultimaCelda);
+	
+	var celda_comentarios=$('<td class="comentarios"><textarea></textarea></td>');
+	fila.append(celda_comentarios);
+	
+	var boton=$('<td class="borde_invisible no_fondo"><input class="eliminar_fila" type="button" value="Eliminar fila"/></td>');
+	fila.append(boton);
+		
+	fila.insertBefore($('#ultima_fila'));
+}
+
+
+
