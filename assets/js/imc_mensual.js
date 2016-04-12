@@ -1,7 +1,7 @@
 
 //Nuestra url base en desarrollo
 //NOURLBASE BASEURL CAMBIAR
-var baseUrl='http://localhost/appSOL/';
+//var baseUrl='http://localhost/appSOL/';
 //var baseUrl='';
 
 //HASTA QUE NO SE CARGA EL DOCUMENTO NO CARGA ESTAS FUNCIONES
@@ -50,7 +50,7 @@ $(document).ready(function() {
     	//SUCCESS INDICA LA ACCION A SEGUIR DESPUES DE LA RESPUESTA
     	$.ajax({        
     	       type: "POST",
-    	       url: baseUrl+"general/Imc/mostrar_imc_mes_post",
+    	       url: BASE_URL+"general/Imc/mostrar_imc_mes_post",
     	       data: { itemsServidor : itemsCliente,itemsServidor2 : itemsCliente2 },
     	       success: function(respuesta) {
     	            alert(respuesta);        
@@ -80,7 +80,7 @@ $(document).ready(function() {
     				$('#cod_proyecto_select').prop('disabled', false);
     				$.ajax({        
      	    	       type: "POST",
-     	    	       url: baseUrl+"general/Imc/obtener_lista_proyectos_por_tipo",
+     	    	       url: BASE_URL+"general/Imc/obtener_lista_proyectos_por_tipo",
      	    	       data: { tipoProyecto : tipoProyecto,mes : mes,year : year},
      	    	       dataType:'json',
      	    	       success: function(respuestaAjax) {

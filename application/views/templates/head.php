@@ -32,6 +32,9 @@
      <script type="text/javascript" src="<?php echo base_url()?>assets/js/cambiarPestana.js"></script>
      -->
     
+    <script>
+    var BASE_URL = "<?php echo base_url(); ?>";
+	</script>
     
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-2.1.3.js"></script>
     
