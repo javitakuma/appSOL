@@ -62,7 +62,8 @@ class Imc_model extends CI_Model
 				t_lineas_imc.i_tot_horas_linea_imc, t_lineas_imc.desc_comentarios,
 				t_proyectos.id_proyecto, t_proyectos.sw_proy_especial,t_proyectos.sw_interno
 		FROM t_lineas_imc INNER JOIN t_proyectos ON t_lineas_imc.k_proyecto = t_proyectos.k_proyecto
-				WHERE t_lineas_imc.k_imc={$datos_imc_mes['t_imcs'][0]['k_imc']}";		
+				WHERE t_lineas_imc.k_imc={$datos_imc_mes['t_imcs'][0]['k_imc']}
+				ORDER BY t_lineas_imc.k_linea_imc";		
 		
 		$datos_imc_mes['lineas_imc']=$this->db->query($sql2)->result_array();
 		

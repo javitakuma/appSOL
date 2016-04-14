@@ -404,7 +404,7 @@ function agregar_proyecto_a_tabla()
 		}
 		else
 		{
-			var celdaNueva=$('<td class="celda_color dia'+i+' laborable"><input type="text" class="input_horas" value="0"/></td>');
+			var celdaNueva=$('<td class="celda_color dia'+i+' laborable"><input type="text" class="input_horas laborable" value="0"/></td>');
 			fila.append(celdaNueva);
 		}	
 	}	

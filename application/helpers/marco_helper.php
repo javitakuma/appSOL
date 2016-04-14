@@ -18,6 +18,11 @@ function enmarcar($controlador,$vista,$datos=[]) {
 	{
 		$controlador->load->view('templates/masScripts',$datos);
 	}
+	if(isset($datos['css']))
+	{
+		$controlador->load->view('templates/masCss',$datos);
+	}
+	
 	$controlador->load->view('templates/header');
 	$controlador->load->view($vista,$datos);//ESTA ES LA VISTA QUE HEMOS MANDADO
 	$controlador->load->view('templates/footer');

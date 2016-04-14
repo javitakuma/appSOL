@@ -3,7 +3,15 @@ body {
     font-size:14px;   
 }
  
-
+.contenedor{
+    width: 1080px;
+    margin: auto;
+    background: #EEE;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 10px 0px rgba(0, 0, 0, 0.8);
+}
  
 .contenedor .titulo{
     font-size: 3.5ex;
@@ -50,7 +58,6 @@ body {
     clear: both;  
     background: LightSkyBlue;
     background: #99DDFF;
-    background: rgb(35,200,200);
     padding: 20px 0px 20px 20px;
     border-radius: 5px;
     border-top-left-radius: 0px;
@@ -59,4 +66,12 @@ body {
 }
 
 
+ul
+{
+	list-style-type:none;
+}
 
+a
+{
+	text-decoration:none;
+}

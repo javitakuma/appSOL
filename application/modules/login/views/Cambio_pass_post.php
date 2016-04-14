@@ -5,7 +5,7 @@
   
   
  	<p class="centrado titulo-mediano">Su contraseña ha sido cambiada.</p>
-  <input type="submit" class="button buttonBlue" value="Volver al menú"/>
+  <input type="submit" class="button buttonGenerico" value="Volver al menú"/>
   
 </form>
 

@@ -1,16 +1,15 @@
 </head>
 <body>
 <div id="cabecera">
-	<p>AQUI IRA EL LOGO</p>
+	<a href="<?php echo base_url()?>welcome"><img src="<?php echo base_url()?>assets/img/logo_mediano.png"/></a>
+	
+	<h2 class="centrado titulo-aplicacion">Aplicación WebSOL 2.0</h2>
 	
 	<?php if($this->session->userdata('logueado')==TRUE):?>
-	<button class="flotarDerecha logout" id="logout"
-				onclick='location.href="<?php echo base_url()?>login/logout"'>
-				Logout
-			</button>
-	<?php endif;?>
-	
-	
+	<img src="<?php echo base_url()?>assets/img/logout.png" class="flotarDerecha logout" id="logout"
+				onclick='location.href="<?php echo base_url()?>login/logout"'/>
+				
+	<?php endif;?>	
 </div>
 
 

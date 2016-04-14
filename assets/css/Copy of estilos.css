@@ -1,10 +1,7 @@
 body {
 	font-family: Helvetica,arial;
-	background: #EEE; 
-    font-size:14px; 
 	background: rgb(219,219,231);
   -webkit-font-smoothing: antialiased;
-    color:rgb(35,35,35)
 }
 
 #cabecera
@@ -27,22 +24,20 @@ body {
 
 .logout
 {
-	width:50px;
+	background:#F55;
+	width:100px;
+	height:40px;
+	font-size:25px;
+	font-weight:bold;
 	cursor:pointer;
+	border:none;
+	border-radius:10px;
 }
 
-ul
+.logout:hover
 {
-	list-style-type:none;
+	background:#F11;	
 }
-
-a
-{
-	text-decoration:none;
-}
-
-
-
 
 /*
 	=========ESTILOS TITULOS===========
@@ -211,7 +206,14 @@ table
     margin:0;
     padding:0;
 }
-
+#imc_mensual #superior_izquierda
+{
+    float:left;
+}
+#imc_mensual #superior_derecha
+{
+    float:left;
+}
 
 #imc_mensual #inferior
 {
