@@ -7,6 +7,14 @@ var lineasEliminadas=[];
 var lineasCreadas=[];
 var lineasActualizadas=[];
 
+//EJEMPLO JSON
+/*
+var emple={"employees":[
+             {"firstName":"John", "lastName":"Doe"},
+             {"firstName":"Anna", "lastName":"Smith"},
+             {"firstName":"Peter", "lastName":"Jones"}
+         ]};
+*/
 //HASTA QUE NO SE CARGA EL DOCUMENTO NO CARGA ESTAS FUNCIONES
 $(document).ready(function() {
 	
@@ -42,24 +50,39 @@ $(document).ready(function() {
     $("#grabar").click(function(event) 
     {    
     	//AÑADIMOS EVENTO CLICK AL BOTON GRABAR    	
-    	var itemsCliente = [[1,2],[3,4],[5,6]];
-    	var itemsCliente2 = [[11,22],[33,44],[55,66]];
+    	var cancelar_envio=false;
+    	$('.total_horas_imc').each(function()
+    	{
+    		if($(this).html()==0||isNaN($(this).html()))
+    		{
+    			cancelar_envio=true;
+    			alert("Tienes un total de horas de una linea de IMC con valor 0 o valores erroneos.");
+    		}
+    	});
     	
-    	crearObjetosParaGrabar();
     	
-    	//EN DATA EL PRIMER DATO ES EL NOMBRE EN LADO SERVIDOR DE LA VARIABLE, EL SEGUNDO EN LADO CLIENTE
+    	if(!cancelar_envio)
+    	{
+    		crearObjetosParaGrabar();
+        	
+        	var total_horas=Number($('#horas_consultor').html());    
+        	var total_horas=Number($('#k_imc').val()); 
+        	//EN DATA EL PRIMER DATO ES EL NOMBRE EN LADO SERVIDOR DE LA VARIABLE, EL SEGUNDO EN LADO CLIENTE
+        	
+        	//SUCCESS INDICA LA ACCION A SEGUIR DESPUES DE LA RESPUESTA
+        	
+        	$.ajax({        
+        	       type: "POST",
+        	       url: BASE_URL+"general/Imc/mostrar_imc_mes_post",
+        	       data: { lineasActualizadas : lineasActualizadas,lineasCreadas : lineasCreadas,lineasEliminadas : lineasEliminadas,total_horas:total_horas},
+        	       success: function(respuesta) {
+        	            alert(respuesta);    	            
+        	            location.reload();
+        	       }
+        	    }); 
+    	}
     	
-    	//SUCCESS INDICA LA ACCION A SEGUIR DESPUES DE LA RESPUESTA
-    	/*
-    	$.ajax({        
-    	       type: "POST",
-    	       url: BASE_URL+"general/Imc/mostrar_imc_mes_post",
-    	       data: { itemsServidor : itemsCliente,itemsServidor2 : itemsCliente2 },
-    	       success: function(respuesta) {
-    	            alert(respuesta);        
-    	       }
-    	    });   
-    	  */		
+    			
       });
     
     //EVENTO CHANGE PRIMER SELECT 
@@ -115,6 +138,7 @@ $(document).ready(function() {
     });
     */
     
+    
     //EVENTO PARA LA ACCION BLUR DE LOS INPUT
     $('#tabla_imc').delegate(".input_horas", 'blur', function(event) {
     	//alert($(this).parent().parent().find('.total_horas_imc').html());
@@ -125,7 +149,7 @@ $(document).ready(function() {
     	}
     	else
     	{
-    		alert("Has introducido un valor erroneo en la celda blur");
+    		alert("Has introducido un valor erroneo.");
     		$(this).focus();
     		actualizarTotalesHorizontal(this);
         	actualizarTotalesVertical();
@@ -134,13 +158,14 @@ $(document).ready(function() {
         // ...
     });
     
+    
   //EVENTO PARA LA ACCION CLICK DE LOS BOTONES ELIMINAR
     $('#tabla_imc').delegate(".eliminar_fila", 'click', function(event) 
     {    	
-    	if (confirm("¿Seguro que desea eliminar esa fila?"))
+    	if (confirm("¿Seguro que desea eliminar esa fila?\nNo se guardaran los cambios hasta que no presiones el botón Grabar datos."))
     	{   
     		var attr_class=$(this).parent().parent().find('td:first-child').attr('class');
-    		var k_imc_borrar=attr_class.split(' ')[0];
+    		var k_linea_imc_borrar=attr_class.split(' ')[0];
     		
     		if(attr_class.split(' ')[0]=='nueva')
     		{
@@ -151,8 +176,8 @@ $(document).ready(function() {
     		else
     		{
     			//borrando fila que estaba grabada(la guardamos en un array que luego usaremos para borrar esas lineas de imc con su codigo)
-    			fila_eliminar=[];
-    			fila_eliminar['codigo']=k_imc_borrar;
+    			fila_eliminar={};
+    			fila_eliminar['k_linea_imc_borrar']=k_linea_imc_borrar;
     			lineasEliminadas.push(fila_eliminar); 
     			$(this).parent().parent().remove();
         		actualizarTotalesVertical();    			
@@ -250,12 +275,12 @@ function crearObjetosParaGrabar()
 		//parseInt($("#testid").val(), 10); si nos falla la base de datos
 		
 		//CREAMOS UNA NUEVA VARIABLE PARA ESTA FILA
-		var fila_guardar=[];
+		var fila_guardar={};
 		
 		//EMPEZAMOS A GUARDAR DATOS
-		fila_guardar['k_linea_imc']=k_linea_imc;
-		fila_guardar['k_imc']=$('#k_imc').val();
-		fila_guardar['k_proyecto']=$(this).attr('id');
+		fila_guardar['k_linea_imc']=Number(k_linea_imc);
+		fila_guardar['k_imc']=Number($('#k_imc').val());
+		fila_guardar['k_proyecto']=Number($(this).attr('id'));
 		
 		//GUARDAMOS LOS DATOS DE DIAS CON BUCLE
 		for(i=1;i<=$('#dias_mes').val();i++)
@@ -265,15 +290,16 @@ function crearObjetosParaGrabar()
 			{
 				i="0"+i;
 			}
-			fila_guardar['i_horas'+i]=$(this).find('.dia'+i).find('input').val();
+			fila_guardar['i_horas_'+i]=Number($(this).find('.dia'+i).find('input').val());
 			
 		}
 	
-		fila_guardar['i_total_horas_imc']=$(this).find('.total_horas_imc').html();
-		fila_guardar['desc_comentarios']=$(this).find('.comentarios').find('textarea').html();
+		fila_guardar['i_tot_horas_linea_imc']=Number($(this).find('.total_horas_imc').html());
+		fila_guardar['desc_comentarios']=$(this).find('.comentarios').find('textarea').val();
 		
 		
 		
+		//SI FUERA UNA LINEA QUE HEMOS CREADO NOSOTROS LA PONEMOS EN EL ARRAY DE CREADAS, SI NO LA PONEMOS EN EL DE ACTUALIZADAS
 		if(k_linea_imc=='nueva')
 		{
 			lineasCreadas.push(fila_guardar);
@@ -328,8 +354,7 @@ function pintarCodigosSelect(respuestaAjax)
 
 
 function agregar_proyecto_a_tabla()
-{
-	
+{	
 	
 	//CON ESTO SACAMOS EL K_PROYECTO Y EL ID DEL ELEMENTO SELECT
 	var tipo_proyecto=$('#tipo_proyecto').val();
@@ -356,18 +381,33 @@ function agregar_proyecto_a_tabla()
 	var primeraCelda=$('<td class="nueva color_proy">'+id_proyecto+'</td>');
 	
 	//Esto inserta la fila antes de la ultima
-	fila.append(primeraCelda);	
+	fila.append(primeraCelda);		
 	
 	//Aqui creamos tantas celdas como dias tenga el mes
 	for(i=1;i<=$('#dias_mes').val();i++)
 	{
+		//GUARDAMOS EL VALOR DEL DIA CON UN DIGITO PORQUE LO NECESITAMOS DESPUES
+		iCopia=i;
+		
+		//A LOS DIAS DE UN DIGITO LOS PASAMOS A 2 DIGITOS
 		if(i<10)
 		{
 			i="0"+i;
+		}		
+		
+		
+		//SI ENCUENTRA EL VALOR DE i EN UN ARRAY FESTIVOS(MostrarImsMes.PHP) QUE HEMOS GUARDADO LE PONEMOS CLASE FESTIVOS
+		if(jQuery.inArray(iCopia,festivos)!=-1)
+		{
+			var celdaNueva=$('<td class="celda_color dia'+i+' festivo"><input type="text" class="input_horas festivo" value="0"/></td>');
+			fila.append(celdaNueva);
 		}
-		var celdaNueva=$('<td class="celda_color dia'+i+'"><input type="text" class="input_horas" value="0"/></td>');
-		fila.append(celdaNueva);
-	}
+		else
+		{
+			var celdaNueva=$('<td class="celda_color dia'+i+' laborable"><input type="text" class="input_horas" value="0"/></td>');
+			fila.append(celdaNueva);
+		}	
+	}	
 	
 	//creamos la celda de totales
 	var ultimaCelda=$('<td class="celda_color total_horas_imc color_proy">0</td>');
@@ -382,7 +422,8 @@ function agregar_proyecto_a_tabla()
 	fila.append(boton);
 	
 	//agregamos la fila
-	fila.insertBefore($('#ultima_fila'));
+	fila.insertBefore($('#ultima_fila'));	
+	
 }
 
 

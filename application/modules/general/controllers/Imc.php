@@ -32,10 +32,19 @@ class Imc extends MX_Controller
 	
 	public function mostrar_imc_mes_post()
 	{
-		var_dump($_REQUEST['itemsServidor']);
-		var_dump($_REQUEST['itemsServidor2']);
-		//echo "servidor";
-		die;
+		//var_dump($_REQUEST);
+		
+		$eliminadas=isset($_REQUEST['lineasEliminadas'])?$_REQUEST['lineasEliminadas']:[];
+		$actualizadas=isset($_REQUEST['lineasActualizadas'])?$_REQUEST['lineasActualizadas']:[];
+		$creadas=isset($_REQUEST['lineasCreadas'])?$_REQUEST['lineasCreadas']:[];
+		$total_horas=isset($_REQUEST['total_horas'])?$_REQUEST['total_horas']:null;
+		$k_imc=isset($_REQUEST['k_imc'])?$_REQUEST['k_imc']:null;
+		
+		$this->Imc_model->grabar_datos_imc($eliminadas,$actualizadas,$creadas,$total_horas,$k_imc);
+		
+		echo "Cambios guardados.";
+		
+		
 	}
 	
 	public function obtener_lista_proyectos_por_tipo()

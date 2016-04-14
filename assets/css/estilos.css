@@ -222,7 +222,7 @@ table
     height: 100%;
     padding: 0;
     border: none;
-    text-align: center;
+    text-align: center;    
 }
 
 
@@ -241,7 +241,7 @@ table
 
 #imc_mensual .festivo 
 {
-	background-color:#F33;
+	background-color:#F33 !important;
 }
 
 #imc_mensual .especial .input_horas
