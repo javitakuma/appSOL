@@ -1,0 +1,309 @@
+
+/*
+	=========ESTILOS IMC MENSUAL===========
+*/
+#imc_mensual
+{
+	width:80%;
+	margin:0 auto;
+}
+
+
+#imc_mensual table
+{
+    border-collapse: collapse;
+}
+#imc_mensual td,th
+{
+    width: 20px;
+    min-width: 20px;
+    padding: 0px;
+    margin:0px;
+    text-align: center;
+    border-collapse: collapse;
+	border:solid 1px #AAA;
+    vertical-align:middle;
+}
+
+#titulo_comentarios
+{
+	width:250px;
+}
+
+#imc_mensual .comentarios
+{
+	width:250px;
+	height:30px;
+	padding:0px;
+}
+
+#imc_mensual .comentarios textarea
+{
+	width:250px;
+	margin:0px;	
+	border:none;
+	resize:none;
+}
+
+
+/*===========*/
+
+.textareaGrande
+{
+	height:80px !important;	
+}
+
+
+
+#imc_mensual div
+{
+    margin:0;
+    padding:0;
+}
+
+
+#imc_mensual #inferior
+{
+    margin:50px auto;
+    clear: both;
+    float: left;
+}
+#imc_mensual #id_horas
+{
+    width: 30px;
+}
+
+#imc_mensual .input_horas
+{
+    margin:0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    text-align: center;    
+}
+
+#imc_mensual .total_horas_imc
+{
+	cursor:default;
+}
+
+.eliminar_fila
+{
+	width:15px;
+}
+
+
+
+/*TRAMPA PARA HACER BORDER TRANSPARENTE PORQUE NO SE QUITABA*/
+
+#imc_mensual .borde_invisible
+{
+	border:1px rgba(0,0,0,0) solid;
+}
+
+#imc_mensual .no_fondo
+{
+	background-color:"#FFF";
+}
+
+#imc_mensual .festivo 
+{
+	background-color:#F77 !important;
+}
+
+#imc_mensual .especial .input_horas
+{
+	background-color:rgb(28,170,216);
+}
+
+#imc_mensual .especial .color_proy
+{
+	background-color:rgb(28,170,216);
+}
+#imc_mensual .especial .celda-color
+{
+	background-color: rgb(28,170,216);
+}
+
+#imc_mensual .interno .input_horas
+{
+	background-color: rgb(200,230,230);
+}
+
+#imc_mensual .interno .color_proy
+{
+	background-color: rgb(200,230,230);
+}
+
+#imc_mensual .interno .celda-color
+{
+	background-color: rgb(200,230,230);
+}
+
+
+
+#imc_mensual .externo .input_horas
+{
+	background-color:lightblue;
+}
+
+#imc_mensual .externo .color_proy
+{
+	background-color:lightblue;
+}
+
+#imc_mensual .externo .celda-color
+{
+	background-color:lightblue;
+}
+
+/*
+=======================NUEVO====================
+*/
+
+
+
+/*QUITAR ESTILO BORDES TABLA ARRIBA,ABAJO,IZQUIERDA,DERECHA*/
+
+#tabla_imc th
+{
+	border-top:none;
+	background: RGB(35,200,200);
+	cursor:default;
+}
+
+#tabla_imc tr:last-child td
+{
+	border-bottom:none;
+	background: RGB(35,200,200);
+	cursor:default;
+}
+
+#tabla_imc tr th:first-child
+{
+	border-left:none;
+	border-radius:5px 0 0 0;
+}
+
+#tabla_imc tr td:first-child
+{
+	border-left:none;
+	cursor:default;	
+	padding:10px;
+}
+
+#tabla_imc tr th:last-child
+{
+	border-right:none;	
+	border-radius:0 5px 0 0;
+}
+
+#tabla_imc tr td:last-child
+{
+	border-right:none;	
+}
+
+
+
+#tabla_imc tr td:last-child-1
+{
+	border-right:none;	
+}
+
+#tabla_imc tr:last-child td:last-child
+{
+	border-radius:0 0 5px 0;	
+}
+
+#tabla_imc tr:last-child td:first-child
+{
+	border-radius:0 0 0 5px ;	
+}
+
+#tabla_imc .comentarios
+{
+	border-right:none;
+	padding:0;
+}
+
+
+/*
+	========ESTILO TABLA TOTALES
+*/
+
+#totales_imc
+{
+	margin-top:20px;
+}
+
+#totales_imc table
+{
+    border-collapse: collapse;
+}
+#totales_imc td,th
+{
+    width: 120px;
+    height:25px;
+    min-width: 20px;
+    padding: 0px;
+    margin:0px;
+    text-align: center;
+    border-collapse: collapse;
+	border:solid 1px #AAA;
+    vertical-align:middle;
+}
+
+#totales_imc th
+{
+	border-top:none;
+	background: RGB(35,200,200);
+	cursor:default;
+}
+
+#totales_imc tr:last-child td
+{
+	border-bottom:none;
+	background: #EFEFEF;
+	cursor:default;
+}
+
+#totales_imc tr th:first-child
+{
+	border-left:none;
+	border-radius:5px 0 0 0;
+}
+
+#totales_imc tr td:first-child
+{
+	border-left:none;
+	cursor:default;	
+}
+
+#totales_imc tr th:last-child
+{
+	border-right:none;	
+	border-radius:0 5px 0 0;
+}
+
+#totales_imc tr td:last-child
+{
+	border-right:none;	
+}
+
+
+
+#totales_imc tr td:last-child-1
+{
+	border-right:none;	
+}
+
+#totales_imc tr:last-child td:last-child
+{
+	border-radius:0 0 5px 0;	
+}
+
+#totales_imc tr:last-child td:first-child
+{
+	border-radius:0 0 0 5px ;	
+}

@@ -16,6 +16,7 @@ class Imc extends MX_Controller
 		$k_consultor=$this->session->userdata('k_consultor');
 		$datos['imc_mensuales']=$this->Imc_model->get_imc_mensuales($condicion,$k_consultor);
 		$datos['js'] ="imc";
+		$datos['css'] ="imc";
 		$datos['condicion']=$condicion;
 		//$this->Imc_model->cargar_general();
 		enmarcar($this,"Imc.php",$datos);
@@ -25,7 +26,9 @@ class Imc extends MX_Controller
 	{		
 		$datos['year'] =$year;
 		$datos['mes'] =$month;
+		$datos['mes_texto'] =$this->mesTexto($month);
 		$datos['js']="imc_mensual";
+		$datos['css']="imc_mes";
 		$datos['datos_imc_mes']=$this->Imc_model->cargar_datos_imc($this->session->userdata('k_consultor'),$year,$month);
 		enmarcar($this,"MostrarImcMes.php",$datos);
 	}
@@ -48,8 +51,7 @@ class Imc extends MX_Controller
 	}
 	
 	public function obtener_lista_proyectos_por_tipo()
-	{
-		
+	{		
 		$tipo=$_REQUEST['tipoProyecto'];
 		$year=$_REQUEST['year'];
 		$month=$_REQUEST['mes'];
@@ -61,6 +63,50 @@ class Imc extends MX_Controller
 		*/
 		$codigos_solo_id=$this->Imc_model->listar_proyectos_por_tipo($this->session->userdata('k_consultor'),$tipo,$year,$month);
 		print json_encode($codigos_solo_id);
+	}
+	
+	public function mesTexto($numero)
+	{
+		$mes_texto="";
+		switch ($numero) {
+			case 01:
+				$mes_texto="Enero";
+				break;
+			case 02:
+				$mes_texto="Febrero";
+				break;
+			case 03:
+				$mes_texto="Marzo";
+				break;
+			case 04:
+				$mes_texto="Abril";
+				break;
+			case 05:
+				$mes_texto="Mayo";
+				break;
+			case 06:
+				$mes_texto="Junio";
+				break;
+			case 07:
+				$mes_texto="Julio";
+				break;
+			case 08:
+				$mes_texto="Agosto";
+				break;
+			case 09:
+				$mes_texto="Septiembre";
+				break;
+			case 10:
+				$mes_texto="Octubre";
+				break;
+			case 11:
+				$mes_texto="Noviembre";
+				break;
+			case 12:
+				$mes_texto="Diciembre";
+				break;
+		}	
+		return $mes_texto;
 	}
 	
 }

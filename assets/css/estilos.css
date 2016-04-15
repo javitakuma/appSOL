@@ -1,5 +1,5 @@
 body {
-	font-family: Helvetica,arial;
+	font-family:Helvetica,arial;
 	background: #EEE; 
     font-size:14px; 
 	background: rgb(219,219,231);
@@ -42,7 +42,13 @@ a
 }
 
 
-
+.textoSmallCaps
+{
+	font-size:18px;
+	vertical-align: middle;
+	text-transform: capitalize;
+	font-variant: small-caps;
+}
 
 /*
 	=========ESTILOS TITULOS===========
@@ -64,7 +70,7 @@ h1,h2,h3,h4,h5,h6,h7
 {
 	font-size:24px;
 	color:black;
-	font-weight:bold;		
+	font-weight:bold;
 }
 
 .titulo-peque
@@ -74,10 +80,67 @@ h1,h2,h3,h4,h5,h6,h7
 	font-weight:bold;		
 }
 
+.buttonGenerico {
+  background: rgb(35,144,139);
+  text-shadow: 1px 1px 0 rgba(39,110,160);
+  border-radius:10px;
+}
+
+.buttonGenericoPeque {
+  position: relative;
+  display: inline-block;
+  padding: 5px 0px;
+  margin: 0 0 0 0;
+  width: 20%;
+  vertical-align: middle;
+  color: #fff;
+  font-size: 14px;
+  line-height: 14px;
+  -webkit-font-smoothing: antialiased;
+  text-align: center;
+  letter-spacing: 1px;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid rgba(39,110,160);
+  cursor: pointer;
+  -webkit-transition:all 0.15s ease;
+  transition: all 0.15s ease;
+  border-radius:2px;
+  background: rgb(35,144,139);
+  text-shadow: 1px 1px 0 rgba(39,110,160);
+  border-radius:5px;
+}
+.buttonGenericoPeque:focus { outline: 0; }
+
+
+.buttonGenericoPeque:hover 
+{ 
+	background: rgb(15,124,119); 
+}
+
+/*
+	=========BOTON VOLVER===========
+*/
+
+.abrirCell,.cursor_pointer
+{
+	cursor:pointer;
+}
+
+
+.volver
+{
+	position:fixed;
+	bottom:50px;
+	left:50px;
+}
+
 /*
 	=========ESTILOS IMC===========
 */
 
+
+/*
 #contenedorImc
 {
 	width:90%;
@@ -116,7 +179,7 @@ h1,h2,h3,h4,h5,h6,h7
 table
 {
 	border-collapse: collapse;
-	/*border:solid 1px black;*/
+	//border:solid 1px black;
 }
 
 #listadoImcGeneral
@@ -157,11 +220,12 @@ table
 {
 	cursor:pointer;
 }
-
+*/
 
 /*
 	=========ESTILOS IMC MENSUAL===========
 */
+/*
 #imc_mensual
 {
 	width:80%;
@@ -175,7 +239,6 @@ table
 }
 #imc_mensual td,th
 {
-    /*height: 15px;*/
     width: 20px;
     min-width: 20px;
     padding: 0px;
@@ -234,10 +297,10 @@ table
     text-align: center;    
 }
 
-
+*/
 
 /*TRAMPA PARA HACER BORDER TRANSPARENTE PORQUE NO SE QUITABA*/
-
+/*
 #imc_mensual .borde_invisible
 {
 	border:1px rgba(0,0,0,0) solid;
@@ -299,4 +362,4 @@ table
 	background-color:lightblue;
 }
 
-
+*/

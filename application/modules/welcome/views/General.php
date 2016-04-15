@@ -9,13 +9,16 @@
 </nav>       
     <div id="contenedor-menu">
         	        
-        
+        <section class="buttonset">
+	            <div id="nav_list" class="push"></div><p id="texto_menu">MENU</p>
+	    </section>
+	    
     	<div id="menu_superior_izquierda">
-    		<span class="usuarioActivoTexto">Usuario activo</span>
+    		<span class=textoSmallCaps>Usuario Activo</span>
 	    	<select id="usuarioActivo">
 	    		<option value="<?php echo $this->session->userdata('id_consultor')?>"><?php echo $this->session->userdata('id_consultor')?></option>
 	    	</select>
-    		<button id="cambiarPassword"
+    		<button id="cambiarPassword" class="buttonGenericoPeque"
 				onclick='location.href="<?php echo base_url()?>login/cambiar_pass"'>
 				Cambiar	contraseña
 			</button>			
@@ -23,28 +26,26 @@
  		
         <div id="contenedor-submenu">
         
-	        <section class="buttonset">
-	            <div id="nav_list" class="push"></div><p id="texto_menu">MENU</p>
-	        </section>
+	        
         
         	<h2 class="titulo-mediano">General</h2>
             <div id="contenedor-opciones">
             	<div class="columna-menu">
             		<div class="opcion-columna" >
             			<img onclick='location.href="<?php echo base_url()?>general/Imc/index"' src="<?php echo base_url()?>assets/img/imc.png" class="imagen-opcion"/>
-            			<p class="nombre-opcion">IMC</p>
+            			<p class="nombre-opcion" onclick='location.href="<?php echo base_url()?>general/Imc/index"'>IMC</p>
             		</div>
             	</div>
             	<div class="columna-menu">
             		<div class="opcion-columna" >
             			<img onclick='location.href="<?php echo base_url()?>general/vacaciones/index"' src="<?php echo base_url()?>assets/img/vacaciones.png" class="imagen-opcion"/>
-            			<p class="nombre-opcion">VACACIONES</p>
+            			<p class="nombre-opcion" onclick='location.href="<?php echo base_url()?>general/Imc/index"'>VACACIONES</p>
             		</div>
             	</div>
             	<div class="columna-menu">
             		<div class="opcion-columna" >
             			<img onclick='location.href="<?php echo base_url()?>general/hoja_gastos/index"' src="<?php echo base_url()?>assets/img/gastos.png" class="imagen-opcion"/>
-            			<p class="nombre-opcion">GASTOS</p>
+            			<p class="nombre-opcion" onclick='location.href="<?php echo base_url()?>general/Imc/index"'>GASTOS</p>
             		</div>
             	</div>
             	

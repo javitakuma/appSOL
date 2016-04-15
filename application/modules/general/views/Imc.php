@@ -2,15 +2,15 @@
 
 <div id="contenedorImc">
 	<div class="botonera">
-		<button id="todosImc" class="boton-imc"
+		<button id="todosImc" class="buttonGenericoPeque boton-imc"
 			onclick='location.href="<?php echo base_url()?>general/Imc/index/3"'>
 		Todos
 		</button>			
-		<button id="todosImc" class="boton-imc"
+		<button id="todosImc" class="buttonGenericoPeque boton-imc"
 				onclick='location.href="<?php echo base_url()?>general/Imc/index/1"'>
 		Enviados			
 		</button>			
-		<button id="todosImc" class="boton-imc"
+		<button id="todosImc" class="buttonGenericoPeque boton-imc"
 				onclick='location.href="<?php echo base_url()?>general/Imc/index/2"'>
 		No enviados
 		</button>			
@@ -21,7 +21,7 @@
 	<div id="rejillaImc">
 	<h3 class="centrado titulo-mediano"><?php echo $condicion==1?'Enviados.':($condicion==2?'No enviados.':'Todos.')?></h3>
 		<table id="listadoImcGeneral">
-			<tr>
+			<tr id="fila-titulos">
 				<th>ABRIR</th>
 				<th>CONSULTOR</th>
 				<th>AÑO IMC</th>
@@ -57,8 +57,10 @@
 			</tr>
 			 -->
 		</table>
-		<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="50px" onclick='location.href="<?php echo base_url()?>welcome"'/>
-		<h3 class="titulo-peque">Volver al menú principal.</h3> 
+		<div class="volver">
+			<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="50px" onclick='location.href="<?php echo base_url()?>welcome"'/>
+			<h3 class="titulo-peque">Volver</h3>
+		</div> 
 	</div>
 </div>
 

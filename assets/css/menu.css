@@ -37,9 +37,13 @@
 	margin-left:30px;
 }
 
-#usuarioActivoTexto
+#usuarioActivo
 {
+	font-size:15px;
+	vertical-align: middle;
 }
+
+
 
 .push
 {
@@ -81,7 +85,7 @@
 
 
 /*  
-    Demo Specific Styles
+    ESTILOS PARA SLIDER
     ====================
 */
 
@@ -176,6 +180,7 @@ nav-list.active {
  .buttonset {
       height: 16px;
       padding: 10px 20px 20px;
+      margin-bottom:30px;
  }
  
  section.content {

@@ -27,6 +27,11 @@ $(document).ready(function() {
 		{
 			$(this).prop('disabled', 'disabled');
 		});
+		
+		$('.comentarios_textarea').each(function()
+				{
+					$(this).prop('disabled', 'disabled');
+				});
 	}
 	
 	//EVENTO CLICK PARA EL BOTON AGREGAR PROYECTO
@@ -84,6 +89,18 @@ $(document).ready(function() {
     	
     			
       });
+    
+    $('textarea').on('blur',function()
+    {
+    	$(this).removeClass('textareaGrande');
+    });
+    
+    $('textarea').on('click',function()
+    {
+    	$(this).addClass('textareaGrande');
+    });
+    
+    
     
     //EVENTO CHANGE PRIMER SELECT 
     $("#tipo_proyecto").on('change',function(event) 
@@ -425,6 +442,7 @@ function agregar_proyecto_a_tabla()
 	fila.insertBefore($('#ultima_fila'));	
 	
 }
+
 
 
 
