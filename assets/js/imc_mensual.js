@@ -77,6 +77,73 @@ $(document).ready(function() {
     	    		}
     	    	});
     	
+    	$('.comentarios_textarea').each(function()
+    	{
+    		
+    		var nombre_proyecto=$(this).parent().parent().find('td:first').html();
+    		
+    		
+    		
+    		if(nombre_proyecto=='PRO450')//CAMBIAR PRODUCCION KEYPREVENTA
+    		{  
+    			var regex_preventa=/^[\w\W]+\/[\w\W]+\/[\w\W]+$/;
+    			
+    			if(regex_preventa.test($(this).val()))
+    			{
+    				//alert("valida");
+    			}
+    			else
+    			{
+    				cancelar_envio=true;
+    				alert("El código de proyecto KEYPREVENTA debe incluir un comentarios con el formato:\n\n Cliente / Tecnología / Actividad \n\nEjemplo:Direct / Tableau Qlik Sense / Poc");
+    			}     			
+    		}
+    		
+    		if(nombre_proyecto=='PRO468')//CAMBIAR PRODUCCION KEYOTROS
+    		{  
+    			
+    			//SI FALLARA QUITAR  LO QUE NO SEA TEXTO PLANO
+    			
+    			//PARA AGREGAR UNO NUEVO PONER EL TEXTO +  ([\s]+[\w\W]*)*$ PARA CAMPOS QUE NO REQUIERAN EXPLICACION Y TEXTO + ([\s]+[\w\W]+)+$/ PARA CAMPOS QUE SI LO REQUIERAN
+    			
+    			var expresiones_validas = [/^HOSPITAL FAMILIAR([\s]+[\w\W]+)+$/, /DEFUNCION FAMILIAR([\s]+[\w\W]+)+$/,  /ASUNTOS PROPIOS([\s]+[\w\W]+)+$/,/MUDANZA([\s]+[\w\W]*)*$/,/MATRIMONIO([\s]+[\w\W]*)*$/,/PATERNIDAD([\s]+[\w\W]*)*$/,/ACADEMICO([\s]+[\w\W]+)+$/,/LACTANCIA([\s]+[\w\W]*)*$/,/PRENATAL([\s]+[\w\W]*)*$/,/PERMISO KEYRUS([\s]+[\w\W]+)+$/,/PERMISO SIN SUELDO([\s]+[\w\W]+)+$/,];
+
+    			   	var key_otros_valido=false;		    
+
+    			    for (i=0; i < expresiones_validas.length&&!key_otros_valido; i++) 
+    			    {
+    			        if ($(this).val().match(expresiones_validas[i])) 
+    			        {
+    			        	key_otros_valido=true;
+    			            //alert(expresiones_validas[i]+"Bien");
+    			        }      			        
+    			    }
+    			    
+    			    if(!key_otros_valido)
+    			    {
+    			    	cancelar_envio=true;
+    			    	alert("El código de proyecto KEYOTROS debe comenzar con una de las siguientes expresiones:\n" +
+    			    			"HOSPITAL FAMILIAR, DEFUNCION FAMILIAR, DEFUNCION FAMILIAR, ASUNTOS PROPIOS, MUDANZA, MATRIMONIO, PATERNIDAD, ACADEMICO, ACADÉMICO, LACTANCIA, PRENATAL, PERMISO KEYRUS O PERMISO SIN SUELDO/ ");
+    			    }
+
+    			    
+
+    		};
+    			/*
+    			if(regex_preventa.test($(this).val()))
+    			{
+    				//alert("valida");
+    			}
+    			else
+    			{
+    				cancelar_envio=true;
+    				alert("El código de proyecto KEYPREVENTA debe incluir un comentarios con el formato:\n\n Cliente / Tecnología / Actividad \n\nEjemplo:Direct / Tableau Qlik Sense / Poc");
+    			}   
+    			*/  			
+    		
+    	    		
+    	 });
+    	
     	
     	//SI NO HEMOS CANCELADO ENTRAMOS AQUI
     	if(!cancelar_envio)

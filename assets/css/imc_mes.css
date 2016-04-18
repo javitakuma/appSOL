@@ -62,6 +62,32 @@
 }
 
 
+
+.muestra_color
+{
+	height: 40px; /*can be anything*/
+    width: 40px; /*can be anything*/
+    position: relative;
+    margin:0;
+    display:block;
+}
+
+
+
+.muestra_color img
+{
+	max-height: 75%;  
+    max-width: 75%; 
+    width: auto;
+    height: auto;
+    position: absolute;  
+    top: 0;  
+    bottom: 0;  
+    left: 0;  
+    right: 0;  
+    margin: auto;
+}
+
 #imc_mensual #inferior
 {
     margin:50px auto;

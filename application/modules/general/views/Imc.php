@@ -1,3 +1,8 @@
+<div class="volver">
+			<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="40px" onclick='location.href="<?php echo base_url()?>welcome"'/>
+			<h3 class="titulo-peque">Volver</h3>
+		</div>
+
 <h1 class="centrado titulo-grande">IMC</h1>
 
 <div id="contenedorImc">
@@ -57,10 +62,7 @@
 			</tr>
 			 -->
 		</table>
-		<div class="volver">
-			<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="50px" onclick='location.href="<?php echo base_url()?>welcome"'/>
-			<h3 class="titulo-peque">Volver</h3>
-		</div> 
+		 
 	</div>
 </div>
 

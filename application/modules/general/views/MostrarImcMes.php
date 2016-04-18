@@ -1,13 +1,16 @@
-
+<div class="volver">
+			<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="40px" onclick='location.href="<?php echo base_url()?>general/imc"'/>
+			<h3 class="titulo-peque">Volver</h3>
+		</div>
         
         
         <div id="imc_mensual">
-        <p class="titulo-grande centrado">IMC <?php echo $mes_texto?> de <?php echo $year?></p>
-        <br/>
-        <br/>
+	        <p class="titulo-grande centrado">IMC <?php echo $mes_texto?> de <?php echo $year?></p>
+	        <br/>
+	        <br/>
         
-        <!-- SOLO PINTAMOS ESTA PARTE SI EL IMC NO ESTA ENVIADO -->
-        <?php if($datos_imc_mes['t_imcs'][0]['sw_validacion']==0):?>
+	        <!-- SOLO PINTAMOS ESTA PARTE SI EL IMC NO ESTA ENVIADO -->
+	        <?php if($datos_imc_mes['t_imcs'][0]['sw_validacion']==0):?>
 	        <h2 class="titulo-mediano">Agregar un proyecto a la tabla</h2>
 	        <div id="superior_izquierda" class="textoSmallCaps">
 	            Tipo de proyecto
@@ -30,95 +33,104 @@
 	        </div>    
         <?php endif;?>
         
+        	<div id="ayuda_proyectos">
+        		<div class="interno contenedor_ayuda">
+        			<div class="muestra_color color_proy"><img src="<?php echo base_url()?>assets/img/help.png"/></div><p>Proyectos internos</p>
+        		</div>
+        		<div class="externo">
+        			<div class=" muestra_color color_proy"><img src="<?php echo base_url()?>assets/img/help.png"/></div>
+        		</div> 
+        		<div class="especial">
+        			<div class=" muestra_color color_proy"><img src="<?php echo base_url()?>assets/img/help.png"/></div>
+        		</div>         	
+        	</div>
+        
         
           
-        <div  id="inferior">
-        
-            <table id="tabla_imc">            	
-                 <!-- 
-                 CON ESTO PINTAMOS LA PRIMERA FILA DE LA TABLA CON TANTAS CELDAS COMO DIAS TENGA EL MES
-                 Y COLOCAMOS EL NOMBRE DE CLASES Y VALORES DE FORMA DINAMICA
-                 UTILIZO TERNARIOS EJ:  echo  $i<10   ?  '0'.$i  :  $i 
-                 EVALUA LA CONDICION $i<10, SI ES AFIRMATIVA PINTA '0'.$i, SI NO LO ES PINTA $i
-                 -->
-                 <tr id="fila_titulos">                    
-                    <th id="titulo_cod_proyecto">Código proyecto</th>
-                    
-                    <!-- PINTA ID DINAMICAMENTE Y LA CLASE SEGUN SEA EL DIA LABORABLE O NO --> 
-                    <?php for ($i=1;$i<=$datos_imc_mes['dias_por_mes'];$i++):?>                    	
-                    	<th id="titulo_dia<?php echo $i<10?'0'.$i:$i?> "
-                    	class="<?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>"><?php echo $i?></th>	
-                    <?php endfor;?>         
-                                  
-                    <th id="titulo_horas_totales">TOT</th>                    
-                    <th id="titulo_comentarios">Comentarios</th>
-                </tr>
-                
-                
-                <!-- 
-                 CON ESTO PINTAMOS UNA FILA DE LA TABLA POR CADA LINEA DE IMC QUE HAYAMOS COGIDO DE LA BASE DE DATOS
-                 LE DAMOS CLASE INTERNO, EXTERNO O ESPECIAL SEGUN SEA
-                 COLOCAMOS EL NOMBRE DE CLASES Y VALORES DE FORMA DINAMICA
-                 -->
-                
-                <?php foreach ($datos_imc_mes['lineas_imc'] as $linea_imc):?>
-                <tr id="<?php echo $linea_imc['k_proyecto']?>" class="celda-color fila-datos <?php echo ($linea_imc['sw_proy_especial']==-1?'especial':(($linea_imc['sw_interno']==-1)?'interno':'externo'))?>">
-                    <td class="<?php echo $linea_imc['k_linea_imc']?> grabada color_proy"><?php echo $linea_imc['id_proyecto']?></td>
-                    
-                    <?php for ($i=1;$i<=$datos_imc_mes['dias_por_mes'];$i++):?>
-                    	<td class="celda-color dia<?php echo $i<10?'0'.$i:$i?> <?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>">
-                    		<input type="text" class="input_horas <?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>" value="<?php echo $i<10?$linea_imc["i_horas_0$i"]:$linea_imc["i_horas_$i"]?>"/>
-                    	</td>	
-                    <?php endfor;?>     
-                    
-                                       
-                    <td class="celda-color total_horas_imc color_proy"><?php echo $linea_imc['i_tot_horas_linea_imc']?></td>
-                    <td class="comentarios"><textarea class="comentarios_textarea"><?php echo $linea_imc['desc_comentarios']?></textarea></td>
-                    <?php if($datos_imc_mes['t_imcs'][0]['sw_validacion']==0):?>
-                    	<td class="borde_invisible no_fondo"><input class="eliminar_fila " type="image" src="<?php echo base_url()?>assets/img/cross.png"/></td>
-                    <?php endif;?>
-                </tr>	
-                <?php endforeach;?>      
-                
-                
-                
-                <tr id="ultima_fila">
-                    <td>TOTAL</td>                    
-                    <?php for ($i=1;$i<=$datos_imc_mes['dias_por_mes'];$i++):?>
-                    	<td id="total<?php echo $i<10?'0'.$i:$i?>" class="<?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>"></td>	
-                    <?php endfor;?> 
-                    <td id="horas_totales"></td>
-                </tr>
-                
-            </table>
-            <br/><br/>  
-                      
-            <!-- Con esto pintamos el boton de grabar solo si el IMC no esta enviado -->
-            
-            <?php if($datos_imc_mes['t_imcs'][0]['sw_validacion']==0):?>
-            <input id="grabar" class="buttonGenericoPeque" type="button" value="Grabar datos"/>
-            <?php endif;?>
-            <br/><br/>
-            <table id="totales_imc" border="1">
-                <tr>
-                    <th>Horas consultor</th><th>Horas previstas</th><th>Jornadas totales</th>
-                </tr>
-                <tr>
-                	<!-- AQUI NO PINTAMOS NADA, LO HAREMOS CON JS -->
-                    <td id="horas_consultor"></td>
-                    <td id="horas_previstas"><?php echo $datos_imc_mes['dias_laborables_por_mes']*8?></td>
-                    <!-- AQUI NO PINTAMOS NADA, LO HAREMOS CON JS -->
-                    <td id="jornadas"></td>
-                </tr>
-                
-            </table>
-           
-        <div class="volver">
-			<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="50px" onclick='location.href="<?php echo base_url()?>general/imc"'/>
-			<h3 class="titulo-peque">Volver</h3>
-		</div> 
-		 
-        </div><!-- CIERRE INFERIOR -->
+	        <div  id="inferior">
+	        
+	            <table id="tabla_imc">            	
+	                 <!-- 
+	                 CON ESTO PINTAMOS LA PRIMERA FILA DE LA TABLA CON TANTAS CELDAS COMO DIAS TENGA EL MES
+	                 Y COLOCAMOS EL NOMBRE DE CLASES Y VALORES DE FORMA DINAMICA
+	                 UTILIZO TERNARIOS EJ:  echo  $i<10   ?  '0'.$i  :  $i 
+	                 EVALUA LA CONDICION $i<10, SI ES AFIRMATIVA PINTA '0'.$i, SI NO LO ES PINTA $i
+	                 -->
+	                 <tr id="fila_titulos">                    
+	                    <th id="titulo_cod_proyecto">Código proyecto</th>
+	                    
+	                    <!-- PINTA ID DINAMICAMENTE Y LA CLASE SEGUN SEA EL DIA LABORABLE O NO --> 
+	                    <?php for ($i=1;$i<=$datos_imc_mes['dias_por_mes'];$i++):?>                    	
+	                    	<th id="titulo_dia<?php echo $i<10?'0'.$i:$i?> "
+	                    	class="<?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>"><?php echo $i?></th>	
+	                    <?php endfor;?>         
+	                                  
+	                    <th id="titulo_horas_totales">TOT</th>                    
+	                    <th id="titulo_comentarios">Comentarios</th>
+	                </tr>
+	                
+	                
+	                <!-- 
+	                 CON ESTO PINTAMOS UNA FILA DE LA TABLA POR CADA LINEA DE IMC QUE HAYAMOS COGIDO DE LA BASE DE DATOS
+	                 LE DAMOS CLASE INTERNO, EXTERNO O ESPECIAL SEGUN SEA
+	                 COLOCAMOS EL NOMBRE DE CLASES Y VALORES DE FORMA DINAMICA
+	                 -->
+	                
+	                <?php foreach ($datos_imc_mes['lineas_imc'] as $linea_imc):?>
+	                <tr id="<?php echo $linea_imc['k_proyecto']?>" class="celda-color fila-datos <?php echo ($linea_imc['sw_proy_especial']==-1?'especial':(($linea_imc['sw_interno']==-1)?'interno':'externo'))?>">
+	                    <td class="<?php echo $linea_imc['k_linea_imc']?> grabada color_proy"><?php echo $linea_imc['id_proyecto']?></td>
+	                    
+	                    <?php for ($i=1;$i<=$datos_imc_mes['dias_por_mes'];$i++):?>
+	                    	<td class="celda-color dia<?php echo $i<10?'0'.$i:$i?> <?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>">
+	                    		<input type="text" class="input_horas <?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>" value="<?php echo $i<10?$linea_imc["i_horas_0$i"]:$linea_imc["i_horas_$i"]?>"/>
+	                    	</td>	
+	                    <?php endfor;?>     
+	                    
+	                                       
+	                    <td class="celda-color total_horas_imc color_proy"><?php echo $linea_imc['i_tot_horas_linea_imc']?></td>
+	                    <td class="comentarios"><textarea class="comentarios_textarea"><?php echo $linea_imc['desc_comentarios']?></textarea></td>
+	                    <?php if($datos_imc_mes['t_imcs'][0]['sw_validacion']==0):?>
+	                    	<td class="borde_invisible no_fondo"><input class="eliminar_fila " type="image" src="<?php echo base_url()?>assets/img/cross.png"/></td>
+	                    <?php endif;?>
+	                </tr>	
+	                <?php endforeach;?>      
+	                
+	                
+	                
+	                <tr id="ultima_fila">
+	                    <td>TOTAL</td>                    
+	                    <?php for ($i=1;$i<=$datos_imc_mes['dias_por_mes'];$i++):?>
+	                    	<td id="total<?php echo $i<10?'0'.$i:$i?>" class="<?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>"></td>	
+	                    <?php endfor;?> 
+	                    <td id="horas_totales"></td>
+	                </tr>
+	                
+	            </table>
+	            <br/><br/>  
+	                      
+	            <!-- Con esto pintamos el boton de grabar solo si el IMC no esta enviado -->
+	            
+	            <?php if($datos_imc_mes['t_imcs'][0]['sw_validacion']==0):?>
+	            <input id="grabar" class="buttonGenericoPeque" type="button" value="Grabar datos"/>
+	            <?php endif;?>
+	            <br/><br/>
+	            <table id="totales_imc" border="1">
+	                <tr>
+	                    <th>Horas consultor</th><th>Horas previstas</th><th>Jornadas totales</th>
+	                </tr>
+	                <tr>
+	                	<!-- AQUI NO PINTAMOS NADA, LO HAREMOS CON JS -->
+	                    <td id="horas_consultor"></td>
+	                    <td id="horas_previstas"><?php echo $datos_imc_mes['dias_laborables_por_mes']*8?></td>
+	                    <!-- AQUI NO PINTAMOS NADA, LO HAREMOS CON JS -->
+	                    <td id="jornadas"></td>
+	                </tr>
+	                
+	            </table>
+	           
+	         
+			 
+	        </div><!-- CIERRE INFERIOR -->
         </div><!-- CIERRE IMC_MENSUAL -->
         
         

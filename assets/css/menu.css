@@ -34,13 +34,29 @@
 
 #menu_superior_izquierda
 {
+	position:relative;	
 	margin-left:30px;
+}
+
+#boton_menu
+{
+	width:30%;
+	display:inline-block;
+}
+
+#caja_usuario_activo
+{
+	width:60%;
+	display:inline-block;
+	position:absolute;
+	right:50px;	
 }
 
 #usuarioActivo
 {
 	font-size:15px;
 	vertical-align: middle;
+	width:80px;
 }
 
 #cambiarPassword
@@ -181,9 +197,24 @@ nav-list.active {
 }
 
  .buttonset {
+ 	  width:30%;
       height: 16px;
-      padding: 10px 20px 20px;
-      margin-bottom:30px;
+      padding: 00px;
+      margin:0px;
+      display:inline-block;
+ }
+ 
+ #parrafo_usuario_activo
+ {
+ 	display:block;
+ 	width:20%;
+ 	margin:0;
+ }
+ 
+ #usuario_activo
+ {
+ 	display:block;
+ 	width:20%;
  }
  
  section.content {
