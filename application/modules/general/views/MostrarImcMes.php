@@ -104,7 +104,11 @@
                     <th>Horas consultor</th><th>Horas previstas</th><th>Jornadas totales</th>
                 </tr>
                 <tr>
-                    <td id="horas_consultor"></td><td><?php echo $datos_imc_mes['dias_laborables_por_mes']*8?></td><td><?php echo $datos_imc_mes['dias_laborables_por_mes']?></td>
+                	<!-- AQUI NO PINTAMOS NADA, LO HAREMOS CON JS -->
+                    <td id="horas_consultor"></td>
+                    <td id="horas_previstas"><?php echo $datos_imc_mes['dias_laborables_por_mes']*8?></td>
+                    <!-- AQUI NO PINTAMOS NADA, LO HAREMOS CON JS -->
+                    <td id="jornadas"></td>
                 </tr>
                 
             </table>

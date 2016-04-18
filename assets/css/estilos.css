@@ -14,6 +14,11 @@ body {
 	margin-bottom:100px;
 }
 
+footer
+{
+	height:50px;
+}
+
 .titulo-aplicacion
 {
 	font-size:26px;
@@ -131,8 +136,8 @@ h1,h2,h3,h4,h5,h6,h7
 .volver
 {
 	position:fixed;
-	bottom:50px;
-	left:50px;
+	bottom:20px;
+	left:20px;
 }
 
 /*

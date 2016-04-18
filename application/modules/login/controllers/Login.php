@@ -41,28 +41,30 @@ class Login extends MX_Controller
 				
 		//LOGIN CORRECTO   //TODO
 		if($usuarioEncontrado!=FALSE)
-		{
-			
-			
-			//INICIALIZACION DE SESIONES
+		{			
+			//INICIALIZACION DE SESIONES(GUARDAMOS VARIOS CON COLETILLA _ORIGINAL QUE SON LOS PERMISOS DEL USUARIO QUE HIZO LOGIN ORIGINAL)
+			//SI AÑADIMOS O QUITAMOS ALGUNO HAREMOS LO MISMO EN LA FUNCION CAMBIAR USUARIO
 			
 			$usuario_data = array(
 					'k_consultor'=> $usuarioEncontrado['k_consultor'],
 					'id_consultor'=> $usuarioEncontrado['id_consultor'],
 					'nom_consultor'=> $usuarioEncontrado['nom_consultor'],
 					'sw_baja'=> $usuarioEncontrado['sw_baja'],
-					'sw_resp_proyectos'=> $usuarioEncontrado['sw_resp_proyectos'],
-					'sw_administrador_petra'=> $usuarioEncontrado['sw_administrador_petra'],
-					'sw_administracion'=> $usuarioEncontrado['sw_administracion'],
-					'sw_comercial'=> $usuarioEncontrado['sw_comercial'],
-					'sw_consultor'=> $usuarioEncontrado['sw_consultor'],
-					'sw_rrhh'=> $usuarioEncontrado['sw_rrhh'],
-					'sw_imc_sol'=> $usuarioEncontrado['sw_rrhh'],					
+					'PERFIL_JP'=> $usuarioEncontrado['sw_resp_proyectos'],
+					'PERFIL_JP_original'=> $usuarioEncontrado['sw_resp_proyectos'],
+					'PERFIL_ADMIN'=> $usuarioEncontrado['sw_administrador_petra'],
+					'PERFIL_FINAN'=> $usuarioEncontrado['sw_administracion'],
+					'PERFIL_FINAN_original'=> $usuarioEncontrado['sw_administracion'],
+					'PERFIL_COMERCIAL'=> $usuarioEncontrado['sw_comercial'],
+					'PERFIL_CONSULTOR'=> $usuarioEncontrado['sw_consultor'],
+					'PERFIL_RRHH'=> $usuarioEncontrado['sw_rrhh'],
+					'PERFIL_IMC'=> $usuarioEncontrado['sw_imc_sol'],	
+					'login_original'=> $usuarioEncontrado['k_consultor'],
 					'logueado' => TRUE
 			);
 			$this->session->set_userdata($usuario_data);
 			//REDIRECCIONAMOS A LA PANTALLA DE BIENVENIDA
-			header("Location:".base_url().'welcome');
+			header("Location:".base_url().'welcome/general');
 			 
 		}
 		else//LOGIN INCORRECTO, REDIRECCIONAMOS A LOGIN CON ERRORES
@@ -73,6 +75,67 @@ class Login extends MX_Controller
 			header("Location:".base_url().'login');
 		}
 	}
+	
+	public function sesiones()
+	{
+		echo $this->session->userdata('k_consultor');
+	}
+	
+	public function cambiar_usuario()
+	{
+		$id_nuevo_usuario=$_REQUEST['nuevo_usuario'];
+		
+		
+		$k_consultor=$this->session->userdata('login_original');
+		$PERFIL_JP=$this->session->userdata('PERFIL_JP_original');
+		$PERFIL_FINAN=$this->session->userdata('PERFIL_FINAN_original');
+		
+		
+		$usuarios_perfil=$this->Login_model->cargar_usuarios_perfil_solo_key($k_consultor,$PERFIL_JP,$PERFIL_FINAN);
+		
+		$cambio_valido=false;
+		
+		//VALIDAMOS POR SEGURIDAD QUE EL USUARIO TENGA ACCESO A ESE PERFIL
+		foreach ($usuarios_perfil as $usuario)
+		{
+			if($usuario['k_consultor']==$id_nuevo_usuario)
+			{
+				$cambio_valido=true;	
+			}
+			
+		}
+		
+		if($cambio_valido)
+		{			
+			$usuarioEncontradoCambiar=$this->Login_model->cambiar_usuario($id_nuevo_usuario);			
+			
+			
+			//CUALQUIER CAMBIO DE SESIONES QUE SE HAGA EN INDEXPOST DEBERA REFLEJARSE AQUI
+			
+			$this->session->set_userdata('k_consultor',$usuarioEncontradoCambiar['k_consultor']);
+			$this->session->set_userdata('id_consultor',$usuarioEncontradoCambiar['id_consultor']);
+			$this->session->set_userdata('nom_consultor',$usuarioEncontradoCambiar['nom_consultor']);
+			$this->session->set_userdata('sw_baja',$usuarioEncontradoCambiar['sw_baja']);
+			$this->session->set_userdata('PERFIL_JP',$usuarioEncontradoCambiar['sw_resp_proyectos']);
+			$this->session->set_userdata('PERFIL_JP_original',$this->session->userdata('PERFIL_JP_original'));
+			$this->session->set_userdata('PERFIL_ADMIN',$usuarioEncontradoCambiar['sw_administrador_petra']);
+			$this->session->set_userdata('PERFIL_FINAN',$usuarioEncontradoCambiar['sw_administracion']);
+			$this->session->set_userdata('PERFIL_FINAN_original',$this->session->userdata('PERFIL_FINAN_original'));
+			$this->session->set_userdata('PERFIL_COMERCIAL',$usuarioEncontradoCambiar['sw_comercial']);
+			$this->session->set_userdata('PERFIL_CONSULTOR',$usuarioEncontradoCambiar['sw_consultor']);
+			$this->session->set_userdata('PERFIL_RRHH',$usuarioEncontradoCambiar['sw_rrhh']);
+			$this->session->set_userdata('PERFIL_IMC',$usuarioEncontradoCambiar['sw_imc_sol']);
+			$this->session->set_userdata('login_original',$this->session->userdata('login_original'));
+			$this->session->set_userdata('logueado',$this->session->userdata('logueado'));		
+		}
+		
+		else
+		{
+			//echo "cambio usuario no posible";
+		}
+		
+	}
+	
 	
 	public function cambiar_pass()
 	{

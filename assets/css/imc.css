@@ -1,7 +1,6 @@
 #contenedorImc
 {
 	width:90%;
-	height:100px;
 	margin:0 auto;	
 }
 
@@ -48,6 +47,7 @@ table#listadoImcGeneral
 	width:14%;
 	height:40px;
 	text-align:center;
+	vertical-align:middle;
 	border-collapse: collapse;
 	border:solid 2px #AAA;
 	font-weight:bold;
@@ -58,6 +58,7 @@ table#listadoImcGeneral
 {
 	width:14%;
 	text-align:center;
+	vertical-align:middle;
 	border-collapse: collapse;
 	border:solid 2px #AAA;
 }
@@ -70,6 +71,11 @@ table#listadoImcGeneral
 #listadoImcGeneral tr:nth-child(even)
 {
 	background-color:#CCC;
+}
+
+#listadoImcGeneral tr:first-child
+{
+	background-color:transparent;
 }
 
 
@@ -111,11 +117,15 @@ table#listadoImcGeneral
 #listadoImcGeneral tr:last-child td:last-child
 {
 	border-radius:0 0 10px;	
+	-moz-border-radius:0 0 10px 0;	
+	-webkit-border-radius:0 0 10px 0;
 }
 
 #listadoImcGeneral tr:last-child td:first-child
 {
-	border-radius:0 0 0 10px ;	
+	border-radius:0 0 0 10px ;
+	-moz-border-radius:0 0 0 10px ;
+	-webkit-border-radius:0 0 0 10px;	
 }
 
 

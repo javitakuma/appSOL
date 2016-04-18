@@ -1,7 +1,7 @@
 <nav id="menu" class="pushmenu pushmenu-left" role="navigation">
 <ul>
 	<li><a href="<?php echo base_url()?>welcome/general" title="General">GENERAL</a></li>
-	<li><a href="<?php echo base_url()?>welcome/operaciones" title="Operaciones">COMERCIAL/FINANZAS</a></li>
+	<li><a href="<?php echo base_url()?>welcome/operaciones" title="Operaciones">OPERACIONES</a></li>
 	<li><a href="<?php echo base_url()?>welcome/comercial_finanzas" title="Comercial_finanzas">COMERCIAL/FINANZAS</a></li>
 	<li><a href="<?php echo base_url()?>welcome/general" title="RRHH">RRHH</a></li>
 	<li><a href="<?php echo base_url()?>welcome/general" title="IT">IT</a></li>
@@ -16,7 +16,12 @@
     	<div id="menu_superior_izquierda">
     		<span class=textoSmallCaps>Usuario Activo</span>
 	    	<select id="usuarioActivo">
+	    		<?php foreach ($usuarios_perfil as $usuario):?>
+	    			<option value="<?php echo $usuario['k_consultor']?>"><?php echo $usuario['id_consultor']?></option>
+	    		<?php endforeach;?>
+	    		<!-- 
 	    		<option value="<?php echo $this->session->userdata('id_consultor')?>"><?php echo $this->session->userdata('id_consultor')?></option>
+	    		 -->
 	    	</select>
     		<button id="cambiarPassword" class="buttonGenericoPeque"
 				onclick='location.href="<?php echo base_url()?>login/cambiar_pass"'>
@@ -59,8 +64,7 @@
             </div>
     	</div>
     </div>
-<script>
-
-
-</script>
+    
+    
+    <input type=hidden id="k_consultor_activo" value="<?php echo $this->session->userdata('k_consultor')?>"/>
     

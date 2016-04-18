@@ -54,7 +54,9 @@ $(document).ready(function() {
 	//TODO lO QUE HAREMOS CUANDO MANDEMOS DATOS
     $("#grabar").click(function(event) 
     {    
-    	//AÑADIMOS EVENTO CLICK AL BOTON GRABAR    	
+    	//AÑADIMOS EVENTO CLICK AL BOTON GRABAR  
+    	
+    	//SI LOS DATOS SON INCORRECTOS NO EJECUTAREMOS EL GRABADO
     	var cancelar_envio=false;
     	$('.total_horas_imc').each(function()
     	{
@@ -66,6 +68,17 @@ $(document).ready(function() {
     	});
     	
     	
+    	$('.input_horas').each(function()
+    	    	{
+    	    		if($(this).val()<0||$(this).val()>8)
+    	    		{
+    	    			cancelar_envio=true;
+    	    			alert("Tienes un total de horas de una linea de IMC con valor 0 o valores erroneos en las horas.");
+    	    		}
+    	    	});
+    	
+    	
+    	//SI NO HEMOS CANCELADO ENTRAMOS AQUI
     	if(!cancelar_envio)
     	{
     		crearObjetosParaGrabar();
@@ -90,12 +103,13 @@ $(document).ready(function() {
     			
       });
     
+    //EVENTOS PARA CAMBIAR TAMAÑO DEL TEXTAREA
     $('textarea').on('blur',function()
     {
     	$(this).removeClass('textareaGrande');
     });
     
-    $('textarea').on('click',function()
+    $('textarea').on('focus',function()
     {
     	$(this).addClass('textareaGrande');
     });
@@ -170,6 +184,7 @@ $(document).ready(function() {
     		$(this).focus();
     		actualizarTotalesHorizontal(this);
         	actualizarTotalesVertical();
+        	$(this).focus();
     	}
     	
         // ...
@@ -247,11 +262,23 @@ function actualizarTotalesVertical()
 	    {
 	    	$('#horas_consultor').html('##');
 		    $('#horas_totales').html('##');
+		    $('#jornadas').html('##');
 	    }
 	    else
 	    {
 	    	$('#horas_consultor').html(sum2);
 		    $('#horas_totales').html(sum2);
+		    $('#jornadas').html(sum2/8);
+	    }
+	    
+	    //PINTAMOS LA CASILLA DE LAS HORAS VERDE O ROJA SEGUN SEAN CORRECTAS O NO
+	    if($('#horas_consultor').html()==$('#horas_previstas').html())
+	    {
+	    	$('#horas_consultor').css('background-color','rgb(119,255,119)');
+	    }
+	    else
+	    {
+	    	$('#horas_consultor').css('background-color','rgb(255,119,119)');//COLOR IGUAL AL F77 DE LOS CSS
 	    }
 	    
 	    
