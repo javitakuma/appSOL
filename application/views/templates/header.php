@@ -4,7 +4,7 @@
 	<a class="logoapp" href="<?php echo base_url()?>welcome"><img width="20%" src="<?php echo base_url()?>assets/img/logo_mediano.png"/></a>
 	
 	<?php if($this->session->userdata('logueado')==TRUE):?>
-	<img width="6%" src="<?php echo base_url()?>assets/img/logout.png" class="flotarDerecha logout" id="logout"
+	<img width="4%" src="<?php echo base_url()?>assets/img/logout.png" class="flotarDerecha logout" id="logout"
 				onclick='location.href="<?php echo base_url()?>login/logout"'/>
 				
 	<?php endif;?>

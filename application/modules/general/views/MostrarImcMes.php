@@ -3,7 +3,7 @@
         
         <div id="imc_mensual">
         <div class="volver">
-			<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='location.href="<?php echo base_url()?>general/imc"'/>
+			<img title="Volver" class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="3%" onclick='location.href="<?php echo base_url()?>general/imc"'/>
 			<!--  <h3 class="titulo-peque">Volver</h3>-->
 		</div>
 	        <p class="titulo-grande centrado">IMC <?php echo $mes_texto?> de <?php echo $year?></p>
@@ -13,8 +13,8 @@
 	        <!-- SOLO PINTAMOS ESTA PARTE SI EL IMC NO ESTA ENVIADO -->
 	        <?php if($datos_imc_mes['t_imcs'][0]['sw_validacion']==0):?>
 	        <h2 class="titulo-mediano">Agregar un proyecto a la tabla</h2>
-	        <div id="superior_izquierda" class="textoSmallCaps">
-	        	<div class="contenedor_select_35">
+	        <div id="superior_izquierda">
+	        	<div class="contenedor_select_35 textoSmallCaps">
 		            Tipo de proyecto
 		            <select id="tipo_proyecto">
 		                <option value="0">Selecciona una opcion</option>
@@ -23,8 +23,8 @@
 		                <option value="3">Proyecto especial</option>
 		            </select>
 	            </div>
-		            <div class="contenedor_select_35">
-		            Código de proyecto
+		            <div class="contenedor_select_35 textoSmallCaps">
+		            Código proyecto
 		            <select id="cod_proyecto_select" disabled>
 		                <option value="0">Selecciona un proyecto</option>
 		            </select>
@@ -40,13 +40,13 @@
         	 
         	<div id="ayuda_proyectos">
         		<div class="interno contenedor_ayuda">
-        			<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/help.png"/><p>Proyectos internos</p>
+        			<img title="Ayuda proyecto interno" class="cursor_pointer" src="<?php echo base_url()?>assets/img/help.png"/><p>Proyectos internos</p>
         		</div>
         		<div class="externo contenedor_ayuda">
-        			<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/help.png"/><p>Proyectos externos</p>
+        			<img title="Ayuda proyecto externo" class="cursor_pointer" src="<?php echo base_url()?>assets/img/help.png"/><p>Proyectos externos</p>
         		</div> 
         		<div class="especial contenedor_ayuda">
-        			<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/help.png"/><p>Proyectos especiales</p>
+        			<img title="Ayuda proyecto especial" class="cursor_pointer" src="<?php echo base_url()?>assets/img/help.png"/><p>Proyectos especiales</p>
         		</div>         	
         	</div>
         	 
@@ -102,8 +102,12 @@
 	                    <td class="celda-color total_horas_imc color_proy"><?php echo $linea_imc['i_tot_horas_linea_imc']?></td>
 	                    <td class="comentarios"><textarea class="comentarios_textarea"><?php echo $linea_imc['desc_comentarios']?></textarea></td>
 	                    <?php if($datos_imc_mes['t_imcs'][0]['sw_validacion']==0):?>
+	                    	
+	                    	<td class="borde_invisible no_fondo"><img title="Eliminar fila" class="eliminar_fila " src="<?php echo base_url()?>assets/img/cross.png"/></td>
+	                    	<!-- 
 	                    	<td class="borde_invisible no_fondo"><input class="eliminar_fila " type="image" src="<?php echo base_url()?>assets/img/cross.png"/></td>
-	                    <?php endif;?>
+	                		 -->    
+					<?php endif;?>
 	                </tr>	
 	                <?php endforeach;?>      
 	                

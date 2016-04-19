@@ -572,7 +572,8 @@ function agregar_proyecto_a_tabla()
 	fila.append(celda_comentarios);
 	
 	//creamos el boton
-	var boton=$('<td class="borde_invisible no_fondo"><input class="eliminar_fila " type="image" src="'+BASE_URL+'assets/img/cross.png"/></td>');
+	
+	var boton=$('<td class="borde_invisible no_fondo"><img title="Eliminar fila" class="eliminar_fila " src="'+BASE_URL+'assets/img/cross.png"/></td>');
 	fila.append(boton);
 	
 	//agregamos la fila
