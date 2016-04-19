@@ -1,7 +1,8 @@
 
-  
+
+<div id="contenedor_login">
 <form action="<?php echo base_url()?>login/indexPost" method="post">
-<h2 class="centrado titulo-grande">LOGIN</h2>
+<h2 class="centrado titulo-grande-80-20">LOGIN</h2>
   <div class="group login-div">
   	<p>Usuario</p>
     <input type="text" name="usuario" id="usuario" value="<?php echo $errorLoginUsuario?>">    
@@ -14,7 +15,6 @@
   <input type="submit" class="button buttonGenerico" value="Entrar"/>
   
 </form>
-   
+</div>     
     
-  </body>
-</html>
+ 

@@ -285,6 +285,49 @@ $(document).ready(function() {
     	}
     });
     
+    //EVENTO CLICK AYUDA PROYECTOS
+    
+    $('#ayuda_proyectos img').on('click', function(event) 
+    {    	
+    	if($(this).parent().hasClass('interno'))
+    	{
+    		window.open(BASE_URL+"assets/html/ayuda_interno.html", "", "width=700,height=700, scrollbars=yes");
+    	}
+    	else if($(this).parent().hasClass('externo'))
+    	{
+    		window.open(BASE_URL+"assets/html/ayuda_externo.html", "", "width=700,height=700, scrollbars=yes");
+    	}
+    	else if($(this).parent().hasClass('especial'))
+    	{
+    		window.open(BASE_URL+"assets/html/ayuda_especial.html", "", "width=700,height=700, scrollbars=yes");
+    	}
+    	
+    	
+    	
+    	
+    	/*
+    		var attr_class=$(this).parent().parent().find('td:first-child').attr('class');
+    		var k_linea_imc_borrar=attr_class.split(' ')[0];
+    		
+    		if(attr_class.split(' ')[0]=='nueva')
+    		{
+    			//borrando fila no grabada(como no estaba grabada,la borramos y nos olvidamos de ella)
+    			$(this).parent().parent().remove();
+        		actualizarTotalesVertical();   			
+    		}
+    		else
+    		{
+    			//borrando fila que estaba grabada(la guardamos en un array que luego usaremos para borrar esas lineas de imc con su codigo)
+    			fila_eliminar={};
+    			fila_eliminar['k_linea_imc_borrar']=k_linea_imc_borrar;
+    			lineasEliminadas.push(fila_eliminar); 
+    			$(this).parent().parent().remove();
+        		actualizarTotalesVertical();    			
+    		}
+    		 		
+    	*/
+    });
+    
     
 });
 
@@ -510,18 +553,18 @@ function agregar_proyecto_a_tabla()
 		//SI ENCUENTRA EL VALOR DE i EN UN ARRAY FESTIVOS(MostrarImsMes.PHP) QUE HEMOS GUARDADO LE PONEMOS CLASE FESTIVOS
 		if(jQuery.inArray(iCopia,festivos)!=-1)
 		{
-			var celdaNueva=$('<td class="celda_color dia'+i+' festivo"><input type="text" class="input_horas festivo" value="0"/></td>');
+			var celdaNueva=$('<td class="celda-color dia'+i+' festivo"><input type="text" class="input_horas festivo" value="0"/></td>');
 			fila.append(celdaNueva);
 		}
 		else
 		{
-			var celdaNueva=$('<td class="celda_color dia'+i+' laborable"><input type="text" class="input_horas laborable" value="0"/></td>');
+			var celdaNueva=$('<td class="celda-color dia'+i+' laborable"><input type="text" class="input_horas laborable" value="0"/></td>');
 			fila.append(celdaNueva);
 		}	
 	}	
 	
 	//creamos la celda de totales
-	var ultimaCelda=$('<td class="celda_color total_horas_imc color_proy">0</td>');
+	var ultimaCelda=$('<td class="celda-color total_horas_imc color_proy">0</td>');
 	fila.append(ultimaCelda);
 	
 	//creamos la celda de comentarios
@@ -529,13 +572,15 @@ function agregar_proyecto_a_tabla()
 	fila.append(celda_comentarios);
 	
 	//creamos el boton
-	var boton=$('<td class="borde_invisible no_fondo"><input class="eliminar_fila" type="button" value="Eliminar fila"/></td>');
+	var boton=$('<td class="borde_invisible no_fondo"><input class="eliminar_fila " type="image" src="'+BASE_URL+'assets/img/cross.png"/></td>');
 	fila.append(boton);
 	
 	//agregamos la fila
 	fila.insertBefore($('#ultima_fila'));	
 	
 }
+
+
 
 
 

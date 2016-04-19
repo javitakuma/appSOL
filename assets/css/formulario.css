@@ -1,10 +1,15 @@
+/*
+=============CSS PARA LAS PANTALLAS DE LOGIN Y CAMBIO CONTRASEÑA=================
+*/
+
+
 * { box-sizing:border-box; }
 
 
 
 hgroup { 
 	text-align:center;
-	margin-top: 4em;
+	margin-top: 2em;
 }
 
 h1, h3 { font-weight: 300; }
@@ -13,10 +18,24 @@ h1 { color: #636363; }
 
 h3 { color: #4a89dc; }
 */
+
+/*
+=============CONTENEDOR PRINCIPAL=================
+*/
+
+#contenedor_login
+{	
+	width: 80%;
+	height:30%;
+	margin:0 auto;	
+}
+
 form {	
-	width: 380px;
+	width: 40%;
+	height: 100%;
+	min-width: 200px;
 	margin: 0 auto;
-	padding: 1em 1em 1em 1em;
+	padding: 0.5em 1em 1.5em 1em;
 	background: #fafafa;
 	border: 1px solid #ebebeb;
 	box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
@@ -27,6 +46,21 @@ form {
 	margin-bottom: 15px; 
 }
 
+.login-div
+{
+	height:30%;
+	margin:0;
+	padding:0;
+}
+
+.login-div p
+{
+	height:50%;
+	margin:0;
+	padding:0;
+}
+
+/*
 .login-div input {
 	font-size: 18px;
 	padding: 10px 10px 10px 5px;
@@ -39,7 +73,20 @@ form {
 	border-radius: 0;
 	border-bottom: 1px solid #757575;
 }
+*/
 
+.login-div input {
+	font-size: 1.1em;
+	-webkit-appearance: none;
+	display: block;
+	background: #fafafa;
+	color: #636363;
+	width: 100%;
+	height:50%;
+	border: none;
+	border-radius: 0;
+	border-bottom: 1px solid #757575;
+}
 .login-div input:focus { outline: none; }
 
 
@@ -137,12 +184,12 @@ input:focus ~ .highlight {
 .button {
   position: relative;
   display: inline-block;
-  padding: 12px 24px;
-  margin: .3em 0 1em 0;
+  margin: .3em 0 0.3em 0;
   width: 100%;
+  height:20%;
   vertical-align: middle;
   color: #fff;
-  font-size: 16px;
+  font-size: 1.6vw;
   line-height: 20px;
   -webkit-font-smoothing: antialiased;
   text-align: center;
@@ -168,65 +215,11 @@ input:focus ~ .highlight {
 }
 
 
-/* Ripples container */
-
-.ripples {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: transparent;
-}
 
 
-/* Ripples circle */
-
-.ripplesCircle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  opacity: 0;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
-}
-
-.ripples.is-active .ripplesCircle {
-  -webkit-animation: ripples .4s ease-in;
-          animation: ripples .4s ease-in;
-}
-
-
-/* Ripples animation */
-
-@-webkit-keyframes ripples {
-  0% { opacity: 0; }
-
-  25% { opacity: 1; }
-
-  100% {
-    width: 200%;
-    padding-bottom: 200%;
-    opacity: 0;
-  }
-}
-
-@keyframes ripples {
-  0% { opacity: 0; }
-
-  25% { opacity: 1; }
-
-  100% {
-    width: 200%;
-    padding-bottom: 200%;
-    opacity: 0;
-  }
-}
+/*
+===============FOOTER================
+*/
 
 footer { text-align: center; }
 

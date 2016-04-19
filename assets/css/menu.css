@@ -1,15 +1,23 @@
 /*
-=========MENU===========
+=========CSS PARA LA PANTALLA WELCOME===========
 
 */
 
+/*
+	========CONTENEDOR GRANDE===========
+*/
 #contenedor-menu{
 	padding:2%;
     width: 90%;
     margin:0% auto;
     background: RGB(219,219,231);
+   
     
 }
+
+/*
+	========CONTENEDOR INFERIOR===========
+*/
 
 #contenedor-submenu h2{
 	margin:15px;
@@ -17,10 +25,14 @@
 
 #contenedor-submenu{
     width: 97%;
-    margin:1% auto 1% auto;
+    margin:3% auto 1% auto;
     border-radius: 10px;
     border:5px solid rgb(35,35,35);
 }
+
+/*
+	========CONTENEDOR INFERIOR/OPCIONES===========
+*/
 
 #contenedor-opciones
 {
@@ -32,42 +44,68 @@
 	
 }
 
+/*
+	========CONTENEDOR SUPERIOR===========
+*/
+
 #menu_superior_izquierda
 {
-	position:relative;	
-	margin-left:30px;
+	/*display:inline-block;*/
+	width:90%;
+	height:auto;
+	margin:0 auto;
+	position:relative;
 }
+
+/*
+	========DIV BOTON SLIDER===========
+*/
 
 #boton_menu
 {
-	width:30%;
+	width:25%;
 	display:inline-block;
-}
-
-#caja_usuario_activo
-{
-	width:60%;
-	display:inline-block;
-	position:absolute;
-	right:50px;	
-}
-
-#usuarioActivo
-{
-	font-size:15px;
-	vertical-align: middle;
-	width:80px;
-}
-
-#cambiarPassword
-{
-	margin-left:20px;
 }
 
 .push
 {
 	float:left;
 }
+
+/*
+	========DIV USUARIO ACTIVO===========
+*/
+
+#caja_usuario_activo
+{
+	width:55%;
+	display:inline-block;
+	position:absolute;
+	right:0px;
+}
+
+#usuario_activo_texto
+{
+	width:35%;	
+}
+
+#usuarioActivo
+{
+	font-size:0.9em;
+	vertical-align: middle;
+	width:20%;
+}
+
+#cambiarPassword
+{
+	margin-left:20px;
+	width:40%;
+	height:100%;
+}
+
+/*
+	========DIV CONTENEDOR OPCIONES===========
+*/
 
 #contenedor-opciones
 {
@@ -179,8 +217,9 @@
 #nav_list {
   background: url(http://www.onlywebpro.com/demo/jquery/icon_nav.png) no-repeat left top;
   cursor: pointer;
-  height: 27px;
-  width: 33px;
+  
+  width: 15%;
+  height: 150%;
   text-indent: -99999em;
   color:black;
 }
@@ -191,9 +230,10 @@ nav-list.active {
 
 #texto_menu
 {
-	font-size:24px;
+	width:80%;
+	font-size:1.4em;
 	font-weight:bold;
-	margin-left:10px;
+	margin-left:2em;
 }
 
  .buttonset {
@@ -207,14 +247,14 @@ nav-list.active {
  #parrafo_usuario_activo
  {
  	display:block;
- 	width:20%;
+ 	width:25%;
  	margin:0;
  }
  
  #usuario_activo
  {
  	display:block;
- 	width:20%;
+ 	width:15%;
  }
  
  section.content {

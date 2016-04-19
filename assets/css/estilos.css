@@ -1,14 +1,16 @@
 body {
+	width:95%;
 	font-family:Helvetica,arial;
 	background: #EEE; 
-    font-size:14px; 
+    font-size:1.5vw; 
 	background: rgb(219,219,231);
   -webkit-font-smoothing: antialiased;
-    color:rgb(35,35,35)
+    color:rgb(35,35,35);
 }
 
 #cabecera
 {
+	width:90%;
 	height:100px;
 	margin:0 100px;
 	margin-bottom:50px;
@@ -32,18 +34,25 @@ footer
 	float:right;	
 }
 
+.logoapp
+{
+	width:50px;
+}
+
 #logout
 {
+	/*
 	position:absolute;
-	top:10px;
-	right:10px;
-	width:50px;
+	top:1%;
+	right:1%;
+	*/
+	float:right;
 	cursor:pointer;
+	margin-top:1%;
 }
 
 .logout
 {
-	width:50px;
 	cursor:pointer;
 }
 
@@ -60,7 +69,7 @@ a
 
 .textoSmallCaps
 {
-	font-size:18px;
+	font-size:1em;
 	vertical-align: middle;
 	font-variant: small-caps;
 }
@@ -71,19 +80,28 @@ a
 
 h1,h2,h3,h4,h5,h6,h7
 {
-	margin-bottom:20px;
+	margin-bottom:1vw;
 }
 
 .titulo-grande
 {
-	font-size:30px;
+	font-size:1.8em;
 	color:black;
 	font-weight:bold;		
 }
 
+.titulo-grande-80-20
+{
+	height:20%;
+	/*font-size:1.5em;*/
+	color:black;
+	font-weight:bold;	
+	margin-bottom:0;	
+}
+
 .titulo-mediano
 {
-	font-size:24px;
+	font-size:1.3em;
 	color:black;
 	font-weight:bold;
 }
@@ -104,12 +122,14 @@ h1,h2,h3,h4,h5,h6,h7
 .buttonGenericoPeque {
   position: relative;
   display: inline-block;
-  padding: 5px 0px;
+  padding: 0.2em 0.1em;
   margin: 0 0 0 0;
   width: 30%;
+  
+  height:100%;
   vertical-align: middle;
   color: #fff;
-  font-size: 14px;
+  font-size: 1.2vw;
   line-height: 14px;
   -webkit-font-smoothing: antialiased;
   text-align: center;
@@ -142,13 +162,14 @@ h1,h2,h3,h4,h5,h6,h7
 	cursor:pointer;
 }
 
-
+/*
 .volver
 {
 	position:fixed;
 	top:120px;
 	left:100px;
 }
+*/
 
 /*
 	=========ESTILOS IMC===========

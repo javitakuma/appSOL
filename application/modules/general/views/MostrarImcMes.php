@@ -1,10 +1,11 @@
-<div class="volver">
-			<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="40px" onclick='location.href="<?php echo base_url()?>general/imc"'/>
-			<h3 class="titulo-peque">Volver</h3>
-		</div>
+
         
         
         <div id="imc_mensual">
+        <div class="volver">
+			<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='location.href="<?php echo base_url()?>general/imc"'/>
+			<!--  <h3 class="titulo-peque">Volver</h3>-->
+		</div>
 	        <p class="titulo-grande centrado">IMC <?php echo $mes_texto?> de <?php echo $year?></p>
 	        <br/>
 	        <br/>
@@ -13,40 +14,51 @@
 	        <?php if($datos_imc_mes['t_imcs'][0]['sw_validacion']==0):?>
 	        <h2 class="titulo-mediano">Agregar un proyecto a la tabla</h2>
 	        <div id="superior_izquierda" class="textoSmallCaps">
-	            Tipo de proyecto
-	            <select id="tipo_proyecto">
-	                <option value="0">Selecciona una opcion</option>
-	                <option value="1">Proyecto externo</option>
-	                <option value="2">Proyecto interno</option>
-	                <option value="3">Proyecto especial</option>
-	            </select><br/><br/>
-	            
-	            Código de proyecto
-	            <select id="cod_proyecto_select" disabled>
-	                <option value="0">Selecciona un proyecto</option>
-	            </select><br/><br/>
-	            
+	        	<div class="contenedor_select_35">
+		            Tipo de proyecto
+		            <select id="tipo_proyecto">
+		                <option value="0">Selecciona una opcion</option>
+		                <option value="1">Proyecto externo</option>
+		                <option value="2">Proyecto interno</option>
+		                <option value="3">Proyecto especial</option>
+		            </select>
+	            </div>
+		            <div class="contenedor_select_35">
+		            Código de proyecto
+		            <select id="cod_proyecto_select" disabled>
+		                <option value="0">Selecciona un proyecto</option>
+		            </select>
+	            </div>
+	            <br/><br/>
 	            
 	            <input class="buttonGenericoPeque" type="button" id="agregar_proyecto" value="Agregar proyecto"/>
 	            <br/><br/>  
 	              
 	        </div>    
         <?php endif;?>
-        
+        	
+        	 
         	<div id="ayuda_proyectos">
         		<div class="interno contenedor_ayuda">
-        			<div class="muestra_color color_proy"><img src="<?php echo base_url()?>assets/img/help.png"/></div><p>Proyectos internos</p>
+        			<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/help.png"/><p>Proyectos internos</p>
         		</div>
-        		<div class="externo">
-        			<div class=" muestra_color color_proy"><img src="<?php echo base_url()?>assets/img/help.png"/></div>
+        		<div class="externo contenedor_ayuda">
+        			<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/help.png"/><p>Proyectos externos</p>
         		</div> 
-        		<div class="especial">
-        			<div class=" muestra_color color_proy"><img src="<?php echo base_url()?>assets/img/help.png"/></div>
+        		<div class="especial contenedor_ayuda">
+        			<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/help.png"/><p>Proyectos especiales</p>
         		</div>         	
         	</div>
-        
-        
-          
+        	 
+        	<!--
+        	<div id="ayuda_proyectos">
+        		
+        			<p class="interno contenedor_ayuda">Proyectos internos</p>
+        			<p class="externo contenedor_ayuda">Proyectos externos</p>
+        			<p class="especial contenedor_ayuda">Proyectos especiales</p>        		
+        		        	
+        	</div>
+          	-->
 	        <div  id="inferior">
 	        
 	            <table id="tabla_imc">            	
@@ -105,15 +117,16 @@
 	                    <td id="horas_totales"></td>
 	                </tr>
 	                
-	            </table>
-	            <br/><br/>  
-	                      
+	            </table> 
+	                    
+				 <br/>	                    
+	              
 	            <!-- Con esto pintamos el boton de grabar solo si el IMC no esta enviado -->
 	            
 	            <?php if($datos_imc_mes['t_imcs'][0]['sw_validacion']==0):?>
 	            <input id="grabar" class="buttonGenericoPeque" type="button" value="Grabar datos"/>
 	            <?php endif;?>
-	            <br/><br/>
+	            <br/>
 	            <table id="totales_imc" border="1">
 	                <tr>
 	                    <th>Horas consultor</th><th>Horas previstas</th><th>Jornadas totales</th>

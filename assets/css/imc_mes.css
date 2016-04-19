@@ -1,4 +1,10 @@
 
+.contenedor_select_35
+{	
+	display:inline-block;
+	width:35%;
+}
+
 /*
 	=========ESTILOS IMC MENSUAL===========
 */
@@ -54,19 +60,104 @@
 }
 
 
-
+/*
 #imc_mensual div
 {
     margin:0;
     padding:0;
 }
+*/
+
+#ayuda_proyectos
+{
+	width:80%;
+	height:50px;
+	margin:0 auto;
+	display:inline-block;
+}
 
 
 
+/*
+.contenedor_ayuda
+{
+	font-size:16px;
+	line-height:30px;
+	font-weight:bold;
+	width:32%;
+	height:30px;
+	margin:0px;
+	min-width:30px;
+	border:solid 1px red;
+	display:inline-block;
+	padding-left:40px;
+	
+}
+*/
+
+
+.contenedor_ayuda
+{
+	display:inline-block;
+	width:30%;
+	margin:0 0;
+	height:100%;
+	min-width:30px;
+	position:relative;
+	min-width:200px;
+	
+}
+
+.contenedor_ayuda img
+{
+	border-radius:12px;
+	display:inline-block;
+	width: 10%;	
+    height: auto;
+    margin: 0;
+    padding:0;	
+    position:absolute;
+    bottom:0;
+    left:0;
+}
+
+.contenedor_ayuda p
+{		
+	display:inline-block;
+	font-size:1em;
+	line-height:16px;
+	font-weight:bold;
+    width: 90%;
+    height: auto;
+    margin: 0;
+    padding:0;
+    padding-left:10px;
+    position:absolute;
+    bottom:0;
+    right:0;
+		
+}
+
+.interno img
+{
+	background-color:rgb(200,230,230);
+}
+
+.externo img
+{
+	background-color:lightblue;
+}
+
+.especial img
+{
+	background-color:rgb(28,170,216);
+}
+
+/*
 .muestra_color
 {
-	height: 40px; /*can be anything*/
-    width: 40px; /*can be anything*/
+	height: 30px; can be anything
+    width: 30px; can be anything
     position: relative;
     margin:0;
     display:block;
@@ -88,12 +179,13 @@
     margin: auto;
 }
 
+*/
+
 #imc_mensual #inferior
 {
-    margin:50px auto;
-    clear: both;
-    float: left;
+    margin:20px auto;
 }
+
 #imc_mensual #id_horas
 {
     width: 30px;
@@ -106,7 +198,8 @@
     width: 100%;
     height: 100%;
     border: none;
-    text-align: center;    
+    text-align: center; 
+    font-size:0.9em;
 }
 
 #imc_mensual .total_horas_imc
@@ -135,7 +228,7 @@
 
 #imc_mensual .festivo 
 {
-	background-color:#F77 !important;
+	background-color:#999 !important;
 }
 
 #imc_mensual .especial .input_horas
@@ -184,9 +277,7 @@
 	background-color:lightblue;
 }
 
-/*
-=======================NUEVO====================
-*/
+
 
 
 
@@ -197,6 +288,12 @@
 	border-top:none;
 	background: RGB(35,200,200);
 	cursor:default;
+	font-size:0.8em;
+}
+
+#tabla_imc td
+{
+	font-size:0.8em;
 }
 
 #tabla_imc tr:last-child td
@@ -279,6 +376,7 @@
     border-collapse: collapse;
 	border:solid 1px #AAA;
     vertical-align:middle;
+    
 }
 
 #totales_imc th

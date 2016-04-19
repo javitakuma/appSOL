@@ -1,3 +1,7 @@
+<!-- 
+	MENU LATERAL SLIDER
+ -->
+
 <nav id="menu" class="pushmenu pushmenu-left" role="navigation">
 <ul>
 	<li><a href="<?php echo base_url()?>welcome/general" title="General">GENERAL</a></li>
@@ -6,19 +10,19 @@
 	<li><a href="<?php echo base_url()?>welcome/general" title="RRHH">RRHH</a></li>
 	<li><a href="<?php echo base_url()?>welcome/general" title="IT">IT</a></li>
 </ul>
-</nav>       
-    <div id="contenedor-menu">
-        	        
-        
+</nav>     
+
+  
+    <div id="contenedor-menu">       
 	    
     	<div id="menu_superior_izquierda">
     	
-		    	<div id="boton_menu" class="buttonset">
-			            <div id="nav_list" class="push buttonset"></div><p id="texto_menu">MENU</p>
-			    </div>
+	    	<div id="boton_menu" class="buttonset">
+		    	<div id="nav_list" class="push buttonset"></div><p id="texto_menu">MENU</p>
+		    </div>
 		    
 		    <div id="caja_usuario_activo">
-	    		<span class=textoSmallCaps>Usuario Activo</span>
+	    		<span id="usuario_activo_texto" class=textoSmallCaps>Usuario Activo</span>
 		    	<select id="usuarioActivo">
 		    		<?php foreach ($usuarios_perfil as $usuario):?>
 		    			<option value="<?php echo $usuario['k_consultor']?>"><?php echo $usuario['id_consultor']."    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(".$usuario['nom_consultor'].")"?></option>
@@ -41,6 +45,7 @@
         	<h2 class="titulo-mediano">General</h2>
         	
             <div id="contenedor-opciones">
+            
             	<div class="columna-menu">
             		<div class="opcion-columna" >
             			<img onclick='location.href="<?php echo base_url()?>general/Imc/index"' src="<?php echo base_url()?>assets/img/imc.png" class="imagen-opcion"/>
@@ -62,13 +67,7 @@
             		</div>
             	</div>
             	
-            	<!-- 
-                <ul>
-                	<li><a href="<?php echo base_url()?>vacaciones/index">Vacaciones</a></li>
-                	<li><a href="<?php echo base_url()?>hoja_gastos/index">Hoja de Gastos</a></li>
-                	<li><a href="<?php echo base_url()?>general/Imc/index">IMC</a></li>
-                </ul>
-                 -->
+            	
             </div>
     	</div>
     </div>
