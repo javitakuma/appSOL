@@ -189,7 +189,7 @@ input:focus ~ .highlight {
   height:20%;
   vertical-align: middle;
   color: #fff;
-  font-size: 1.6vw;
+  font-size: 130%;
   line-height: 20px;
   -webkit-font-smoothing: antialiased;
   text-align: center;

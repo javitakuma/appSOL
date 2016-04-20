@@ -50,11 +50,12 @@
 
 #menu_superior_izquierda
 {
-	/*display:inline-block;*/
-	width:90%;
+	display:inline-block;
+	width:100%;
 	height:auto;
 	margin:0 auto;
 	position:relative;
+	/*border:solid green 1px;*/
 }
 
 /*
@@ -63,8 +64,9 @@
 
 #boton_menu
 {
-	width:25%;
+	width:15%;
 	display:inline-block;
+	margin-left:2%;
 }
 
 .push
@@ -78,10 +80,11 @@
 
 #caja_usuario_activo
 {
-	width:55%;
+	width:75%;
 	display:inline-block;
 	position:absolute;
 	right:0px;
+	/*border:solid blue 1px;*/
 }
 
 #usuario_activo_texto
@@ -94,14 +97,31 @@
 {
 	font-size:100%;
 	vertical-align: middle;
-	width:15%;
+	width:12%;
+ 	min-width:75px;
 }
 
 #cambiarPassword
 {
+	position:absolute;
+	right:3%;
 	margin-left:20px;
-	width:40%;
+	width:30%;
 	height:100%;
+}
+
+@media (max-width: 800px) {
+    #cambiarPassword { width:35%;}
+}
+
+@media (max-width: 750px) {
+    #cambiarPassword { width:40%;}
+    #caja_usuario_activo{right:-5%}
+}
+
+@media (max-width: 500px) {
+    #cambiarPassword { display:none !important;}
+    #caja_usuario_activo{right:-5%}
 }
 
 /*

@@ -6,7 +6,7 @@
 			<img title="Volver" class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="3%" onclick='location.href="<?php echo base_url()?>general/imc"'/>
 			<!--  <h3 class="titulo-peque">Volver</h3>-->
 		</div>
-	        <p class="titulo-grande centrado">IMC <?php echo $mes_texto?> de <?php echo $year?></p>
+	        <p class="titulo-grande centrado">IMC <?php echo $this->session->userdata('nom_consultor')." ("?><?php echo $mes_texto?> de <?php echo $year.")"?></p>
 	        <br/>
 	        <br/>
         

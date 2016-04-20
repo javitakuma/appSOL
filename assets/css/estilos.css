@@ -9,15 +9,19 @@ body {
 }
 
 @media (max-width: 300px) {
-    body { font-size: 11px;}
+    body { font-size: 9px;}
+}
+
+@media (min-width: 300px) {
+    body { font-size: 10px;}
 }
 
 @media (min-width: 500px) {
-    body { font-size: 12px; }
+    body { font-size: 11px; }
 }
 
 @media (min-width: 700px) {
-    body { font-size: 13px; }
+    body { font-size: 12px; }
 }
 
 @media (min-width: 1200px) {
@@ -143,7 +147,7 @@ h1,h2,h3,h4,h5,h6,h7
 .buttonGenericoPeque {
   position: relative;
   display: inline-block;
-  padding: 0.2em 0.1em;
+  padding: 0.3em 0.1em;
   margin: 0 0 0 0;
   width: 30%;  
   height:100%;

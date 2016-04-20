@@ -38,9 +38,7 @@
 			</div>			
     	</div>           
  		
-        <div id="contenedor-submenu">
-        
-	        
+        <div id="contenedor-submenu">	        
         
         	<h2 class="titulo-mediano">General</h2>
         	
