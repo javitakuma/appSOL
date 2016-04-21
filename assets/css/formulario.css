@@ -33,13 +33,28 @@ h3 { color: #4a89dc; }
 form {	
 	width: 40%;
 	height: 100%;
-	min-width: 200px;
+	min-width: 100px;
+	min-height: 150px;
 	margin: 0 auto;
-	padding: 0.5em 1em 1.5em 1em;
+	padding: 0.5em 1em 2em 1em;
 	background: #fafafa;
 	border: 1px solid #ebebeb;
 	box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
 }
+
+@media (max-width: 750px) {
+    form { width:50%;}
+}
+
+@media (max-width: 500px) {
+    form { width:65%;}
+}
+
+@media (max-width: 400px) {
+    form { width:80%;}
+}
+
+
 
 .group { 
 	position: relative; 
@@ -48,8 +63,8 @@ form {
 
 .login-div
 {
-	height:30%;
-	margin:0;
+	height:25%;
+	margin:1%;
 	padding:0;
 }
 
@@ -76,7 +91,7 @@ form {
 */
 
 .login-div input {
-	font-size: 1.1em;
+	font-size: 110%;
 	-webkit-appearance: none;
 	display: block;
 	background: #fafafa;
@@ -87,6 +102,17 @@ form {
 	border-radius: 0;
 	border-bottom: 1px solid #757575;
 }
+
+@media (max-width: 550px) {
+	.login-div{ margin:5%;}
+    .login-div input { height:60%;}
+}
+
+@media (max-width: 400px) {
+    .login-div input { height:60%;}
+}
+
+
 .login-div input:focus { outline: none; }
 
 

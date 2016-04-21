@@ -163,7 +163,8 @@ $(document).ready(function() {
         	       success: function(respuesta) {
         	            alert(respuesta);    	            
         	            location.reload();
-        	       }
+        	       },
+        	       error:alert("No se ha podido guardar los datos."),
         	    }); 
     	}
     	

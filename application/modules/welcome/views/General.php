@@ -53,15 +53,15 @@
             	
             	<div class="columna-menu">
             		<div class="opcion-columna" >
-            			<img onclick='location.href="<?php echo base_url()?>general/vacaciones/index"' src="<?php echo base_url()?>assets/img/vacaciones.png" class="imagen-opcion"/>
-            			<p class="nombre-opcion" onclick='location.href="<?php echo base_url()?>general/Imc/index"'>VACACIONES</p>
+            			<img onclick='location.href="<?php echo base_url()?>general/Vacaciones/index"' src="<?php echo base_url()?>assets/img/vacaciones.png" class="imagen-opcion"/>
+            			<p class="nombre-opcion" onclick='location.href="<?php echo base_url()?>general/Vacaciones/index"'>VACACIONES</p>
             		</div>
             	</div>
             	
             	<div class="columna-menu">
             		<div class="opcion-columna" >
-            			<img onclick='location.href="<?php echo base_url()?>general/hoja_gastos/index"' src="<?php echo base_url()?>assets/img/gastos.png" class="imagen-opcion"/>
-            			<p class="nombre-opcion" onclick='location.href="<?php echo base_url()?>general/Imc/index"'>GASTOS</p>
+            			<img onclick='location.href="<?php echo base_url()?>general/Hoja_gastos/index"' src="<?php echo base_url()?>assets/img/gastos.png" class="imagen-opcion"/>
+            			<p class="nombre-opcion" onclick='location.href="<?php echo base_url()?>general/Hoja_gastos/index"'>GASTOS</p>
             		</div>
             	</div>
             	

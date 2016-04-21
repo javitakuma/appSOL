@@ -100,7 +100,7 @@
 	                    
 	                                       
 	                    <td class="celda-color total_horas_imc color_proy"><?php echo $linea_imc['i_tot_horas_linea_imc']?></td>
-	                    <td class="comentarios"><textarea class="comentarios_textarea"><?php echo $linea_imc['desc_comentarios']?></textarea></td>
+	                    <td class="comentarios"><textarea maxlength="50" class="comentarios_textarea"><?php echo $linea_imc['desc_comentarios']?></textarea></td>
 	                    <?php if($datos_imc_mes['t_imcs'][0]['sw_validacion']==0):?>
 	                    	
 	                    	<td class="borde_invisible no_fondo"><img title="Eliminar fila" class="eliminar_fila " src="<?php echo base_url()?>assets/img/cross.png"/></td>

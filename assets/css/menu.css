@@ -111,7 +111,9 @@
 }
 
 @media (max-width: 800px) {
-    #cambiarPassword { width:35%;}
+    #cambiarPassword { width:35%;
+    				   right:5%;
+    				 }
 }
 
 @media (max-width: 750px) {
