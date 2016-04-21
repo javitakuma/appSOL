@@ -264,6 +264,32 @@ class Imc_model extends CI_Model
 		
 	}
 	
+	public function enviar_imc($k_imc)
+	{
+		//SOLO PONEMOS EL sw_validacion a -1
+		
+		$this->load->database();
+		$this->db->trans_start();
+	
+		$data = array(
+				'sw_validacion' => -1,
+		);
+		
+		$this->db->where('k_imc', $k_imc);
+		
+		
+		// Produces:
+		// UPDATE t_imcs
+		// SET sw_validacion = '{-1}'
+		// WHERE k_imc = $k_imc
+		
+		
+		
+		$this->db->trans_complete();
+		$this->db->close();
+	
+	}
+	
 	
 	public function listar_proyectos_por_tipo($k_consultor,$tipo,$year,$month)
 	{

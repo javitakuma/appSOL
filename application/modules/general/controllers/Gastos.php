@@ -1,26 +1,59 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
-class Imc extends MX_Controller
+class Gastos extends MX_Controller
 {
 	
 	public function __construct()
 	{
 		
 		parent::__construct();
-		$this->load->model('Imc_model');
+		$this->load->model('Gastos_model');
 		
 	}
 	
-	public function index($condicion=2)
-	{
+	
+	
+	
+	
+	
+	//====DE IMC=====
+	public function index($condicion=3)
+	{		
 		$k_consultor=$this->session->userdata('k_consultor');
-		$datos['imc_mensuales']=$this->Imc_model->get_imc_mensuales($condicion,$k_consultor);
-		$datos['js'] ="imc";
-		$datos['css'] ="imc";
+		if($condicion==3)
+		{
+			$datos['hojas_gastos']=array();
+		}
+		else
+		{
+			$datos['hojas_gastos']=$this->Gastos_model->get_hojas_gastos($condicion,$k_consultor);
+		}		
+		$datos['js'] ="gastos";
+		$datos['css'] ="gastos";
 		$datos['condicion']=$condicion;
-		//$this->Imc_model->cargar_general();
-		enmarcar($this,"Imc.php",$datos);
+		 
+		enmarcar($this,"Gastos.php",$datos);
 	}
+	
+	public function mostrar_gastos_mes($year,$month)
+	{
+		$datos['year'] =$year;
+		$datos['mes'] =$month;
+		$datos['mes_texto'] =$this->mesTexto($month);
+		$datos['js']="hoja_gastos_mes";
+		$datos['css']="hoja_gastos_mes";
+		//$datos['datos_imc_mes']=$this->Imc_model->cargar_datos_imc($this->session->userdata('k_consultor'),$year,$month);
+		enmarcar($this,"hojaGastosMes.php",$datos);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public function mostrarImcMes($year,$month)
 	{		
@@ -48,30 +81,6 @@ class Imc extends MX_Controller
 		echo "Cambios guardados.";
 		
 		
-	}
-	
-	public function enviar_imc()
-	{
-		//var_dump($_REQUEST);
-		
-		
-		//GRABAMOS EL IMC ANTES DE ENVIARLO
-		
-		$eliminadas=isset($_REQUEST['lineasEliminadas'])?$_REQUEST['lineasEliminadas']:[];
-		$actualizadas=isset($_REQUEST['lineasActualizadas'])?$_REQUEST['lineasActualizadas']:[];
-		$creadas=isset($_REQUEST['lineasCreadas'])?$_REQUEST['lineasCreadas']:[];
-		$total_horas=isset($_REQUEST['total_horas'])?$_REQUEST['total_horas']:null;
-		$k_imc=isset($_REQUEST['k_imc'])?$_REQUEST['k_imc']:null;
-	
-		$this->Imc_model->grabar_datos_imc($eliminadas,$actualizadas,$creadas,$total_horas,$k_imc);
-		
-		//y LO MARCAMOS COMO ENVIADO
-		
-		$this->Imc_model->enviar_imc($k_imc);
-	
-		echo "Su IMC ha sido enviado.";
-	
-	
 	}
 	
 	public function obtener_lista_proyectos_por_tipo()

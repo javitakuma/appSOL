@@ -60,10 +60,15 @@ $(document).ready(function() {
     	var cancelar_envio=false;
     	$('.total_horas_imc').each(function()
     	{
-    		if($(this).html()==0||isNaN($(this).html()))
+    		if($(this).html()==0)
     		{
     			cancelar_envio=true;
-    			alert("Tienes un total de horas de una linea de IMC con valor 0 o valores erroneos.");
+    			alert("Tienes un total de horas de una linea de IMC con valor 0.");
+    		}
+    		else if(isNaN($(this).html()))
+    		{
+    			cancelar_envio=true;
+    			alert("Tienes un total de horas de una linea de IMC con valores erroneos.");
     		}
     	});
     	
@@ -73,15 +78,21 @@ $(document).ready(function() {
     	    		if($(this).val()<0||$(this).val()>8)
     	    		{
     	    			cancelar_envio=true;
-    	    			alert("Tienes un total de horas de una linea de IMC con valor 0 o valores erroneos en las horas.");
+    	    			alert("Tienes un valor de horas mayor de 8 o menor de 0.");
     	    		}
     	    	});
     	
+    	var error_longitud_comentario=false;
     	$('.comentarios_textarea').each(function()
     	{
     		
     		var nombre_proyecto=$(this).parent().parent().find('td:first').html();
     		
+    		
+    		if($(this).val.length>50)
+    		{
+    			error_longitud_comentario=true;
+    		}
     		
     		
     		if(nombre_proyecto=='PRO450')//CAMBIAR PRODUCCION KEYPREVENTA
@@ -128,18 +139,13 @@ $(document).ready(function() {
 
     			    
 
-    		};
-    			/*
-    			if(regex_preventa.test($(this).val()))
-    			{
-    				//alert("valida");
-    			}
-    			else
-    			{
-    				cancelar_envio=true;
-    				alert("El código de proyecto KEYPREVENTA debe incluir un comentarios con el formato:\n\n Cliente / Tecnología / Actividad \n\nEjemplo:Direct / Tableau Qlik Sense / Poc");
-    			}   
-    			*/  			
+    		};	
+    		
+    		if(error_longitud_comentario)
+    		{
+    			alert("La longitud máxima del campo comentarios es de 50 caracteres");
+    			cancelar_envio=true;
+    		}
     		
     	    		
     	 });
@@ -151,7 +157,7 @@ $(document).ready(function() {
     		crearObjetosParaGrabar();
         	
         	var total_horas=Number($('#horas_consultor').html());    
-        	var total_horas=Number($('#k_imc').val()); 
+        	var k_imc=Number($('#k_imc').val()); 
         	//EN DATA EL PRIMER DATO ES EL NOMBRE EN LADO SERVIDOR DE LA VARIABLE, EL SEGUNDO EN LADO CLIENTE
         	
         	//SUCCESS INDICA LA ACCION A SEGUIR DESPUES DE LA RESPUESTA
@@ -163,15 +169,140 @@ $(document).ready(function() {
         	       success: function(respuesta) {
         	            alert(respuesta);    	            
         	            location.reload();
-        	       },
-        	       error:alert("No se ha podido guardar los datos."),
+        	       }
         	    }); 
-    	}
+    	  }	
     	
     			
       });
     
+    //EVENTO CLICK ENVIAR IMC (TODAS LAS VALIDACIONES SON IGUALES QUE GRABAR)
+    $("#enviar_imc").click(function(event) 
+    	    {    
+    	    	//AÑADIMOS EVENTO CLICK AL BOTON GRABAR  
+    	    	
+    	    	//SI LOS DATOS SON INCORRECTOS NO EJECUTAREMOS EL GRABADO
+    	    	var cancelar_envio=false;
+    	    	$('.total_horas_imc').each(function()
+    	    	{
+    	    		if($(this).html()==0)
+    	    		{
+    	    			cancelar_envio=true;
+    	    			alert("Tienes un total de horas de una linea de IMC con valor 0.");
+    	    		}
+    	    		else if(isNaN($(this).html()))
+    	    		{
+    	    			cancelar_envio=true;
+    	    			alert("Tienes un total de horas de una linea de IMC con valores erroneos.");
+    	    		}
+    	    	});
+    	    	
+    	    	
+    	    	$('.input_horas').each(function()
+    	    	    	{
+    	    	    		if($(this).val()<0||$(this).val()>8)
+    	    	    		{
+    	    	    			cancelar_envio=true;
+    	    	    			alert("Tienes un valor de horas mayor de 8 o menor de 0.");
+    	    	    		}
+    	    	    	});
+    	    	
+    	    	var error_longitud_comentario=false;
+    	    	$('.comentarios_textarea').each(function()
+    	    	{
+    	    		
+    	    		var nombre_proyecto=$(this).parent().parent().find('td:first').html();
+    	    		
+    	    		
+    	    		if($(this).val.length>50)
+    	    		{
+    	    			error_longitud_comentario=true;
+    	    		}
+    	    		
+    	    		
+    	    		if(nombre_proyecto=='PRO450')//CAMBIAR PRODUCCION KEYPREVENTA
+    	    		{  
+    	    			var regex_preventa=/^[\w\W]+\/[\w\W]+\/[\w\W]+$/;
+    	    			
+    	    			if(regex_preventa.test($(this).val()))
+    	    			{
+    	    				//alert("valida");
+    	    			}
+    	    			else
+    	    			{
+    	    				cancelar_envio=true;
+    	    				alert("El código de proyecto KEYPREVENTA debe incluir un comentarios con el formato:\n\n Cliente / Tecnología / Actividad \n\nEjemplo:Direct / Tableau Qlik Sense / Poc");
+    	    			}     			
+    	    		}
+    	    		
+    	    		if(nombre_proyecto=='PRO468')//CAMBIAR PRODUCCION KEYOTROS
+    	    		{  
+    	    			
+    	    			//SI FALLARA QUITAR  LO QUE NO SEA TEXTO PLANO
+    	    			
+    	    			//PARA AGREGAR UNO NUEVO PONER EL TEXTO +  ([\s]+[\w\W]*)*$ PARA CAMPOS QUE NO REQUIERAN EXPLICACION Y TEXTO + ([\s]+[\w\W]+)+$/ PARA CAMPOS QUE SI LO REQUIERAN
+    	    			
+    	    			var expresiones_validas = [/^HOSPITAL FAMILIAR([\s]+[\w\W]+)+$/, /DEFUNCION FAMILIAR([\s]+[\w\W]+)+$/,  /ASUNTOS PROPIOS([\s]+[\w\W]+)+$/,/MUDANZA([\s]+[\w\W]*)*$/,/MATRIMONIO([\s]+[\w\W]*)*$/,/PATERNIDAD([\s]+[\w\W]*)*$/,/ACADEMICO([\s]+[\w\W]+)+$/,/LACTANCIA([\s]+[\w\W]*)*$/,/PRENATAL([\s]+[\w\W]*)*$/,/PERMISO KEYRUS([\s]+[\w\W]+)+$/,/PERMISO SIN SUELDO([\s]+[\w\W]+)+$/,];
+
+    	    			   	var key_otros_valido=false;		    
+
+    	    			    for (i=0; i < expresiones_validas.length&&!key_otros_valido; i++) 
+    	    			    {
+    	    			        if ($(this).val().match(expresiones_validas[i])) 
+    	    			        {
+    	    			        	key_otros_valido=true;
+    	    			            //alert(expresiones_validas[i]+"Bien");
+    	    			        }      			        
+    	    			    }
+    	    			    
+    	    			    if(!key_otros_valido)
+    	    			    {
+    	    			    	cancelar_envio=true;
+    	    			    	alert("El código de proyecto KEYOTROS debe comenzar con una de las siguientes expresiones:\n" +
+    	    			    			"HOSPITAL FAMILIAR, DEFUNCION FAMILIAR, DEFUNCION FAMILIAR, ASUNTOS PROPIOS, MUDANZA, MATRIMONIO, PATERNIDAD, ACADEMICO, ACADÉMICO, LACTANCIA, PRENATAL, PERMISO KEYRUS O PERMISO SIN SUELDO/ ");
+    	    			    }
+
+    	    			    
+
+    	    		};	
+    	    		
+    	    		if(error_longitud_comentario)
+    	    		{
+    	    			alert("La longitud máxima del campo comentarios es de 50 caracteres");
+    	    			cancelar_envio=true;
+    	    		}
+    	    		
+    	    	    		
+    	    	 });
+    	    	
+    	    	
+    	    	//SI NO HEMOS CANCELADO ENTRAMOS AQUI
+    	    	if(!cancelar_envio)
+    	    	{
+    	    		crearObjetosParaGrabar();
+    	        	
+    	        	var total_horas=Number($('#horas_consultor').html());    
+    	        	var k_imc=Number($('#k_imc').val()); 
+    	        	//EN DATA EL PRIMER DATO ES EL NOMBRE EN LADO SERVIDOR DE LA VARIABLE, EL SEGUNDO EN LADO CLIENTE
+    	        	
+    	        	//SUCCESS INDICA LA ACCION A SEGUIR DESPUES DE LA RESPUESTA
+    	        	
+    	        	$.ajax({        
+    	        	       type: "POST",
+    	        	       url: BASE_URL+"general/Imc/enviar_imc",
+    	        	       data: { lineasActualizadas : lineasActualizadas,lineasCreadas : lineasCreadas,lineasEliminadas : lineasEliminadas,total_horas:total_horas,k_imc:k_imc},
+    	        	       success: function(respuesta) {
+    	        	            alert(respuesta);    	            
+    	        	            //location.reload();
+    	        	       }
+    	        	    }); 
+    	    	  }	
+    	    	
+    	    			
+    	      });
+    
     //EVENTOS PARA CAMBIAR TAMAÑO DEL TEXTAREA
+    /*
     $('textarea').on('blur',function()
     {
     	$(this).removeClass('textareaGrande');
@@ -181,7 +312,7 @@ $(document).ready(function() {
     {
     	$(this).addClass('textareaGrande');
     });
-    
+    */ 
     
     
     //EVENTO CHANGE PRIMER SELECT 
@@ -248,7 +379,7 @@ $(document).ready(function() {
     	}
     	else
     	{
-    		alert("Has introducido un valor erroneo.");
+    		alert("Has introducido un valor erroneo(debe ser un valor entre 0 y 8)");
     		$(this).focus();
     		actualizarTotalesHorizontal(this);
         	actualizarTotalesVertical();

@@ -60,8 +60,8 @@
             	
             	<div class="columna-menu">
             		<div class="opcion-columna" >
-            			<img onclick='location.href="<?php echo base_url()?>general/Hoja_gastos/index"' src="<?php echo base_url()?>assets/img/gastos.png" class="imagen-opcion"/>
-            			<p class="nombre-opcion" onclick='location.href="<?php echo base_url()?>general/Hoja_gastos/index"'>GASTOS</p>
+            			<img onclick='location.href="<?php echo base_url()?>general/Gastos/index"' src="<?php echo base_url()?>assets/img/gastos.png" class="imagen-opcion"/>
+            			<p class="nombre-opcion" onclick='location.href="<?php echo base_url()?>general/Gastos/index"'>GASTOS</p>
             		</div>
             	</div>
             	

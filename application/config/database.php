@@ -94,3 +94,9 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+/*
+ 		'hostname' => getenv('DB_HOST'),
+        'username' => getenv('DB_USERNAME'),
+        'password' => getenv('DB_PASSWORD'),
+        'database' => getenv('DB_DBNAME'),
+ */

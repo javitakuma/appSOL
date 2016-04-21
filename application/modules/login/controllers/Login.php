@@ -32,6 +32,7 @@ class Login extends MX_Controller
 	
 	public function indexPost()//FORMULARIO LOGIN POST
 	{	
+		echo getenv('DB_DBNAME'),
 		//CONVERTIMOS EL USUARIO A MAYUSCULAS, PUES ASI ESTA EN LA BASE DE DATOS.
 		$id=mb_strtoupper($this->input->post('usuario'));
 		$pass=$this->input->post('pass');
