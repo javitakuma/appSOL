@@ -48,6 +48,97 @@ class Gastos_model extends CI_Model
 				
 	}
 	
+	public function cargar_gastos_mes($k_consultor,$year,$month)
+	{
+		$this->load->database();
+		$this->db->trans_start();
+		
+		//===========SELECCIONAMOS LA CLAVE DE LA HOJA DE GASTOS DE ESE MES=========
+		
+		$sql = "SELECT k_hoja_gastos, com_hoja_gastos,f_pago_hoja_gastos,f_año_hoja_gastos,f_mes_hoja_gastos,sw_autorizar_revision
+		FROM t_hojas_gastos
+		WHERE (t_hojas_gastos.k_consultor=$k_consultor) AND (t_hojas_gastos.f_año_hoja_gastos=$year) AND (t_hojas_gastos.f_mes_hoja_gastos LIKE '$month')";
+		
+		
+		$datos_gastos['t_hojas_gastos']=$this->db->query($sql)->result_array();
+		//GUARDAMOS EL MISMO DATO EN UNA VARIABLE MAS AMIGABLE
+		$k_hoja_gastos=$datos_gastos['t_hojas_gastos'][0]['k_hoja_gastos'];
+		
+		
+		
+		
+		//===========SELECCIONAMOS LAS LINEAS DE GASTOS DE ESE MES PENDIENTES DE AUTORIZACION=========
+		
+		$sql_lineas_gastos_pendientes="SELECT t_linea_gasto.k_linea_gasto, t_linea_gasto.k_hoja_gasto, t_linea_gasto.k_proyecto, t_linea_gasto.k_tipo_linea_gasto, 
+		t_linea_gasto.k_hito_ficha_proyecto, t_linea_gasto.f_linea_gasto, t_linea_gasto.i_imp_linea_gasto, t_linea_gasto.sw_linea_gasto_facturable, 
+		t_linea_gasto.i_imp_linea_gasto_facturado, t_linea_gasto.k_linea_gasto_autorizado1, t_linea_gasto.k_linea_gasto_autorizado2, 
+		t_linea_gasto.desc_linea_gasto, t_linea_gasto.com_rechazo_linea_gasto, t_linea_gasto.i_linea_hito, t_linea_gasto.k_linea_gasto_autorizado1, 
+		t_linea_gasto.k_linea_gasto_autorizado2
+		FROM t_linea_gasto
+		WHERE (((t_linea_gasto.k_linea_gasto_autorizado1)=0) AND ((t_linea_gasto.k_linea_gasto_autorizado2)=0))AND (t_linea_gasto.k_hoja_gasto=$k_hoja_gastos)";
+		
+		$datos_gastos['lineas_gastos_pendientes']=$this->db->query($sql_lineas_gastos_pendientes)->result_array();
+		
+		
+		//===========SELECCIONAMOS LOS GASTOS TOTALES DE ESE MES=========
+		
+		$sql_gastos_totales="SELECT t_hojas_gastos.i_tot_hoja_gastos, t_hojas_gastos.i_tot_gastos_no_autorizados, 
+		t_hojas_gastos.i_tot_gastos_pendientes, t_hojas_gastos.i_tot_gastos_autorizados, t_hojas_gastos.k_hoja_gastos, t_hojas_gastos.i_imp_pagado
+		FROM t_hojas_gastos
+		WHERE (t_hojas_gastos.k_hoja_gastos=$k_hoja_gastos)
+		GROUP BY t_hojas_gastos.i_tot_hoja_gastos, t_hojas_gastos.i_tot_gastos_no_autorizados, t_hojas_gastos.i_tot_gastos_pendientes, t_hojas_gastos.i_tot_gastos_autorizados, t_hojas_gastos.k_hoja_gastos, t_hojas_gastos.i_imp_pagado";
+		
+		$datos_gastos['gastos_totales']=$this->db->query($sql_gastos_totales)->result_array();
+		
+		
+		
+		
+		//===========SELECCIONA TODAS LAS LINEAS DE GASTO DE ESE MES Y EMPLEADO=========
+		
+		$sql_lineas_gastos_todas="SELECT t_linea_gasto.k_linea_gasto, t_linea_gasto.k_hoja_gasto, t_linea_gasto.desc_linea_gasto, 
+		CASE  WHEN sw_linea_gasto_facturable=-1 THEN i_gasto_fact_cliente
+		ELSE 0
+		END
+		AS i_fact,
+		t_linea_gasto.com_rechazo_linea_gasto, 
+		t_linea_gasto.k_linea_gasto_autorizado1, t_linea_gasto.k_proyecto, t_linea_gasto.k_linea_gasto_autorizado2, t_linea_gasto.k_tipo_linea_gasto, 
+		t_linea_gasto.k_hito_ficha_proyecto, t_linea_gasto.f_linea_gasto, t_linea_gasto.i_imp_linea_gasto, t_linea_gasto.sw_linea_gasto_facturable
+		FROM t_linea_gasto
+		join t_hojas_gastos on t_linea_gasto.k_hoja_gasto=t_hojas_gastos.k_hoja_gastos 
+		WHERE (t_linea_gasto.k_hoja_gasto=$k_hoja_gastos)
+		GROUP BY t_linea_gasto.k_linea_gasto, t_linea_gasto.k_hoja_gasto, t_linea_gasto.desc_linea_gasto, i_fact, t_linea_gasto.com_rechazo_linea_gasto, t_linea_gasto.k_linea_gasto_autorizado1, t_linea_gasto.k_proyecto, t_linea_gasto.k_linea_gasto_autorizado2, t_linea_gasto.k_tipo_linea_gasto, t_linea_gasto.k_hito_ficha_proyecto, t_linea_gasto.f_linea_gasto, t_linea_gasto.i_imp_linea_gasto, t_linea_gasto.sw_linea_gasto_facturable";
+		
+		$datos_gastos['lineas_gastos_todas']=$this->db->query($sql_lineas_gastos_todas)->result_array();
+		
+		
+		/*SELECCIONA LOS PROYECTOS PARA EL DESPLEGABLE*/
+		
+		$hoy=date('Y-m-d');
+		$hoy_menos_mes=date('Y-m-d',strtotime ( '-1 month'));
+		
+		$sql_proyectos_consultor="SELECT t_proyectos.k_proyecto, t_proyectos.id_proyecto
+		FROM t_proyectos INNER JOIN t_consultores_proyecto ON t_proyectos.k_proyecto = t_consultores_proyecto.k_proyecto
+		WHERE (((t_proyectos.sw_admite_gastos)=-1) AND (t_consultores_proyecto.k_consultor=$k_consultor) AND (t_proyectos.sw_baja=0) AND 
+		(t_consultores_proyecto.f_fin_cp>?) AND (t_consultores_proyecto.f_inicio_cp<?))
+		ORDER BY t_proyectos.id_proyecto";
+		
+		$datos_gastos['proyectos_consultor']=$this->db->query($sql_proyectos_consultor,array($hoy_menos_mes,$hoy))->result_array();
+		
+		/*SELECCIONA LOS TIPOS DE LINEA DE GASTOS PARA EL DESPLEGABLE*/
+		
+		$sql_tipos_gastos="SELECT t_tipos_linea_gasto.k_tipo_linea_gasto, t_tipos_linea_gasto.nom_tipo_linea_gasto
+		FROM t_tipos_linea_gasto
+		ORDER BY t_tipos_linea_gasto.nom_tipo_linea_gasto";
+		
+		$datos_gastos['tipos_gastos']=$this->db->query($sql_tipos_gastos)->result_array();
+		
+		$this->db->trans_complete();
+		$this->db->close();
+		//var_dump($datos_gastos);
+		//die;
+		return $datos_gastos;
+	}
+	
 	
 	
 	

@@ -1,132 +1,300 @@
+
 #contenedorHojaGastos
 {
 	width:80%;
-	margin:0 auto;	
+	margin:0 auto;
 }
 
-.botonera
-{
-	width:60%;
-	margin:10px auto;
-}
-
-.boton-gastos
-{
-	width:32%;
-	margin:0px;
-	min-width:30px;
-}
-/*
-.paleta_color
-{
-	width:20px;
-	height:20px;
-	background-color:red;
-}
-*/
-#rejillaGastos
+.contenedor_select_30
 {	
-	margin-top:100px;
+	display:inline-block;
+	width:40%;
+	min-width:160px;
+}
+
+/*
+	=========ESTILOS IMC MENSUAL===========
+*/
+.tabla_key
+{
+	width:85%;
 	margin:0 auto;
-	width:100%;
-	clear:both;
-}
-
-table#listadoGastosGeneral
-{
-	border-collapse: collapse;
-	margin:0 auto;
-	width:80%;
-	font-size:110%;
 }
 
 
-
-#listadoGastosGeneral th
+.tabla_key table
 {
-	width:14%;
-	height:40px;
-	text-align:center;
-	vertical-align:middle;
-	border-collapse: collapse;
-	border:solid 2px #AAA;
-	font-weight:bold;
-    background: RGB(35,200,200);
+    border-collapse: collapse;
+}
+.tabla_key td,th
+{
+    width: 20px;
+    min-width: 20px;
+    padding: 0px;
+    margin:0px;
+    text-align: center;
+    border-collapse: collapse;
+	border:solid 1px #AAA;
+    vertical-align:middle;
+    background:#EFEFEF;
 }
 
-#listadoGastosGeneral td
+.tabla_key input
 {
-	width:14%;
-	text-align:center;
-	vertical-align:middle;
-	border-collapse: collapse;
-	border:solid 2px #AAA;
+	background:#EFEFEF;	
 }
 
-#listadoGastosGeneral tr:nth-child(odd)
+.tabla_key select
 {
-	background-color:#EEE;
+	background:#EFEFEF;	
 }
 
-#listadoGastosGeneral tr:nth-child(even)
+.tabla_key
 {
-	background-color:#CCC;
+	width:250px;
 }
 
-#listadoGastosGeneral tr:first-child
+.tabla_key .comentarios
 {
-	background-color:transparent;
+	width:250px;
+	height:30px;
+	padding:0px;
+}
+
+.tabla_key .comentarios textarea
+{
+	width:250px;
+	margin:0px;	
+	border:none;
+	resize:none;
+}
+
+
+/*===========*/
+
+.textareaGrande
+{
+	height:80px !important;	
+}
+
+
+
+
+
+
+.tabla_key #inferior
+{
+    margin:20px auto;
+}
+
+.tabla_key #id_horas
+{
+    width: 30px;
+}
+
+.tabla_key .input_horas
+{
+    margin:0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    text-align: center; 
+    font-size:100%;
+}
+
+.tabla_key .total_horas_imc
+{
+	cursor:default;
+}
+
+.eliminar_fila
+{
+	width:15px;
+}
+
+
+
+/*TRAMPA PARA HACER BORDER TRANSPARENTE PORQUE NO SE QUITABA*/
+
+.tabla_key .borde_invisible
+{
+	border:1px rgba(0,0,0,0) solid;
+}
+
+.tabla_key .no_fondo
+{
+	background-color:"#FFF";
 }
 
 
 
 /*QUITAR ESTILO BORDES TABLA ARRIBA,ABAJO,IZQUIERDA,DERECHA*/
 
-#listadoGastosGeneral th
+.tabla_key th
 {
 	border-top:none;
+	background: RGB(35,200,200);
+	cursor:default;
+	font-size:100%;
 }
 
-#listadoGastosGeneral tr:last-child td
+.tabla_key td
 {
-	border-bottom:none;
+	font-size:100%;
 }
 
-#listadoGastosGeneral tr th:first-child
+
+
+.tabla_key tr th:first-child
 {
 	border-left:none;
-	border-radius:10px 0 0 0;	
+	border-radius:5px 0 0 0;
 }
 
-#listadoGastosGeneral tr td:first-child
+.tabla_key tr td:first-child
 {
-	border-left:none;	
+	border-left:none;
+	cursor:default;	
+	padding:10px;
 }
 
-#listadoGastosGeneral tr th:last-child
-{
-	border-right:none;	
-	border-radius:0 10px 0 0;
-}
-
-#listadoGastosGeneral tr td:last-child
+.tabla_key tr th:last-child
 {
 	border-right:none;	
+	border-radius:0 5px 0 0;
 }
 
-#listadoGastosGeneral tr:last-child td:last-child
+.tabla_key tr td:last-child
 {
-	border-radius:0 0 10px;	
-	-moz-border-radius:0 0 10px 0;	
-	-webkit-border-radius:0 0 10px 0;
+	border-right:none;	
 }
 
-#listadoGastosGeneral tr:last-child td:first-child
+.tabla_key tr td:last-child(2)
 {
-	border-radius:0 0 0 10px ;
-	-moz-border-radius:0 0 0 10px ;
-	-webkit-border-radius:0 0 0 10px;	
+	border-right:none;	
 }
+
+
+
+
+.tabla_key tr:last-child td:last-child
+{
+	border-radius:0 0 5px 0;	
+}
+
+.tabla_key tr:last-child td:first-child
+{
+	border-radius:0 0 0 5px ;	
+}
+
+.tabla_key .comentarios
+{
+	border-right:none;
+	padding:0;
+}
+
+
+
+
+
+/*
+	========ESTILO TABLA TOTALES
+*/
+
+tabla_key
+{
+	margin-top:20px;
+	float:right;
+}
+
+tabla_key table
+{
+    border-collapse: collapse;
+}
+tabla_key td,th
+{
+    width: 120px;
+    height:25px;
+    min-width: 20px;
+    max-width: 120px;
+    overflow:hidden;
+    padding: 0px;
+    margin:0px;
+    text-align: center;
+    border-collapse: collapse;
+	border:solid 1px #AAA;
+    vertical-align:middle;
+    
+}
+
+tabla_key th
+{
+	border-top:none;
+	background: RGB(35,200,200);
+	cursor:default;
+}
+
+tabla_key tr:last-child td
+{
+	border-bottom:none;
+	background: #FFF;
+	cursor:default;
+}
+
+tabla_key tr th:first-child
+{
+	border-left:none;
+	border-radius:5px 0 0 0;
+}
+
+tabla_key tr td:first-child
+{
+	border-left:none;
+	cursor:default;	
+}
+
+tabla_key tr th:last-child
+{
+	border-right:none;	
+	border-radius:0 5px 0 0;
+}
+
+tabla_key tr td:last-child
+{
+	border-right:none;	
+}
+
+
+
+tabla_key tr td:last-child-1
+{
+	border-right:none;	
+}
+
+tabla_key tr:last-child td:last-child
+{
+	border-radius:0 0 5px 0;	
+}
+
+tabla_key tr:last-child td:first-child
+{
+	border-radius:0 0 0 5px ;	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
