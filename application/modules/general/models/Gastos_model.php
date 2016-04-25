@@ -29,7 +29,8 @@ class Gastos_model extends CI_Model
 				FROM t_hojas_gastos
 				WHERE (($condicion=1) AND (t_hojas_gastos.k_consultor=$k_consultor)) OR 
 				(($condicion=2) AND (t_hojas_gastos.k_consultor=$k_consultor) AND (t_hojas_gastos.i_imp_pagado!=t_hojas_gastos.i_tot_gastos_autorizados)) OR 
-				(($condicion=2) AND (t_hojas_gastos.k_consultor=$k_consultor) AND (t_hojas_gastos.i_tot_gastos_pendientes=t_hojas_gastos.i_tot_hoja_gastos))
+				(($condicion=2) AND (t_hojas_gastos.k_consultor=$k_consultor) AND (t_hojas_gastos.i_tot_gastos_pendientes=t_hojas_gastos.i_tot_hoja_gastos)) OR
+				(($condicion=0) AND (t_hojas_gastos.k_consultor=$k_consultor) AND (t_hojas_gastos.i_imp_pagado=t_hojas_gastos.i_tot_gastos_autorizados) AND (t_hojas_gastos.sw_autorizar_revision!=0))
 				GROUP BY t_hojas_gastos.i_tot_hoja_gastos, t_hojas_gastos.f_pago_hoja_gastos, t_hojas_gastos.k_hoja_gastos, t_hojas_gastos.f_mes_hoja_gastos, t_hojas_gastos.f_año_hoja_gastos, t_hojas_gastos.i_tot_gastos_autorizados, t_hojas_gastos.i_tot_gastos_no_autorizados, t_hojas_gastos.i_tot_gastos_pendientes, t_hojas_gastos.sw_autorizar_revision, t_hojas_gastos.i_imp_pagado
 				ORDER BY t_hojas_gastos.f_año_hoja_gastos DESC,t_hojas_gastos.f_mes_hoja_gastos DESC";
 		
@@ -70,7 +71,7 @@ class Gastos_model extends CI_Model
 		//===========SELECCIONAMOS LAS LINEAS DE GASTOS DE ESE MES PENDIENTES DE AUTORIZACION=========
 		
 		$sql_lineas_gastos_pendientes="SELECT t_linea_gasto.k_linea_gasto, t_linea_gasto.k_hoja_gasto, t_linea_gasto.k_proyecto, t_linea_gasto.k_tipo_linea_gasto, 
-		t_linea_gasto.k_hito_ficha_proyecto, t_linea_gasto.f_linea_gasto, t_linea_gasto.i_imp_linea_gasto, t_linea_gasto.sw_linea_gasto_facturable, 
+		t_linea_gasto.k_hito_ficha_proyecto, to_char(t_linea_gasto.f_linea_gasto, 'DD-MM-YYYY') f_linea_gasto, t_linea_gasto.i_imp_linea_gasto, t_linea_gasto.sw_linea_gasto_facturable, 
 		t_linea_gasto.i_imp_linea_gasto_facturado, t_linea_gasto.k_linea_gasto_autorizado1, t_linea_gasto.k_linea_gasto_autorizado2, 
 		t_linea_gasto.desc_linea_gasto, t_linea_gasto.com_rechazo_linea_gasto, t_linea_gasto.i_linea_hito, t_linea_gasto.k_linea_gasto_autorizado1, 
 		t_linea_gasto.k_linea_gasto_autorizado2
@@ -123,6 +124,7 @@ class Gastos_model extends CI_Model
 		ORDER BY t_proyectos.id_proyecto";
 		
 		$datos_gastos['proyectos_consultor']=$this->db->query($sql_proyectos_consultor,array($hoy_menos_mes,$hoy))->result_array();
+		$datos_gastos['proyectos_consultor_JSON']=json_encode($datos_gastos['proyectos_consultor']);
 		
 		/*SELECCIONA LOS TIPOS DE LINEA DE GASTOS PARA EL DESPLEGABLE*/
 		
@@ -131,6 +133,7 @@ class Gastos_model extends CI_Model
 		ORDER BY t_tipos_linea_gasto.nom_tipo_linea_gasto";
 		
 		$datos_gastos['tipos_gastos']=$this->db->query($sql_tipos_gastos)->result_array();
+		$datos_gastos['tipos_gastos_JSON']=json_encode($datos_gastos['tipos_gastos']);
 		
 		$this->db->trans_complete();
 		$this->db->close();
@@ -138,6 +141,71 @@ class Gastos_model extends CI_Model
 		//die;
 		return $datos_gastos;
 	}
+	
+	public function grabar_gastos_mes($eliminadas,$actualizadas,$creadas,$k_hoja_gastos)
+	{
+				
+		
+		$this->load->database();
+		$this->db->trans_start();
+		
+		
+		//PARA CADA FILA ELIMINADA QUE YA EXISTIA LA BORRAMOS EN LA BBDD
+		//TODO PROBAR
+		
+		foreach ($eliminadas as $fila)
+		{
+			$this->db->delete('t_linea_gasto', array('k_linea_gasto' => $fila['k_linea_gasto_borrar']));
+				
+			// Produces:
+			// DELETE FROM t_linea_gasto
+			// WHERE k_linea_gasto = $fila['k_linea_gasto']
+		
+		}
+		
+		//PARA CADA FILA ACTUALIZADA LA ACTUALIZAMOS EN LA BBDD
+		
+		foreach ($actualizadas as $fila)
+		{			
+			//var_dump($fila);
+			
+			
+			
+			$data = array(
+					'k_hoja_gasto'       =>   $fila['k_hoja_gasto'],
+					'k_proyecto'         =>   $fila['k_proyecto'],
+					'k_tipo_linea_gasto' =>   $fila['k_tipo_linea_gasto'],
+					'f_linea_gasto'      =>   $fila['f_linea_gasto'],
+					'i_imp_linea_gasto'  =>   $fila['i_imp_linea_gasto'],
+					'desc_linea_gasto'   =>   $fila['desc_linea_gasto'],
+			);
+				
+			$this->db->where('k_linea_gasto', $fila['k_linea_gasto']);
+			$this->db->update('t_linea_gasto', $data);
+		
+		}
+		
+		
+		//PARA CADA FILA CREADA QUE NO EXISTIA LA INSERTAMOS EN LA BBDD
+		//TODO PROBAR
+		foreach ($creadas as $fila)
+		{			
+			$data = array(
+					'k_hoja_gasto'       			=>   $fila['k_hoja_gasto'],
+					'k_proyecto'         			=>   $fila['k_proyecto'],
+					'k_tipo_linea_gasto' 			=>   $fila['k_tipo_linea_gasto'],
+					'f_linea_gasto'      			=>   $fila['f_linea_gasto'],
+					'i_imp_linea_gasto' 	 		=>   $fila['i_imp_linea_gasto'],
+					'desc_linea_gasto'   			=>   $fila['desc_linea_gasto'],
+			);
+			$this->db->insert('t_linea_gasto',$data);
+				
+		}
+		
+		$this->db->trans_complete();
+		$this->db->close();
+		
+		}
 	
 	
 	

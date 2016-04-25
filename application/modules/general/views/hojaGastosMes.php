@@ -7,20 +7,14 @@
 			
 	</div>
 	<h1 class="centrado titulo-grande">HOJA DE GASTOS <?php echo $this->session->userdata('nom_consultor')." ("?><?php echo $mes_texto?> de <?php echo $year.")"?></h1>
-	
-	<div id="superior">
-	
-	 <?php if($datos_gastos['t_hojas_gastos'][0]['sw_autorizar_revision']==0):?>
+	<br/>
+	<div id="superior">	 	
+				<p class="titulo-peque" id="fecha_pago_hoja_gastos">Fecha de pago:<?php echo $datos_gastos['t_hojas_gastos'][0]['f_pago_hoja_gastos']?></p>
+				<br/>											
+				<?php if($datos_gastos['t_hojas_gastos'][0]['sw_autorizar_revision']==0):?>
 	            <input id="enviar_gastos" class="buttonGenericoPeque centrado" type="button" value="Enviar gastos"/>
-	            <?php endif;?>		
-				<p id="comentarios_hoja_gastos">Comentarios:<?php echo $datos_gastos['t_hojas_gastos'][0]['com_hoja_gastos']?></p>
-				<p id="fecha_pago_hoja_gastos">Fecha de pago:<?php echo $datos_gastos['t_hojas_gastos'][0]['f_pago_hoja_gastos']?></p>													
-			
-		<br/><br/>
-		            
-			<input class="buttonGenericoPeque" type="button" id="agregar_fila" value="Agregar linea"/>
-			
-			<br/><br/>
+	 			<?php endif;?> 		
+		  
 	           
 		<br/><br/>
 	</div>
@@ -31,16 +25,19 @@
 	
 	<div  id="inferior">        	
 	        	
+	        	<?php if($datos_gastos['t_hojas_gastos'][0]['sw_autorizar_revision']==0):?>
+	        	
+	        	<h3 class="titulo-mediano">Lista de gastos</h3>
 	            <table id="tabla_gastos_pendientes_mes" class="tabla_key">            	
 	                 <!-- 
 	                 CON ESTO PINTAMOS LA PRIMERA FILA DE LA TABLA 
 	                 -->
 	                 <tr class="fila-titulos">
-						<th>PROYECTO</th>
-						<th>TIPO</th>
-						<th>FECHA</th>
-						<th>VALOR(€)</th>
-						<th>DESCRIPCIÓN</th>									
+						<th class="id_proyecto_titulo">PROYECTO</th>
+						<th class="tipo_gasto_titulo">TIPO</th>
+						<th class="fecha_gasto_titulo">FECHA</th>
+						<th class="valor_gasto_titulo">VALOR(€)</th>
+						<th class="descripcion_gasto_titulo">DESCRIPCIÓN LINEA GASTO</th>									
 					</tr>	                
 	                
 	                <!-- 
@@ -50,7 +47,7 @@
 	                
 	                <?php foreach ($datos_gastos['lineas_gastos_pendientes'] as $linea_gastos):?>
 	                
-	                <tr id="<?php echo $linea_gastos['k_linea_gasto']?>" class="grabada celda-color fila-datos">
+	                <tr id="<?php echo $linea_gastos['k_linea_gasto']?>" class="<?php echo $linea_gastos['k_linea_gasto']?> grabada celda-color fila-datos">
 	                    <td class="id_proyecto">
 	                    	<select class="select_proyecto">
 	                    		<option value="0">Elige una opción</option>
@@ -78,7 +75,7 @@
 	                    </td> 
 	                    
 	                    <td class="descripcion_gasto">
-	                    	<textarea class="input_datos"><?php echo $linea_gastos['desc_linea_gasto']?></textarea>
+	                    	<textarea><?php echo $linea_gastos['desc_linea_gasto']?></textarea>
 	                    </td>  
 	                    <td class="borde_invisible no_fondo"><img title="Eliminar fila" class="eliminar_fila " src="<?php echo base_url()?>assets/img/cross.png"/></td>             
 	                    
@@ -87,42 +84,29 @@
 	                <?php endforeach;?>  
 	                
 	            </table> <!-- FINAL tabla_gastos_pendientes_mes -->
-	                    
-				 <br/>	  
-				 
-				 
-				                   
+	            
+	            
+	            
+	            <div id="div_agregar_fila"><img title="Agregar fila" class="imagen_agregar_fila " src="<?php echo base_url()?>assets/img/cross.png"/><p>Agregar nueva fila</p></div>        
+				 <br/><br/>		  
+					 
+				                    
 	              
 	            <!-- Con esto pintamos el boton de grabar solo si el IMC no esta enviado -->
 	            
 	            <?php if($datos_gastos['t_hojas_gastos'][0]['sw_autorizar_revision']==0):?>
 	            <input id="grabar" class="buttonGenericoPeque" type="button" value="Grabar datos"/>
 	            <?php endif;?>
-	                    
-	            
+	            <br/><br/>
+	                   
+	             <?php endif;?>
 	            
 	            <br/>
 	            <br/>
-	            <table id="totales_gastos" class="tabla_key">
-	                <tr>
-	                 	<th>Total</th>
-	                 	<th>Pendientes</th>
-	                 	<th>Autorizados</th>
-	                 	<th>No autorizados</th>
-	                 	<th>Total pagado</th>
-	                </tr>
-	                <tr>	                	
-	                    <td id="total_hoja"><?php echo $datos_gastos['gastos_totales'][0]['i_tot_hoja_gastos']?></td>
-	                    <td id="pendientes_hoja"><?php echo $datos_gastos['gastos_totales'][0]['i_tot_gastos_pendientes']?></td>
-	                    <td id="autorizados_hoja"><?php echo $datos_gastos['gastos_totales'][0]['i_tot_gastos_autorizados']?></td>
-	                    <td id="no_autorizados_hoja"><?php echo $datos_gastos['gastos_totales'][0]['i_tot_gastos_no_autorizados']?></td>
-	                    <td id="total_pagado_hoja"><?php echo $datos_gastos['gastos_totales'][0]['i_imp_pagado']?></td>	                    
-	                </tr>	                
-	            </table>
-	           
-	         	<br/>
-	         	<br/>
+	            
+	            <?php if($datos_gastos['t_hojas_gastos'][0]['sw_autorizar_revision']!=0):?>
 	         	
+	         	<h3 class="titulo-mediano">Gastos revisados</h3>
 	         	<table id="tabla_gastos_todos_mes" class="tabla_key">            	
 	                 <!-- 
 	                 CON ESTO PINTAMOS LA PRIMERA FILA DE LA TABLA 
@@ -147,7 +131,7 @@
 	                <?php foreach ($datos_gastos['lineas_gastos_todas'] as $linea_gastos):?>
 	                
 	                <tr id="<?php echo $linea_gastos['k_linea_gasto']?>" class="celda-color fila-datos">
-	                    <td class="id_proyecto<?php echo $linea_gastos['k_linea_gasto']?> grabada">
+	                    <td class="id_proyecto <?php echo $linea_gastos['k_linea_gasto']?> grabada">
 	                    		<?php foreach ($datos_gastos['proyectos_consultor'] as $proyecto):?>
 	                    			<p><?php echo ($linea_gastos['k_proyecto']==$proyecto['k_proyecto'])?$proyecto['id_proyecto']:'' ?></p>
 	                    		<?php endforeach;?>
@@ -167,15 +151,40 @@
 	                    
 	                    <td class="autorizacion2"><?php echo $linea_gastos['k_linea_gasto_autorizado2']==0?'Pendiente':($linea_gastos['k_linea_gasto_autorizado1']==-1)?'Autorizado':'No autorizado'?></td>
 	                    
-	                    <td class="descripcion_gasto"><?php echo $linea_gastos['desc_linea_gasto']?></td> 
+	                    <td class="descripcion_gasto"><textarea disabled="disabled"><?php echo $linea_gastos['desc_linea_gasto']?></textarea></td> 
 	                    
-	                    <td class="comentario_rechazo"><textarea><?php echo $linea_gastos['com_rechazo_linea_gasto']?></textarea></td>              
+	                    <td class="comentario_rechazo"><textarea  disabled="disabled"><?php echo $linea_gastos['com_rechazo_linea_gasto']?></textarea></td>              
 	                    
 	                </tr>
 	                	
 	                <?php endforeach;?>  
 	                
 	            </table> <!-- FINAL tabla_gastos_todos_mes -->
+			 	<br/>
+	         	<br/>
+	         	
+	         	<?php endif;?>
+	         	
+			 	<!-- TABLA TOTALES -->
+	            <h3 class="titulo-mediano">Gastos Totales</h3>
+	            <table id="totales_gastos" class="tabla_key">
+	                <tr>
+	                 	<th>Total</th>
+	                 	<th>Pendientes</th>
+	                 	<th>Autorizados</th>
+	                 	<th>No autorizados</th>
+	                 	<th>Total pagado</th>
+	                </tr>
+	                <tr>	                	
+	                    <td id="total_hoja"><?php echo $datos_gastos['gastos_totales'][0]['i_tot_hoja_gastos']?>€</td>
+	                    <td id="pendientes_hoja"><?php echo $datos_gastos['gastos_totales'][0]['i_tot_gastos_pendientes']?>€</td>
+	                    <td id="autorizados_hoja"><?php echo $datos_gastos['gastos_totales'][0]['i_tot_gastos_autorizados']?>€</td>
+	                    <td id="no_autorizados_hoja"><?php echo $datos_gastos['gastos_totales'][0]['i_tot_gastos_no_autorizados']?>€</td>
+	                    <td id="total_pagado_hoja"><?php echo $datos_gastos['gastos_totales'][0]['i_imp_pagado']?>€</td>	                    
+	                </tr>	                
+	            </table>
+	           
+	         	
 			 
 	        </div><!-- CIERRE INFERIOR -->
 	
@@ -184,6 +193,9 @@
 <!-- CAMPOS CON VARIABLES QUE NECESITAREMOS LUEGO EN LADO CLIENTE -->
 		<input type="hidden" id="k_hoja_gastos" value="<?php echo $datos_gastos['t_hojas_gastos'][0]['k_hoja_gastos']?>"/>	
 		
-
+		<script>
+			var proyectos_consultor=<?php echo $datos_gastos['proyectos_consultor_JSON']?>;
+			var tipos_gasto=<?php echo $datos_gastos['tipos_gastos_JSON']?>;
+		</script>
 
 

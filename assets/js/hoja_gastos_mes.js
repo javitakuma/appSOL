@@ -49,6 +49,8 @@ $(document).ready(function() {
     	
     	$('.valor_gasto input').each(function()
     	{
+    		
+    		
     		if($(this).val()<0)
     		{
     			cancelar_envio=true;
@@ -68,6 +70,7 @@ $(document).ready(function() {
 		        	{
 		        		alert("Dia o formato de fecha incorrecto (Formato requerido: yyyy-mm-dd)");
 		        		$(this).focus();
+		        		cancelar_envio=true;
 		            	//actualizarTotales();
 		        	}
     	    	});
@@ -95,7 +98,9 @@ $(document).ready(function() {
     	//SI NO HEMOS CANCELADO ENTRAMOS AQUI
     	if(!cancelar_envio)
     	{
-    		crearObjetosParaGrabar();        	
+    		crearObjetosParaGrabar();   
+    		
+    		var k_hoja_gastos=($('#k_hoja_gastos').val());
         	
         	//EN DATA EL PRIMER DATO ES EL NOMBRE EN LADO SERVIDOR DE LA VARIABLE, EL SEGUNDO EN LADO CLIENTE
         	
@@ -103,8 +108,8 @@ $(document).ready(function() {
         	
         	$.ajax({        
         	       type: "POST",
-        	       url: BASE_URL+"general/Imc/mostrar_iaamc_mes_post",
-        	       data: { lineasActualizadas : lineasActualizadas,lineasCreadas : lineasCreadas,lineasEliminadas : lineasEliminadas},
+        	       url: BASE_URL+"general/Gastos/grabar_gastos_mes",
+        	       data: { lineasActualizadas : lineasActualizadas,lineasCreadas : lineasCreadas,lineasEliminadas : lineasEliminadas,k_hoja_gastos:k_hoja_gastos},
         	       success: function(respuesta) {
         	            alert(respuesta);    	            
         	            location.reload();
@@ -147,10 +152,108 @@ $(document).ready(function() {
     	
         // ...
     });
+	
+	//EVENTO PARA LA ACCION CLICK DEL BOTON AGREGAR LINEA
+	$("#div_agregar_fila").click(function() 
+			{				
+				agregar_linea();				
+			});
+	
+	
+	//EVENTO PARA LA ACCION CLICK DE LOS BOTONES ELIMINAR
+    $('#tabla_gastos_pendientes_mes').delegate(".eliminar_fila", 'click', function(event) 
+    {  
+    	
+    	if (confirm("¿Seguro que desea eliminar esa fila?\nNo se guardaran los cambios hasta que no presiones el botón Grabar datos."))
+    	{   
+    		//var attr_class=$(this).parent().parent().find('td:first-child').attr('class');
+    		var attr_class=$(this).parent().parent().attr('class');
+    		var k_linea_gasto_borrar=attr_class.split(' ')[0];
+    		
+    		if(attr_class.split(' ')[0]=='nueva')
+    		{
+    			//borrando fila no grabada(como no estaba grabada,la borramos y nos olvidamos de ella)
+    			$(this).parent().parent().remove();
+    			actualizarTotales();   			
+    		}
+    		else
+    		{
+    			//borrando fila que estaba grabada(la guardamos en un array que luego usaremos para borrar esas lineas de imc con su codigo)
+    			fila_eliminar={};
+    			fila_eliminar['k_linea_gasto_borrar']=k_linea_gasto_borrar;
+    			lineasEliminadas.push(fila_eliminar); 
+    			$(this).parent().parent().remove();
+    			actualizarTotales();    			
+    		}
+    		 		
+    	}
+    	
+    	
+    	
+    });
     
 });
 
 //TODO
+function agregar_linea()
+{	
+	
+	
+	//creamos el elemento fila
+	var fila;
+	//al ponerle clase nueva_linea lo tendremos en cuenta a la hora de insertar en la base de datos
+		fila=$('<tr id="nuevo" class="nueva celda-color fila-datos"></tr>');
+		
+	
+	//Creamos la primera celda con el select y la agregamos a la fila
+	var selectProyecto='<td class="nueva"><select class="select_proyecto"><option value="0">Elige una opción</option>';
+	
+	for(i=0;i<proyectos_consultor.length;i++)
+	{
+		selectProyecto+='<option value="'+proyectos_consultor[i].k_proyecto+'">'+proyectos_consultor[i].id_proyecto+'</option>'
+	}
+	selectProyecto+="</select></td>";	
+		
+	
+	//Esto inserta la celda en la fila
+	fila.append(selectProyecto);		
+	
+	
+	//Creamos la segunda celda con el select y la agregamos a la fila
+	var selectTipoGasto='<td class="tipo_gasto"><select class="select_tipo_gasto"><option value="0">Elige una opción</option>';
+	
+	for(i=0;i<tipos_gasto.length;i++)
+	{
+		selectTipoGasto+='<option value="'+tipos_gasto[i].k_tipo_linea_gasto+'">'+tipos_gasto[i].nom_tipo_linea_gasto+'</option>'
+	}
+	selectTipoGasto+="</select></td>";
+	
+	fila.append(selectTipoGasto);
+	
+	
+	//CREAMOS LAS OTRAS 3 CASILLAS Y EL BOTON ELIMINAR
+	
+	var fechaGasto=$('<td class="fecha_gasto"><input class="input_datos" type="text" placeholder="yyyy-mm-dd" value=""/></td>');
+	
+	var valorGasto=$('<td class="valor_gasto"><input class="input_datos" type="text" value="0.00"/></td>');
+	
+		
+	var descripcionGasto=$('<td class="descripcion_gasto"><textarea></textarea></td>');
+	
+	var botonEliminar=$('<td class="borde_invisible no_fondo"><img title="Eliminar fila" class="eliminar_fila " src="'+BASE_URL+'assets/img/cross.png"/></td>');
+ 
+	fila.append(fechaGasto);
+	fila.append(valorGasto);
+	fila.append(descripcionGasto);
+	fila.append(botonEliminar);
+           
+		
+	//agregamos la fila
+	fila.appendTo($('#tabla_gastos_pendientes_mes'));	
+	
+}
+
+
 function crearObjetosParaGrabar()
 {
 	//CREAMOS UN ARRAY VACIO
@@ -187,14 +290,13 @@ function crearObjetosParaGrabar()
 		}
 		else
 		{	
-			alert("---");
 			lineasActualizadas.push(fila_guardar);
 		}
 		
 	});
-	//console.log(lineasCreadas);
+	console.log(lineasCreadas);
 	console.log(lineasActualizadas);
-	//console.log(lineasEliminadas);
+	console.log(lineasEliminadas);
 }
 
 
@@ -202,10 +304,22 @@ function validarValorCelda(elemento)
 {
 	var respuesta=false;
 	
-	if(Number($(elemento).val())>=0&&Number($(elemento).val())<=24)
+	if(Number($(elemento).val())>=0)
 	{
 		respuesta=true;
 	}
+	
+	var regexGasto=/^[0-9]+(.[0-9]{2})?$/;
+	
+	if(regexGasto.test($(elemento).val()))
+	{
+		//FORMATO VALIDO
+	}
+	else
+	{
+		respuesta=false;
+	}
+	
 	
 	return respuesta;
 }
@@ -215,12 +329,16 @@ function validarFecha(elemento)
 	var respuesta=false;
 	
 	//CAMBIAMOS LA FECHA DE FORMATO yyyy-mm-dd A dd-mm-yyyy PARA VALIDARLA
-	var cambioFormato=$(elemento).val().split("-");
+	//var cambioFormato=$(elemento).val().split("-");
 	
-	var fechaNuevoFormato=cambioFormato[2]+"-"+cambioFormato[1]+"-"+cambioFormato[0];
+	//var fechaNuevoFormato=cambioFormato[2]+"-"+cambioFormato[1]+"-"+cambioFormato[0];
+	
+	var fechaNuevoFormato=$(elemento).val();
 	
 	//alert(fechaNuevoFormato);
 	
+	
+	//VALIDA LA FECHA EN FORMATO DD-MM-YYYY
 	var regexFecha=/^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
 	
 		
@@ -249,7 +367,7 @@ function actualizarTotales()
 	    }
 	    else
 	    {
-	    	$('#pendientes_hoja').html(sum);
+	    	$('#pendientes_hoja').html(parseFloat(Math.round(sum * 100) / 100).toFixed(2)+"€");
 	    }	    
 	   
 }

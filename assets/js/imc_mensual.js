@@ -666,7 +666,7 @@ function agregar_proyecto_a_tabla()
 	//al ponerle clase nueva_linea lo tendremos en cuenta a la hora de insertar en la base de datos
 	var primeraCelda=$('<td class="nueva color_proy">'+id_proyecto+'</td>');
 	
-	//Esto inserta la fila antes de la ultima
+	//Esto inserta la celda en la fila
 	fila.append(primeraCelda);		
 	
 	//Aqui creamos tantas celdas como dias tenga el mes

@@ -18,14 +18,15 @@
 		Pendiente pago			
 		</button>			
 		<button id="todosGastos" class="buttonGenericoPeque boton-gastos"
-				onclick='location.href="<?php echo base_url()?>general/Gastos/index/3"'>
-		Ninguna
+				onclick='location.href="<?php echo base_url()?>general/Gastos/index/0"'>
+		Pagadas
 		</button>			
 	</div>			
 	
 	
 		
 	<div id="rejillaGastos">
+	
 	<h3 class="centrado titulo-mediano"><?php echo $condicion==1?'Todas.':($condicion==2?'Pendiente pago.':'Ninguna.')?></h3>
 		<table id="listadoGastosGeneral">
 			<tr id="fila-titulos">

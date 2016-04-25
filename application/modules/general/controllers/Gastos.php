@@ -9,15 +9,10 @@ class Gastos extends MX_Controller
 		parent::__construct();
 		$this->load->model('Gastos_model');
 		
-	}
+	}	
 	
-	
-	
-	
-	
-	
-	
-	public function index($condicion=3)
+	//MUESTRA LA PANTALLA DE TOODOS LOS MESES
+	public function index($condicion=1)
 	{		
 		$k_consultor=$this->session->userdata('k_consultor');
 		if($condicion==3)
@@ -44,6 +39,18 @@ class Gastos extends MX_Controller
 		$datos['css']="hoja_gastos_mes";
 		$datos['datos_gastos']=$this->Gastos_model->cargar_gastos_mes($this->session->userdata('k_consultor'),$year,$month);
 		enmarcar($this,"hojaGastosMes.php",$datos);
+	}
+	
+	public function grabar_gastos_mes()
+	{		
+		$eliminadas=isset($_REQUEST['lineasEliminadas'])?$_REQUEST['lineasEliminadas']:[];
+		$actualizadas=isset($_REQUEST['lineasActualizadas'])?$_REQUEST['lineasActualizadas']:[];
+		$creadas=isset($_REQUEST['lineasCreadas'])?$_REQUEST['lineasCreadas']:[];
+		$k_hoja_gastos=isset($_REQUEST['k_hoja_gastos'])?$_REQUEST['k_hoja_gastos']:null;
+		
+		$this->Gastos_model->grabar_gastos_mes($eliminadas,$actualizadas,$creadas,$k_hoja_gastos);
+		
+		echo "Cambios guardados.";
 	}
 	
 	

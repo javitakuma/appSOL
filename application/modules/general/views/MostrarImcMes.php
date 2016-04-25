@@ -148,8 +148,7 @@
 	                    <td id="jornadas"></td>
 	                </tr>
 	                
-	            </table>
-	           
+	            </table>	           
 	         
 			 
 	        </div><!-- CIERRE INFERIOR -->
