@@ -31,16 +31,16 @@
 		<div id="div_agregar_hoja"><img title="Agregar nueva hoja de gastos" class="imagen_agregar_hoja" src="<?php echo base_url()?>assets/img/cross.png"/><p class="titulo-peque">Agregar nueva hoja de gastos</p></div>
 		<table id="listadoGastosGeneral">
 			<tr id="fila-titulos">
-				<th>ABRIR</th>
-				<th>AÑO</th>
-				<th>MES</th>
-				<th>TOTAL</th>
-				<th>PENDIENTES REVISIÓN</th>
-				<th>AUTORIZADOS</th>
-				<th>NO AUTORIZADOS</th>	
-				<th>TOTAL PAGADO</th>		
-				<th>ULT. FECHA PAGO</th>		
-				<th>ENVIADA</th>					
+				<th id="abrir_titulo">ABRIR</th>
+				<th id="año_titulo">AÑO</th>
+				<th id="mes_titulo">MES</th>
+				<th id="total_titulo">TOTAL</th>
+				<th id="pendientes_titulo">PENDIENTES REVISIÓN</th>
+				<th id="autorizados_titulo">AUTORIZADOS</th>
+				<th id="no_autorizados_titulo">NO AUTORIZADOS</th>	
+				<th id="total_pagado_titulo">TOTAL PAGADO</th>		
+				<th id="ultima_fecha_titulo">ULT. FECHA PAGO</th>		
+				<th id="enviada_titulo">ENVIADA</th>					
 			</tr>			
 			
 			<?php foreach($hojas_gastos as $fila):?>
@@ -69,12 +69,12 @@
 <!-- VENTANA EMERGENTE -->
 
 <div id="dialog">
-	<img title="Cerrar" id="imagen_popup" src="<?php echo base_url()?>assets/img/cross.png"/>
+	<img title="Cerrar" id="imagen_cierre_popup" src="<?php echo base_url()?>assets/img/cross.png"/>
 	<p class="centrado titulo-mediano">Selecciona un mes</p>
 	<form action="<?php echo base_url()?>general/Gastos/generar_nueva_hoja_gastos" method="post">
 	<div id="seleccion_mes">
 		<label class="titulo-peque">Mes:</label>
-		<input id="mes_seleccion" name="mes_seleccion" type="text">
+		<input id="mes_seleccion" name="mes_seleccion" maxlength="2" type="text">
 	</div>
 	<div id="seleccion_year">
 		<label class="titulo-peque">Año:</label>

@@ -47,8 +47,7 @@
 .tabla_key th
 {
     width: 20px;
-    /*min-width: 20px;*/
-    padding: 0.2em 0;
+    padding: 1% 1%;
     margin:0px;
     text-align: center;
     border-collapse: collapse;
@@ -86,7 +85,18 @@
 {
 	
 	box-sizing: border-box;
-	width:100%;
+	height:40px;
+	padding:0px;
+	border-collapse: collapse;
+	/*border:solid 1px #AAA;*/
+	position:relative;
+	
+}
+
+.tabla_key .comentario_rechazo
+{
+	
+	box-sizing: border-box;
 	height:40px;
 	padding:0px;
 	border-collapse: collapse;
@@ -130,6 +140,8 @@
 	padding:0.2em 0;
 }
 
+/*========ANCHOS TABLAS======*/
+
 #tabla_gastos_pendientes_mes .id_proyecto_titulo
 {
     width:14%;
@@ -154,6 +166,49 @@
 {
     width:45%;
 }
+
+
+
+#tabla_gastos_todos_mes #id_proyecto_titulo
+{
+    width:10%;
+}
+
+#tabla_gastos_todos_mes #tipo_gasto_titulo
+{
+    width:7%;
+}
+
+#tabla_gastos_todos_mes #fecha_gasto_titulo
+{
+    width:12%;
+}
+
+#tabla_gastos_todos_mes #valor_gasto_titulo
+{
+    width:8%;
+}
+
+#tabla_gastos_todos_mes #aut1_titulo
+{
+    width:8%;
+}
+
+#tabla_gastos_todos_mes #aut2_titulo
+{
+    width:8%;
+}
+
+#tabla_gastos_todos_mes #descripcion_titulo
+{
+    width:24%;
+}
+
+#tabla_gastos_todos_mes #rechazo_titulo
+{
+    width:24%;
+}
+
 
 .tabla_key select
 {
@@ -220,6 +275,7 @@
 
 .tabla_key th
 {
+	padding:1% 1%;
 	border-top:none;
 	background: RGB(35,200,200);
 	cursor:default;

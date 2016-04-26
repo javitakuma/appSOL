@@ -29,7 +29,7 @@
 	        	
 	        	<h3 class="titulo-grande">Lista de gastos</h3>
 	        	
-	        	<p id="parrafo_sin_gastos" class="titulo-mediano">No dispones de gastos en el mes actual</p>
+	        	<p id="parrafo_sin_gastos" class="titulo-mediano">No dispones de gastos en este mes</p>
 	            <table id="tabla_gastos_pendientes_mes" class="tabla_key">            	
 	                 <!-- 
 	                 CON ESTO PINTAMOS LA PRIMERA FILA DE LA TABLA 
@@ -112,19 +112,20 @@
 	            <?php if($datos_gastos['t_hojas_gastos'][0]['sw_autorizar_revision']!=0):?>
 	         	
 	         	<h3 class="titulo-mediano">Gastos revisados</h3>
+	         	
 	         	<table id="tabla_gastos_todos_mes" class="tabla_key">            	
 	                 <!-- 
 	                 CON ESTO PINTAMOS LA PRIMERA FILA DE LA TABLA 
 	                 -->
 	                 <tr class="fila-titulos">
-						<th>PROYECTO</th>
-						<th>TIPO</th>
-						<th>FECHA</th>
-						<th>VALOR(€)</th>
-						<th>AUT 1</th>
-						<th>AUT 2</th>
-						<th>DESCRIPCIÓN</th>	
-						<th>COMENTARIO RECHAZO</th>								
+						<th id="id_proyecto_titulo">PROYECTO</th>
+						<th id="tipo_gasto_titulo">TIPO</th>
+						<th id="fecha_gasto_titulo">FECHA</th>
+						<th id="valor_gasto_titulo">VALOR(€)</th>
+						<th id="aut1_titulo">AUT 1</th>
+						<th id="aut2_titulo">AUT 2</th>
+						<th id="descripcion_titulo">DESCRIPCIÓN</th>	
+						<th id="rechazo_titulo">COMENTARIO RECHAZO</th>								
 					</tr>
 	                
 	                
@@ -158,7 +159,7 @@
 	                    
 	                    <td class="descripcion_gasto"><textarea disabled="disabled"><?php echo $linea_gastos['desc_linea_gasto']?></textarea></td> 
 	                    
-	                    <td class="comentario_rechazo"><textarea  disabled="disabled"><?php echo $linea_gastos['com_rechazo_linea_gasto']?></textarea></td>              
+	                    <td class="comentario_rechazo"><textarea disabled="disabled"><?php echo $linea_gastos['com_rechazo_linea_gasto']?></textarea></td>              
 	                    
 	                </tr>
 	                	

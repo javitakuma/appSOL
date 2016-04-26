@@ -65,24 +65,49 @@ table#listadoGastosGeneral
 
 #listadoGastosGeneral th
 {
+	padding:1% 1%;
 	width:14%;
 	height:40px;
 	text-align:center;
 	vertical-align:middle;
 	border-collapse: collapse;
 	border:solid 2px #AAA;	
-	font-size:80%;
+	font-size:75%;
 	font-weight:bold;
     background: RGB(35,200,200);
 }
 
 #listadoGastosGeneral td
 {
-	width:14%;
+	/*width:14%;*/
 	text-align:center;
 	vertical-align:middle;
 	border-collapse: collapse;
 	border:solid 2px #AAA;
+}
+
+#listadoGastosGeneral #abrir_titulo
+{
+	width:7%;	
+	padding:0 1%;
+}
+
+#listadoGastosGeneral #mes_titulo
+{
+	width:5%;	
+	padding:0 1%;
+}
+
+#listadoGastosGeneral #total_titulo
+{
+	width:5%;	
+	padding:0 1%;
+}
+
+#listadoGastosGeneral #ultima_fecha_titulo
+{
+	width:20%;	
+	padding:0 1%;
 }
 
 #listadoGastosGeneral tr:nth-child(odd)
@@ -152,7 +177,8 @@ table#listadoGastosGeneral
 
 
 /*======VENTANA EMERGENTE========*/
-#imagen_popup
+
+#imagen_cierre_popup
 {
 	width:3%;
 	position:absolute;
@@ -223,60 +249,3 @@ margin:5% auto;
 	border-bottom: 1px solid #757575;
 	text-align:center;
 }
-
-/*
-#dialog p {
-color:#000;
-font-size:16px;
-font-weight:700
-}
-#dialog #button {
-border:1px solid #0c799e;
-width:250px;
-padding:10px;
-font-size:16px;
-font-weight:700;
-color:#fff;
-border-radius:3px;
-background:linear-gradient(to bottom,#59d0f8 5%,#49c0e8 100%);
-cursor:pointer
-}
-#dialog #button:hover {
-background:linear-gradient(to bottom,#49c0e8 5%,#59d0f8 100%)
-}
-#dialog input[type=text] {
-margin-top:5px;
-margin-bottom:20px;
-width:96%;
-border-radius:5px;
-border:0;
-padding:5px 0
-}
-#dialog #name,#email {
-padding-left:10px
-}
-#dialog input[type=submit] {
-width:30%;
-border:1px solid #59b4d4;
-background:#0078a3;
-color:#eee;
-padding:3px 0;
-border-radius:5px;
-margin-left:33%;
-cursor:pointer
-}
-#dialog input[type=submit]:hover {
-border:1px solid #666;
-background:#555;
-color:#fff
-}
-#dialog .ui-dialog .ui-dialog-content {
-padding:2em
-}
-*/
-
-
-
-
-
-

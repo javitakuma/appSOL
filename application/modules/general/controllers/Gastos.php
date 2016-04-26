@@ -39,6 +39,12 @@ class Gastos extends MX_Controller
 		$datos['js']="hoja_gastos_mes";
 		$datos['css']="hoja_gastos_mes";
 		$datos['datos_gastos']=$this->Gastos_model->cargar_gastos_mes($this->session->userdata('k_consultor'),$year,$month);
+		
+		/*
+		var_dump($datos);
+		die;
+		*/
+		
 		enmarcar($this,"hojaGastosMes.php",$datos);
 	}
 	
@@ -58,6 +64,15 @@ class Gastos extends MX_Controller
 	{
 		$year=$_REQUEST['year_seleccion'];
 		$month=$_REQUEST['mes_seleccion'];
+		
+		/*
+		if(strlen($month)==1)
+		{
+			$month='0564'+$month;
+		}
+		echo $month;
+		die;
+		*/
 		
 		$this->Gastos_model->buscar_hojas_gastos($this->session->userdata('k_consultor'),$year,$month,$this->session->userdata('id_consultor'));
 		
