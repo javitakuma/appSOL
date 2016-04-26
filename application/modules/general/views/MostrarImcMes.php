@@ -9,7 +9,11 @@
 	        <p class="titulo-grande centrado">IMC <?php echo $this->session->userdata('nom_consultor')." ("?><?php echo $mes_texto?> de <?php echo $year.")"?></p>
 	        <br/>
 	        <br/>
-        
+        	<?php if($datos_imc_mes['t_imcs'][0]['sw_validacion']==0):?>
+	            <input id="enviar_imc" class="buttonGenericoPeque centrado-margin" type="button" value="Enviar IMC"/>
+	        <?php endif;?>
+	        <br/>
+	        <br/>
 	        <!-- SOLO PINTAMOS ESTA PARTE SI EL IMC NO ESTA ENVIADO -->
 	        <?php if($datos_imc_mes['t_imcs'][0]['sw_validacion']==0):?>
 	        <h2 class="titulo-mediano">Agregar un proyecto a la tabla</h2>
@@ -131,9 +135,7 @@
 	            <input id="grabar" class="buttonGenericoPeque" type="button" value="Grabar datos"/>
 	            <?php endif;?>
 	            <br/><br/>
-	             <?php if($datos_imc_mes['t_imcs'][0]['sw_validacion']==0):?>
-	            <input id="enviar_imc" class="buttonGenericoPeque" type="button" value="Enviar IMC"/>
-	            <?php endif;?>
+	             
 	            
 	            <br/>
 	            <table id="totales_imc" border="1">

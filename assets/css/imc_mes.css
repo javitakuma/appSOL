@@ -15,6 +15,13 @@
 	margin:0 auto;
 }
 
+#enviar_imc
+{
+	width:30%;
+	margin:0 auto;
+	margin-left:35%;	
+	
+}
 
 #imc_mensual table
 {
