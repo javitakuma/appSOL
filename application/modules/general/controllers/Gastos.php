@@ -23,8 +23,9 @@ class Gastos extends MX_Controller
 		{
 			$datos['hojas_gastos']=$this->Gastos_model->get_hojas_gastos($condicion,$k_consultor);
 		}		
-		$datos['js'] ="gastos";
-		$datos['css'] ="gastos";
+		$datos['js'] =["gastos"];
+		//$datos['css'] ="gastos";
+		$datos['css'] =["gastos"];
 		$datos['condicion']=$condicion;
 		 
 		enmarcar($this,"Gastos.php",$datos);
@@ -53,6 +54,15 @@ class Gastos extends MX_Controller
 		echo "Cambios guardados.";
 	}
 	
+	public function generar_nueva_hoja_gastos()
+	{
+		$year=$_REQUEST['year_seleccion'];
+		$month=$_REQUEST['mes_seleccion'];
+		
+		$this->Gastos_model->buscar_hojas_gastos($this->session->userdata('k_consultor'),$year,$month,$this->session->userdata('id_consultor'));
+		
+		$this->mostrar_gastos_mes($year, $month);
+	}
 	
 	
 	
@@ -64,46 +74,9 @@ class Gastos extends MX_Controller
 	
 	public function mesTexto($numero)
 	{
-		$mes_texto="";
-		switch ($numero) {
-			case 01:
-				$mes_texto="Enero";
-				break;
-			case 02:
-				$mes_texto="Febrero";
-				break;
-			case 03:
-				$mes_texto="Marzo";
-				break;
-			case 04:
-				$mes_texto="Abril";
-				break;
-			case 05:
-				$mes_texto="Mayo";
-				break;
-			case 06:
-				$mes_texto="Junio";
-				break;
-			case 07:
-				$mes_texto="Julio";
-				break;
-			case 08:
-				$mes_texto="Agosto";
-				break;
-			case 09:
-				$mes_texto="Septiembre";
-				break;
-			case 10:
-				$mes_texto="Octubre";
-				break;
-			case 11:
-				$mes_texto="Noviembre";
-				break;
-			case 12:
-				$mes_texto="Diciembre";
-				break;
-		}	
-		return $mes_texto;
+		$meses_texto=["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];			
+			
+		return $meses_texto[$numero-1];
 	}
 	
 }

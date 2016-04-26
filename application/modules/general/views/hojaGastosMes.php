@@ -27,7 +27,9 @@
 	        	
 	        	<?php if($datos_gastos['t_hojas_gastos'][0]['sw_autorizar_revision']==0):?>
 	        	
-	        	<h3 class="titulo-mediano">Lista de gastos</h3>
+	        	<h3 class="titulo-grande">Lista de gastos</h3>
+	        	
+	        	<p id="parrafo_sin_gastos" class="titulo-mediano">No dispones de gastos en el mes actual</p>
 	            <table id="tabla_gastos_pendientes_mes" class="tabla_key">            	
 	                 <!-- 
 	                 CON ESTO PINTAMOS LA PRIMERA FILA DE LA TABLA 
@@ -39,6 +41,9 @@
 						<th class="valor_gasto_titulo">VALOR(€)</th>
 						<th class="descripcion_gasto_titulo">DESCRIPCIÓN LINEA GASTO</th>									
 					</tr>	                
+	                
+	                
+	                
 	                
 	                <!-- 
 	                 CON ESTO PINTAMOS UNA FILA DE LA TABLA POR CADA LINEA DE GASTO QUE HAYAMOS COGIDO DE LA BASE DE DATOS
@@ -67,7 +72,7 @@
 	                    </td> 
 	                    
 	                    <td class="fecha_gasto">
-	                    	<input class="input_datos" type="text" placeholder="yyyy-mm-dd" value="<?php echo $linea_gastos['f_linea_gasto']?>"/>	                    	
+	                    	<input class="input_datos" type="date" placeholder="yyyy-mm-dd" value="<?php echo $linea_gastos['f_linea_gasto']?>"/>	                    	
 	                    </td>     
 	                    
 	                    <td class="valor_gasto">
@@ -191,7 +196,9 @@
 </div>
 
 <!-- CAMPOS CON VARIABLES QUE NECESITAREMOS LUEGO EN LADO CLIENTE -->
-		<input type="hidden" id="k_hoja_gastos" value="<?php echo $datos_gastos['t_hojas_gastos'][0]['k_hoja_gastos']?>"/>	
+		<input type="hidden" id="k_hoja_gastos" value="<?php echo $datos_gastos['t_hojas_gastos'][0]['k_hoja_gastos']?>"/>
+		<input type="hidden" id="mes_hoja" value="<?php echo $mes?>"/>
+		<input type="hidden" id="año_hoja" value="<?php echo $year?>"/>	
 		
 		<script>
 			var proyectos_consultor=<?php echo $datos_gastos['proyectos_consultor_JSON']?>;

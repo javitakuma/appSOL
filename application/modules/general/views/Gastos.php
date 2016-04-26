@@ -28,6 +28,7 @@
 	<div id="rejillaGastos">
 	
 	<h3 class="centrado titulo-mediano"><?php echo $condicion==1?'Todas.':($condicion==2?'Pendiente pago.':'Ninguna.')?></h3>
+		<div id="div_agregar_hoja"><img title="Agregar nueva hoja de gastos" class="imagen_agregar_hoja" src="<?php echo base_url()?>assets/img/cross.png"/><p class="titulo-peque">Agregar nueva hoja de gastos</p></div>
 		<table id="listadoGastosGeneral">
 			<tr id="fila-titulos">
 				<th>ABRIR</th>
@@ -65,5 +66,23 @@
 	</div>
 </div>
 
+<!-- VENTANA EMERGENTE -->
 
+<div id="dialog">
+	<img title="Cerrar" id="imagen_popup" src="<?php echo base_url()?>assets/img/cross.png"/>
+	<p class="centrado titulo-mediano">Selecciona un mes</p>
+	<form action="<?php echo base_url()?>general/Gastos/generar_nueva_hoja_gastos" method="post">
+	<div id="seleccion_mes">
+		<label class="titulo-peque">Mes:</label>
+		<input id="mes_seleccion" name="mes_seleccion" type="text">
+	</div>
+	<div id="seleccion_year">
+		<label class="titulo-peque">Año:</label>
+		<input id="year_seleccion" name="year_seleccion" type="text">
+	</div>
+		
+	</form>
+	<button id="boton_selecciones_hoja" class="centrado buttonGenericoPeque">Enviar</button>
+</div>
 
+<div id="sombra"></div>

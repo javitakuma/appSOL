@@ -25,6 +25,7 @@ class Login extends MX_Controller
 		{
 			$datos['errorLoginUsuario']=$this->session->flashdata('errorLoginUsuario');
 			$datos['errorLoginMensaje']=$this->session->flashdata('errorLoginMensaje');
+			$datos['css']=['formulario'];
 			enmarcar($this,'Login',$datos);
 		}	
 		
@@ -145,6 +146,7 @@ class Login extends MX_Controller
 		{
 			$datos['errorCambioPassUsuario']=$this->session->flashdata('errorCambioPassUsuario');
 			$datos['errorCambioPassMensaje']=$this->session->flashdata('errorCambioPassMensaje');
+			$datos['css']=['formulario'];
 			enmarcar($this,'Cambio_pass.php',$datos);
 			//$this->load->view('Cambio_pass',$datos);
 			
@@ -154,6 +156,7 @@ class Login extends MX_Controller
 		{
 			$datos['errorLoginUsuario']='';
 			$datos['errorLoginMensaje']='Por favor inicia sesion';
+			$datos['css']=['formulario'];
 			enmarcar($this,'Login',$datos);    //TODO
 		}		
 	}

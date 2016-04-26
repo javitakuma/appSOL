@@ -43,6 +43,11 @@ img
 	cursor:pointer;
 }
 
+.centrado
+{
+	text-align: center;
+}
+
 footer
 {
 	height:50px;

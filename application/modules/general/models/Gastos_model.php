@@ -9,7 +9,48 @@ class Gastos_model extends CI_Model
 	}
 	
 	
+	public function buscar_hojas_gastos($k_consultor,$year,$month,$id_consultor)
+	{
+		//$id_consultor lo pasamos por si hay que crear la hoja para crear el comentario
+		
+				
+		$this->load->database();
+		$this->db->trans_start();
+		
+		//===========SELECCIONAMOS LA CLAVE DE LA HOJA DE GASTOS DEL MES QUE NOS HAN PASADO POR SI EXISTIERA=========
+		
+		$sql = "SELECT k_hoja_gastos
+		FROM t_hojas_gastos
+		WHERE (t_hojas_gastos.k_consultor=$k_consultor) AND (t_hojas_gastos.f_año_hoja_gastos=$year) AND (t_hojas_gastos.f_mes_hoja_gastos LIKE '$month')";
+		
+		
+		$hoja_ya_creada=$this->db->query($sql)->num_rows()>0;	
+		
+		//NO EXISTE ESA HOJA DE GASTOS, POR LO TANTO LA CREAMOS
+		if(!$hoja_ya_creada)
+		{
+			$this->crear_hoja_gastos($k_consultor,$year,$month,$id_consultor);		
+		}
+		
+		$this->db->trans_complete();
+		$this->db->close();
+		
+		return $hoja_ya_creada;
+	}
 	
+	public function  crear_hoja_gastos($k_consultor,$year,$month,$id_consultor)
+	{
+		//Cambiamos el mes a texto
+		
+		$mesTexto=$this->mesTexto($month);
+		$data = array(
+				'k_consultor'       			=>   $k_consultor,
+				'com_hoja_gastos'         		=>   "Gastos $id_consultor $mesTexto $year",
+				'f_año_hoja_gastos' 			=>   $year,
+				'f_mes_hoja_gastos'   			=>   $month,
+		);
+		$this->db->insert('t_hojas_gastos',$data);
+	}
 	
 	
 	public function get_hojas_gastos($condicion,$k_consultor)
@@ -70,8 +111,10 @@ class Gastos_model extends CI_Model
 		
 		//===========SELECCIONAMOS LAS LINEAS DE GASTOS DE ESE MES PENDIENTES DE AUTORIZACION=========
 		
+		//to_char(t_linea_gasto.f_linea_gasto, 'DD-MM-YYYY') f_linea_gasto
+		
 		$sql_lineas_gastos_pendientes="SELECT t_linea_gasto.k_linea_gasto, t_linea_gasto.k_hoja_gasto, t_linea_gasto.k_proyecto, t_linea_gasto.k_tipo_linea_gasto, 
-		t_linea_gasto.k_hito_ficha_proyecto, to_char(t_linea_gasto.f_linea_gasto, 'DD-MM-YYYY') f_linea_gasto, t_linea_gasto.i_imp_linea_gasto, t_linea_gasto.sw_linea_gasto_facturable, 
+		t_linea_gasto.k_hito_ficha_proyecto, t_linea_gasto.f_linea_gasto, t_linea_gasto.i_imp_linea_gasto, t_linea_gasto.sw_linea_gasto_facturable, 
 		t_linea_gasto.i_imp_linea_gasto_facturado, t_linea_gasto.k_linea_gasto_autorizado1, t_linea_gasto.k_linea_gasto_autorizado2, 
 		t_linea_gasto.desc_linea_gasto, t_linea_gasto.com_rechazo_linea_gasto, t_linea_gasto.i_linea_hito, t_linea_gasto.k_linea_gasto_autorizado1, 
 		t_linea_gasto.k_linea_gasto_autorizado2
@@ -207,7 +250,12 @@ class Gastos_model extends CI_Model
 		
 		}
 	
-	
+		public function mesTexto($numero)
+		{
+			$meses_texto=["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];			
+			
+			return $meses_texto[$numero-1];
+		}
 	
 	
 	

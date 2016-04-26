@@ -327,7 +327,10 @@
 	border-right:none;	
 }
 
-
+#tabla_imc .fila-datos td:nth-last-child(2)
+{
+	background-color:#FFF;
+}
 
 #tabla_imc tr td:last-child-1
 {

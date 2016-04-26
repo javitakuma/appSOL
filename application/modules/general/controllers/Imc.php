@@ -89,6 +89,8 @@ class Imc extends MX_Controller
 		print json_encode($codigos_solo_id);
 	}
 	
+	
+	
 	public function mesTexto($numero)
 	{
 		$mes_texto="";

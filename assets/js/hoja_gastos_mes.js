@@ -68,7 +68,7 @@ $(document).ready(function() {
     	    	{
 		    		if (!validarFecha(this))
 		        	{
-		        		alert("Dia o formato de fecha incorrecto (Formato requerido: yyyy-mm-dd)");
+		        		
 		        		$(this).focus();
 		        		cancelar_envio=true;
 		            	//actualizarTotales();
@@ -141,10 +141,9 @@ $(document).ready(function() {
     });
 	
 	$('#tabla_gastos_pendientes_mes').delegate(".fecha_gasto input", 'blur', function(event) {
-    	//alert($(this).parent().parent().find('.total_horas_imc').html());
     	if (!validarFecha(this))
     	{
-    		alert("Dia o formato de fecha incorrecto (Formato requerido: yyyy-mm-dd)");
+    		//alert("Dia o formato de fecha incorrecto (Formato requerido: dd/mm/yyyy)");
     		$(this).focus();
         	//actualizarTotales();
     	}
@@ -155,7 +154,10 @@ $(document).ready(function() {
 	
 	//EVENTO PARA LA ACCION CLICK DEL BOTON AGREGAR LINEA
 	$("#div_agregar_fila").click(function() 
-			{				
+			{		
+				//PONEMOS LA PROPIEDAD DISPLAY A BLOCK POR SI LA HEMOS QUITADO
+				$('#tabla_gastos_pendientes_mes').css('display','block');
+				$('#parrafo_sin_gastos').css('display','none');
 				agregar_linea();				
 			});
 	
@@ -233,7 +235,7 @@ function agregar_linea()
 	
 	//CREAMOS LAS OTRAS 3 CASILLAS Y EL BOTON ELIMINAR
 	
-	var fechaGasto=$('<td class="fecha_gasto"><input class="input_datos" type="text" placeholder="yyyy-mm-dd" value=""/></td>');
+	var fechaGasto=$('<td class="fecha_gasto"><input class="input_datos" type="date" placeholder="yyyy-mm-dd" value=""/></td>');
 	
 	var valorGasto=$('<td class="valor_gasto"><input class="input_datos" type="text" value="0.00"/></td>');
 	
@@ -328,12 +330,12 @@ function validarFecha(elemento)
 {
 	var respuesta=false;
 	
-	//CAMBIAMOS LA FECHA DE FORMATO yyyy-mm-dd A dd-mm-yyyy PARA VALIDARLA
-	//var cambioFormato=$(elemento).val().split("-");
+	//CAMBIAMOS LA FECHA DE FORMATO yyyy-mm-dd A dd-mm-yyyy PARA VALIDARLA (input date cambia format)
+	var cambioFormato=$(elemento).val().split("-");
 	
-	//var fechaNuevoFormato=cambioFormato[2]+"-"+cambioFormato[1]+"-"+cambioFormato[0];
+	var fechaNuevoFormato=cambioFormato[2]+"-"+cambioFormato[1]+"-"+cambioFormato[0];
 	
-	var fechaNuevoFormato=$(elemento).val();
+	//var fechaNuevoFormato=$(elemento).val();
 	
 	//alert(fechaNuevoFormato);
 	
@@ -346,11 +348,21 @@ function validarFecha(elemento)
 	{
 		respuesta=true;
 	}
+	else
+	{
+		alert("Dia o formato de fecha incorrecto (Formato requerido: dd/mm/yyyy)");
+	}
+	
+	if(cambioFormato[0]!=$('#año_hoja').val()||cambioFormato[1]!=$('#mes_hoja').val())
+	{
+		respuesta=false;
+		alert("Solo se admiten gastos para el mes en curso de la hoja("+($('#mes_hoja').val())+"/"+($('#año_hoja').val())+")");
+	}
 	
 	return respuesta;
 }
 
-//ESTA FUNCION ACTUALIZA LA FILA DE TOTALES
+//ESTA FUNCION ACTUALIZA LA FILA DE TOTALES Y VALORA SI EXISTEN LINEAS DE GASTO O NO PARA PINTAR LA TABLA O LA ADVERTENCIA DE QUE NO EXISTEN
 function actualizarTotales()
 {		
 		//SUMAMOS LOS TOTALES Y LOS PONEMOS EN OTROS DOS CAMPOS
@@ -368,7 +380,23 @@ function actualizarTotales()
 	    else
 	    {
 	    	$('#pendientes_hoja').html(parseFloat(Math.round(sum * 100) / 100).toFixed(2)+"€");
-	    }	    
+	    }	
+	    
+	    
+	    var numeroFilas=$('.fila-datos').length;
+	    
+	    if(numeroFilas==0)
+	    {
+	    	$('#parrafo_sin_gastos').css('display','block');
+	    	$('#tabla_gastos_pendientes_mes').css('display','none');
+	    }
+	    else
+	    {
+	    	$('#tabla_gastos_pendientes_mes').css('display','block');
+	    	$('#parrafo_sin_gastos').css('display','none');
+	    }
+	    
+	    //alert("filas:"+numeroFilas);
 	   
 }
 

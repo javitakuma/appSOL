@@ -11,7 +11,7 @@
     <input type="password" name="pass" id="pass">
   </div>
  	<p class="error"><?php echo $errorCambioPassMensaje?></p>
-  <input type="submit" class="button buttonGenerico" value="Entrar"/>
+  <input type="submit" class="button buttonGenerico" value="Enviar"/>
   
 </form>
 </div>

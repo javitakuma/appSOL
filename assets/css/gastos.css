@@ -24,6 +24,27 @@
 	background-color:red;
 }
 */
+
+#div_agregar_hoja
+{
+	display: inline-block;	
+	cursor:pointer;
+	margin-left:11%;
+	margin-bottom:1%;
+}
+
+#div_agregar_hoja p,img
+{
+	display: inline-block;	
+}
+
+
+.imagen_agregar_hoja
+{
+	width: 15px;
+	display: inline-block;
+}
+
 #rejillaGastos
 {	
 	margin-top:100px;
@@ -128,6 +149,134 @@ table#listadoGastosGeneral
 	-moz-border-radius:0 0 0 10px ;
 	-webkit-border-radius:0 0 0 10px;	
 }
+
+
+/*======VENTANA EMERGENTE========*/
+#imagen_popup
+{
+	width:3%;
+	position:absolute;
+	right:5%;
+	top:5%;
+	
+}
+#sombra
+{
+	background-color:rgba(0,0,0,0.5);
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:888;
+}
+
+#dialog {
+background-color:#EFEFEF;
+width:30%;
+height:30%;
+top: 35%;
+left: 35%;
+position:absolute;
+z-index:999;
+border-radius:15px;
+/*display:none;*/
+}
+
+#dialog p {
+height: 10%;
+margin:5% auto;
+}
+
+#dialog form
+{
+	height: 45%;
+	margin:0 auto;	
+}
+
+#dialog div {
+width: 50%;
+height:30%;
+margin:5% auto;
+}
+#boton_selecciones_hoja
+{
+	width: 30%;
+	position:absolute;
+	left:35%;
+	height:10%;
+	margin:0 auto;	
+}
+#dialog hr {
+}
+
+#dialog input {
+	font-size: 110%;
+	-webkit-appearance: none;
+	display: block;
+	background: #CCC;
+	color: black;
+	font-weight:bold;
+	width: 100%;
+	margin:0 auto;
+	height:50%;
+	border: none;
+	border-radius: 0;
+	border-bottom: 1px solid #757575;
+	text-align:center;
+}
+
+/*
+#dialog p {
+color:#000;
+font-size:16px;
+font-weight:700
+}
+#dialog #button {
+border:1px solid #0c799e;
+width:250px;
+padding:10px;
+font-size:16px;
+font-weight:700;
+color:#fff;
+border-radius:3px;
+background:linear-gradient(to bottom,#59d0f8 5%,#49c0e8 100%);
+cursor:pointer
+}
+#dialog #button:hover {
+background:linear-gradient(to bottom,#49c0e8 5%,#59d0f8 100%)
+}
+#dialog input[type=text] {
+margin-top:5px;
+margin-bottom:20px;
+width:96%;
+border-radius:5px;
+border:0;
+padding:5px 0
+}
+#dialog #name,#email {
+padding-left:10px
+}
+#dialog input[type=submit] {
+width:30%;
+border:1px solid #59b4d4;
+background:#0078a3;
+color:#eee;
+padding:3px 0;
+border-radius:5px;
+margin-left:33%;
+cursor:pointer
+}
+#dialog input[type=submit]:hover {
+border:1px solid #666;
+background:#555;
+color:#fff
+}
+#dialog .ui-dialog .ui-dialog-content {
+padding:2em
+}
+*/
+
+
+
 
 
 
