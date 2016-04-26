@@ -1,5 +1,6 @@
 body {
 	width:95%;
+	margin:0 auto;
 	font-family:Helvetica,arial;
 	background: #EEE; 
     font-size:14px; 
@@ -32,7 +33,7 @@ body {
 {
 	width:90%;
 	height:100px;
-	margin:0 100px;
+	margin:0 auto;
 	margin-bottom:50px;
 	position:relative;
 	display:block;
@@ -47,6 +48,10 @@ img
 {
 	text-align: center;
 }
+.centrado-margin
+{
+	margin:0 auto;
+}
 
 footer
 {
@@ -55,8 +60,10 @@ footer
 
 .titulo-aplicacion
 {
+	width:60%;
 	font-size:200%;
 	color:rgb(35,144,139);
+	margin:0 auto;
 }
 
 .flotarDerecha

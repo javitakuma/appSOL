@@ -1,36 +1,34 @@
 
 
 <div id="contenedorHojaGastos">
-
+	
+	<!--BOTON VOLVER, TITULO, FECHA PAGO Y BOTON ENVIAR GASTOS  -->
 	<div class="volver">
-			<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='location.href="<?php echo base_url()?>general/Gastos"'/>
-			
+			<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='location.href="<?php echo base_url()?>general/Gastos"'/>			
 	</div>
 	<h1 class="centrado titulo-grande">HOJA DE GASTOS <?php echo $this->session->userdata('nom_consultor')." ("?><?php echo $mes_texto?> de <?php echo $year.")"?></h1>
 	<br/>
 	<div id="superior">	 	
-				<p class="titulo-peque" id="fecha_pago_hoja_gastos">Fecha de pago:<?php echo $datos_gastos['t_hojas_gastos'][0]['f_pago_hoja_gastos']?></p>
+				<p class="titulo-mediano" id="fecha_pago_hoja_gastos">Fecha de pago: <?php echo $datos_gastos['t_hojas_gastos'][0]['f_pago_hoja_gastos']?></p>
 				<br/>											
 				<?php if($datos_gastos['t_hojas_gastos'][0]['sw_autorizar_revision']==0):?>
 	            <input id="enviar_gastos" class="buttonGenericoPeque centrado" type="button" value="Enviar gastos"/>
-	 			<?php endif;?> 		
-		  
-	           
+	 			<?php endif;?> 		           
 		<br/><br/>
 	</div>
-	
-	 
-	
-	
-	
+		
+	<!-- LISTA GASTOS, TOTALES -->
 	<div  id="inferior">        	
 	        	
+	        	<!--SOLO PINTAMOS LOS PENDIENTES SI NO ESTA ENVIADA LA HOJA GASTOS  -->
 	        	<?php if($datos_gastos['t_hojas_gastos'][0]['sw_autorizar_revision']==0):?>
 	        	
 	        	<h3 class="titulo-grande">Lista de gastos</h3>
 	        	
+	        	<!--PARRAFO PARA MOSTRAR SI NO HAY FILAS  -->
 	        	<p id="parrafo_sin_gastos" class="titulo-mediano">No dispones de gastos en este mes</p>
-	            <table id="tabla_gastos_pendientes_mes" class="tabla_key">            	
+	            <table id="tabla_gastos_pendientes_mes" class="tabla_key">   
+	                     	
 	                 <!-- 
 	                 CON ESTO PINTAMOS LA PRIMERA FILA DE LA TABLA 
 	                 -->
@@ -109,9 +107,11 @@
 	            <br/>
 	            <br/>
 	            
+	            
+	            <!--SOLO PINTAMOS LOS REVISADOS SI NO ESTA ENVIADA LA HOJA GASTOS  -->
 	            <?php if($datos_gastos['t_hojas_gastos'][0]['sw_autorizar_revision']!=0):?>
 	         	
-	         	<h3 class="titulo-mediano">Gastos revisados</h3>
+	         	<h3 class="titulo-grande">Gastos revisados</h3>
 	         	
 	         	<table id="tabla_gastos_todos_mes" class="tabla_key">            	
 	                 <!-- 
@@ -172,7 +172,7 @@
 	         	<?php endif;?>
 	         	
 			 	<!-- TABLA TOTALES -->
-	            <h3 class="titulo-mediano">Gastos Totales</h3>
+	            <h3 class="titulo-grande">Gastos Totales</h3>
 	            <table id="totales_gastos" class="tabla_key">
 	                <tr>
 	                 	<th>Total</th>

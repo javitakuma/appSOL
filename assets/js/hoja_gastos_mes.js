@@ -29,28 +29,14 @@ $(document).ready(function() {
     	//SI LOS DATOS SON INCORRECTOS NO EJECUTAREMOS EL GRABADO
     	var cancelar_envio=false;
     	
-    	$('.select_proyecto').each(function()
-    	    	{
-    	    		if($(this).val()==0)
-    	    		{
-    	    			cancelar_envio=true;
-    	    			alert("Debes seleccionar un proyecto para cada línea.");
-    	    		}
-    	});
+    	//VALIDAMOS QUE HAYA SELECCIONADO UN PROYECTO EN CADA FILA
     	
-    	$('.select_tipo_gasto').each(function()
-    	    	{
-    	    		if($(this).val()==0)
-    	    		{
-    	    			cancelar_envio=true;
-    	    			alert("Debes seleccionar un tipo de gasto para cada línea.");
-    	    		}
-    	});
     	
+    	
+    	
+    	//VALIDAMOS QUE HAYA VALORES CORRECTOS EN EL IMPORTE
     	$('.valor_gasto input').each(function()
-    	{
-    		
-    		
+    	{    		    		
     		if($(this).val()<0)
     		{
     			cancelar_envio=true;
@@ -63,26 +49,43 @@ $(document).ready(function() {
     		}
     	});
     	
-    	
+    	//VALIDAMOS QUE HAYA SELECCIONADO UNA FECHA CORRECTA EN CADA FILA
     	$('.fecha_gasto input').each(function()
     	    	{
 		    		if (!validarFecha(this))
-		        	{
+		        	{		        		
 		        		
-		        		$(this).focus();
 		        		cancelar_envio=true;
 		            	//actualizarTotales();
 		        	}
     	    	});
     	
+    	//VALIDAMOS QUE HAYA SELECCIONADO UN TIPO GASTO EN CADA FILA
+    	$('.select_tipo_gasto').each(function()
+    	    	{
+    	    		if($(this).val()==0)
+    	    		{
+    	    			cancelar_envio=true;
+    	    			alert("Debes seleccionar un tipo de gasto para cada línea.");
+    	    			
+    	    		}
+    	});
+    	
+    	$('.select_proyecto').each(function()
+    	    	{
+    	    		if($(this).val()==0)
+    	    		{
+    	    			cancelar_envio=true;
+    	    			alert("Debes seleccionar un proyecto para cada línea.");
+    	    		}
+    	});
+    	
     	var error_longitud_comentario=false;
     	
+    	//VALIDAMOS EL TAMAÑO DEL CAMPO DESCRIPCION
     	$('.descripcion_gasto textarea').each(function()
-    	{
-    		
-    		var nombre_proyecto=$(this).parent().parent().find('td:first').html();
-    		
-    		
+    	{    		
+    		//var nombre_proyecto=$(this).parent().parent().find('td:first').html();          CAMBIADO    				
     		
     		if($(this).val().length>100)
     		{
@@ -115,14 +118,10 @@ $(document).ready(function() {
         	            location.reload();
         	       }
         	    }); 
-    	  }	
-    	
-    			
+    	  }	  
       });
 	
-	
-	
-	
+	//EVENTO BLUR PARA LAS CASILLAS DE GASTO PARA VALIDAR
 	$('#tabla_gastos_pendientes_mes').delegate(".valor_gasto input", 'blur', function(event) {
     	
     	if (validarValorCelda(this))
@@ -140,6 +139,7 @@ $(document).ready(function() {
         // ...
     });
 	
+	//EVENTO BLUR PARA LAS CASILLAS DE LA FECHA PARA VALIDARLA
 	$('#tabla_gastos_pendientes_mes').delegate(".fecha_gasto input", 'blur', function(event) {
     	if (!validarFecha(this))
     	{
@@ -204,18 +204,19 @@ function agregar_linea()
 	//creamos el elemento fila
 	var fila;
 	//al ponerle clase nueva_linea lo tendremos en cuenta a la hora de insertar en la base de datos
-		fila=$('<tr id="nuevo" class="nueva celda-color fila-datos"></tr>');
+	fila=$('<tr id="nuevo" class="nueva celda-color fila-datos"></tr>');
 		
 	
 	//Creamos la primera celda con el select y la agregamos a la fila
 	var selectProyecto='<td class="nueva"><select class="select_proyecto"><option value="0">Elige una opción</option>';
 	
+	//CREAMOS UNA OPCION POR CADA PROYECTO ASIGNADO AL CONSULTOR QUE LO TENEMOS EN UN ARRAY EN JSON
 	for(i=0;i<proyectos_consultor.length;i++)
 	{
 		selectProyecto+='<option value="'+proyectos_consultor[i].k_proyecto+'">'+proyectos_consultor[i].id_proyecto+'</option>'
 	}
-	selectProyecto+="</select></td>";	
-		
+	//CERRAMOS EL SELECT
+	selectProyecto+="</select></td>";			
 	
 	//Esto inserta la celda en la fila
 	fila.append(selectProyecto);		
@@ -224,21 +225,24 @@ function agregar_linea()
 	//Creamos la segunda celda con el select y la agregamos a la fila
 	var selectTipoGasto='<td class="tipo_gasto"><select class="select_tipo_gasto"><option value="0">Elige una opción</option>';
 	
+	//CREAMOS UNA OPCION POR CADA PROYECTO ASIGNADO AL CONSULTOR QUE LO TENEMOS EN UN ARRAY EN JSON
 	for(i=0;i<tipos_gasto.length;i++)
 	{
 		selectTipoGasto+='<option value="'+tipos_gasto[i].k_tipo_linea_gasto+'">'+tipos_gasto[i].nom_tipo_linea_gasto+'</option>'
 	}
+	
+	//CERRAMOS EL SELECT
 	selectTipoGasto+="</select></td>";
 	
+	//Esto inserta la celda en la fila
 	fila.append(selectTipoGasto);
 	
 	
-	//CREAMOS LAS OTRAS 3 CASILLAS Y EL BOTON ELIMINAR
+	//CREAMOS LAS OTRAS 3 CASILLAS Y EL BOTON ELIMINAR Y LOS AGREGAMOS
 	
 	var fechaGasto=$('<td class="fecha_gasto"><input class="input_datos" type="date" placeholder="yyyy-mm-dd" value=""/></td>');
 	
-	var valorGasto=$('<td class="valor_gasto"><input class="input_datos" type="text" value="0.00"/></td>');
-	
+	var valorGasto=$('<td class="valor_gasto"><input class="input_datos" type="text" value="0.00"/></td>');	
 		
 	var descripcionGasto=$('<td class="descripcion_gasto"><textarea></textarea></td>');
 	
@@ -296,12 +300,15 @@ function crearObjetosParaGrabar()
 		}
 		
 	});
+	
+	/*		
 	console.log(lineasCreadas);
 	console.log(lineasActualizadas);
 	console.log(lineasEliminadas);
+	*/
 }
 
-
+//VALIDAMOS EL VALOR EN EUROS DE LA CELDA VALOR
 function validarValorCelda(elemento)
 {
 	var respuesta=false;
@@ -310,7 +317,7 @@ function validarValorCelda(elemento)
 	{
 		respuesta=true;
 	}
-	
+	//EXPRESION REGULAR PARA CERTIFICAR QUE PONGA EL VALOR EN NUMERO ENTERO O DECIMAL CON DOS DECIMALES
 	var regexGasto=/^[0-9]+(.[0-9]{2})?$/;
 	
 	if(regexGasto.test($(elemento).val()))
@@ -320,12 +327,12 @@ function validarValorCelda(elemento)
 	else
 	{
 		respuesta=false;
-	}
-	
+	}	
 	
 	return respuesta;
 }
 
+//VALIDACION FECHA
 function validarFecha(elemento)
 {
 	var respuesta=false;
@@ -343,7 +350,7 @@ function validarFecha(elemento)
 	//VALIDA LA FECHA EN FORMATO DD-MM-YYYY
 	var regexFecha=/^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
 	
-		
+	//COMPROBAMOS EL FORMATO	
 	if(regexFecha.test(fechaNuevoFormato))
 	{
 		respuesta=true;
@@ -353,6 +360,7 @@ function validarFecha(elemento)
 		alert("Dia o formato de fecha incorrecto (Formato requerido: dd/mm/yyyy)");
 	}
 	
+	//AQUI COMPROBAMOS QUE EL MES Y AÑO SEAN LOS DE LA HOJA DE GASTOS
 	if(cambioFormato[0]!=$('#año_hoja').val()||cambioFormato[1]!=$('#mes_hoja').val())
 	{
 		respuesta=false;
@@ -365,7 +373,7 @@ function validarFecha(elemento)
 //ESTA FUNCION ACTUALIZA LA FILA DE TOTALES Y VALORA SI EXISTEN LINEAS DE GASTO O NO PARA PINTAR LA TABLA O LA ADVERTENCIA DE QUE NO EXISTEN
 function actualizarTotales()
 {		
-		//SUMAMOS LOS TOTALES Y LOS PONEMOS EN OTROS DOS CAMPOS
+		//SUMAMOS LOS TOTALES Y LOS PONEMOS EN EL CAMPO DE PENDIENTES
 		var sum = 0;
 	    $('.valor_gasto input').each(function() 
 	    {
@@ -379,24 +387,24 @@ function actualizarTotales()
 	    }
 	    else
 	    {
+	    	//ASI LO PONEMOS EN FORMATO CON DOS DECIMALES
 	    	$('#pendientes_hoja').html(parseFloat(Math.round(sum * 100) / 100).toFixed(2)+"€");
 	    }	
-	    
-	    
+	    	    
 	    var numeroFilas=$('.fila-datos').length;
 	    
+	    //SI NO EXISTEN FILAS MOSTRAMOS UN PARRAFO QUE LO INDICA Y OCULTAMOS LA TABLAS
 	    if(numeroFilas==0)
 	    {
 	    	$('#parrafo_sin_gastos').css('display','block');
 	    	$('#tabla_gastos_pendientes_mes').css('display','none');
 	    }
-	    else
+	    else//SI EXISTEN FILAS MOSTRAMOS LA TABLA
 	    {
 	    	$('#tabla_gastos_pendientes_mes').css('display','block');
 	    	$('#parrafo_sin_gastos').css('display','none');
 	    }
 	    
-	    //alert("filas:"+numeroFilas);
 	   
 }
 

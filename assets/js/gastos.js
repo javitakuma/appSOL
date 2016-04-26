@@ -30,7 +30,7 @@ $(document).ready(function() {
 			$("#sombra").css('display','none');
 		});		
 		
-	
+		//BOTON SUBMIT DE LA VENTANA EMERGENTE DE LA SELECCION DE MES Y AÑO
 		$('#boton_selecciones_hoja').on('click',function()
 		{
 			if(validarMesYear())
@@ -41,7 +41,7 @@ $(document).ready(function() {
 					var digito=$('#mes_seleccion').val();
 					$('#mes_seleccion').val("0"+digito);
 				}
-				
+				//HACEMOS SUBMIT MANUAL AL FORMULARIO
 				$('#dialog form').submit();
 			}
 		});	
@@ -51,6 +51,7 @@ $(document).ready(function() {
 
 function validarMesYear()
 {
+	//VALIDAMOS EL MES CORRECTO(PUEDE SER MES CON UN NUMERO Ó 2)
 	var regexMes=/^([1-9]|[0][1-9]|[1][0-2])$/;
 	var valorMes=$('#mes_seleccion').val();
 	var respuesta=false;
@@ -63,10 +64,10 @@ function validarMesYear()
 		alert("mes no valido");
 	}
 	
+	//VALIDAMOS EL AÑO CORRECTO
 	var regexYear=/^([2][0][1][6-9])$/;
-	var valorYear=$('#year_seleccion').val();
+	var valorYear=$('#year_seleccion').val();	
 	
-	//VOLVEMOS A PONER A FALSE PARA VALIDAR EL AÑO
 	if(regexYear.test(valorYear))
 	{
 		//TRAMPA PARA QUE NO NOS PONGA A TRUE SI ESTA FALSEADA
