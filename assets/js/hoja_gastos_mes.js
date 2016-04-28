@@ -120,6 +120,113 @@ $(document).ready(function() {
         	    }); 
     	  }	  
       });
+    
+    
+    
+    //igual validacion que grabar pero vamos a otra funcion del servidor
+    $("#enviar_gastos").click(function(event) 
+    	    {    
+    	    	//AÑADIMOS EVENTO CLICK AL BOTON GRABAR  
+    	    	
+    	    	//SI LOS DATOS SON INCORRECTOS NO EJECUTAREMOS EL GRABADO
+    	    	var cancelar_envio=false;
+    	    	
+    	    	//VALIDAMOS QUE HAYA SELECCIONADO UN PROYECTO EN CADA FILA
+    	    	
+    	    	
+    	    	
+    	    	
+    	    	//VALIDAMOS QUE HAYA VALORES CORRECTOS EN EL IMPORTE
+    	    	$('.valor_gasto input').each(function()
+    	    	{    		    		
+    	    		if($(this).val()<0)
+    	    		{
+    	    			cancelar_envio=true;
+    	    			alert("Tienes valores negativos en las celdas de valor.");
+    	    		}
+    	    		else if(isNaN($(this).val()))
+    	    		{
+    	    			cancelar_envio=true;
+    	    			alert("Tienes valores incorrecto en las celdas de valor.");
+    	    		}
+    	    	});
+    	    	
+    	    	//VALIDAMOS QUE HAYA SELECCIONADO UNA FECHA CORRECTA EN CADA FILA
+    	    	$('.fecha_gasto input').each(function()
+    	    	    	{
+    			    		if (!validarFecha(this))
+    			        	{		        		
+    			        		
+    			        		cancelar_envio=true;
+    			            	//actualizarTotales();
+    			        	}
+    	    	    	});
+    	    	
+    	    	//VALIDAMOS QUE HAYA SELECCIONADO UN TIPO GASTO EN CADA FILA
+    	    	$('.select_tipo_gasto').each(function()
+    	    	    	{
+    	    	    		if($(this).val()==0)
+    	    	    		{
+    	    	    			cancelar_envio=true;
+    	    	    			alert("Debes seleccionar un tipo de gasto para cada línea.");
+    	    	    			
+    	    	    		}
+    	    	});
+    	    	
+    	    	$('.select_proyecto').each(function()
+    	    	    	{
+    	    	    		if($(this).val()==0)
+    	    	    		{
+    	    	    			cancelar_envio=true;
+    	    	    			alert("Debes seleccionar un proyecto para cada línea.");
+    	    	    		}
+    	    	});
+    	    	
+    	    	var error_longitud_comentario=false;
+    	    	
+    	    	//VALIDAMOS EL TAMAÑO DEL CAMPO DESCRIPCION
+    	    	$('.descripcion_gasto textarea').each(function()
+    	    	{    		
+    	    		//var nombre_proyecto=$(this).parent().parent().find('td:first').html();          CAMBIADO    				
+    	    		
+    	    		if($(this).val().length>100)
+    	    		{
+    	    			error_longitud_comentario=true;
+    	    			cancelar_envio=true;
+    	    			alert("La longitud máxima del campo comentarios es de 100 caracteres");
+    	    		}   
+    	    		
+    	    	    		
+    	    	 });
+    	    	
+    	    	
+    	    	//SI NO HEMOS CANCELADO ENTRAMOS AQUI
+    	    	if(!cancelar_envio)
+    	    	{
+    	    		crearObjetosParaGrabar();   
+    	    		
+    	    		var k_hoja_gastos=($('#k_hoja_gastos').val());
+    	        	
+    	        	//EN DATA EL PRIMER DATO ES EL NOMBRE EN LADO SERVIDOR DE LA VARIABLE, EL SEGUNDO EN LADO CLIENTE
+    	        	
+    	        	//SUCCESS INDICA LA ACCION A SEGUIR DESPUES DE LA RESPUESTA
+    	        	
+    	        	$.ajax({        
+    	        	       type: "POST",
+    	        	       url: BASE_URL+"general/Gastos/enviar_hoja_gastos_mes",
+    	        	       data: { lineasActualizadas : lineasActualizadas,lineasCreadas : lineasCreadas,lineasEliminadas : lineasEliminadas,k_hoja_gastos:k_hoja_gastos},
+    	        	       success: function(respuesta) {
+    	        	            alert(respuesta);    	            
+    	        	            location.reload();
+    	        	       }
+    	        	    }); 
+    	    	  }	  
+    	      });
+    
+    
+    
+    
+    
 	
 	//EVENTO BLUR PARA LAS CASILLAS DE GASTO PARA VALIDAR
 	$('#tabla_gastos_pendientes_mes').delegate(".valor_gasto input", 'blur', function(event) {

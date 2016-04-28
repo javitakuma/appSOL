@@ -3,7 +3,7 @@
         
         <div id="imc_mensual">
         <div class="volver">
-			<img title="Volver" class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="3%" onclick='location.href="<?php echo base_url()?>general/imc"'/>
+			<img title="Volver" class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='location.href="<?php echo base_url()?>general/imc"'/>
 			<!--  <h3 class="titulo-peque">Volver</h3>-->
 		</div>
 	        <p class="titulo-grande centrado">IMC <?php echo $this->session->userdata('nom_consultor')." ("?><?php echo $mes_texto?> de <?php echo $year.")"?></p>
@@ -27,7 +27,7 @@
 		                <option value="3">Proyecto especial</option>
 		            </select>
 	            </div>
-		            <div class="contenedor_select_35 textoSmallCaps">
+		        <div class="contenedor_select_35 textoSmallCaps">
 		            Código proyecto
 		            <select id="cod_proyecto_select" disabled>
 		                <option value="0">Selecciona un proyecto</option>
@@ -111,7 +111,16 @@
 	                    	<!-- 
 	                    	<td class="borde_invisible no_fondo"><input class="eliminar_fila " type="image" src="<?php echo base_url()?>assets/img/cross.png"/></td>
 	                		 -->    
-					<?php endif;?>
+						<?php endif;?>
+						<!-- PINTAMOS LA ULTIMA CELDA CON DISPLAY NONE PARA QUE NO DESCUADRE EL CSS -->
+						
+						<?php if($datos_imc_mes['t_imcs'][0]['sw_validacion']==-1):?>
+	                    	
+	                    	<td class=" display_none borde_invisible no_fondo"><img title="Eliminar fila" class="eliminar_fila " src="<?php echo base_url()?>assets/img/cross.png"/></td>
+	                    	<!-- 
+	                    	<td class="borde_invisible no_fondo"><input class="eliminar_fila " type="image" src="<?php echo base_url()?>assets/img/cross.png"/></td>
+	                		 -->    
+						<?php endif;?>
 	                </tr>	
 	                <?php endforeach;?>      
 	                

@@ -229,6 +229,7 @@ class Gastos_model extends CI_Model
 		}
 		
 		
+		
 		//PARA CADA FILA CREADA QUE NO EXISTIA LA INSERTAMOS EN LA BBDD
 		//TODO PROBAR
 		foreach ($creadas as $fila)
@@ -249,6 +250,33 @@ class Gastos_model extends CI_Model
 		$this->db->close();
 		
 		}
+		
+		public function enviar_hoja_gastos($k_hoja_gastos)
+		{
+			//SOLO PONEMOS EL sw_validacion a -1
+		
+			$this->load->database();
+			$this->db->trans_start();
+		
+			$data = array(
+					'sw_autorizar_revision' => -1,
+			);
+		
+			$this->db->where('k_hoja_gastos', $k_hoja_gastos);
+			$this->db->update('t_hojas_gastos', $data);
+		
+			// Produces:
+			// UPDATE t_imcs
+			// SET sw_validacion = '{-1}'
+			// WHERE k_imc = $k_imc
+		
+		
+		
+			$this->db->trans_complete();
+			$this->db->close();
+		
+		}
+		
 	
 		public function mesTexto($numero)
 		{

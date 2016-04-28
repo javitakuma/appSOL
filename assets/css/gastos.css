@@ -65,14 +65,14 @@ table#listadoGastosGeneral
 
 #listadoGastosGeneral th
 {
-	padding:1% 1%;
+	padding:0.5% 0.5%;
 	width:14%;
 	height:40px;
 	text-align:center;
 	vertical-align:middle;
 	border-collapse: collapse;
 	border:solid 2px #AAA;	
-	font-size:75%;
+	font-size:70%;
 	font-weight:bold;
     background: RGB(35,200,200);
 }
@@ -92,21 +92,58 @@ table#listadoGastosGeneral
 	padding:0 1%;
 }
 
+
+#listadoGastosGeneral #anyo_titulo
+{
+	width:8%;	
+	padding:0 1%;
+}
+
 #listadoGastosGeneral #mes_titulo
 {
-	width:5%;	
+	width:7%;	
 	padding:0 1%;
 }
 
 #listadoGastosGeneral #total_titulo
 {
-	width:5%;	
+	width:10%;	
+	padding:0 1%;
+}
+
+#listadoGastosGeneral #pendientes_titulo
+{
+	width:10%;	
+	padding:0 1%;
+}
+
+#listadoGastosGeneral #autorizados_titulo
+{
+	width:13%;	
+	padding:0 1%;
+}
+
+#listadoGastosGeneral #no_autorizados_titulo
+{
+	width:10%;	
+	padding:0 1%;
+}
+
+#listadoGastosGeneral #total_pagado_titulo
+{
+	width:10%;	
 	padding:0 1%;
 }
 
 #listadoGastosGeneral #ultima_fecha_titulo
 {
-	width:20%;	
+	width:14%;	
+	padding:0 1%;
+}
+
+#listadoGastosGeneral #enviada_titulo
+{
+	width:8%;	
 	padding:0 1%;
 }
 

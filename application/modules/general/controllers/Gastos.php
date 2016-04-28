@@ -60,6 +60,20 @@ class Gastos extends MX_Controller
 		echo "Cambios guardados.";
 	}
 	
+	public function enviar_hoja_gastos_mes()
+	{
+		$eliminadas=isset($_REQUEST['lineasEliminadas'])?$_REQUEST['lineasEliminadas']:[];
+		$actualizadas=isset($_REQUEST['lineasActualizadas'])?$_REQUEST['lineasActualizadas']:[];
+		$creadas=isset($_REQUEST['lineasCreadas'])?$_REQUEST['lineasCreadas']:[];
+		$k_hoja_gastos=isset($_REQUEST['k_hoja_gastos'])?$_REQUEST['k_hoja_gastos']:null;
+	
+		$this->Gastos_model->grabar_gastos_mes($eliminadas,$actualizadas,$creadas,$k_hoja_gastos);
+		
+		$this->Gastos_model->enviar_hoja_gastos($k_hoja_gastos);
+	
+		echo "Hoja de gastos guardada.";
+	}
+	
 	public function generar_nueva_hoja_gastos()
 	{
 		$year=$_REQUEST['year_seleccion'];

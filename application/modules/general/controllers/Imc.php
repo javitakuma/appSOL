@@ -33,6 +33,8 @@ class Imc extends MX_Controller
 		enmarcar($this,"MostrarImcMes.php",$datos);
 	}
 	
+	
+	//funcion grabar imc
 	public function mostrar_imc_mes_post()
 	{
 		//var_dump($_REQUEST);

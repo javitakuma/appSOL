@@ -175,11 +175,11 @@
 	            <h3 class="titulo-grande">Gastos Totales</h3>
 	            <table id="totales_gastos" class="tabla_key">
 	                <tr>
-	                 	<th>Total</th>
-	                 	<th>Pendientes</th>
-	                 	<th>Autorizados</th>
-	                 	<th>No autorizados</th>
-	                 	<th>Total pagado</th>
+	                 	<th>TOTAL</th>
+	                 	<th>PENDIENTES</th>
+	                 	<th>AUTORIZADOS</th>
+	                 	<th>NO AUTORIZADOS</th>
+	                 	<th>TOTAL PAGADO</th>
 	                </tr>
 	                <tr>	                	
 	                    <td id="total_hoja"><?php echo $datos_gastos['gastos_totales'][0]['i_tot_hoja_gastos']?>€</td>

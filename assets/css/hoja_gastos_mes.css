@@ -53,6 +53,9 @@
 	border:solid 1px #AAA;
     vertical-align:middle;
     background:#EFEFEF;
+    cursor:default;
+	font-size:90%;
+	font-weight:bold;
 }
 
 .tabla_key td
@@ -131,7 +134,7 @@
 #totales_gastos
 {
 	width:60%;
-	margin:10px;	
+	margin:0px;	
 }
 
 #totales_gastos td
@@ -277,8 +280,7 @@
 	padding:1% 1%;
 	border-top:none;
 	background: RGB(35,200,200);
-	cursor:default;
-	font-size:100%;
+	
 }
 
 .tabla_key td

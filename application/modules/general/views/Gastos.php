@@ -32,12 +32,12 @@
 		<table id="listadoGastosGeneral">
 			<tr id="fila-titulos">
 				<th id="abrir_titulo">ABRIR</th>
-				<th id="año_titulo">AÑO</th>
+				<th id="anyo_titulo">AÑO</th>
 				<th id="mes_titulo">MES</th>
 				<th id="total_titulo">TOTAL</th>
-				<th id="pendientes_titulo">PENDIENTES REVISIÓN</th>
+				<th id="pendientes_titulo">PEND. REVISIÓN</th>
 				<th id="autorizados_titulo">AUTORIZADOS</th>
-				<th id="no_autorizados_titulo">NO AUTORIZADOS</th>	
+				<th id="no_autorizados_titulo">NO AUTORIZ</th>	
 				<th id="total_pagado_titulo">TOTAL PAGADO</th>		
 				<th id="ultima_fecha_titulo">ULT. FECHA PAGO</th>		
 				<th id="enviada_titulo">ENVIADA</th>					

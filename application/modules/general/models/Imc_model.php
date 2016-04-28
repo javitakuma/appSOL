@@ -277,7 +277,7 @@ class Imc_model extends CI_Model
 		
 		$this->db->where('k_imc', $k_imc);
 		
-		
+		$this->db->update('t_imcs', $data);
 		// Produces:
 		// UPDATE t_imcs
 		// SET sw_validacion = '{-1}'
@@ -298,6 +298,7 @@ class Imc_model extends CI_Model
 		
 		$sql;
 		$codigos_proyecto;
+		
 		//==========CODIGOS PROYECTO==============
 		if($tipo==1 ||$tipo==2)
 		{

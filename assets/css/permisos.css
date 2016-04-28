@@ -1,0 +1,205 @@
+#dias_pendientes
+{
+	width:10%;
+	margin-right:0;
+	margin-bottom:5%;
+}
+
+#dias_pendientes div
+{
+	display:inline-block;
+	width:35%;
+	float:left;
+	/*border:solid 1px red;*/	
+}
+
+#contenedor_permisos
+{
+	width:80%;
+	margin:0 auto;
+	padding:0;
+}
+
+#dias_pendientes
+{
+	width:60%;
+	vertical-align: bottom;
+}
+
+#permisos_superior
+{
+	width:100%;
+	display:inline-block;
+	margin:0 auto;
+	padding:0;
+	box-sizing:border-box;
+	position:relative;
+}
+
+#permisos_sup_izq
+{
+	display:inline-block;
+	margin:0;
+	padding:0;
+	width:35%;
+	box-sizing:border-box;
+	/*border:solid red 1px;*/
+}
+
+.contenedor_select_35
+{	
+	margin: 1% 0;
+}
+
+#permisos_sup_izq #seleccionar_dias
+{
+	width:60%;
+}
+
+#permisos_sup_der
+{
+	display:inline-block;
+	margin:0;
+	padding:0;
+	width:63%;
+	box-sizing:border-box;
+	position:absolute;
+	top:0;
+}
+
+#permisos_sup_der .fila-autorizaciones
+{
+	display:inline-block;
+	width:100%;
+}
+
+#permisos_sup_der .fila-autorizaciones .radio-container
+{
+	display:inline-block;
+	width:30%;
+	vertical-align:top;
+}
+
+#permisos_sup_der .fila-autorizaciones .com-rechazo
+{
+	display:inline-block;
+	width:35%;
+	resize:none;
+}
+
+#inferior
+{
+	margin-top:3%;
+}
+
+/*======ESTILO TABLA GENERICO======*/
+
+.tabla_key
+{
+	width:85%;
+	margin:0 auto;
+}
+
+
+.tabla_key table
+{
+    border-collapse: collapse;
+    box-sizing: border-box;
+}
+.tabla_key th
+{
+    width: 20px;
+    padding: 1% 1%;
+    margin:0px;
+    text-align: center;
+    border-collapse: collapse;
+	border:solid 1px #AAA;
+    vertical-align:middle;
+    cursor:default;
+	font-size:90%;
+	font-weight:bold;
+	border-top:none;
+	background: RGB(35,200,200);
+}
+
+.tabla_key td
+{
+	padding: 0.5% 0.5%;
+    width: 20px;
+    font-size:100%;
+    margin:0px;
+    text-align: center;
+    border-collapse: collapse;
+	border:solid 1px #AAA;
+    vertical-align:middle;
+}
+
+.tabla_key tr:nth-child(odd) td
+{
+	background-color:#EEE;
+}
+
+.tabla_key tr:nth-child(even) td
+{
+	background-color:#CCC;
+}
+
+.tabla_key tr th:first-child
+{
+	border-left:none;
+	border-radius:5px 0 0 0;
+}
+
+.tabla_key tr td:first-child
+{
+	border-left:none;
+	cursor:default;	
+}
+
+.tabla_key tr th:last-child
+{
+	border-right:none;	
+	border-radius:0 5px 0 0;
+}
+
+.tabla_key tr td:last-child
+{
+	border-right: none;	
+}
+
+.tabla_key tr td:nth-last-child(2)
+{
+	border-right: none;	
+	border-radius:0 0 5px 0;
+}
+
+.tabla_key tr:last-child td
+{
+	border-bottom:none;	
+}
+
+.tabla_key tr:last-child td:last-child
+{
+	border-radius:0 0 5px 0;	
+}
+
+.tabla_key tr:last-child td:first-child
+{
+	border-radius:0 0 0 5px ;	
+}
+
+.tabla_key .borde_invisible
+{
+	border:1px rgba(0,0,0,0) solid !important;
+}
+
+.tabla_key .no_fondo
+{
+	background-color:rgba(0,0,0,0) !important;
+}
+
+.editar_fila
+{
+	width:15px;
+}
+

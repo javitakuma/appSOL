@@ -275,6 +275,19 @@ $(document).ready(function() {
     	    	    		
     	    	 });
     	    	
+    	    	//comprobamos que cuadren las horas del imc con las previstas
+    	    	if( $('#horas_consultor').html()!=$('#horas_previstas').html())
+    	    	{
+    	    		var confirma_envio=confirm('Las horas computadas son diferentes a las horas previstas,¿desea enviar igualmente su IMC?');
+    	    		
+    	    		//LE DAMOS LA OPCION DE CANCELAR EL ENVIO
+    	    		if(!confirma_envio)
+    	    		{
+    	    			cancelar_envio=true;
+    	    		}    	    		
+    	    	}
+    	    	
+    	    	
     	    	
     	    	//SI NO HEMOS CANCELADO ENTRAMOS AQUI
     	    	if(!cancelar_envio)
@@ -287,13 +300,15 @@ $(document).ready(function() {
     	        	
     	        	//SUCCESS INDICA LA ACCION A SEGUIR DESPUES DE LA RESPUESTA
     	        	
+    	        	
+    	        	
     	        	$.ajax({        
     	        	       type: "POST",
     	        	       url: BASE_URL+"general/Imc/enviar_imc",
     	        	       data: { lineasActualizadas : lineasActualizadas,lineasCreadas : lineasCreadas,lineasEliminadas : lineasEliminadas,total_horas:total_horas,k_imc:k_imc},
     	        	       success: function(respuesta) {
-    	        	            alert(respuesta);    	            
-    	        	            //location.reload();
+    	        	            alert(respuesta); 
+    	        	            location.reload();
     	        	       }
     	        	    }); 
     	    	  }	

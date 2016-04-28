@@ -36,7 +36,7 @@
 	</script>
     
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-2.1.3.js"></script>
-    <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-ui-1.10.4.custom.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-ui.js"></script>
     
     
     
