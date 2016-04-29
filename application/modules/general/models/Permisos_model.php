@@ -26,4 +26,23 @@ class Permisos_model extends CI_Model
 		$this->db->close();
 		return $permisos;
 	}
+	
+	public function cargar_festivos()
+	{
+		$this->load->database();
+		$this->db->trans_start();		
+		
+		$fecha=new DateTime();
+		$fechaParseada=date_format($fecha, 'Y-m-d');
+				
+		
+		$sql ="SELECT f_dia_calendario FROM t_calendario WHERE sw_laborable=0 and f_dia_calendario>'$fechaParseada'";		
+		
+		$festivos=$this->db->query($sql)->result_array();		
+			
+		$this->db->trans_complete();
+		$this->db->close();
+		
+		return $festivos;
+	}
 }

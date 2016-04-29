@@ -31,9 +31,12 @@ class Permisos extends MX_Controller
 		//ir al modelo para sacar los dias pendientes de disfrutar
 		//ir al calendario para pintar los festivos
 		//$datos['permisos']=$this->Permisos_model->cargar_permisos($k_consultor);
+		$datos['festivos']=json_encode($this->Permisos_model->cargar_festivos());
 		
-		$datos['js']='solicitar_permiso';
-		$datos['css']='solicitar_permiso';		
+		$datos['js']=['solicitar_permiso','jquery-ui.multidatespicker'];
+		$datos['css']=['jquery-ui-1.10.1','solicitar_permiso'];
+		
+		
 		enmarcar($this,'SolicitarPermiso.php',$datos);
 	}
 	
