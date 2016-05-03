@@ -17,6 +17,16 @@ class Permisos extends MX_Controller
 		
 	}
 	
+	public function cargar_dias_para_horas()
+	{
+		
+		$fechaActualFormateada=$_POST['fechaActualFormateada'];
+		
+		$fechas=$this->Permisos_model->cargar_dias_para_horas($fechaActualFormateada);
+		print json_encode($fechas);
+		
+	}
+	
 	public function mostrar_permiso_anual() 
 	{
 		$k_consultor=$this->session->userdata('k_consultor');
@@ -32,6 +42,18 @@ class Permisos extends MX_Controller
 		//ir al calendario para pintar los festivos
 		//$datos['permisos']=$this->Permisos_model->cargar_permisos($k_consultor);
 		$datos['festivos']=json_encode($this->Permisos_model->cargar_festivos());
+				
+		$fechaActual=new DateTime();
+		
+		$fechaActualFormateada=date_format($fechaActual, 'Y-m-d');
+		
+					
+		/*
+		$datos['fechas']=$this->Permisos_model->cargar_dias_para_horas($fechaActualFormateada);
+		var_dump($datos['fechas']);
+		die;
+		*/
+		
 		
 		$datos['js']=['solicitar_permiso','jquery-ui.multidatespicker'];
 		$datos['css']=['jquery-ui-1.10.1','solicitar_permiso'];

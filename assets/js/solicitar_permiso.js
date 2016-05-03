@@ -1,6 +1,13 @@
 var festivosParaCalendario = [];
 var fila={};
 
+var diasCalendario;
+
+//VARIABLE DONDE GUARDAMOS TODOS LOS DIAS DE t_calendario A PARTIR DEL DIA ACTUAL
+
+//ARRAY CON EL NOMBRE DE MESES QUE PINTAREMOS DESPUES EN LA TABLA
+var meses=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
 $(document).ready(function() {	
 
 	//COGEMOS EL ARRAY DE FESTIVOS QUE NOS VIENE DE PHP, PASAMOS LA FEHCA AL FORMATO REQUERIDO PARA JS
@@ -27,17 +34,22 @@ $(document).ready(function() {
 	
 	//INICIALIZAMOS EL DATEPICKER
 	$(function() {
-	    $( "#datepicker" ).datepicker();
-	    $( ".datepicker" ).multiDatesPicker({
+	    //$( "#datepicker" ).datepicker();
+	    $( "#calendario" ).multiDatesPicker({
 	    	//PARAMETROS DEL OBJETO DATEPICKER
 			inline: true,
 			showOtherMonths: true,
 			firstDay: 1,
 			dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ],
 			numberOfMonths:2,
+			dateFormat: "dd-mm-yy",
 			minDate: new Date(),
 			maxDate: ultimaFecha,
-			
+			//EN onChange RECOGEMOS EL MES QUE NOS QUEDA AL CAMBIAR EN EL CALENDARIO Y SE LO PASAMOS A ESA FUNCION
+			onChangeMonthYear:function (year, month, inst) {
+	            //alert(month); // Store active month when month is changed.
+	            cambiarMesesInferior(month);
+	        },	
 			
 			//BUSCA LOS DIAS FESTIVOS Y LOS PONE LA CLASE DE FESTIVOS
 			beforeShowDay: function(date) {
@@ -52,26 +64,128 @@ $(document).ready(function() {
 			        result = [true, 'ui-datepicker-week-end', null];
 			    }
 			    return result;
-			},
-			
+			},			
 		});
 	  });
 	
+	//PONEMOS LOS VALORES DE DIAS PENDIENTES QUE HEMOS RECOGIDOS DE BBDD
 	
 	$('#pendientesDebidosMostrar').html($('#diasPendientesDebidos').val());
 	$('#pendientesMostrar').html($('#diasPendientes').val());
 	
 	
-	setInterval(function(){ actualizarDiasPendientes() }, 500);
-	  
+	//COGEMOS LA FECHA DE HOY Y LA FORMATEAMOS A yy-mm-dd PARA IR A LA BBDD
+	var fechaActual=new Date();
+	
+	var fechaActualMes=fechaActual.getMonth()+1;
+	
+	if(fechaActualMes<10)
+	{
+		fechaActualMes="0"+fechaActualMes;
+	}
+	
+	var fechaActualDia=fechaActual.getDate();
+	
+	if(fechaActualDia<10)
+	{
+		fechaActualDia="0"+fechaActualDia;
+	}
+	
+	var fechaActualFormateada=fechaActual.getFullYear()+"-"+fechaActualMes+"-"+fechaActualDia;
+	
 		
+	//VAMOS A T_CALENDARIO Y COGEMOS TODOS LOS DIAS A PARTIR DEL DIA DE HOY
+	$.ajax({        
+	       type: "POST",
+	       url: BASE_URL+"general/Permisos/cargar_dias_para_horas",
+	       data: { fechaActualFormateada : fechaActualFormateada},
+	       dataType:'json',
+	       success: function(respuesta) {
+	    	   diasCalendario=respuesta;
+	    	   
+	    	   //POR CADA DIA QUE RECOGEMOS DEL CALENDARIO LOS HABILITAMOS, DEJANDO INHABILITADOS LOS QUE NO EXISTEN
+	    	   for(i=0;i<diasCalendario.length;i++)
+	    		{
+	    			var dia=diasCalendario[i].f_dia_calendario;
+	    			$('#'+dia).attr('disabled',false);
+	    			
+	    			if(diasCalendario[i].sw_laborable==0)
+	    			{
+	    				$('#'+dia).addClass('festivo');
+	    				$('#'+dia).parent().addClass('festivo');
+	    			}	    			
+	    		}	            
+	       }
+	    }); 
+	
+	//PONEMOS NOMBRE EN TEXTO A LOS MESES
+	var contMes=0;
+	$('#celdas_horas .fila-datos').each(function()
+	{
+		$(this).find('td').first().html(meses[contMes]);
+		contMes++;
+	});
+	
+	//DESHABILITAMOS TODAS LAS CELDAS POR DEFECTO 
+	$('#celdas_horas input').attr('disabled',true);
+	
+	//PONEMOS LOS DOS MESES INICIALES DE LA PARTE INFERIOR, EL MES ACUTAL Y EL QUE VIENE
+	cambiarMesesInferior((new Date().getMonth())+1);
+	
+	
+	//INTERVALO QUE ACTUALIZA LOS VALORES DE DIAS PENDIENTES
+	setInterval(function(){ actualizarDiasPendientes() }, 500);
+	//INTERVALO QUE ACTUALIZA LAS TABLAS DE ARRIBA Y ABAJO
+	setInterval(function(){ sincronizar_superior_inferior() }, 500);
+	
+	
 });
 
+//FUNCION QUE COLOCA EN LA PARTE INFERIOR EL MES QUE SE LE PASA POR PARAMETRO Y EL SIGUIENTE
+function cambiarMesesInferior(numeroMes)
+{
+	var mesActual=numeroMes;
+	var mesSiguiente=numeroMes+1;
+	//OCULTAR TODAS LAS FILAS DE MESES
+	for(i=1;i<=12;i++)
+	{
+		if(i<10)
+		{
+			i="0"+i;
+		}
+		$('#fila_mes_'+i).addClass('ocultar-fila');
+	}
+	
+	if(numeroMes<10)
+	{
+		mesActual="0"+numeroMes;
+		mesSiguiente=numeroMes+1;
+		if(mesSiguiente<10)
+		{
+			mesSiguiente="0"+mesSiguiente;
+		}
+	}
+	
+	//mesActual="0"+numeroMes;
+	//mesSiguiente="0"+((new Date().getMonth())+2);
+	
+	$('#fila_mes_'+mesActual).removeClass('ocultar-fila');
+	$('#fila_mes_'+mesSiguiente).removeClass('ocultar-fila');
+}
+
+
+//PODRIAMOS AÑADIR AQUI EL HABILITAR LAS CELDAS Y QUITALO DE ARRIBA DEL AJAX
 function actualizarDiasPendientes()
 {
 	//SELECCIONAMOS LOS DIAS SELECCIONADOS QUE NO SEAN FESTIVOS O ESTEN DESHABILITADOS PARA QUE NO DUPLIQUE
-	var seleccionados=$('td.ui-state-highlight').not(".ui-state-disabled").not('.ui-datepicker-week-end').length
-
+	//var seleccionados=$('td.ui-state-highlight').not(".ui-state-disabled").length
+	var seleccionados=$('#calendario').val().split(" ").length;
+	
+	if($('#calendario').val()=="")
+	{
+		//alert("Ningún dia seleccionado");
+		seleccionados=0;
+	}
 	
 	//SI LE QUEDANO DIAS DEL AÑO PASADO DESPUES DE LA SELECCION PINTAMOS AQUI
 	
@@ -88,18 +202,44 @@ function actualizarDiasPendientes()
 		
 		$('#pendientesDebidosMostrar').html(0);
 		$('#pendientesMostrar').html(diasPendientes+diasPendientesDebidos-seleccionados);
-		
 	}
 	
+}
+function sincronizar_superior_inferior()
+{	
+	$('#celdas_horas td input').removeClass('seleccionado_inferior');
+	
+	var fechasSeleccionadas=$('#calendario').val().split(", ");
+	
+	for(i=0;i<fechasSeleccionadas.length;i++)
+	{
+		$('#'+fechasSeleccionadas[i]).addClass('seleccionado_inferior');
+	}
+	
+	
+	$('#celdas_horas td input').not('.seleccionado_inferior').each(function()
+	{
+		$(this).val('0');
+	});
 	
 	
 	
 }
 
-//PARA PRUEBAS CON EBENTO CLICK EN EL TITULO
+//PARA PRUEBAS CON EVENTO CLICK EN EL TITULO
 function pintar()
 {
-	
+	sincronizar_superior_inferior();
+	/*
 	alert($('#calendario').val());
 	
+	var diasSeleccionados=$('#calendario').val().split(" ");
+	
+	if($('#calendario').val()=="")
+	{
+		alert("Ningún dia seleccionado");
+	}
+	
+	alert(dias.length);
+	*/
 }

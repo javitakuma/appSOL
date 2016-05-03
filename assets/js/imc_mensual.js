@@ -95,7 +95,7 @@ $(document).ready(function() {
     		}
     		
     		
-    		if(nombre_proyecto=='PRO450')//CAMBIAR PRODUCCION KEYPREVENTA
+    		if(nombre_proyecto=='PRO251')//CAMBIAR PRODUCCION KEYPREVENTA
     		{  
     			var regex_preventa=/^[\w\W]+\/[\w\W]+\/[\w\W]+$/;
     			
@@ -108,6 +108,28 @@ $(document).ready(function() {
     				cancelar_envio=true;
     				alert("El código de proyecto KEYPREVENTA debe incluir un comentarios con el formato:\n\n Cliente / Tecnología / Actividad \n\nEjemplo:Direct / Tableau Qlik Sense / Poc");
     			}     			
+    		}
+    		
+    		
+    		if(nombre_proyecto=='PRO240')//CAMBIAR PRODUCCION KEYCURINT 
+    		{  
+    			
+    			if($(this).val()=="")
+    			{
+    				cancelar_envio=true;
+    				alert("El código de proyecto KEYCURINT debe incluir un comentario.");
+    			}    			     			
+    		}    	    		
+    		
+    		if(nombre_proyecto=='PRO256')//CAMBIAR PRODUCCION KEYSINPROY 
+    		{  
+    			
+    			if($(this).val()=="")
+    			{
+    				cancelar_envio=true;
+    				alert("El código de proyecto KEYSINPROY debe incluir un comentario.");
+    			}
+    			     			
     		}
     		
     		if(nombre_proyecto=='PRO468')//CAMBIAR PRODUCCION KEYOTROS
@@ -133,8 +155,8 @@ $(document).ready(function() {
     			    if(!key_otros_valido)
     			    {
     			    	cancelar_envio=true;
-    			    	alert("El código de proyecto KEYOTROS debe comenzar con una de las siguientes expresiones:\n" +
-    			    			"HOSPITAL FAMILIAR, DEFUNCION FAMILIAR, DEFUNCION FAMILIAR, ASUNTOS PROPIOS, MUDANZA, MATRIMONIO, PATERNIDAD, ACADEMICO, ACADÉMICO, LACTANCIA, PRENATAL, PERMISO KEYRUS O PERMISO SIN SUELDO/ ");
+    			    	alert("El código de proyecto KEYOTROS debe acompañar un comentario que ha de comenzar con una de las siguientes expresiones:\n" +
+    			    			"HOSPITAL FAMILIAR, DEFUNCION FAMILIAR, DEFUNCION FAMILIAR, ASUNTOS PROPIOS, MUDANZA, MATRIMONIO, PATERNIDAD, ACADEMICO, ACADÉMICO, LACTANCIA, PRENATAL, PERMISO KEYRUS O PERMISO SIN SUELDO.");
     			    }
 
     			    
@@ -234,6 +256,29 @@ $(document).ready(function() {
     	    				alert("El código de proyecto KEYPREVENTA debe incluir un comentarios con el formato:\n\n Cliente / Tecnología / Actividad \n\nEjemplo:Direct / Tableau Qlik Sense / Poc");
     	    			}     			
     	    		}
+    	    		
+    	    		if(nombre_proyecto=='PRO240')//CAMBIAR PRODUCCION KEYCURINT 
+    	    		{  
+    	    			
+    	    			if($(this).val()=="")
+    	    			{
+    	    				cancelar_envio=true;
+    	    				alert("El código de proyecto KEYCURINT debe incluir un comentario.");
+    	    			}    			     			
+    	    		}    	    		
+    	    		
+    	    		if(nombre_proyecto=='PRO256')//CAMBIAR PRODUCCION KEYSINPROY 
+    	    		{  
+    	    			
+    	    			if($(this).val()=="")
+    	    			{
+    	    				cancelar_envio=true;
+    	    				alert("El código de proyecto KEYSINPROY debe incluir un comentario.");
+    	    			}
+    	    			     			
+    	    		}
+    	    		
+    	    		
     	    		
     	    		if(nombre_proyecto=='PRO468')//CAMBIAR PRODUCCION KEYOTROS
     	    		{  
@@ -715,8 +760,10 @@ function agregar_proyecto_a_tabla()
 	fila.append(ultimaCelda);
 	
 	//creamos la celda de comentarios
-	var celda_comentarios=$('<td class="comentarios"><textarea></textarea></td>');
+	var celda_comentarios=$('<td class="comentarios"><textarea maxlength="50" class="comentarios_textarea"></textarea></td>');
 	fila.append(celda_comentarios);
+	
+	
 	
 	//creamos el boton
 	

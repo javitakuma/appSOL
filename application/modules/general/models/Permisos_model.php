@@ -8,6 +8,29 @@ class Permisos_model extends CI_Model
 		parent::__construct();		
 	}
 	
+	public function cargar_dias_para_horas($fechaActual)
+	{
+		$this->load->database();
+		$this->db->trans_start();
+		
+		$sql ="SELECT * FROM t_calendario where f_dia_calendario >'$fechaActual'";
+		
+		
+		
+		$fechas=$this->db->query($sql)->result_array();		
+		
+		//CAMBIAMOS A FORMATO DE FECHA ESPAÑOL
+		for($i=0;$i<sizeof($fechas);$i++)
+		{
+			$fechaPartida=explode("-", $fechas[$i]['f_dia_calendario']);
+			$fechas[$i]['f_dia_calendario']=$fechaPartida[2]."-".$fechaPartida[1]."-".$fechaPartida[0];
+		}
+		
+		$this->db->trans_complete();
+		$this->db->close();
+		return $fechas;
+	}
+	
 	public  function cargar_permisos($k_consultor)
 	{
 		$this->load->database();

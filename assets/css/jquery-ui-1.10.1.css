@@ -194,7 +194,8 @@
 	float: left;
 }
 .ui-datepicker-multi .ui-datepicker-group table {
-	width: 95%;
+	/*CAMBIADO*/
+	width: 100%;
 	margin: 0 auto .4em;
 }
 .ui-datepicker-multi-2 .ui-datepicker-group {
@@ -341,24 +342,31 @@
 /*FINDE*/
 td.ui-datepicker-week-end
 {
-	background: #EE3333 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x !important;
+	background: #EE3333 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;	
 }
 
+/*CAMBIADO*/
+td.ui-datepicker-week-end a
+{	
+	color:white !important;
+}
 
 /* Interaction Cues
 ----------------------------------*/
 .ui-state-highlight,
 .ui-widget-content .ui-state-highlight,
 .ui-widget-header .ui-state-highlight {
-	border: 1px solid RGB(35,200,200);
+	/*border: 1px solid RGB(35,200,200);*/
 	/*background: #ffe45c url(images/ui-bg_highlight-soft_75_ffe45c_1x100.png) 50% top repeat-x;*/
-	background: RGB(35,200,200) url(images/ui-bg_highlight-soft_75_ffe45c_1x100.png) 50% top repeat-x;
-	color: #363636;
+	background: #23C8C8 url(images/ui-bg_highlight-soft_75_ffe45c_1x100.png) 50% top repeat-x;
+	color:white;
+	/*color: #363636;*/
 }
 .ui-state-highlight a,
 .ui-widget-content .ui-state-highlight a,
 .ui-widget-header .ui-state-highlight a {
-	color: #363636;
+	color:white;
+	/*color: #363636;*/
 }
 .ui-state-error,
 .ui-widget-content .ui-state-error,
