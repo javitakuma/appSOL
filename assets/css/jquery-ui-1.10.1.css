@@ -345,6 +345,11 @@ td.ui-datepicker-week-end
 	background: #EE3333 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;	
 }
 
+.vacaciones
+{
+	background: orange url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;	
+}
+
 /*CAMBIADO*/
 td.ui-datepicker-week-end a
 {	

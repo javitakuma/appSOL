@@ -38,7 +38,7 @@
 		            </div>
 		            <br/><br/>
 		            
-		            <input class="buttonGenericoPeque" type="button" id="seleccionar_dias" value="Seleccionar días"/>
+		            <input onclick='location.href="<?php echo base_url()?>General/Permisos/solicitar_permiso"' class="buttonGenericoPeque" type="button" id="seleccionar_dias" value="Seleccionar días"/>
 		            <br/><br/>  
 	              
 	        	</div><!-- CIERRE permisos_sup_izq -->

@@ -1,6 +1,6 @@
  <div id="contenedor_permisos">
         <div class="volver">
-			<img title="Volver" class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='location.href="<?php echo base_url()?>general/imc"'/>
+			<img title="Volver" class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='location.href="<?php echo base_url()?>general/Permisos"'/>
 			<!--  <h3 class="titulo-peque">Volver</h3>-->
 		</div>
 	        <p class="titulo-grande centrado" onclick="pintar()">SOLICITUD PERMISOS</p>
@@ -79,6 +79,13 @@
 <input type="hidden" id="diasPendientesDebidos" value="5"/>
 <input type="hidden" id="diasPendientes" value="22"/>
 
+<?php if(isset($habilitar_edicion)):?>
+<input type="hidden" id="habilitar_edicion" value="1"/>
+<?php endif;?>
+
+<?php if(!isset($habilitar_edicion)):?>
+<input type="hidden" id="habilitar_edicion" value="1"/><!-- CAMBIAR POR VALUE=1 -->
+<?php endif;?>
 
 
 <script>
