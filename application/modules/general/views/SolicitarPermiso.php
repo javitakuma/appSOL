@@ -80,7 +80,7 @@
 <input type="hidden" id="diasPendientes" value="22"/>
 
 <?php if(isset($habilitar_edicion)):?>
-<input type="hidden" id="habilitar_edicion" value="1"/>
+<input type="hidden" id="habilitar_edicion" value="0"/>
 <?php endif;?>
 
 <?php if(!isset($habilitar_edicion)):?>
@@ -90,5 +90,6 @@
 
 <script>
 	var festivosDesdePhp=<?php echo $festivos?>;
+	var diasYaSolicitados=<?php echo $diasYaSolicitados?>;
 </script>
 

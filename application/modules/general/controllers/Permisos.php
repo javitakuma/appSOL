@@ -56,6 +56,9 @@ class Permisos extends MX_Controller
 		//$datos['permisos']=$this->Permisos_model->cargar_permisos($k_consultor);
 		$datos['festivos']=json_encode($this->Permisos_model->cargar_festivos());
 		
+		$k_consultor=$this->session->userdata('k_consultor');
+		$datos['diasYaSolicitados']=json_encode($this->Permisos_model->cargar_dias_solicitados($k_consultor));
+		
 				
 		$fechaActual=new DateTime();
 		

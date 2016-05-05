@@ -359,6 +359,7 @@
 .ll-skin-latoja .ui-widget {
 	font-family: "Helvetica Neue","Trebuchet MS",Tahoma,Verdana,Arial,sans-serif;
 	background: #fff;
+	/*background: rgb(219,219,231);CAMBIADO*/
 }
 
 .ll-skin-latoja .ui-datepicker {

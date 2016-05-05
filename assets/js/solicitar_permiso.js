@@ -19,6 +19,7 @@ $(document).ready(function() {
 	//POR CADA FECHA AÑADIMOS UN OBJETO A LA VARIABLE FESTIVOS PARA CALENDARIO QUE LUEGO RECOGERO EL OBJETO DATEPICKER PARA PINTARLOS COMO FESTIVOS
 	for(i=0;i<festivosDesdePhp.length;i++)
 	{
+		//alert(i);
 		var fechaSplit=festivosDesdePhp[i].f_dia_calendario.split("-");
 		
 		var fechaFormateada=fechaSplit[1]+"/"+fechaSplit[2]+"/"+fechaSplit[0]
@@ -29,8 +30,20 @@ $(document).ready(function() {
 		festivosParaCalendario.push(fila);
 	}	
 	
+	if($('#habilitar_edicion').val()==1)
+	{
+		for(i=0;i<diasYaSolicitados.length;i++)
+		{
+			var fila2={};
+			fila2['Date']=new Date(diasYaSolicitados[i].fecha);
+			fila2['k_permisos_solic']=diasYaSolicitados[i].k_permisos_solic;
+			diasOcupados.push(fila2);
+		}
+	}
 	
 	//SI HEMOS HABILITADO EDICION...VAMOS A T_PERMISOS_SOLICITADOS_DET Y COGEMOS TODOS LOS DIAS QUE TIENE DE VACACIONES SOLICITADOS
+	
+	/*
 	if($('#habilitar_edicion').val()==1)
 	{
 		$.ajax({        
@@ -52,7 +65,7 @@ $(document).ready(function() {
 		       }
 		    }); 
 	}
-	
+	*/
 	
 	
 	//CREAMOS UNA VARIABLE CON FECHA 31 DE ENERO DEL AÑO SIGUIENTE AL ACTUAL
@@ -64,66 +77,44 @@ $(document).ready(function() {
 	//INICIALIZAMOS EL DATEPICKER
 	$(function() {
 	    //$( "#datepicker" ).datepicker();
+		var clickar=[];
+		
 	    $( "#calendario" ).multiDatesPicker({
 	    	//PARAMETROS DEL OBJETO DATEPICKER
 			inline: true,
+			
+			onSelect:function(dateText,inst)
+			{
+				//$(inst).addClass("pepito");
+				alert (dateText);
+				
+				var dia=dateText.split("-")[0];
+				var mes=dateText.split("-")[1];
+				var year=dateText.split("-")[2];
+				
+				
+				var selectorA=$('td[data-month="'+2016+'"][data-year="'+4+'"]').has('a:contains("'+16+'")');
+				//selectorA.parent().addClass("qqqqq");
+				alert(selectorA.length);
+			},
+			
 			showOtherMonths: true,
 			firstDay: 1,
 			dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ],
+			monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
 			numberOfMonths:2,
 			dateFormat: "dd-mm-yy",
-			minDate: new Date(),
-			maxDate: ultimaFecha,
+			minDate: new Date(2016,0,1),
+			maxDate: new Date(2016,11,31),
 			//EN onChange RECOGEMOS EL MES QUE NOS QUEDA AL CAMBIAR EN EL CALENDARIO Y SE LO PASAMOS A ESA FUNCION
 			onChangeMonthYear:function (year, month, inst) {
-	            //alert(month); // Store active month when month is changed.
 	            cambiarMesesInferior(month);
+	            //clickarFechas();
 	        },	
 			
 			//BUSCA LOS DIAS FESTIVOS Y LOS PONE LA CLASE DE FESTIVOS
 	        // FUNCIONA SIN DISCRIMINAR ENTRE DIAS DE ESTA SOLICITUD Y OTRA
 	        
-	        
-			beforeShowDay: 
-				function(date) {
-			    var result = [true, '', null];
-			    
-			    var matching = $.grep(festivosParaCalendario, function(event) {
-			        return (event.Date.valueOf() === date.valueOf());			        
-			    });
-			    
-			    
-			    //BUSCAMOS LOS DIAS QUE YA HA SOLICITADO Y LOS MARCAMOS
-			    var matching2 = $.grep(diasOcupados, function(event) {
-			    	return (event.Date.valueOf() === date.valueOf());			        
-			    });
-			    
-			    
-
-			    if (matching.length) {
-			        result = [true, 'ui-datepicker-week-end', null];
-			    }
-			    
-			  //nuevo
-			    if (matching2.length) {
-			        //  bueno          result = [false, 'vacaciones', null];
-			    	
-			    	
-			    	if(event.k_permisos_solic==2)
-			    	{
-			    		result = [false, 'vacaciones', null];
-			    	}
-			    	else
-			    	{
-			    		result = [true, 'ui-state-highlight', null];
-			    		
-			    	}
-			    	
-			    }
-			    return result;
-			},	
-			
-	        /*
 	        beforeShowDay: 
 				function(date) {
 			    var result = [true, '', null];
@@ -134,73 +125,54 @@ $(document).ready(function() {
 			    
 			    var matching2=-1;
 			    
+			    //vacaciones pedidas
 			    for(i=0;i<diasOcupados.length;i++)
-			    {
-			    	//alert(diasOcupados[i].Date.valueOf());
-			    	
+			    {	    	
 			    	if(diasOcupados[i].Date.valueOf()==date.valueOf())
 			    	{
-			    		if(diasOcupados[i].k_permisos_solic==2)//vacaciones de esta solicitud
+			    		if(diasOcupados[i].k_permisos_solic==2)//vacaciones de esta solicitud   CAMBIAR POR VALOR DE BBDD
 			    		{
-			    			
+			    			if(matching.length)//ADEMAS ES FESTIVO PERO LO HA PEDIDO
+			    			{
+			    				result = [true, 'clickar ui-datepicker-week-end', null];
+			    			}
+			    			else//vacaciones de esta solicitud QUE NO SEAN FESTIVOS
+			    			{
+			    				//result = [true, 'clickar', null];
+			    				//result = [true, 'ui-state-highlight', null];
+			    			}
 			    		}
-			    		else
+			    		else//VACACIONES DE OTRA SOLICITUD, LO DESHABILITAMOS LA EDICION   amarillo
 			    		{
-			    			
+			    			result = [false, 'vacaciones', null];
 			    		}
 			    		
-			    		alert("coincide");
+			    		//alert("coincide");
 			    	}
 			    	
 			    }
-			    
 
-			    if (matching.length) {
+			    if (matching.length)//FESTIVOS 
+			    {
 			        result = [true, 'ui-datepicker-week-end', null];
 			    }
-			    
-			  //nuevo
-			    
-			    if(matching2==2) 
-			    {	
-			    	//  bueno          result = [false, 'vacaciones', null];			    		   	
-			    	result = [false, 'vacaciones', null];
-			    }
-		        if (matching2==3) 
-		        {
-		        	result = [true, 'ui-state-highlight', null];
-		        }
-		        
-		        if (matching2==1) 
-		        {
-		        	result = [true, 'ui-state-highlight', null];
-		        }
-			    
 			    return result;
-			},
-			*/
-		});
+			},			
+		});	 
+	    
 	  });
 	
 	
 	
-	/*
-	function pintarFestivos(date)
-	{
-		var result = [true, '', null];
-	    
-	    var matching = $.grep(festivosParaCalendario, function(event) {
-	    	//alert(event.Date.valueOf() === date.valueOf());
-	        return (event.Date.valueOf() === date.valueOf());			        
-	    });
-
-	    if (matching.length) {
-	        result = [true, 'ui-datepicker-week-end', null];
-	    }
-	    return result;
-	}
+	//FUTURIBLE CLICKAR LOS DIAS
 	
-	*/
+	$('#calendario').ready(function()
+	{
+		clickarFechas();
+	});
+	
+	
+	
 	
 	//PONEMOS LOS VALORES DE DIAS PENDIENTES QUE HEMOS RECOGIDOS DE BBDD
 	
@@ -274,6 +246,53 @@ $(document).ready(function() {
 	
 	
 });
+
+function clickarFechas()
+{
+	//$('#calendario').multiDatesPicker("setDate", new Date(2016,07,08) );
+	//$('#calendario').multiDatesPicker("setDate", new Date(2016,07,09) );
+	
+	//$("#calendario").multiDatesPicker('addDates', [new Date()]);
+	//$("#calendario").multiDatesPicker('addDates', [new Date(2016,07,08)]);
+	//$("#calendario").multiDatesPicker('addDates', [new Date(),(new Date()).setDate(22)]);
+	
+	if($('#habilitar_edicion').val()==1)
+	{
+		var fechas=[];
+		for(i=0;i<diasOcupados.length;i++)
+	    {
+				
+	    		if(diasOcupados[i].k_permisos_solic==2)//vacaciones de esta solicitud   CAMBIAR POR VALOR DE BBDD
+	    		{    			
+	    			var dia=(Number)(diasOcupados[i].Date.getDate());
+	    			var mes=(Number)(diasOcupados[i].Date.getMonth());//devuelve el mes-1, no lo cambiamos porque lo el calendario lo pinta igual
+	    			var year=(Number)(diasOcupados[i].Date.getFullYear());
+	    			
+	    			
+	    			
+	    			fecha=new Date(year,mes,dia);
+	    			
+	    			fechas.push(fecha);
+	    			
+	    			//alert(dia+" "+mes+" "+year);
+	    			/*
+	    			dia=7;
+	    			mes=4;
+	    			year=2016;
+	    			*/
+	    			
+	    			//$("#calendario").multiDatesPicker('addDates', [fecha]);
+	    			    			
+	    		}
+	    		
+	    }
+		$("#calendario").multiDatesPicker('addDates', fechas);
+	}
+	
+	
+    
+}
+
 
 //FUNCION QUE COLOCA EN LA PARTE INFERIOR EL MES QUE SE LE PASA POR PARAMETRO Y EL SIGUIENTE
 function cambiarMesesInferior(numeroMes)
@@ -364,6 +383,14 @@ function sincronizar_superior_inferior()
 function pintar()
 {
 	
+	//seleccionar una celda
+	/*
+	var selectorA=$('td[data-month="5"][data-year="2016"]').has('a:contains("15")');	
+	selectorA.click();
+	*/
+	
+	//alert(cantidad);
+	
 	/*
 	$( 'td.ui-state-highlight').each(function()
 			{
@@ -372,22 +399,26 @@ function pintar()
 				
 			});
 	*/
-	alert($( 'td.ui-state-highlight').length);
 	
+	
+	//alert($( 'td.ui-state-highlight').length);
+	
+	/*
 	$( 'td.ui-state-highlight').each(function()
 	{
 		alert("---");
 		$(this).click();
 	});
-	
+	*/
 	
 	//alert($('#calendario').multiDatesPicker('value'));
 	
 	
 	//sincronizar_superior_inferior();
-	/*
+	
 	alert($('#calendario').val());
 	
+	/*
 	var diasSeleccionados=$('#calendario').val().split(" ");
 	
 	if($('#calendario').val()=="")
