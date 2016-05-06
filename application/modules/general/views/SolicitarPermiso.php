@@ -91,5 +91,6 @@
 <script>
 	var festivosDesdePhp=<?php echo $festivos?>;
 	var diasYaSolicitados=<?php echo $diasYaSolicitados?>;
+	var diasDesdePhp=<?php echo $dias?>;
 </script>
 

@@ -95,7 +95,7 @@ class Permisos_model extends CI_Model
 		$this->db->trans_start();
 		
 		
-		$sql ="SELECT k_proyecto,id_proyecto FROM t_proyectos where id_proyecto IN('PRO450','PRO468')";
+		$sql ="SELECT k_proyecto,id_proyecto,nom_proyecto FROM t_proyectos where id_proyecto IN('PRO450','PRO468')";
 		
 		
 		
@@ -113,11 +113,10 @@ class Permisos_model extends CI_Model
 		$this->load->database();
 		$this->db->trans_start();		
 		
-		$fecha=new DateTime();
-		$fechaParseada=date_format($fecha, 'Y-m-d');
-				
+		$ultimoDiaYear = date('Y')-1 . '-12-31';
 		
-		$sql ="SELECT f_dia_calendario FROM t_calendario WHERE sw_laborable=0 and f_dia_calendario>'$fechaParseada'";		
+				
+		$sql ="SELECT f_dia_calendario FROM t_calendario WHERE sw_laborable=0 and f_dia_calendario>'$ultimoDiaYear'";		
 		
 		$festivos=$this->db->query($sql)->result_array();		
 			

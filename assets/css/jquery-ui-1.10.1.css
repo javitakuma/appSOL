@@ -342,12 +342,8 @@
 /*FINDE*/
 td.ui-datepicker-week-end
 {
-	background: #EE3333 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;	
-}
-
-.vacaciones
-{
-	background: orange url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;	
+	/*background: #EE3333 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;*/
+	background: #666 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;	
 }
 
 /*CAMBIADO*/
@@ -355,6 +351,40 @@ td.ui-datepicker-week-end a
 {	
 	color:white !important;
 }
+
+td.ui-datepicker-week-end span
+{	
+	color:white !important;
+}
+
+td.dia_aceptado
+{
+	/*background: #EE3333 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;*/
+	background: #00AA00 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;		
+}
+
+td.dia_aceptado span
+{	
+	color: white !important;
+}
+
+td.dia_rechazado
+{
+	/*background: #EE3333 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;*/
+	background: #AA0000 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;		
+}
+
+td.dia_rechazado span
+{	
+	color: white !important;
+}
+
+td:disabled
+{
+	background:red !important;
+}
+
+
 
 /* Interaction Cues
 ----------------------------------*/

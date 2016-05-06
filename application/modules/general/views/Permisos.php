@@ -22,23 +22,25 @@
 		        	<div class="contenedor_select_35 textoSmallCaps">
 			            <label>Tipo de solicitud</label>
 			            <select id="tipo_solicitud">
+			            	<option value="0">Selecciona un tipo de permiso</option>
 			            	<?php foreach ($permisos['tipo_solicitud'] as $tipo):?>
-			            		<option value="<?php echo $tipo['k_proyecto']?>"><?php echo $tipo['id_proyecto']?></option>
+			            		<option value="<?php echo $tipo['k_proyecto']?>"><?php echo $tipo['nom_proyecto']?></option>
 			            	<?php endforeach;?>
 			            </select>
 		            </div>
 		            
 			        <div class="contenedor_select_35 textoSmallCaps">
 			            <label>Responsable</label>
-			            <select id="cod_proyecto_select">
-			                <option value="0">Selecciona un proyecto</option>
+			            <select id="responsable_solicitud">
+			                <option value="0">Selecciona un responsable</option>
 			                <option value="1">1</option>
 			                <option value="2">2</option>
 			            </select>
 		            </div>
+		            <label>Horas jornada laboral:</label><input type="text" maxlength="1" id="horas_jornada"/>
 		            <br/><br/>
 		            
-		            <input onclick='location.href="<?php echo base_url()?>General/Permisos/solicitar_permiso"' class="buttonGenericoPeque" type="button" id="seleccionar_dias" value="Seleccionar días"/>
+		            <input class="buttonGenericoPeque" type="button" id="seleccionar_dias" value="Nueva solicitud"/>
 		            <br/><br/>  
 	              
 	        	</div><!-- CIERRE permisos_sup_izq -->
