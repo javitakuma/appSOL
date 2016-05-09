@@ -2,7 +2,7 @@ var festivosParaCalendario = [];
 
 var diasOcupadosDesdeAjax;
 
-var diasOcupados=[];
+var diasOcupados=[];//AQUI FINALMENTE METEMOS APROBADOS, RECHAZADOS Y PENDIENTES
 
 //todos los dias de vacaciones
 var dias=[];
@@ -23,7 +23,7 @@ $(document).ready(function() {
 
 	//COGEMOS EL ARRAY DE FESTIVOS QUE NOS VIENE DE PHP, PASAMOS LA FECHA AL FORMATO REQUERIDO PARA JS
 	//POR CADA FECHA AÑADIMOS UN OBJETO A LA VARIABLE FESTIVOS PARA CALENDARIO QUE LUEGO RECOGERO EL OBJETO DATEPICKER PARA PINTARLOS COMO FESTIVOS
-	
+		
 	
 	for(i=0;i<festivosDesdePhp.length;i++)
 	{
@@ -69,6 +69,7 @@ $(document).ready(function() {
 		if(diasDesdePhp[i].sw_aprobacion_N1==0&&diasDesdePhp[i].sw_aprobacion_N2==0&&diasDesdePhp[i].sw_rechazo==0)
 		{
 			diasPendientes.push(fila2);
+			diasOcupados.push(fila2);
 		}
 		else//dias aprobados o rechazados
 		{
@@ -116,6 +117,21 @@ $(document).ready(function() {
 	    //$( "#datepicker" ).datepicker();
 		var clickar=[];
 		
+		var year_calendario=$('#year_solicitud').val();
+		
+		var year_siguiente=((Number)(year_calendario))+1;
+		
+		var fecha_limite_final;
+		
+		if($('#existe_next_year_bbdd').val()==1)
+		{
+			fecha_limite_final=new Date(year_siguiente,0,31);
+		}
+		else
+		{
+			fecha_limite_final=new Date(year_calendario,11,31);
+		}
+				
 	    $( "#calendario" ).multiDatesPicker({
 	    	//PARAMETROS DEL OBJETO DATEPICKER
 			inline: true,
@@ -124,25 +140,23 @@ $(document).ready(function() {
 		        // Your CSS changes, just in case you still need them
 		       // $('a.ui-state-default').removeClass('ui-state-highlight');
 				
-				//alert($(this).html());
-		        if($(this).hasClass('ui-state-highlight'))
-		        {
-		        	alert("--");
-		        };
+				//alert('onselect');
+				sincronizar_superior_inferior();
 			},
 			
 			showOtherMonths: true,
 			firstDay: 1,
 			dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ],
 			monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-			numberOfMonths:1,
+			numberOfMonths:2,
 			dateFormat: "dd-mm-yy",
-			minDate: new Date(2016,0,1),
-			maxDate: new Date(2016,11,31),
+			minDate: new Date(year_calendario-1,9,1),
+			maxDate: fecha_limite_final,//new Date(year_siguiente,0,31),
 			//EN onChange RECOGEMOS EL MES QUE NOS QUEDA AL CAMBIAR EN EL CALENDARIO Y SE LO PASAMOS A ESA FUNCION
 			onChangeMonthYear:function (year, month, inst) {
 	            //cambiarMesesInferior(month);
 	            //clickarFechas();
+				
 	        },	
 			
 			//BUSCA LOS DIAS FESTIVOS Y LOS PONE LA CLASE DE FESTIVOS
@@ -175,18 +189,24 @@ $(document).ready(function() {
 			    	
 			    	if(diasOcupados[i].fecha.valueOf()==date.valueOf())
 			    	{
+			    		//DIAS ACEPTADOS
 			    		if(diasOcupados[i].sw_aprobacion_N1==-1&&diasOcupados[i].sw_aprobacion_N2==-1)//vacaciones de esta solicitud   CAMBIAR POR VALOR DE BBDD
 			    		{	
 			    			//result = [false, 'dia_aceptado', null];	
 			    			desbloqueado=false;
 					    	clase='dia_aceptado';
 			    		}
-			    		
-			    		if(diasOcupados[i].sw_rechazo==-1)//vacaciones de esta solicitud   CAMBIAR POR VALOR DE BBDD
+			    		//DIAS OCUPADOS
+			    		else if(diasOcupados[i].sw_rechazo==-1)//vacaciones de esta solicitud   CAMBIAR POR VALOR DE BBDD
 			    		{	
 			    			//result = [false, 'dia_rechazado', null];
 			    			desbloqueado=false;
 					    	clase='dia_rechazado';
+			    		}			    		
+			    		else//DIAS PENDIENTES
+			    		{
+			    			desbloqueado=false;
+					    	clase='dia_pendiente';
 			    		}
 			    		
 			    		//alert("coincide");
@@ -204,12 +224,18 @@ $(document).ready(function() {
 			    	desbloqueado=false;
 			    }
 				
+			    //ESTO LO UTILIZAREMOS PARA BLOQUEAR TODA Y CREAR LA VISTA VER EN CALENDARIO
+			    if(false)
+			    {
+			    	desbloqueado=false;
+			    }
+			    
+			    
 			    
 			    return [desbloqueado,clase,null];
 			    //return result;
 			},			
-		});	 
-	    
+		});	
 	  });
 	
 	//FUTURIBLE CLICKAR LOS DIAS
@@ -229,8 +255,10 @@ $(document).ready(function() {
 	//COGEMOS LA FECHA DE HOY Y LA FORMATEAMOS A yy-mm-dd PARA IR A LA BBDD y COGER DIAS DE LA BASE DE DATOS
 	var fechaActual=new Date();
 	
-	//COGEMOS TODOS LOS FESTIVOS DEL AÑO DE LA BBDD PARA PINTARLOS
-	var fechaInicioYearFormateada=fechaActual.getFullYear()-1+"-"+12+"-"+31;
+	//CREAMOS LA FECHA A PARTIR DE LA CUAL IREMOS A LA BBDD DONDE COGEREMOS TODOS LOS DIAS TANTO FESTIVOS COMO LABORABLES
+	
+	//ANTES LO HACIAMOS A 1 DE ENERO POR ESO TIENE ESE NOMBRE DE VARIABLE (AHORA USAMOS DESDE 1 OCTUBRE)
+	var fechaInicioYearFormateada=fechaActual.getFullYear()-1+"-"+09+"-"+30;
 	
 	//CREAMOS UNA FECHA CON VALOR 10 DIAS MENOR QUE LA ACTUAL PARA HABILITAR TODOS LOS DIAS POSTERIORES A LA MISMA, YA QUE HEMOS DESHABILITADO TODOS POR DEFECTO
 	var fechaActualMenosIntervalo=new Date();
@@ -277,11 +305,11 @@ $(document).ready(function() {
 	    			//SI LA FECHA ES MAYOR A LA ACTUAL - 10 DIAS HABILITAMOS LAS CELDAS 
 	    			if(dia.split("-")[1]>fechaActualMenosIntervaloFormateada.split("-")[1])
 	    			{
-	    				$('#'+dia).attr('disabled',false);
+	    				//$('#'+dia).attr('disabled',false);
 	    			}
 	    			else if( dia.split("-")[1]==fechaActualMenosIntervaloFormateada.split("-")[1] && dia.split("-")[0]>fechaActualMenosIntervaloFormateada.split("-")[0])
 	    			{
-	    				$('#'+dia).attr('disabled',false);
+	    				//$('#'+dia).attr('disabled',false);
 	    			}
 	    			
 	    			
@@ -298,11 +326,45 @@ $(document).ready(function() {
 	    }); 
 	
 	//PONEMOS NOMBRE EN TEXTO A LOS MESES DE LA PARTE INFERIOR
-	var contMes=0;
+	//EMPEZAMOS EN OCTUBRE CUANDO LLEGAMOS A ENERO PONEMOS A FALSE YEARANTERIOR
+	//CUANDO VOLVEMOS A PASAR POR ENERO PONEMOS A TRUE YEARSIGUIENTE
+	var contMes=9;
+	var yearAnterior=true;
+	var yearSiguiente=false;
+	
 	$('#celdas_horas .fila-datos').each(function()
 	{
-		$(this).find('td').first().html(meses[contMes]);
+		
+		if(yearAnterior)
+		{
+			var mesPintar=meses[contMes%12].substr(0,3);
+			var yearPintar=$('#year_solicitud').val()-1;
+			$(this).find('td').first().html(mesPintar+" "+yearPintar);
+		}
+		else if(yearSiguiente)
+		{
+			var mesPintar=meses[contMes%12].substr(0,3);
+			var yearPintar=(Number)($('#year_solicitud').val()) + 1;
+			$(this).find('td').first().html(mesPintar+" "+yearPintar);
+		}
+		else
+		{
+			$(this).find('td').first().html(meses[contMes%12]);
+		}
+		
+		
 		contMes++;
+		
+		if(contMes==12)
+		{
+			//contMes=0;
+			yearAnterior=false;
+		}
+		if(contMes==24)
+		{
+			//contMes=0;
+			yearSiguiente=true;
+		}
 	});
 	
 	//DESHABILITAMOS TODAS LAS CELDAS POR DEFECTO 
@@ -314,8 +376,16 @@ $(document).ready(function() {
 	
 	//INTERVALO QUE ACTUALIZA LOS VALORES DE DIAS PENDIENTES
 	setInterval(function(){ actualizarDiasPendientes() }, 500);
-	//INTERVALO QUE ACTUALIZA LAS TABLAS DE ARRIBA Y ABAJO
-	setInterval(function(){ sincronizar_superior_inferior() }, 500);
+	//INTERVALO QUE ACTUALIZA LAS TABLAS DE ARRIBA Y ABAJO(DE MOMENTO LO DEJO EN EL EVENTO ONSELECT DEL CALENDARIO)
+	
+	//setInterval(function(){ sincronizar_superior_inferior() }, 5000);
+	
+	//SINCRONIZAMOS CUANDO ESTE LISTO EL CALENDARIO
+	$('#calendario').ready(function()
+	{
+		pintarInferiorInicial();
+		sincronizar_superior_inferior();
+	});
 	
 	
 });
@@ -327,6 +397,8 @@ function clickarFechas()
 	//$("#calendario").multiDatesPicker('addDates', [new Date()]);
 	//$("#calendario").multiDatesPicker('addDates', [new Date(2016,07,08)]);
 	
+	
+	/*
 	if($('#habilitar_edicion').val()==1)
 	{
 		//POR CADA DIA QUE HEMOS RECOGIDO DE LA BBDD LO SELECCIONAMOS EN EL CALENDARIO
@@ -343,6 +415,7 @@ function clickarFechas()
 	    }
 		$("#calendario").multiDatesPicker('addDates', fechasPintar);
 	}
+	*/
 }
 
 
@@ -411,24 +484,128 @@ function actualizarDiasPendientes()
 	}
 	
 }
+
+function pintar_aceptados()
+{
+
+	//LO HACEMOS CUANDO HAYA BBDD
+	
+}
+
+//FUNCION QUE IGUALA LAS TABLAS SUPERIOR E INFERIOR
 function sincronizar_superior_inferior()
 {	
 	$('#celdas_horas td input').removeClass('seleccionado_inferior');
 	
+	//COGE LOS VALORES SELECCIONADOS
+	//FORMATO DD-MM-YYYY
 	var fechasSeleccionadas=$('#calendario').val().split(", ");
 	
 	for(i=0;i<fechasSeleccionadas.length;i++)
 	{
+		//LES AÑADE UNA CLASE PARA DAR COLOR A TODAS LAS CELDAS INFERIORES QUE EQUIVALEN A LOS SELECCIONADOS
 		$('#'+fechasSeleccionadas[i]).addClass('seleccionado_inferior');
 	}
 	
 	
-	$('#celdas_horas td input').not('.seleccionado_inferior').each(function()
+	$('#celdas_horas td').has('input.seleccionado_inferior').each(function()
 	{
-		$(this).val('0');
+		//SI ES KEYOTROS HABILITAMOS LAS CELDAS SELECCIONADAS
+		if($('#tipo_solicitud').val()=='KEYOTROS')
+		{
+			$(this).find('input').prop('disabled',false);
+		}
+		//SI ES KEYVACACIONES LE PONEMOS EL VALOR QUE INTRODUJO EN LA PANTALLA ANTERIOR
+		if($('#tipo_solicitud').val()=='KEYVACACIONES')
+		{
+			var horas_jornada=(Number)($('#horas_jornada').val());			
+			$(this).find('input').val(horas_jornada);
+		}				
 	});
 	
+	//LAS CELDAS QUE NO ESTEN SELECCIONADAS (LAS HA DESELECCIONADO EL USUARIO) LAS DESHABILITAMOS Y PONEMOS VALOR A 0
+	//TAMPOCO CAMBIAMOS A 0 LAS ACEPTADAS O RECHAZADAS PORQUE VIENEN CON INFORMACION DE BBDD
+	$('#celdas_horas td input').not('.seleccionado_inferior').not('.rechazado_inferior').not('.aceptado_inferior').each(function()
+	{
+		//estaba habilitado
+		
+		//$(this).val('0');
+		
+		
+		
+		//deshabilitar la celda
+		//$(this).prop('disabled',true);
+	});
+	ocultarMostrarFilas();
+}
+
+function ocultarMostrarFilas()
+{
+	$('.fila-datos').each(function()
+	{
+		var ocultar=true;
+		var suma=0;
+		$(this).find('.input-datos').each(function()
+		{
+			//alert($(this).val());
+			
+			if($(this).val()!=0)
+			{
+				ocultar=false;
+			}
+			
+		});
+		
+		
+		if(ocultar)
+		{
+			//$(this).css('display','none');
+		}
+		else
+		{	
+			$(this).css('display','default');
+		}
+		
+	});
+}
+
+function pintarInferiorInicial()
+{
 	
+	//PINTA EN LA PARTE INFERIOR LOS DIAS ACEPTADOS Y RECHAZADOS
+	for(i=0;i<diasDesdePhp.length;i++)
+	{
+		if(diasDesdePhp[i].dia<10)
+		{
+			diasDesdePhp[i].dia="0"+diasDesdePhp[i].dia;
+		}
+		
+		if(diasDesdePhp[i].mes<10)
+		{
+			diasDesdePhp[i].mes="0"+diasDesdePhp[i].mes;
+		}
+		
+		var fecha=diasDesdePhp[i].dia+"-"+diasDesdePhp[i].mes+"-"+diasDesdePhp[i].año;
+		
+		
+		if((diasDesdePhp[i].sw_aprobacion_N1==-1)&&(diasDesdePhp[i].sw_aprobacion_N2==-1))
+		{
+			$('#'+fecha).addClass('aceptado_inferior');	
+			$('#'+fecha).val('22');		//CAMBIAR BBDD REAL
+		}
+		
+		else if(diasDesdePhp[i].sw_rechazo==-1)
+		{
+			$('#'+fecha).addClass('rechazado_inferior');	
+			$('#'+fecha).attr('value','22');		//CAMBIAR BBDD REAL
+		}
+		else
+		{
+			$('#'+fecha).addClass('pendiente_inferior');
+			$('#'+fecha).val('22');		//CAMBIAR BBDD REAL
+		}
+			
+	}
 	
 }
 
@@ -469,7 +646,8 @@ function pintar()
 	
 	//sincronizar_superior_inferior();
 	
-	alert($('#calendario').val());
+	alert($('#01-08-2016').val());
+	
 	
 	/*
 	var diasSeleccionados=$('#calendario').val().split(" ");

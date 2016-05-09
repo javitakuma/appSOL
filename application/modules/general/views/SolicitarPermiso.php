@@ -3,7 +3,7 @@
 			<img title="Volver" class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='location.href="<?php echo base_url()?>general/Permisos"'/>
 			<!--  <h3 class="titulo-peque">Volver</h3>-->
 		</div>
-	        <p class="titulo-grande centrado" onclick="pintar()">SOLICITUD PERMISOS</p>
+	        <p class="titulo-grande centrado" onclick="pintar()">SOLICITUD PERMISOS <?php echo $tipo_solicitud?></p>
 	        <br/>
 	        <br/>
 	        
@@ -25,20 +25,22 @@
 		        		<p>DIAS PENDIENTES</p>
 		        	</div>
 		        	<div>
-		        		<label>Año 2015</label><p id="pendientesDebidosMostrar"></p>
-		        		<label>Año 2016</label><p id="pendientesMostrar"></p>	
+		        		<label>Año <?php echo $year_solicitud-1?></label><p id="pendientesDebidosMostrar"></p>
+		        		<label>Año <?php echo $year_solicitud?></label><p id="pendientesMostrar"></p>	
 		        	</div>	        	
 		     </div><!-- CIERRE dias_pendientes -->
 		     <div id="comentarios_permiso">
-		     	<h3 class="centrado titulo-mediano">Comentarios</h3>
-		     	<textarea id="comentarios_textarea"></textarea>
+		     	<h3 class="centrado titulo-mediano">Observaciones</h3>
+		     	<textarea id="observaciones_textarea"></textarea>
 		     </div>
 	     </div>           
 	     <div id="flotador_superior"></div>
 	  </div> <!-- CIERRE superior -->  
 	  
 	  <div id="inferior">
-	  	<table id="celdas_horas" class="tabla_key">
+	  
+	 <!-- TABLA INFERIOR PARA INTRODUCIR HORAS --> 
+	<table id="celdas_horas" class="tabla_key">
 	<tr class="primera-fila">
 	<th class="nombres_meses">Mes</th>
 	<?php for ($i=1;$i<=31;$i++):?> 
@@ -51,11 +53,32 @@
 	<?php endfor;?>
 	</tr>
 	
-	<?php for ($j=1;$j<=12;$j++):?>
+	
+	
+	<!-- AÑO ANTERIOR -->
+	<?php for ($j=10;$j<=12;$j++):?>
+	<tr id="fila_mes_<?php echo $j?>_ant" class="fila-datos">                    	
+		<td class="nombres_meses">NombreMes</td>
+		<?php for ($k=1;$k<=31;$k++):?>  
 		
+			<?php if($k<10):?>
+				<?php $k="0".$k?>
+			<?php endif;?>
+		                  	
+			<td><input id="<?php echo $k."-".$j?>-2015" class="input-datos" type="text" value="0"/></td>
+		<?php endfor;?>
+	</tr>
+	<?php endfor;?>
+	
+	
+	
+	
+	
+	<?php for ($j=1;$j<=12;$j++):?>		
 		<?php if($j<10):?>
 			<?php $j="0".$j?>
 		<?php endif;?>  
+		
 	<tr id="fila_mes_<?php echo $j?>" class="fila-datos">                    	
 		<td class="nombres_meses">NombreMes</td>
 		<?php for ($k=1;$k<=31;$k++):?>  
@@ -64,10 +87,25 @@
 				<?php $k="0".$k?>
 			<?php endif;?>
 		                  	
-			<td><input id="<?php echo $k."-".$j?>-2016" type="text" value="0"/></td>
+			<td><input id="<?php echo $k."-".$j?>-2016" class="input-datos" type="text" value="0"/></td>
 		<?php endfor;?>
 	</tr>
 	<?php endfor;?>
+	
+	<?php if($existe_next_year_bbdd==true):?>
+		<tr id="fila_mes_01_sig" class="fila-datos">
+		<td class="nombres_meses">aa</td>                    	
+			<?php for ($k=1;$k<=31;$k++):?>  
+		
+			<?php if($k<10):?>
+				<?php $k="0".$k?>
+			<?php endif;?>
+		                  	
+			<td><input id="<?php echo $k?>-01-2017" class="input-datos" type="text" value="1"/></td>
+		<?php endfor;?>
+		</tr>	
+	<?php endif;?>
+	
 	
 </table>
 	  </div>
@@ -78,6 +116,11 @@
 
 <input type="hidden" id="diasPendientesDebidos" value="5"/>
 <input type="hidden" id="diasPendientes" value="22"/>
+<input type="hidden" id="tipo_solicitud" value="<?php echo $tipo_solicitud?>"/>
+<input type="hidden" id="responsable_solicitud" value="<?php echo $responsable_solicitud?>"/>
+<input type="hidden" id="horas_jornada" value="<?php echo $horas_jornada?>"/>
+<input type="hidden" id="year_solicitud" value="<?php echo $year_solicitud?>"/>
+<input type="hidden" id="existe_next_year_bbdd" value="<?php echo $existe_next_year_bbdd?>"/>
 
 <?php if(isset($habilitar_edicion)):?>
 <input type="hidden" id="habilitar_edicion" value="0"/>

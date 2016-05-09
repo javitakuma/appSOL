@@ -8,6 +8,20 @@ class Permisos_model extends CI_Model
 		parent::__construct();		
 	}
 	
+	public function cargar_responsables_proyectos()
+	{
+		$this->load->database();
+		$this->db->trans_start();
+		
+		$sql ="SELECT * FROM t_consultores WHERE sw_resp_proyectos=-1 AND id_consultor NOT LIKE 'NADIE' order by nom_consultor ";		
+		
+		$resp_proyectos=$this->db->query($sql)->result_array();
+				
+		$this->db->trans_complete();
+		$this->db->close();
+		return $resp_proyectos;
+	}
+	
 	public function cargar_dias_para_horas($fechaActual)
 	{
 		$this->load->database();
@@ -88,6 +102,25 @@ class Permisos_model extends CI_Model
 		
 	}
 	
+	public function comprobar_calendario_proximo_year($year)
+	{
+		$this->load->database();
+		$this->db->trans_start();
+		
+		$year++;
+		
+		//BUSCAMOS EN EL CALENDARIO EL 1 ENERO DEL AÑO QUE VIENE		
+		$sql ="SELECT * FROM t_calendario where f_dia_calendario='$year-01-01' ";
+		
+		$existeProximoYear=$this->db->query($sql)->result_array();
+		
+		
+			
+		$this->db->trans_complete();
+		$this->db->close();
+		//DEVOLVEMOS EL NUMERO DE FILAS DEVUELTAS QUE SERA 1 SI ENCUENTRA Y 0 SI NO LO HACE (ESOS VALORES LOS USAMOS COMO TRUE O FALSE)
+		return sizeof($existeProximoYear);
+	}
 	
 	public  function cargar_permisos($k_consultor)
 	{
@@ -113,7 +146,7 @@ class Permisos_model extends CI_Model
 		$this->load->database();
 		$this->db->trans_start();		
 		
-		$ultimoDiaYear = date('Y')-1 . '-12-31';
+		$ultimoDiaYear = date('Y')-1 . '-09-30';
 		
 				
 		$sql ="SELECT f_dia_calendario FROM t_calendario WHERE sw_laborable=0 and f_dia_calendario>'$ultimoDiaYear'";		

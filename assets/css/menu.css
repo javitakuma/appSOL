@@ -99,6 +99,8 @@
 	vertical-align: middle;
 	width:12%;
  	min-width:75px;
+ 	font-family: "Courier New", Courier, monospace;
+ 	font-weight: bold;
 }
 
 #cambiarPassword

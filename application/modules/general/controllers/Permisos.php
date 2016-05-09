@@ -43,6 +43,9 @@ class Permisos extends MX_Controller
 	public function mostrar_permiso_anual() 
 	{
 		$k_consultor=$this->session->userdata('k_consultor');
+		
+		$datos['resp_proyectos']=$this->Permisos_model->cargar_responsables_proyectos();
+		$datos['year_actual']=date('Y');
 		$datos['css']='permisos';
 		$datos['js']='permisos';
 		$datos['permisos']=$this->Permisos_model->cargar_permisos($k_consultor);
@@ -50,11 +53,40 @@ class Permisos extends MX_Controller
 		enmarcar($this,'Permisos.php',$datos);
 	}
 	
-	public function solicitar_permiso()
+	public function solicitar_permiso($year=0)
 	{
 		//ir al modelo para sacar los dias pendientes de disfrutar
-		//ir al calendario para pintar los festivos
 		//$datos['permisos']=$this->Permisos_model->cargar_permisos($k_consultor);
+		
+		//CAMBIO DEV-PRO
+		
+		
+		//AÑO "FISCAL" DE LAS VACACIONES
+		$datos['year_solicitud']=$year;		
+		if($year==0)
+		{
+			$datos['year_solicitud']=date('Y');
+		}		
+		
+		//NOS APUNTAMOS SI ES KEYVACACIONES O KEYOTROS
+		$datos['tipo_solicitud']="";
+		
+		if($_REQUEST['tipo_solicitud']=="450")
+		{
+			$datos['tipo_solicitud']="KEYVACACIONES";
+		}
+		if($_REQUEST['tipo_solicitud']=="468")
+		{
+			$datos['tipo_solicitud']="KEYOTROS";
+		}
+		
+		//NOS APUNTAMOS EL RESPONSABLE
+		$datos['responsable_solicitud']=$_REQUEST['responsable_solicitud'];
+		
+		$datos['horas_jornada']=isset($_REQUEST['horas_jornada'])?$_REQUEST['horas_jornada']:0;
+				
+		$datos['existe_next_year_bbdd']=$this->Permisos_model->comprobar_calendario_proximo_year($datos['year_solicitud']);
+		
 		$datos['festivos']=json_encode($this->Permisos_model->cargar_festivos());
 		
 		$dias=[

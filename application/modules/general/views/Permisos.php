@@ -6,70 +6,49 @@
 	        <p class="titulo-grande centrado">PERMISOS <?php echo $this->session->userdata('nom_consultor')?></p>
 	        <br/>
 	        <br/>
-	        <div id="dias_pendientes" class="centrado centrado-margin titulo-mediano">
-	        	<div>
-	        		<p>DIAS PENDIENTES</p>
-	        	</div>
-	        	<div>
-	        		<p>Año 2015 (22)</p>
-	        		<p>Año 2016 (22)</p>		
-	        	</div>	        	
-	        </div><!-- CIERRE dias_pendientes -->
+	        
 	        <br/>
 	        <br/>
 	        <div id="permisos_superior">	        	
 	        	<div id="permisos_sup_izq">
-		        	<div class="contenedor_select_35 textoSmallCaps">
-			            <label>Tipo de solicitud</label>
-			            <select id="tipo_solicitud">
-			            	<option value="0">Selecciona un tipo de permiso</option>
-			            	<?php foreach ($permisos['tipo_solicitud'] as $tipo):?>
-			            		<option value="<?php echo $tipo['k_proyecto']?>"><?php echo $tipo['nom_proyecto']?></option>
-			            	<?php endforeach;?>
-			            </select>
-		            </div>
-		            
-			        <div class="contenedor_select_35 textoSmallCaps">
-			            <label>Responsable</label>
-			            <select id="responsable_solicitud">
-			                <option value="0">Selecciona un responsable</option>
-			                <option value="1">1</option>
-			                <option value="2">2</option>
-			            </select>
-		            </div>
-		            <label>Horas jornada laboral:</label><input type="text" maxlength="1" id="horas_jornada"/>
-		            <br/><br/>
-		            
-		            <input class="buttonGenericoPeque" type="button" id="seleccionar_dias" value="Nueva solicitud"/>
-		            <br/><br/>  
-	              
+	        		<form id="form_nueva_solicitud" method="post" action="<?php echo base_url()?>general/Permisos/solicitar_permiso">	        		
+			        	<div class="contenedor_select_35 textoSmallCaps">
+				            <label>Tipo de solicitud</label>
+				            <select id="tipo_solicitud" name="tipo_solicitud">
+				            	<option value="0">Selecciona un tipo de permiso</option>
+				            	<?php foreach ($permisos['tipo_solicitud'] as $tipo):?>
+				            		<option value="<?php echo $tipo['k_proyecto']?>"><?php echo $tipo['nom_proyecto']?></option>
+				            	<?php endforeach;?>
+				            </select>
+			            </div>
+			            
+				        <div class="contenedor_select_35 textoSmallCaps">
+				            <label>Responsable</label>
+				            <select id="responsable_solicitud" name="responsable_solicitud">
+				                <option value="0">Selecciona un responsable</option>				                
+				                <?php foreach ($resp_proyectos as $responsable):?>
+				            		<option value="<?php echo $responsable['k_consultor']?>"><?php echo $responsable['nom_consultor']?></option>
+				            	<?php endforeach;?>				                
+				            </select>
+			            </div>
+			            <label>Horas jornada laboral:</label><input type="text" id="horas_jornada" name="horas_jornada" disabled="disabled"/>
+			            <br/><br/>
+			            
+			            <input class="buttonGenericoPeque" type="button" id="seleccionar_dias" value="Nueva solicitud"/>
+			            <br/><br/>  
+	              	</form>
 	        	</div><!-- CIERRE permisos_sup_izq -->
 	        	
 	        	<div id="permisos_sup_der">
-	        	
-	        		<div class="fila-autorizaciones">
-	        			<div class="radio-container">
-	        				<input type="radio" id="aut_responsable" onclick="return false"/>
-	        				<label>Aut. responsable</label>
-	        			</div>
-	        			<div class="radio-container">
-	        				<input type="radio" id="rechazo_responsable" onclick="return false"/>
-	        				<label>Rechazo</label>
-	        			</div>
-	        			<textarea class="com-rechazo" disabled="disabled"></textarea>
-	        		</div> 
-	        		
-	        		<div class="fila-autorizaciones">
-	        			<div class="radio-container">
-	        				<input type="radio" id="aut_rrhh" onclick="return false"/>
-	        				<label>Aut. RRHH</label>
-	        			</div>
-	        			<div class="radio-container">
-	        				<input type="radio" id="rechazo_rrhh" onclick="return false"/>
-	        				<label>Rechazo</label>
-	        			</div>
-	        			<textarea class="com-rechazo" disabled="disabled"></textarea>
-	        		</div>       	
+	        		<div id="dias_pendientes" class="centrado centrado-margin titulo-mediano">
+		        	<div>
+		        		<p>DIAS PENDIENTES</p>
+		        	</div>
+		        	<div>
+		        		<label>Año <?php echo $year_actual-1?></label><p id="pendientesDebidosMostrar"></p>
+		        		<label>Año <?php echo $year_actual?></label><p id="pendientesMostrar"></p>	
+		        	</div>	        	
+		     </div><!-- CIERRE dias_pendientes -->  		     	
 	        		
 	        	</div><!-- CIERRE permisos_sup_der -->
 	        </div><!-- CIERRE superior -->
@@ -78,14 +57,14 @@
 				<h3 class="titulo-mediano">Histórico permisos</h3>
 					<table id="listadoPermisos" class="tabla_key">
 						<tr id="fila-titulos">
-							<th id="anyo_titulo">AÑO</th>
-							<th id="mes_titulo">MES</th>
+							<th id="fecha_titulo">FECHA SOLICITUD</th>
 							<th id="tipo_permiso_titulo">TIPO PERMISO</th>
+							<th id="solicitante_titulo">SOLICITANTE</th>
 							<th id="fecha_inicial_titulo">FECHA INICIAL</th>
 							<th id="fecha_final_titulo">FECHA FINAL</th>
-							<th id="numero_dias_titulo">Nº DIAS</th>	
-							<th id="horas_titulo">HORAS</th>		
-							<th id="consumidas_titulo">CONSUMIDAS</th>			
+							<th id="autorizacion_responsable_titulo">AUTORIZACION RESPONSABLE</th>	
+							<th id="autorizacion_rrhh_titulo">AUTORIZACION RRHH</th>		
+							<th id="motivo_rechazo_titulo">MOTIVO RECHAZO</th>			
 						</tr>
 						
 						<tr>
@@ -129,7 +108,7 @@
 				</div><!-- CIERRE inferior -->
         	  
 	        <br/>
-	        
-	        
-	        
 </div>
+
+<input type="hidden" id="diasPendientesDebidos" value="5"/>
+<input type="hidden" id="diasPendientes" value="22"/>
