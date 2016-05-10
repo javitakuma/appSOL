@@ -62,32 +62,35 @@
 							<th id="solicitante_titulo">SOLICITANTE</th>
 							<th id="fecha_inicial_titulo">FECHA INICIAL</th>
 							<th id="fecha_final_titulo">FECHA FINAL</th>
-							<th id="autorizacion_responsable_titulo">AUTORIZACION RESPONSABLE</th>	
-							<th id="autorizacion_rrhh_titulo">AUTORIZACION RRHH</th>		
+							<th id="autorizacion_responsable_titulo">AUTORIZ RESP</th>	
+							<th id="autorizacion_rrhh_titulo">AUTORIZ RRHH</th>		
+							<th id="observaciones_titulo">OBSERVACIONES</th>		
 							<th id="motivo_rechazo_titulo">MOTIVO RECHAZO</th>			
 						</tr>
 						
 						<tr>
-							<td class="YearCell">aaaaaaaa</td>
-							<td class="MonthCell">aaaaaaaaaaaa</td>
-							<td class="tipoPermisoCell">aaaaaaaaaaaa</td>
-							<td class="fechaInicialCell">aaaaaaaaaaa</td>
-							<td class="fechaFinalCell">aaaaaaaaaaa</td>
-							<td class="numeroDiasCell">aaaaaaaaaaaaaa</td>
-							<td class="totalPagado">aaaaaaaaaa</td>
-							<td class="horasTituloCell">aaaaaaaaa</td>
-							<td class="borde_invisible no_fondo"><img title="Editar fila" class="editar_fila " src="<?php echo base_url()?>assets/img/cross.png"/></td>
+							<td class="fechaCell">01-01-2016</td>
+							<td class="tipoCell">KEYVACACIONES</td>
+							<td class="solicitanteCell">JROQU</td>
+							<td class="fechaInicialCell">01-01-2016</td>
+							<td class="fechaFinalCell">01-01-2016</td>
+							<td class="autRespCell">Pendiente</td>
+							<td class="autRRHHCell">No autoriza</td>
+							<td class="observacionesCell"><textarea disabled class="textareaObservaciones">No me voy todaviaaaaaaaaaaaaaaaaaaaaaaaaa</textarea></td>
+							<td class="motivoRechazoCell"><textarea disabled class="textareaMotivoRechazo">No te vasss</textarea></td>
+							<td class="eliminar_fila borde_invisible no_fondo"><img title="Editar fila" class="editar_fila" src="<?php echo base_url()?>assets/img/cross.png"/></td>
 						</tr>	
 						<tr>
-							<td class="YearCell">aaaaaaaa</td>
-							<td class="MonthCell">aaaaaaaaaaaa</td>
-							<td class="tipoPermisoCell">aaaaaaaaaaaa</td>
-							<td class="fechaInicialCell">aaaaaaaaaaa</td>
-							<td class="fechaFinalCell">aaaaaaaaaaa</td>
-							<td class="numeroDiasCell">aaaaaaaaaaaaaa</td>
-							<td class="totalPagado">aaaaaaaaaa</td>
-							<td class="horasTituloCell">aaaaaaaaa</td>
-							<td class="borde_invisible no_fondo"><img title="Editar fila" class="editar_fila " src="<?php echo base_url()?>assets/img/cross.png"/></td>
+							<td class="fechaCell">01-01-2016</td>
+							<td class="tipoCell">KEYVACACIONES</td>
+							<td class="solicitanteCell">JROQU</td>
+							<td class="fechaInicialCell">01-01-2016</td>
+							<td class="fechaFinalCell">01-01-2016</td>
+							<td class="autRespCell">Pendiente</td>
+							<td class="autRRHHCell">Pendiente</td>
+							<td class="observacionesCell"><textarea disabled class="textareaObservaciones">No me voy todaviaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</textarea></td>
+							<td class="motivoRechazoCell"><textarea disabled class="textareaMotivoRechazo">No te vasss</textarea></td>
+							<td class="eliminar_fila borde_invisible no_fondo"><img title="Editar fila" class="editar_fila " src="<?php echo base_url()?>assets/img/cross.png"/></td>
 						</tr>		
 					<!--  
 					<?php foreach($permisos['historico_permiso'] as $fila):?>

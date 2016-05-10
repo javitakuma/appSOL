@@ -114,7 +114,7 @@ class Gastos_model extends CI_Model
 		//to_char(t_linea_gasto.f_linea_gasto, 'DD-MM-YYYY') f_linea_gasto
 		
 		$sql_lineas_gastos_pendientes="SELECT t_linea_gasto.k_linea_gasto, t_linea_gasto.k_hoja_gasto, t_linea_gasto.k_proyecto, t_linea_gasto.k_tipo_linea_gasto, 
-		t_linea_gasto.k_hito_ficha_proyecto, t_linea_gasto.f_linea_gasto, t_linea_gasto.i_imp_linea_gasto, t_linea_gasto.sw_linea_gasto_facturable, 
+		t_linea_gasto.k_hito_ficha_proyecto, to_char(t_linea_gasto.f_linea_gasto, 'DD-MM-YYYY') f_linea_gasto, t_linea_gasto.i_imp_linea_gasto, t_linea_gasto.sw_linea_gasto_facturable, 
 		t_linea_gasto.i_imp_linea_gasto_facturado, t_linea_gasto.k_linea_gasto_autorizado1, t_linea_gasto.k_linea_gasto_autorizado2, 
 		t_linea_gasto.desc_linea_gasto, t_linea_gasto.com_rechazo_linea_gasto, t_linea_gasto.i_linea_hito, t_linea_gasto.k_linea_gasto_autorizado1, 
 		t_linea_gasto.k_linea_gasto_autorizado2

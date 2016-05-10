@@ -356,10 +356,9 @@ td.ui-datepicker-week-end span
 {	
 	color:white !important;
 }
-
+/*
 td.dia_aceptado
 {
-	/*background: #EE3333 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;*/
 	background: #00AA00 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;		
 }
 
@@ -370,7 +369,6 @@ td.dia_aceptado span
 
 td.dia_rechazado
 {
-	/*background: #EE3333 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;*/
 	background: #AA0000 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;		
 }
 
@@ -383,7 +381,7 @@ td:disabled
 {
 	background:red !important;
 }
-
+*/
 
 
 /* Interaction Cues

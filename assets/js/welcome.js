@@ -19,16 +19,37 @@ $(document).ready(function()
      	    }); 
 		});		
 		
+				
+		
 		
 		//AL CARGAR LA PAGINA COLOCAREMOS COMO SELECCIONADA EN EL SELECT LA OPCION DEL USUARIO LOGUEADO
 		$('#usuarioActivo option').each(function(event)
 				{
 					//alert($(this).attr('value'));
 					
+		
+					var particionado=$(this).html().split("*");
+					
+					var stringFinal=particionado[0];
+					
+					for(i=0;i<15-particionado[0].length;i++)
+					{
+						stringFinal+="\u00A0";
+					}
+					
+					stringFinal+=particionado[1];
+					
+					$(this).html(stringFinal);
+			
+					
+					
+					
+					
+					
 					if($(this).attr('value')==$('#k_consultor_activo').val())
 					{
 						$(this).attr('selected','selected');
 					}
 				});	
-		
+		//$('#usuarioActivoNombre').val($('#usuarioActivo').val());
 	});

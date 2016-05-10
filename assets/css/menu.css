@@ -1,5 +1,5 @@
 /*
-=========CSS PARA LA PANTALLA WELCOME===========
+=========CSS PARA LA PANTALLA WELCOMEY GENERAL===========
 
 */
 
@@ -99,8 +99,18 @@
 	vertical-align: middle;
 	width:12%;
  	min-width:75px;
- 	font-family: "Courier New", Courier, monospace;
- 	font-weight: bold;
+ 	font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+}
+#usuarioActivoNombre
+{
+	font-size:100%;
+	vertical-align: middle;
+	width:20%;
+ 	min-width:150px;
+	disable:true;
+	appearance:none;
+	-moz-appearance:none;
+	-webkit-appearance: none;
 }
 
 #cambiarPassword

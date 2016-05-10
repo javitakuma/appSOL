@@ -6,7 +6,7 @@
 	<div class="volver">
 			<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='location.href="<?php echo base_url()?>general/Gastos"'/>			
 	</div>
-	<h1 class="centrado titulo-grande">HOJA DE GASTOS <?php echo $this->session->userdata('nom_consultor')." ("?><?php echo $mes_texto?> de <?php echo $year.")"?></h1>
+	<h1 class="centrado titulo-grande" onclick="pintar()">HOJA DE GASTOS <?php echo $this->session->userdata('nom_consultor')." ("?><?php echo $mes_texto?> de <?php echo $year.")"?></h1>
 	<br/>
 	<div id="superior">	 	
 				<p class="titulo-mediano" id="fecha_pago_hoja_gastos">Fecha de pago: <?php echo $datos_gastos['t_hojas_gastos'][0]['f_pago_hoja_gastos']?></p>
@@ -70,7 +70,7 @@
 	                    </td> 
 	                    
 	                    <td class="fecha_gasto">
-	                    	<input class="input_datos" type="date" placeholder="yyyy-mm-dd" value="<?php echo $linea_gastos['f_linea_gasto']?>"/>	                    	
+	                    	<input class="input_datos" type="text" placeholder="dd-mm-yyyy" value="<?php echo $linea_gastos['f_linea_gasto']?>"/>	                    	
 	                    </td>     
 	                    
 	                    <td class="valor_gasto">

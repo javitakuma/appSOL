@@ -25,12 +25,17 @@
 	    		<span id="usuario_activo_texto" class=textoSmallCaps>Usuario Activo</span>
 		    	<select id="usuarioActivo">
 		    		<?php foreach ($usuarios_perfil as $usuario):?>
-		    			<option value="<?php echo $usuario['k_consultor']?>"><?php echo $usuario['id_consultor']."    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(".$usuario['nom_consultor'].")"?></option>
-		    		<?php endforeach;?>
-		    		<!-- 
-		    		<option value="<?php echo $this->session->userdata('id_consultor')?>"><?php echo $this->session->userdata('id_consultor')?></option>
-		    		 -->
+		    			<option value="<?php echo $usuario['k_consultor']?>"><?php echo $usuario['id_consultor']."*".$usuario['nom_consultor']?></option>
+		    		<?php endforeach;?>		    		
 		    	</select>
+		    	
+		    	<!-- 
+		    	<select id="usuarioActivoNombre" disabled="disabled">
+		    		<?php foreach ($usuarios_perfil as $usuario):?>
+		    			<option value="<?php echo $usuario['k_consultor']?>"><?php echo $usuario['nom_consultor']?></option>
+		    		<?php endforeach;?>		    		
+		    	</select>
+		    	 -->
 	    		<button id="cambiarPassword" class="buttonGenericoPeque"
 					onclick='location.href="<?php echo base_url()?>login/cambiar_pass"'>
 					Cambiar	contraseña

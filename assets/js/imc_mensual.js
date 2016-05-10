@@ -51,7 +51,7 @@ $(document).ready(function() {
 	
 	
 	
-	//TODO lO QUE HAREMOS CUANDO MANDEMOS DATOS
+	//EVENTO BOTON GRABAR
     $("#grabar").click(function(event) 
     {    
     	//AÑADIMOS EVENTO CLICK AL BOTON GRABAR  
@@ -72,15 +72,25 @@ $(document).ready(function() {
     		}
     	});
     	
-    	
+    	//VALIDA CADA CELDA DE HORAS QUE NO SEA MAYOR DE 8
     	$('.input_horas').each(function()
-    	    	{
-    	    		if($(this).val()<0||$(this).val()>8)
-    	    		{
-    	    			cancelar_envio=true;
-    	    			alert("Tienes un valor de horas mayor de 8 o menor de 0.");
-    	    		}
-    	    	});
+    	{
+    		if($(this).val()<0||$(this).val()>8)
+    		{
+    			cancelar_envio=true;
+    			alert("Tienes un valor de horas mayor de 8 o menor de 0.");
+    		}
+    	});
+    	
+    	//VALIDA CADA CELDA DE TOTALES DE HORAS QUE NO SEA MAYOR DE 8
+    	$('.celda-totales').each(function()
+    	{
+    		if($(this).html()<0||$(this).html()>8)
+    		{
+    			cancelar_envio=true;
+    			alert("Tienes un valor de horas totales de un día mayor de 8 o menor de 0.");
+    		}
+    	});
     	
     	var error_longitud_comentario=false;
     	$('.comentarios_textarea').each(function()
@@ -95,7 +105,7 @@ $(document).ready(function() {
     		}
     		
     		
-    		if(nombre_proyecto=='PRO251')//CAMBIAR PRODUCCION KEYPREVENTA
+    		if(nombre_proyecto=='PRO251')//CAMBIAR PRODUCCION KEYPREVENTA  DEV-PRO 
     		{  
     			var regex_preventa=/^[\w\W]+\/[\w\W]+\/[\w\W]+$/;
     			
@@ -111,7 +121,7 @@ $(document).ready(function() {
     		}
     		
     		
-    		if(nombre_proyecto=='PRO240')//CAMBIAR PRODUCCION KEYCURINT 
+    		if(nombre_proyecto=='PRO240')//CAMBIAR PRODUCCION KEYCURINT  DEV-PRO 
     		{  
     			
     			if($(this).val()=="")
@@ -121,7 +131,7 @@ $(document).ready(function() {
     			}    			     			
     		}    	    		
     		
-    		if(nombre_proyecto=='PRO256')//CAMBIAR PRODUCCION KEYSINPROY 
+    		if(nombre_proyecto=='PRO256')//CAMBIAR PRODUCCION KEYSINPROY  DEV-PRO
     		{  
     			
     			if($(this).val()=="")
@@ -132,7 +142,7 @@ $(document).ready(function() {
     			     			
     		}
     		
-    		if(nombre_proyecto=='PRO468')//CAMBIAR PRODUCCION KEYOTROS
+    		if(nombre_proyecto=='PRO468')//CAMBIAR PRODUCCION KEYOTROS   DEV-PRO
     		{  
     			
     			//SI FALLARA QUITAR  LO QUE NO SEA TEXTO PLANO
@@ -148,7 +158,6 @@ $(document).ready(function() {
     			        if ($(this).val().match(expresiones_validas[i])) 
     			        {
     			        	key_otros_valido=true;
-    			            //alert(expresiones_validas[i]+"Bien");
     			        }      			        
     			    }
     			    
@@ -159,8 +168,6 @@ $(document).ready(function() {
     			    			"HOSPITAL FAMILIAR, DEFUNCION FAMILIAR, DEFUNCION FAMILIAR, ASUNTOS PROPIOS, MUDANZA, MATRIMONIO, PATERNIDAD, ACADEMICO, ACADÉMICO, LACTANCIA, PRENATAL, PERMISO KEYRUS O PERMISO SIN SUELDO.");
     			    }
 
-    			    
-
     		};	
     		
     		if(error_longitud_comentario)
@@ -168,7 +175,6 @@ $(document).ready(function() {
     			alert("La longitud máxima del campo comentarios es de 50 caracteres");
     			cancelar_envio=true;
     		}
-    		
     	    		
     	 });
     	
@@ -242,7 +248,7 @@ $(document).ready(function() {
     	    		}
     	    		
     	    		
-    	    		if(nombre_proyecto=='PRO450')//CAMBIAR PRODUCCION KEYPREVENTA
+    	    		if(nombre_proyecto=='PRO251')//CAMBIAR PRODUCCION KEYPREVENTA
     	    		{  
     	    			var regex_preventa=/^[\w\W]+\/[\w\W]+\/[\w\W]+$/;
     	    			

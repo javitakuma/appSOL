@@ -4,6 +4,7 @@
 			<!--  <h3 class="titulo-peque">Volver</h3>-->
 		</div>
 	        <p class="titulo-grande centrado" onclick="pintar()">SOLICITUD PERMISOS <?php echo $tipo_solicitud?></p>
+	        <p class="titulo-grande centrado"><?php echo $this->session->userdata('nom_consultor')?></p>
 	        <br/>
 	        <br/>
 	        

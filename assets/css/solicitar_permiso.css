@@ -55,6 +55,46 @@
 	height:50px;
 	resize:none;
 }
+
+td.dia_aceptado
+{
+	/*background: #EE3333 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;*/
+	background: #00AA00 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;		
+}
+
+td.dia_aceptado span
+{	
+	color: white !important;
+}
+
+td.dia_pendiente
+{
+	/*background: #EE3333 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;*/
+	background: #FFCF14 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;		
+}
+
+td.dia_pendiente span
+{	
+	color: white !important;
+}
+
+td.dia_rechazado
+{
+	/*background: #EE3333 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;*/
+	background: #AA0000 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;		
+}
+
+td.dia_rechazado span
+{	
+	color: white !important;
+}
+
+td:disabled
+{
+	background:red !important;
+}
+
+
 /*
 #dias_pendientes
 {
@@ -118,21 +158,13 @@
 }
 
 
-td.dia_pendiente
-{
-	/*background: #EE3333 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;*/
-	background: #FFCF14 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;		
-}
-
-td.dia_pendiente span
-{	
-	color: white !important;
-}
 
 
+/*FESTIVOS PARTE INFERIOR*/
 .festivo 
 {
 	background-color:#999 !important;
+	font-style: italic;
 }
 
 .aceptado_inferior 

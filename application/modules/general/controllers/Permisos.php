@@ -41,7 +41,8 @@ class Permisos extends MX_Controller
 	}
 	
 	public function mostrar_permiso_anual() 
-	{
+	{		
+		
 		$k_consultor=$this->session->userdata('k_consultor');
 		
 		$datos['resp_proyectos']=$this->Permisos_model->cargar_responsables_proyectos();

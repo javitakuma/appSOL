@@ -129,7 +129,7 @@
 	                <tr id="ultima_fila">
 	                    <td>TOTAL</td>                    
 	                    <?php for ($i=1;$i<=$datos_imc_mes['dias_por_mes'];$i++):?>
-	                    	<td id="total<?php echo $i<10?'0'.$i:$i?>" class="<?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>"></td>	
+	                    	<td id="total<?php echo $i<10?'0'.$i:$i?>" class="celda-totales <?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>"></td>	
 	                    <?php endfor;?> 
 	                    <td id="horas_totales"></td>
 	                </tr>

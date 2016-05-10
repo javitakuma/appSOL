@@ -148,14 +148,15 @@ $(document).ready(function() {
 			firstDay: 1,
 			dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ],
 			monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-			numberOfMonths:2,
+			numberOfMonths:2,   //[2,2]  FORMATO CUADRICULA
 			dateFormat: "dd-mm-yy",
 			minDate: new Date(year_calendario-1,9,1),
 			maxDate: fecha_limite_final,//new Date(year_siguiente,0,31),
 			//EN onChange RECOGEMOS EL MES QUE NOS QUEDA AL CAMBIAR EN EL CALENDARIO Y SE LO PASAMOS A ESA FUNCION
 			onChangeMonthYear:function (year, month, inst) {
-	            //cambiarMesesInferior(month);
-	            //clickarFechas();
+				
+				//FUNCION QUE PONE ETIQUETAS A LAS CELDAS DEL CALENDARIO(ESPERAMOS UN SEGUNDO PARA LLAMARLA PARA QUE ESTE LISTO EL CALENDARIO)				
+				setTimeout(function(){ ponerTagsDias() },1000);
 				
 	        },	
 			
@@ -196,11 +197,11 @@ $(document).ready(function() {
 			    			desbloqueado=false;
 					    	clase='dia_aceptado';
 			    		}
-			    		//DIAS OCUPADOS
+			    		//DIAS RECHAZADOS
 			    		else if(diasOcupados[i].sw_rechazo==-1)//vacaciones de esta solicitud   CAMBIAR POR VALOR DE BBDD
 			    		{	
 			    			//result = [false, 'dia_rechazado', null];
-			    			desbloqueado=false;
+			    			desbloqueado=true;
 					    	clase='dia_rechazado';
 			    		}			    		
 			    		else//DIAS PENDIENTES
@@ -209,17 +210,16 @@ $(document).ready(function() {
 					    	clase='dia_pendiente';
 			    		}
 			    		
-			    		//alert("coincide");
 			    	}
 			    	
 			    }
 			    
 			    //DESHABILITAMOS TODAS LAS CELDAS DEL CALENDARIO HASTA 10 DIAS ANTES DE HOY
-			    var fechaActualMenos10Dias=new Date();
+			    var fechaActualMenosVariosDias=new Date();
 				
-			    fechaActualMenos10Dias.setDate(fechaActualMenos10Dias.getDate()-10);
+			    fechaActualMenosVariosDias.setDate(fechaActualMenosVariosDias.getDate()-5);
 			    
-			    if(date.valueOf()<fechaActualMenos10Dias.valueOf())
+			    if(date.valueOf()<fechaActualMenosVariosDias.valueOf())
 			    {
 			    	desbloqueado=false;
 			    }
@@ -230,11 +230,11 @@ $(document).ready(function() {
 			    	desbloqueado=false;
 			    }
 			    
-			    
-			    
 			    return [desbloqueado,clase,null];
 			    //return result;
-			},			
+			    
+			},
+			
 		});	
 	  });
 	
@@ -313,9 +313,7 @@ $(document).ready(function() {
 	    			}
 	    			
 	    			
-	    			
-	    			//alert(dia);
-	    			
+	    			//LE DAMOS ESTAS CLASE EN LA TABLA INFERIOR(HORAS)
 	    			if(diasCalendario[i].sw_laborable==0)
 	    			{
 	    				$('#'+dia).addClass('festivo');
@@ -335,12 +333,14 @@ $(document).ready(function() {
 	$('#celdas_horas .fila-datos').each(function()
 	{
 		
+		//PARTE QUE PONE NOMBRE A LOS MESES DEL AÑO ANTERIOR 
 		if(yearAnterior)
 		{
 			var mesPintar=meses[contMes%12].substr(0,3);
 			var yearPintar=$('#year_solicitud').val()-1;
 			$(this).find('td').first().html(mesPintar+" "+yearPintar);
 		}
+		//PARTE QUE PONE NOMBRE A LOS MESES DEL AÑO SIGUIENTE SI ESTUVIERA CREADO EL CALENDARIO
 		else if(yearSiguiente)
 		{
 			var mesPintar=meses[contMes%12].substr(0,3);
@@ -354,15 +354,14 @@ $(document).ready(function() {
 		
 		
 		contMes++;
-		
+		//LLEGA A 12 CUANDO TERMINA CON LOS MESES DEL AÑO ANTERIOR
 		if(contMes==12)
 		{
-			//contMes=0;
 			yearAnterior=false;
 		}
+		//LLEGA A 24 CUANDO TERMINA CON LOS MESES DEL AÑO ACTUAL
 		if(contMes==24)
 		{
-			//contMes=0;
 			yearSiguiente=true;
 		}
 	});
@@ -385,10 +384,42 @@ $(document).ready(function() {
 	{
 		pintarInferiorInicial();
 		sincronizar_superior_inferior();
+		
+		ponerTagsDias();
+		
 	});
 	
 	
+	
+	
+	
 });
+
+function ponerTagsDias()
+{
+	$('#calendario').ready(function()
+	{
+		
+		$(".dia_rechazado").each(function()
+		{
+			$(this).attr('title','Dia rechazado');
+		});
+		
+		$(".dia_pendiente").each(function()
+		{
+			$(this).attr('title','Dia pendiente');
+		});
+		
+		$(".dia_aceptado").each(function()
+		{
+			$(this).attr('title','Dia aceptado');
+		});
+		
+	});
+	
+	
+}
+
 
 function clickarFechas()
 {
@@ -519,30 +550,43 @@ function sincronizar_superior_inferior()
 		if($('#tipo_solicitud').val()=='KEYVACACIONES')
 		{
 			var horas_jornada=(Number)($('#horas_jornada').val());			
-			$(this).find('input').val(horas_jornada);
+			$(this).find('input').attr('value',horas_jornada);
 		}				
 	});
 	
 	//LAS CELDAS QUE NO ESTEN SELECCIONADAS (LAS HA DESELECCIONADO EL USUARIO) LAS DESHABILITAMOS Y PONEMOS VALOR A 0
 	//TAMPOCO CAMBIAMOS A 0 LAS ACEPTADAS O RECHAZADAS PORQUE VIENEN CON INFORMACION DE BBDD
-	$('#celdas_horas td input').not('.seleccionado_inferior').not('.rechazado_inferior').not('.aceptado_inferior').each(function()
+	$('#celdas_horas td input').not('.seleccionado_inferior').not('.rechazado_inferior').not('.aceptado_inferior').not('.pendiente_inferior').each(function()
 	{
 		//estaba habilitado
 		
-		//$(this).val('0');
+		$(this).attr('value','0');
+		
+		if($('#tipo_solicitud').val()=='KEYOTROS')
+		{
+			$(this).val('0');
+		}
+		
+		if($('#tipo_solicitud').val()=='KEYVACACIONES')
+		{
+			
+		}
 		
 		
 		
 		//deshabilitar la celda
-		//$(this).prop('disabled',true);
+		$(this).prop('disabled',true);
 	});
 	ocultarMostrarFilas();
 }
 
 function ocultarMostrarFilas()
 {
+	var alternarColor=true;
+	
 	$('.fila-datos').each(function()
 	{
+		//alert("fila");
 		var ocultar=true;
 		var suma=0;
 		$(this).find('.input-datos').each(function()
@@ -551,22 +595,44 @@ function ocultarMostrarFilas()
 			
 			if($(this).val()!=0)
 			{
-				ocultar=false;
+				ocultar=false;	
 			}
 			
-		});
-		
+			if($(this).hasClass('seleccionado_inferior'))
+			{
+				ocultar=false;	
+			}
+			
+		});		
 		
 		if(ocultar)
 		{
-			//$(this).css('display','none');
+			$(this).hide();
 		}
 		else
 		{	
-			$(this).css('display','default');
+			$(this).show();
+			
+			if(alternarColor)
+			{
+				$(this).find('td').css('background-color','#EEE');
+				alternarColor=false;
+			}
+			else
+			{
+				$(this).find('td').css('background-color','#CCC');
+				alternarColor=true;
+			}
 		}
 		
 	});
+	
+	
+	//quitamos el borde a la ultima fila 
+	$('.fila-datos:visible').last().css('border-bottom','solid 0px red');
+	$('.fila-datos:visible').last().find('td').css('border-bottom','solid 0px red');
+	$('.fila-datos:visible').last().find('td').first().css('border-radius','0 0 0 5px');
+	$('.fila-datos:visible').last().find('td').last().css('border-radius','0 0 5px 0');
 }
 
 function pintarInferiorInicial()
@@ -591,18 +657,20 @@ function pintarInferiorInicial()
 		if((diasDesdePhp[i].sw_aprobacion_N1==-1)&&(diasDesdePhp[i].sw_aprobacion_N2==-1))
 		{
 			$('#'+fecha).addClass('aceptado_inferior');	
-			$('#'+fecha).val('22');		//CAMBIAR BBDD REAL
+			$('#'+fecha).attr('value','8');	//CAMBIAR BBDD REAL
 		}
 		
+		/*  DE MOMENTO NO PINTAMOS RECHAZADOS ABAJO
 		else if(diasDesdePhp[i].sw_rechazo==-1)
 		{
 			$('#'+fecha).addClass('rechazado_inferior');	
-			$('#'+fecha).attr('value','22');		//CAMBIAR BBDD REAL
+			$('#'+fecha).attr('value','8');		//CAMBIAR BBDD REAL
 		}
-		else
+		*/
+		else if(diasDesdePhp[i].sw_rechazo==0)
 		{
 			$('#'+fecha).addClass('pendiente_inferior');
-			$('#'+fecha).val('22');		//CAMBIAR BBDD REAL
+			$('#'+fecha).attr('value','8');		//CAMBIAR BBDD REAL
 		}
 			
 	}
@@ -646,7 +714,7 @@ function pintar()
 	
 	//sincronizar_superior_inferior();
 	
-	alert($('#01-08-2016').val());
+	alert($('#10-05-2016').val());
 	
 	
 	/*
