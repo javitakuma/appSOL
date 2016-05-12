@@ -26,7 +26,7 @@ class Login_model extends CI_Model
 		{
 			$usuarioEncontrado=$this->db->query($sql, array($id,$pass))->row_array();
 		}	
-		
+				
 		$this->db->close();	
 		
 		return $usuarioEncontrado;
