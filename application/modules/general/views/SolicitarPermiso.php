@@ -5,6 +5,10 @@
 		</div>
 	        <p class="titulo-grande centrado" onclick="pintar()">SOLICITUD PERMISOS <?php echo $tipo_solicitud?></p>
 	        <p class="titulo-grande centrado"><?php echo $this->session->userdata('nom_consultor')?></p>
+	        
+	        <?php if(true):?>
+	            <input id="enviar_solicitud" class="buttonGenericoPeque centrado" type="button" value="Enviar solicitud"/>
+	 		<?php endif;?> 
 	        <br/>
 	        <br/>
 	        
@@ -37,6 +41,9 @@
 	     </div>           
 	     <div id="flotador_superior"></div>
 	  </div> <!-- CIERRE superior -->  
+	  
+	  
+	  <input id="grabar_solicitud" class="buttonGenericoPeque" type="button" value="Grabar solicitud"/>
 	  
 	  <div id="inferior">
 	  
@@ -115,13 +122,15 @@
 
 
 
-<input type="hidden" id="diasPendientesDebidos" value="5"/>
-<input type="hidden" id="diasPendientes" value="22"/>
+<input type="hidden" id="diasPendientesDebidos" value="<?php echo $diasDebidosPendientes?>"/>
+<input type="hidden" id="diasPendientes" value="<?php echo $diasDebidos?>"/>
 <input type="hidden" id="tipo_solicitud" value="<?php echo $tipo_solicitud?>"/>
+<input type="hidden" id="k_proyecto_solicitud" value="<?php echo $k_proyecto_solicitud?>"/>
 <input type="hidden" id="responsable_solicitud" value="<?php echo $responsable_solicitud?>"/>
 <input type="hidden" id="horas_jornada" value="<?php echo $horas_jornada?>"/>
 <input type="hidden" id="year_solicitud" value="<?php echo $year_solicitud?>"/>
 <input type="hidden" id="existe_next_year_bbdd" value="<?php echo $existe_next_year_bbdd?>"/>
+<input type="hidden" id="k_permisos_solic" value="<?php echo isset($k_permisos_solic)?$k_permisos_solic:'0'?>"/>
 
 <?php if(isset($habilitar_edicion)):?>
 <input type="hidden" id="habilitar_edicion" value="0"/>
@@ -134,7 +143,6 @@
 
 <script>
 	var festivosDesdePhp=<?php echo $festivos?>;
-	var diasYaSolicitados=<?php echo $diasYaSolicitados?>;
-	var diasDesdePhp=<?php echo $dias?>;
+	var diasDesdePhp=<?php echo $diasYaSolicitados?>;
 </script>
 

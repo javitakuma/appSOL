@@ -51,8 +51,9 @@ $(document).ready(function()
 		}
 	});
 	
+	/*
 	//PONEMOS LOS VALORES DE DIAS PENDIENTES
 	$('#pendientesDebidosMostrar').html($('#diasPendientesDebidos').val());
 	$('#pendientesMostrar').html($('#diasPendientes').val());
-	
+	*/
 });

@@ -52,17 +52,16 @@ $(document).ready(function() {
 	}
 	*/
 	
-	
-	for(i=0;i<diasDesdePhp.length;i++)
+    
+    for(i=0;i<diasDesdePhp.length;i++)
 	{
 		var fila2={};
-		var fechaFormateada=diasDesdePhp[i].mes+"/"+diasDesdePhp[i].dia+"/"+diasDesdePhp[i].año
+		var fechaFormateada=diasDesdePhp[i].mes_solic+"/"+diasDesdePhp[i].dia_solic+"/"+diasDesdePhp[i].year_solic
 		//alert(fechaFormateada);
 		
 		fila2['fecha']=new Date(fechaFormateada);
-		fila2['sw_aprobacion_N1']=diasDesdePhp[i].sw_aprobacion_N1;
-		fila2['sw_aprobacion_N2']=diasDesdePhp[i].sw_aprobacion_N2;
-		fila2['sw_rechazo']=diasDesdePhp[i].sw_rechazo;
+		fila2['i_autorizado_n1']=diasDesdePhp[i].i_autorizado_n1;
+		fila2['i_autorizado_n2']=diasDesdePhp[i].i_autorizado_n2;
 		//dias.push(fila2);
 		
 		//dias pendientes de aprobar
@@ -77,7 +76,7 @@ $(document).ready(function() {
 		}
 		
 	}
-	
+	    
 	
 	//SI HEMOS HABILITADO EDICION...VAMOS A T_PERMISOS_SOLICITADOS_DET Y COGEMOS TODOS LOS DIAS QUE TIENE DE VACACIONES SOLICITADOS
 	
@@ -123,6 +122,8 @@ $(document).ready(function() {
 		
 		var fecha_limite_final;
 		
+		var diasMaximos=(Number)($('#pendientesDebidosMostrar').html())+(Number)($('#pendientesMostrar').html());
+		
 		if($('#existe_next_year_bbdd').val()==1)
 		{
 			fecha_limite_final=new Date(year_siguiente,0,31);
@@ -142,10 +143,12 @@ $(document).ready(function() {
 				
 				//alert('onselect');
 				sincronizar_superior_inferior();
+				actualizarDiasPendientes();
 			},
 			
 			showOtherMonths: true,
 			firstDay: 1,
+			maxPicks: diasMaximos,
 			dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ],
 			monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
 			numberOfMonths:2,   //[2,2]  FORMATO CUADRICULA
@@ -191,14 +194,14 @@ $(document).ready(function() {
 			    	if(diasOcupados[i].fecha.valueOf()==date.valueOf())
 			    	{
 			    		//DIAS ACEPTADOS
-			    		if(diasOcupados[i].sw_aprobacion_N1==-1&&diasOcupados[i].sw_aprobacion_N2==-1)//vacaciones de esta solicitud   CAMBIAR POR VALOR DE BBDD
+			    		if(diasOcupados[i].i_autorizado_n1==1&&diasOcupados[i].i_autorizado_n2==1)//vacaciones de esta solicitud   
 			    		{	
 			    			//result = [false, 'dia_aceptado', null];	
 			    			desbloqueado=false;
 					    	clase='dia_aceptado';
 			    		}
 			    		//DIAS RECHAZADOS
-			    		else if(diasOcupados[i].sw_rechazo==-1)//vacaciones de esta solicitud   CAMBIAR POR VALOR DE BBDD
+			    		else if(diasOcupados[i].i_autorizado_n1==2&&diasOcupados[i].i_autorizado_n2==2)//vacaciones de esta solicitud 
 			    		{	
 			    			//result = [false, 'dia_rechazado', null];
 			    			desbloqueado=true;
@@ -374,7 +377,7 @@ $(document).ready(function() {
 	
 	
 	//INTERVALO QUE ACTUALIZA LOS VALORES DE DIAS PENDIENTES
-	setInterval(function(){ actualizarDiasPendientes() }, 500);
+	//setInterval(function(){ actualizarDiasPendientes() }, 500);
 	//INTERVALO QUE ACTUALIZA LAS TABLAS DE ARRIBA Y ABAJO(DE MOMENTO LO DEJO EN EL EVENTO ONSELECT DEL CALENDARIO)
 	
 	//setInterval(function(){ sincronizar_superior_inferior() }, 5000);
@@ -390,10 +393,142 @@ $(document).ready(function() {
 	});
 	
 	
-	
-	
+	$("#enviar_solicitud").click(function(event) 
+		    {    
+		    	//AÑADIMOS EVENTO CLICK AL BOTON GRABAR  		    			
+				var numero_dias=$('#calendario').val().split(" ").length;
+				
+				if(numero_dias>0&&$('#calendario').val()!="")
+				{
+					//SI LOS DATOS SON INCORRECTOS NO EJECUTAREMOS EL GRABADO
+			    	var cancelar_envio=false;
+			    	
+			    	//COMPROBAMOS QUE NO HAYA SOLICITADO MAS DIAS DE LOS QUE PUEDE,AUNQUE NUNCA DEBERIA PASAR POR AQUI
+			    	if( ((Number)($('#pendientesDebidosMostrar').html())<0 ) || ((Number)($('#pendientesMostrar').html())<0) )
+			    	{
+			    		cancelar_envio=true;
+			    		alert("No puedes pedir más días de los que tienes disponibles.");
+			    	}
+			    	
+			    	//COMPROBAMOS QUE HAYA INTRODUCIDO CAMPO OBSERVACIONES
+			    	if($('#observaciones_textarea').val()=="")
+			    	{
+			    		cancelar_envio=true;
+			    		alert("Debes introducir el valor del campo observaciones.");
+			    	}
+			    	
+			    	var observaciones=$('#observaciones_textarea').val();
+			    	
+			    	//GUARDAMOS ESTAS VARIABLES QUE NECESITAMOS LUEGO
+			    	var responsable_solicitud=$('#responsable_solicitud').val();
+			    	var diasPendientesDebidos=$('#diasPendientesDebidos').val();
+			    	var diasPendientes=$('#diasPendientes').val();
+			    	
+			    	var horas_jornada;
+			    	
+			    	//GUARDAMOS EL VALOR DE HORAS JORNADA
+			    	
+			    	if($('#tipo_solicitud').val()=="KEYVACACIONES")
+			    	{
+			    		horas_jornada=$('#horas_jornada').val();
+			    	}
+			    	
+                    //GUARDAMOS LAS HORAS IMPUTABLES POR DIA
+			    	if($('#tipo_solicitud').val()=="KEYOTROS")
+			    	{
+                        var horas_por_dias=comprobar_horas_keyotros();
+                        
+			    		if(horas_por_dias=="novalido")
+                        {
+                            cancelar_envio=true;
+                            alert("Debes completar las horas para los días seleccionados.");    
+                        }
+			    	}
+                    
+                    //COMPROBAMOS SI HA SELECCIONADO UN FESTIVO
+			    	if(comprobar_festivos_seleccionados())
+			    	{
+                        var respuesta_festivos=confirm("Has seleccionado uno o más días festivos, ¿desea continuar?\n\n Si tu calendario laboral es de Madrid no deberías seleccionarlo");
+                        if(!respuesta_festivos)
+                        {
+                            cancelar_envio=true;    
+                        }                           
+			    	}
+			    	//alert($('#pendientesDebidosMostrar').html());
+			    	
+			    	//alert($('#pendientesMostrar').html());
+				}	
+				else
+				{                    
+					alert("No has seleccionado ningún día");
+				}	
+        
+                if(!cancelar_envio)
+                {
+                    //formato dd-mm-yyyy, dd-mm-yyyy, dd-mm-yyyy
+                   var dias_solicitados=$('#calendario').val();
+                   var year_solicitud=$('#year_solicitud').val(); 
+                   var k_permisos_solic=$('#k_permisos_solic').val();
+                   var k_proyecto_solicitud=$('#k_proyecto_solicitud').val();
+                                        
+                   $.ajax({        
+        	       type: "POST",
+        	       url: BASE_URL+"general/Permisos/grabar_solicitud",
+        	       data: { observaciones : observaciones,responsable_solicitud : responsable_solicitud,diasPendientesDebidos : diasPendientesDebidos,diasPendientes : diasPendientes,dias_solicitados : dias_solicitados,horas_jornada:horas_jornada,horas_por_dias : horas_por_dias,year_solicitud : year_solicitud, k_permisos_solic:k_permisos_solic, k_proyecto_solicitud:k_proyecto_solicitud},
+        	       success: function(respuesta) {
+        	            alert("RESPUESTA_AJAX479"+respuesta); 
+        	       }
+        	    });     
+                }
+	});
 	
 });
+
+function comprobar_horas_keyotros()
+{	
+	var dias=$('#calendario').val().split(", ");
+    
+    var valido=true;
+    var respuesta="";
+	
+	for(i=0;i<dias.length;i++)
+	{
+        respuesta+=$('#'+dias[i]).val()+" ";
+        
+        if($('#'+dias[i]).val()==0)
+        {
+            valido=false;        
+        }
+    }    
+    
+    if(!valido)
+    {
+        respuesta="novalido";    
+    }
+    
+    return respuesta;
+    
+}
+
+
+function comprobar_festivos_seleccionados()
+{	
+	var dias=$('#calendario').val().split(", ");
+    
+    var festivo_seleccionado=false;
+	
+	for(i=0;i<dias.length;i++)
+	{        
+        if($('#'+dias[i]).hasClass("festivo"))
+        {
+            festivo_seleccionado=true;        
+        }        
+    }    
+    
+    return festivo_seleccionado;
+    
+}
+
 
 function ponerTagsDias()
 {
@@ -513,6 +648,14 @@ function actualizarDiasPendientes()
 		$('#pendientesDebidosMostrar').html(0);
 		$('#pendientesMostrar').html(diasPendientes+diasPendientesDebidos-seleccionados);
 	}
+	
+	/*
+	if($('#pendientesMostrar').html()==0)
+	{
+		alert("No te quedan días");
+	}
+	*/
+	
 	
 }
 
@@ -651,10 +794,12 @@ function pintarInferiorInicial()
 			diasDesdePhp[i].mes="0"+diasDesdePhp[i].mes;
 		}
 		
-		var fecha=diasDesdePhp[i].dia+"-"+diasDesdePhp[i].mes+"-"+diasDesdePhp[i].año;
+		var fecha=diasDesdePhp[i].dia_solic+"-"+diasDesdePhp[i].mes_solic+"-"+diasDesdePhp[i].year_solic;
 		
 		
-		if((diasDesdePhp[i].sw_aprobacion_N1==-1)&&(diasDesdePhp[i].sw_aprobacion_N2==-1))
+        var rechazado=diasDesdePhp[i].i_autorizado_n1==2||diasDesdePhp[i].i_autorizado_n2==2;
+        
+		if((diasDesdePhp[i].i_autorizado_n1==1)&&(diasDesdePhp[i].i_autorizado_n2==1))
 		{
 			$('#'+fecha).addClass('aceptado_inferior');	
 			$('#'+fecha).attr('value','8');	//CAMBIAR BBDD REAL
@@ -667,7 +812,7 @@ function pintarInferiorInicial()
 			$('#'+fecha).attr('value','8');		//CAMBIAR BBDD REAL
 		}
 		*/
-		else if(diasDesdePhp[i].sw_rechazo==0)
+		else if(!rechazado)
 		{
 			$('#'+fecha).addClass('pendiente_inferior');
 			$('#'+fecha).attr('value','8');		//CAMBIAR BBDD REAL

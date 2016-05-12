@@ -16,7 +16,7 @@
 				            <label>Tipo de solicitud</label>
 				            <select id="tipo_solicitud" name="tipo_solicitud">
 				            	<option value="0">Selecciona un tipo de permiso</option>
-				            	<?php foreach ($permisos['tipo_solicitud'] as $tipo):?>
+				            	<?php foreach ($tipo_permisos['tipo_solicitud'] as $tipo):?>
 				            		<option value="<?php echo $tipo['k_proyecto']?>"><?php echo $tipo['nom_proyecto']?></option>
 				            	<?php endforeach;?>
 				            </select>
@@ -45,8 +45,8 @@
 		        		<p>DIAS PENDIENTES</p>
 		        	</div>
 		        	<div>
-		        		<label>Año <?php echo $year_actual-1?></label><p id="pendientesDebidosMostrar"></p>
-		        		<label>Año <?php echo $year_actual?></label><p id="pendientesMostrar"></p>	
+		        		<label>Año <?php echo $year_actual-1?></label><p id="pendientesDebidosMostrar"><?php echo $diasDebidosPendientes?></p>
+		        		<label>Año <?php echo $year_actual?></label><p id="pendientesMostrar"><?php echo $diasDebidos?></p>	
 		        	</div>	        	
 		     </div><!-- CIERRE dias_pendientes -->  		     	
 	        		
@@ -65,48 +65,31 @@
 							<th id="autorizacion_responsable_titulo">AUTORIZ RESP</th>	
 							<th id="autorizacion_rrhh_titulo">AUTORIZ RRHH</th>		
 							<th id="observaciones_titulo">OBSERVACIONES</th>		
-							<th id="motivo_rechazo_titulo">MOTIVO RECHAZO</th>			
-						</tr>
-						
+							<th id="motivo_rechazo_titulo">MOTIVO RECHAZO</th>
+							<th id="sw_envio_solicitud">ENVIADO</th>			
+						</tr>							
+					 
+					<?php foreach($historico_permisos as $fila):?>
 						<tr>
-							<td class="fechaCell">01-01-2016</td>
-							<td class="tipoCell">KEYVACACIONES</td>
-							<td class="solicitanteCell">JROQU</td>
-							<td class="fechaInicialCell">01-01-2016</td>
-							<td class="fechaFinalCell">01-01-2016</td>
-							<td class="autRespCell">Pendiente</td>
-							<td class="autRRHHCell">No autoriza</td>
-							<td class="observacionesCell"><textarea disabled class="textareaObservaciones">No me voy todaviaaaaaaaaaaaaaaaaaaaaaaaaa</textarea></td>
-							<td class="motivoRechazoCell"><textarea disabled class="textareaMotivoRechazo">No te vasss</textarea></td>
-							<td class="eliminar_fila borde_invisible no_fondo"><img title="Editar fila" class="editar_fila" src="<?php echo base_url()?>assets/img/cross.png"/></td>
-						</tr>	
-						<tr>
-							<td class="fechaCell">01-01-2016</td>
-							<td class="tipoCell">KEYVACACIONES</td>
-							<td class="solicitanteCell">JROQU</td>
-							<td class="fechaInicialCell">01-01-2016</td>
-							<td class="fechaFinalCell">01-01-2016</td>
-							<td class="autRespCell">Pendiente</td>
-							<td class="autRRHHCell">Pendiente</td>
-							<td class="observacionesCell"><textarea disabled class="textareaObservaciones">No me voy todaviaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</textarea></td>
-							<td class="motivoRechazoCell"><textarea disabled class="textareaMotivoRechazo">No te vasss</textarea></td>
+							<td class="fechaCell"><?php echo $fila['f_solicitud']?></td>
+							<td class="tipoCell"><?php echo $fila['id_proyecto']?></td>
+							<td class="solicitanteCell"><?php echo $fila['id_consultor']?></td>
+							<td class="fechaInicialCell"><?php echo $fila['primer_dia']?></td>
+							<td class="fechaFinalCell"><?php echo $fila['ultimo_dia']?></td>
+							<td class="autRespCell"><?php echo $fila['i_autorizado_n1']?></td>
+							<td class="autRRHHCell"><?php echo $fila['i_autorizado_n2']?></td>
+							<td class="observacionesCell"><textarea disabled class="textareaObservaciones"><?php echo $fila['desc_observaciones']?></textarea></td>
+							<td class="motivoRechazoCell"><textarea disabled class="textareaMotivoRechazo"><?php echo $fila['desc_rechazo']?></textarea></td>
+							<td class="envioCell"><input onclick="return false" type="checkbox" <?php echo ($fila['sw_envio_solicitud']==-1)?' checked':''?>/></td>
 							<td class="eliminar_fila borde_invisible no_fondo"><img title="Editar fila" class="editar_fila " src="<?php echo base_url()?>assets/img/cross.png"/></td>
-						</tr>		
-					<!--  
-					<?php foreach($permisos['historico_permiso'] as $fila):?>
-						<tr>
-							<td class="YearCell"><?php echo $fila['f_año_hoja_gastos']?></td>
-							<td class="MonthCell"><?php echo $fila['f_mes_hoja_gastos']?></td>
-							<td class="tipoPermisoCell"><?php echo $fila['i_tot_hoja_gastos']?>€</td>
-							<td class="fechaInicialCell"><?php echo $fila['i_tot_gastos_pendientes']?>€</td>
-							<td class="fechaFinalCell"><?php echo $fila['i_tot_gastos_autorizados']?>€</td>
-							<td class="numeroDiasCell"><?php echo $fila['i_tot_gastos_no_autorizados']?>€</td>
-							<td class="totalPagado"><?php echo $fila['i_imp_pagado']?>€</td>
-							<td class="horasTituloCell"><?php echo $fila['f_pago_hoja_gastos']?></td>
-							<td class="consumidasCell"><?php echo ($fila['sw_autorizar_revision']==-1)?' checked':''?> /></td>
+						
+							
 						</tr>	
 					<?php endforeach;?>
-					-->
+					
+					
+					
+					
 					</table>
 				</div><!-- CIERRE inferior -->
         	  

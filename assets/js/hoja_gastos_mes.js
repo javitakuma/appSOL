@@ -22,7 +22,7 @@ $(document).ready(function() {
 	actualizarTotales(); 
 	
 	
-	$('#tabla_gastos_pendientes_mes').delegate('.fecha_gasto input','click',function()
+	$('#tabla_gastos_pendientes_mes').delegate('.fecha_gasto input','focus',function()
 	{
 		$(this).datepicker(
 		{			

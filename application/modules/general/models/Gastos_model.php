@@ -211,9 +211,6 @@ class Gastos_model extends CI_Model
 		foreach ($actualizadas as $fila)
 		{			
 			//var_dump($fila);
-			
-			
-			
 			$data = array(
 					'k_hoja_gasto'       =>   $fila['k_hoja_gasto'],
 					'k_proyecto'         =>   $fila['k_proyecto'],

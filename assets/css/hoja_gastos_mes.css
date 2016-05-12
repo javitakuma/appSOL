@@ -104,6 +104,7 @@
 	border-collapse: collapse;
 	/*border:solid 1px #AAA;*/
 	position:relative;
+	color:#000;
 	
 }
 
@@ -119,6 +120,7 @@
 	margin:0px;	
 	resize:none;
 	background:#EFEFEF;
+	color:#000;
 }
 
 /*===========*/
@@ -143,6 +145,20 @@
 }
 
 /*========ANCHOS TABLAS======*/
+
+/*	 PARA QUITAR LA FLECHA DEL SELECT EN FIREFOX	*/
+#tabla_gastos_pendientes_mes select
+{
+	/*
+	color:red;
+	-moz-appearance: none;
+    text-indent: 0.01px;
+    text-overflow: '';	
+    */
+}
+
+
+
 
 #tabla_gastos_pendientes_mes .id_proyecto_titulo
 {

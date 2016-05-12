@@ -16,10 +16,6 @@ class Permisos extends MX_Controller
 		$this->mostrar_permiso_anual();
 	}
 	
-	public function mostrar_permisos_general()
-	{
-		
-	}
 	
 	public function cargar_dias_para_horas()
 	{
@@ -49,8 +45,17 @@ class Permisos extends MX_Controller
 		$datos['year_actual']=date('Y');
 		$datos['css']='permisos';
 		$datos['js']='permisos';
-		$datos['permisos']=$this->Permisos_model->cargar_permisos($k_consultor);
-		//var_dump($datos['permisos']);
+		
+		$datos['tipo_permisos']=$this->Permisos_model->cargar_tipo_permisos();
+		
+		$datos['year_solicitud']=date('Y');
+		$dias_debidos_two_years=$this->Permisos_model->cargar_dias_debidos($k_consultor,$datos['year_solicitud']);		
+		$datos['diasDebidos']=$dias_debidos_two_years['dias_debidos'];
+		$datos['diasDebidosPendientes']=$dias_debidos_two_years['dias_debidos_pendientes'];
+		
+		$datos['historico_permisos']=$this->Permisos_model->cargar_historico_permisos($k_consultor);	
+		
+		
 		enmarcar($this,'Permisos.php',$datos);
 	}
 	
@@ -81,6 +86,8 @@ class Permisos extends MX_Controller
 			$datos['tipo_solicitud']="KEYOTROS";
 		}
 		
+		$datos['k_proyecto_solicitud']=$_REQUEST['tipo_solicitud'];
+		
 		//NOS APUNTAMOS EL RESPONSABLE
 		$datos['responsable_solicitud']=$_REQUEST['responsable_solicitud'];
 		
@@ -89,36 +96,44 @@ class Permisos extends MX_Controller
 		$datos['existe_next_year_bbdd']=$this->Permisos_model->comprobar_calendario_proximo_year($datos['year_solicitud']);
 		
 		$datos['festivos']=json_encode($this->Permisos_model->cargar_festivos());
-		
-		$dias=[
-				['dia'=>1,'mes'=>6,'año'=>2016,'sw_aprobacion_N1'=>-1,'sw_aprobacion_N2'=>-1,'sw_rechazo'=>0],
-				['dia'=>2,'mes'=>6,'año'=>2016,'sw_aprobacion_N1'=>-1,'sw_aprobacion_N2'=>-1,'sw_rechazo'=>0],
-				['dia'=>3,'mes'=>6,'año'=>2016,'sw_aprobacion_N1'=>-1,'sw_aprobacion_N2'=>-1,'sw_rechazo'=>0],
-				['dia'=>1,'mes'=>7,'año'=>2016,'sw_aprobacion_N1'=>0,'sw_aprobacion_N2'=>0,'sw_rechazo'=>-1],
-				['dia'=>2,'mes'=>7,'año'=>2016,'sw_aprobacion_N1'=>0,'sw_aprobacion_N2'=>0,'sw_rechazo'=>-1],
-				['dia'=>1,'mes'=>8,'año'=>2016,'sw_aprobacion_N1'=>0,'sw_aprobacion_N2'=>0,'sw_rechazo'=>0],
-				['dia'=>2,'mes'=>8,'año'=>2016,'sw_aprobacion_N1'=>0,'sw_aprobacion_N2'=>0,'sw_rechazo'=>0],
-		];
-		
-		$datos['dias']=json_encode($dias);
-		
-		
+				
 		$k_consultor=$this->session->userdata('k_consultor');
 		$datos['diasYaSolicitados']=json_encode($this->Permisos_model->cargar_dias_solicitados($k_consultor));
+				
+		$dias_debidos_two_years=$this->Permisos_model->cargar_dias_debidos($k_consultor,$datos['year_solicitud']);
 		
-		
-		/*CREO QUE NO LO USARE
-		$fechaActual=new DateTime();		
-		$fechaActualFormateada=date_format($fechaActual, 'Y-m-d');			
-		$datos['fechas']=$this->Permisos_model->cargar_dias_para_horas($fechaActualFormateada);
-		var_dump($datos['fechas']);
-		die;
-		*/		
-		
+		$datos['diasDebidos']=$dias_debidos_two_years['dias_debidos'];
+		$datos['diasDebidosPendientes']=$dias_debidos_two_years['dias_debidos_pendientes'];
+				
 		$datos['js']=['solicitar_permiso','jquery-ui.multidatespicker'];
 		$datos['css']=['jquery-ui-1.10.1','solicitar_permiso'];
 		
 		enmarcar($this,'SolicitarPermiso.php',$datos);
+	}
+	
+	public function grabar_solicitud()
+	{		
+		
+		$datos_guardar['observaciones']=$_REQUEST['observaciones'];
+		$datos_guardar['responsable_solicitud']=$_REQUEST['responsable_solicitud'];
+		$datos_guardar['diasPendientesDebidos']=$_REQUEST['diasPendientesDebidos'];
+		$datos_guardar['diasPendientes']=$_REQUEST['diasPendientes'];
+		$datos_guardar['dias_solicitados']=$_REQUEST['dias_solicitados'];
+		$datos_guardar['horas_por_dias']=isset($_REQUEST['horas_por_dias'])?$_REQUEST['horas_por_dias']:"";
+		$datos_guardar['horas_jornada']=isset($_REQUEST['horas_jornada'])?$_REQUEST['horas_jornada']:"";
+		$datos_guardar['year_solicitud']=$_REQUEST['year_solicitud'];
+		$datos_guardar['k_permisos_solic']=$_REQUEST['k_permisos_solic'];
+		$datos_guardar['k_proyecto_solicitud']=$_REQUEST['k_proyecto_solicitud'];
+		
+		$datos_guardar['k_consultor']=$this->session->userdata('k_consultor');
+		$datos_guardar['id_consultor']=$this->session->userdata('id_consultor');
+		$datos_guardar['k_consultor_solic']=$this->session->userdata('login_original');
+		
+		
+		//var_dump($datos_guardar);
+		
+		$this->Permisos_model->grabar_solicitud($datos_guardar);
+		
 	}
 	
 	
