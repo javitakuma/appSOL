@@ -9,9 +9,11 @@ class Permisos_model extends CI_Model
 	}
 	
 	
-	
-	public function cargar_dias_debidos($k_consultor,$year_solicitud)
+	//CALCULA LOS DIAS PENDIENTE QUE TIENE EL USUARIO Y DEVUELVE TAMBIEN LOS QUE LE COREEPONDEN
+	public function cargar_dias_debidos($k_consultor,$year_solicitud,$k_permiso_solic=0)
 	{
+		
+		
 		$this->load->database();
 		$this->db->trans_start();
 		
@@ -31,28 +33,22 @@ class Permisos_model extends CI_Model
 		
 		$sql3 ="SELECT count(*) suma_consumidos FROM t_permisos_solicitados_det A
 		join t_permisos_solicitados B on A.k_permisos_solic=B.k_permisos_solic
-		WHERE A.año_vac=$year_solicitud AND B.i_autorizado_n1!=2 AND B.i_autorizado_n2!=2";
+		WHERE A.año_vac=$year_solicitud AND B.i_autorizado_n1!=2 AND B.i_autorizado_n2!=2 AND A.k_permisos_solic!=$k_permiso_solic";
 		
 		$consumidos_este=$this->db->query($sql3)->row_array();
 		
 		$sql4 ="SELECT count(*) suma_consumidos FROM t_permisos_solicitados_det A
 		join t_permisos_solicitados B on A.k_permisos_solic=B.k_permisos_solic
-		WHERE A.año_vac=$year_anterior AND B.i_autorizado_n1!=2 AND B.i_autorizado_n2!=2";
+		WHERE A.año_vac=$year_anterior AND B.i_autorizado_n1!=2 AND B.i_autorizado_n2!=2 AND A.k_permisos_solic!=$k_permiso_solic";
 		
 		$consumidos_anterior=$this->db->query($sql4)->row_array();
 				
 		$dias['dias_debidos']=$total_vac_este['suma_dias']-$consumidos_este['suma_consumidos'];
 		$dias['dias_debidos_pendientes']=$total_vac_anterior['suma_dias']-$consumidos_anterior['suma_consumidos'];
 		
-		/*
-		echo $total_vac_este['suma_dias'];
-		echo $consumidos_este['suma_consumidos'];
+		$dias['dias_base']=$total_vac_este['suma_dias'];
+		$dias['dias_base_anterior']=$total_vac_anterior['suma_dias'];
 		
-		echo $dias['dias_debidos']."<br/>";
-		echo $dias['dias_debidos_pendientes'];
-		
-		die;
-		*/
 		
 		$this->db->trans_complete();
 		$this->db->close();
@@ -75,15 +71,14 @@ class Permisos_model extends CI_Model
 		return $resp_proyectos;
 	}
 	
+	//CARGA LOS DIAS DE LA TABLA CALENDARIO PARA LA TABLA INFERIOR (FECHA ACTUAL NO ES LA ACTUAL REAL, DEPENDE DE LA QUE LE PASEMOS QUE DE MOMENTO ES OCTUBRE DEL AÑO ANTERIOR)
 	public function cargar_dias_para_horas($fechaActual)
 	{
 		$this->load->database();
 		$this->db->trans_start();
 		
 		$sql ="SELECT * FROM t_calendario where f_dia_calendario >'$fechaActual'";
-		
-		
-		
+						
 		$fechas=$this->db->query($sql)->result_array();		
 		
 		//CAMBIAMOS A FORMATO DE FECHA ESPAÑOL
@@ -98,12 +93,13 @@ class Permisos_model extends CI_Model
 		return $fechas;
 	}
 	
+	//SELECCIONA TOODOS LOS DIAS SOLICITADOS POR EL USUARIO
 	public function cargar_dias_solicitados($k_consultor)
 	{		
 		$this->load->database();
 		$this->db->trans_start();
 		
-		$sql ="SELECT A.dia_solic,A.mes_solic,A.año_solic year_solic,B.i_autorizado_n1,B.i_autorizado_n2 FROM t_permisos_solicitados_det A
+		$sql ="SELECT A.dia_solic,A.mes_solic,A.año_solic year_solic,B.i_autorizado_n1,B.i_autorizado_n2,A.k_permisos_solic FROM t_permisos_solicitados_det A
 		join t_permisos_solicitados B 
 		on A.k_permisos_solic=B.k_permisos_solic		
 		where B.k_consultor ='$k_consultor'";
@@ -117,6 +113,39 @@ class Permisos_model extends CI_Model
 		
 	}
 	
+	//cargar la informacion de la solicitud activa a nivel de tabla padre
+	public function cargar_datos_solicitud_activa($k_permiso_solic)
+	{
+		$this->load->database();
+		$this->db->trans_start();
+		
+		$sql ="SELECT * FROM t_permisos_solicitados
+		where k_permisos_solic ='$k_permiso_solic'";
+		
+		$datosSolicitud=$this->db->query($sql)->result_array();
+				
+		$this->db->trans_complete();
+		$this->db->close();
+		return $datosSolicitud;
+	}
+	
+	//CARGA LAS HORAS DE QUE PUESO EL USUARIO EN ESA SOLICITUD (COGEMOS UNA LINEA PORQUE SON TODAS IGUALES EN KEYVACACIONES)
+	public function cargar_horas_solicitud($k_permiso_solic)
+	{
+		$this->load->database();
+		$this->db->trans_start();
+		
+		$sql ="SELECT horas_solic FROM t_permisos_solicitados_det
+		where k_permisos_solic ='$k_permiso_solic' LIMIT 1";
+		
+		$horasSolicitud=$this->db->query($sql)->result_array()[0]['horas_solic'];
+		
+		$this->db->trans_complete();
+		$this->db->close();
+		return $horasSolicitud;
+	}
+	
+	//COMPROBAMOS SI HAY CALENDARIO DEL AÑO SIGUIENTE PARA PINTARLO O NO
 	public function comprobar_calendario_proximo_year($year)
 	{
 		$this->load->database();
@@ -156,13 +185,14 @@ class Permisos_model extends CI_Model
 		return $permisos;
 	}
 	
+	//CARGA DE DATOS PARA LA PANTALLA GENERAL DE PERMISOS Y PINTAR EL HISTORICO INFERIOR
 	public  function cargar_historico_permisos($k_consultor)
 	{
 		$this->load->database();
 		$this->db->trans_start();
 	
 	
-		$sql ="SELECT k_permisos_solic, f_solicitud,id_consultor,id_proyecto,
+		$sql ="SELECT k_permisos_solic, f_solicitud,C.id_consultor,id_proyecto,
 		CASE i_autorizado_n1
 			WHEN 0 THEN 'Pendiente'	
 			WHEN 1 THEN 'Autorizado'
@@ -175,6 +205,7 @@ class Permisos_model extends CI_Model
 		END i_autorizado_n2,
 		desc_observaciones,COALESCE(desc_rechazo,'') desc_rechazo,sw_envio_solicitud FROM t_permisos_solicitados A
 		JOIN t_proyectos B on A.k_proyecto=B.k_proyecto
+		JOIN t_consultores C on A.k_consultor_solic=C.k_consultor
 		ORDER BY k_permisos_solic";
 	
 	
@@ -231,10 +262,9 @@ class Permisos_model extends CI_Model
 		$this->db->trans_start();
 		
 		$id_responsable=$this->db->query("SELECT id_consultor FROM t_consultores WHERE k_consultor={$datos_guardar['responsable_solicitud']}")->row_array();
-		
-		
+				
 		//NUEVA SOLICITUD
-		
+		//PASA SEGURO POR AQUI
 		if($datos_guardar['k_permisos_solic']==0)
 		{			
 			$data = array(
@@ -252,33 +282,15 @@ class Permisos_model extends CI_Model
 					'desc_rechazo'   		=>   null,
 			);
 			
-			$resultado=$this->db->insert('t_permisos_solicitados',$data);	
+			$resultado=$this->db->insert('t_permisos_solicitados',$data);
 			
-			$datos_guardar['k_permisos_solic']=$this->db->insert_id();
+			$datos_guardar['k_permisos_solic']=$this->db->insert_id();			
 			
-		}
-		
-		else//actualizacion
-		{
-			/*
-			$data = array(
-					'k_hoja_gasto'       =>   $fila['k_hoja_gasto'],
-					'k_proyecto'         =>   $fila['k_proyecto'],
-					'k_tipo_linea_gasto' =>   $fila['k_tipo_linea_gasto'],
-					'f_linea_gasto'      =>   $fila['f_linea_gasto'],
-					'i_imp_linea_gasto'  =>   $fila['i_imp_linea_gasto'],
-					'desc_linea_gasto'   =>   $fila['desc_linea_gasto'],
-			);
-			
-			$this->db->where('k_permisos_solic', $datos_guardar['k_permisos_solic']);
-			$this->db->update('t_permisos_solicitados', $data);
-			*/
 		}
 		
 		$array_dias =explode(", ", $datos_guardar['dias_solicitados']);
 		$array_horas =explode(" ", $datos_guardar['horas_por_dias']);
-		
-		
+			
 		
 		
 		for($i=0;$i<sizeof($array_dias);$i++)
@@ -302,7 +314,8 @@ class Permisos_model extends CI_Model
 			$year=$dia_partido[2];	
 			
 			$year_vac=($datos_guardar['diasPendientesDebidos']>0)?$datos_guardar['year_solicitud']-1:$datos_guardar['year_solicitud'];
-			
+						
+			//INSERT
 			$data = array(
 					'k_permisos_solic'      =>   $datos_guardar['k_permisos_solic'],
 					'horas_solic'         	=>   $horas,
@@ -315,14 +328,138 @@ class Permisos_model extends CI_Model
 			$resultado=$this->db->insert('t_permisos_solicitados_det',$data);
 			
 			$datos_guardar['diasPendientesDebidos']--;
+			//FIN INSERT
+			 
+			 
 		}
+		
 		
 		$this->db->trans_complete();
 		$this->db->close();
 		
-		return $resultado;
+		return $datos_guardar['k_permisos_solic'];
 		
 		
 	}
+	
+	public function grabar_solicitud_editado($datos_guardar)
+	{
+		$fechaActual = date('Y-m-d');
+	
+		$this->load->database();
+		$this->db->trans_start();
+					
+		
+		$id_responsable=$this->db->query("SELECT id_consultor FROM t_consultores WHERE k_consultor={$datos_guardar['responsable_solicitud']}")->row_array();
+				
+		
+		$fechaActual = date('Y-m-d');
+		
+				$data = array(
+				'k_consultor_solic'     =>   $datos_guardar['k_consultor_solic'],
+				'f_solicitud' 	 		=>   $fechaActual,
+				'desc_observaciones'   	=>   $datos_guardar['observaciones'],
+				);
+					
+				$this->db->where('k_permisos_solic', $datos_guardar['k_permisos_solic']);
+				$this->db->update('t_permisos_solicitados', $data);
+		
+		
+		//BORRO TOODOS LOS DATOS Y LOS INSERTO DE NUEVO
+		
+			$this->db->delete('t_permisos_solicitados_det', array('k_permisos_solic' => $datos_guardar['k_permisos_solic']));
+				
+			// Produces:
+			// DELETE FROM t_permisos_solic_det
+			// WHERE t_permisos_solic = $datos_guardar['k_permisos_solic']		
+		
+				
+		$array_dias =explode(", ", $datos_guardar['dias_solicitados']);
+		$array_horas =explode(" ", $datos_guardar['horas_por_dias']);
+		
+		
+			
+		for($i=0;$i<sizeof($array_dias);$i++)
+		{
+			$horas;
+				
+			if($datos_guardar['k_proyecto_solicitud']==450)
+			{
+				$horas=$datos_guardar['horas_jornada'];
+			}
+				
+			if($datos_guardar['k_proyecto_solicitud']==468)
+			{
+				$horas=$array_horas[$i];
+			}				
+				
+			$dia_partido=explode("-", $array_dias[$i]);
+			$dia=$dia_partido[0];
+			$mes=$dia_partido[1];
+			$year=$dia_partido[2];
+				
+			$year_vac=($datos_guardar['diasPendientesDebidos']>0)?$datos_guardar['year_solicitud']-1:$datos_guardar['year_solicitud'];
+							
+			/*
+				$comprobacionExisteDia="SELECT k_permisos_solic_det FROM t_permisos_solicitados_det
+				WHERE k_permisos_solic={$datos_guardar['k_permisos_solic']} AND dia_solic='$dia' AND mes_solic='$mes' AND año_solic='$year'";
+					
+				$busqueda=$this->db->query($comprobacionExisteDia)->result_array();
+			
+			var_dump($busqueda);
+			*/
+			
+			
+			//INSERT
+			
+			$data = array(
+					'k_permisos_solic'      =>   $datos_guardar['k_permisos_solic'],
+					'horas_solic'         	=>   $horas,
+					'dia_solic' 			=>   $dia,
+					'mes_solic'      		=>   $mes,
+					'año_solic' 	 		=>   $year,
+					'año_vac'   			=>   $year_vac,
+			);
+	
+			$resultado=$this->db->insert('t_permisos_solicitados_det',$data);
+				
+			$datos_guardar['diasPendientesDebidos']--;
+			//FIN INSERT
+	
+			
+		}	
+	
+		$this->db->trans_complete();
+		$this->db->close();
+	
+		return $datos_guardar['k_permisos_solic'];	
+	
+	}
+	
+	
+	public function enviar_solicitud($k_permisos_solic)
+	{
+		//SOLO PONEMOS EL sw_envio_solicitud a -1
+		
+		$this->load->database();
+		$this->db->trans_start();
+		
+		$data = array(
+				'sw_envio_solicitud' => -1,
+		);
+		
+		$this->db->where('k_permisos_solic', $k_permisos_solic);
+		
+		$this->db->update('t_permisos_solicitados', $data);
+		// Produces:
+		// UPDATE t_permisos_solicitados
+		// SET sw_envio_solicitud = '{-1}'
+		// WHERE k_permisos_solic = $k_permisos_solic
+		
+		
+		
+		$this->db->trans_complete();
+		$this->db->close();
+	} 
 	
 }

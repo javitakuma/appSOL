@@ -62,6 +62,7 @@ $(document).ready(function() {
 		fila2['fecha']=new Date(fechaFormateada);
 		fila2['i_autorizado_n1']=diasDesdePhp[i].i_autorizado_n1;
 		fila2['i_autorizado_n2']=diasDesdePhp[i].i_autorizado_n2;
+		fila2['k_permisos_solic']=diasDesdePhp[i].k_permisos_solic;
 		//dias.push(fila2);
 		
 		//dias pendientes de aprobar
@@ -191,28 +192,35 @@ $(document).ready(function() {
 			    for(i=0;i<diasOcupados.length;i++)
 			    {	   
 			    	
-			    	if(diasOcupados[i].fecha.valueOf()==date.valueOf())
+			    	if(diasOcupados[i].fecha.valueOf()==date.valueOf())//coincide con dia del calendario
 			    	{
-			    		//DIAS ACEPTADOS
-			    		if(diasOcupados[i].i_autorizado_n1==1&&diasOcupados[i].i_autorizado_n2==1)//vacaciones de esta solicitud   
-			    		{	
-			    			//result = [false, 'dia_aceptado', null];	
-			    			desbloqueado=false;
-					    	clase='dia_aceptado';
-			    		}
-			    		//DIAS RECHAZADOS
-			    		else if(diasOcupados[i].i_autorizado_n1==2||diasOcupados[i].i_autorizado_n2==2)//vacaciones de esta solicitud 
-			    		{	
-			    			//result = [false, 'dia_rechazado', null];
-			    			desbloqueado=true;
-					    	clase='dia_rechazado';
-			    		}			    		
-			    		else//DIAS PENDIENTES
+			    		//alert(diasOcupados[i].k_permisos_solic);
+			    		if( diasOcupados[i].k_permisos_solic == ($('#k_permisos_solic').val()) )///DIAS DE ESTA SOLICITUD NO HACEMOS NADA
 			    		{
-			    			desbloqueado=false;
-					    	clase='dia_pendiente';
+			    			
 			    		}
-			    		
+			    		else
+			    		{
+			    			//DIAS ACEPTADOS
+				    		if(diasOcupados[i].i_autorizado_n1==1&&diasOcupados[i].i_autorizado_n2==1)  
+				    		{	
+				    			//result = [false, 'dia_aceptado', null];	
+				    			desbloqueado=false;
+						    	clase='dia_aceptado';
+				    		}
+				    		//DIAS RECHAZADOS
+				    		else if(diasOcupados[i].i_autorizado_n1==2||diasOcupados[i].i_autorizado_n2==2)
+				    		{	
+				    			//result = [false, 'dia_rechazado', null];
+				    			desbloqueado=true;
+						    	clase='dia_rechazado';
+				    		}			    		
+				    		else//DIAS PENDIENTES
+				    		{
+				    			desbloqueado=false;
+						    	clase='dia_pendiente';
+				    		}
+			    		}			    		
 			    	}
 			    	
 			    }
@@ -246,6 +254,7 @@ $(document).ready(function() {
 	$('#calendario').ready(function()
 	{
 		clickarFechas();
+		
 	});
 	
 	
@@ -473,14 +482,19 @@ $(document).ready(function() {
                                         
                    $.ajax({        
         	       type: "POST",
-        	       url: BASE_URL+"general/Permisos/grabar_solicitud",
+        	       url: BASE_URL+"general/Permisos/grabar_solicitud_editado",
         	       data: { observaciones : observaciones,responsable_solicitud : responsable_solicitud,diasPendientesDebidos : diasPendientesDebidos,diasPendientes : diasPendientes,dias_solicitados : dias_solicitados,horas_jornada:horas_jornada,horas_por_dias : horas_por_dias,year_solicitud : year_solicitud, k_permisos_solic:k_permisos_solic, k_proyecto_solicitud:k_proyecto_solicitud},
         	       success: function(respuesta) {
+        	    	   //$('#k_permisos_solic').val(respuesta);
+        	           //alert("Cambios guardados.");
         	    	   
         	    	   alert("Su solicitud ha sido grabada");
         	    	   
-        	    	   //LE MANDAMOS AL MENU PRINCIPAL PORQUE SI NO FALLA, NO SE PUEDE ACTUALIZAR EL k_permisos_solic
-        	           location.href=BASE_URL+"general/Permisos";
+        	    	   location.reload();
+        	    	   
+        	    	   
+        	    	   
+        	           //location.href=BASE_URL+"general/Permisos";
         	       }
         	    });     
                 }
@@ -570,7 +584,11 @@ $(document).ready(function() {
         	       url: BASE_URL+"general/Permisos/enviar_solicitud",
         	       data: { observaciones : observaciones,responsable_solicitud : responsable_solicitud,diasPendientesDebidos : diasPendientesDebidos,diasPendientes : diasPendientes,dias_solicitados : dias_solicitados,horas_jornada:horas_jornada,horas_por_dias : horas_por_dias,year_solicitud : year_solicitud, k_permisos_solic:k_permisos_solic, k_proyecto_solicitud:k_proyecto_solicitud},
         	       success: function(respuesta) {
-        	            alert("RESPUESTA_AJAX479"+respuesta); 
+        	            //alert("RESPUESTA_AJAX479"+respuesta); 
+        	    	   
+        	    	   alert("Solicitud enviada."); 
+        	    	   
+        	    	   location.href=BASE_URL+"general/Permisos";
         	       }
         	    });     
                 }
@@ -660,26 +678,52 @@ function clickarFechas()
 	//$("#calendario").multiDatesPicker('addDates', [new Date(2016,07,08)]);
 	
 	
-	/*
-	if($('#habilitar_edicion').val()==1)
-	{
-		//POR CADA DIA QUE HEMOS RECOGIDO DE LA BBDD LO SELECCIONAMOS EN EL CALENDARIO
-		var fechasPintar=[];
-		for(i=0;i<diasPendientes.length;i++)
-	    {  			
-			var dia=(Number)(diasPendientes[i].fecha.getDate());
-			var mes=(Number)(diasPendientes[i].fecha.getMonth());//devuelve el mes-1, no lo cambiamos porque lo el calendario lo pinta igual
-			var year=(Number)(diasPendientes[i].fecha.getFullYear());
+	
+	//POR CADA DIA QUE HEMOS RECOGIDO DE LA BBDD LO SELECCIONAMOS EN EL CALENDARIO
+	var fechasPintar=[];
+	for(i=0;i<diasOcupados.length;i++)
+    {  	
+		if(diasOcupados[i].k_permisos_solic==$('#k_permisos_solic').val())
+		{
+			//sumar_un_dia();
+			var dia=(Number)(diasOcupados[i].fecha.getDate());
+			var mes=(Number)(diasOcupados[i].fecha.getMonth());//devuelve el mes-1, no lo cambiamos porque lo el calendario lo pinta igual
+			var year=(Number)(diasOcupados[i].fecha.getFullYear());
 			
 			fecha=new Date(year,mes,dia);
 			
 			fechasPintar.push(fecha);
-	    }
-		$("#calendario").multiDatesPicker('addDates', fechasPintar);
-	}
-	*/
+					
+		}
+		
+    }
+	$("#calendario").multiDatesPicker('addDates', fechasPintar);
+	
+	actualizarDiasPendientes();
+	
+	
 }
 
+function sumar_un_dia()
+{
+	if($('#diasPendientes').val()<$('#diasBase').val())
+	{
+		var unoMas=(Number)($('#diasPendientes').val())+1;
+		
+		alert(unoMas);
+		
+		$('#diasPendientes').val(unoMas);
+	}
+	//SI HA CONSUMIDO TODOS LOS DEL AÑO PASADO PASAMOS POR AQUI
+	else
+	{
+		var unoMas=(Number)($('#diasPendientesDebidos').val())+1;
+		
+		alert(unoMas);
+		
+		$('#diasPendientesDebidos').val(unoMas);
+	}
+}
 
 //FUNCION QUE COLOCA EN LA PARTE INFERIOR EL MES QUE SE LE PASA POR PARAMETRO Y EL SIGUIENTE
 /*
@@ -728,7 +772,9 @@ function actualizarDiasPendientes()
 		seleccionados=0;
 	}
 	
-	//SI LE QUEDANO DIAS DEL AÑO PASADO DESPUES DE LA SELECCION PINTAMOS AQUI
+	//SI LE QUEDAN DIAS DEL AÑO PASADO DESPUES DE LA SELECCION PINTAMOS AQUI
+	
+	
 	
 	if($('#diasPendientesDebidos').val()>seleccionados)
 	{
@@ -751,9 +797,11 @@ function actualizarDiasPendientes()
 		alert("No te quedan días");
 	}
 	*/
-	
-	
 }
+
+//funcion que simula sumar un dia a los pendiente cuando clickamos manualmente para editar porque si no esos dias contarian doble porque ya 
+//viene de las BBDD descontado
+
 
 function pintar_aceptados()
 {
@@ -895,24 +943,29 @@ function pintarInferiorInicial()
 		
         var rechazado=diasDesdePhp[i].i_autorizado_n1==2||diasDesdePhp[i].i_autorizado_n2==2;
         
-		if((diasDesdePhp[i].i_autorizado_n1==1)&&(diasDesdePhp[i].i_autorizado_n2==1))
-		{
-			$('#'+fecha).addClass('aceptado_inferior');	
-			$('#'+fecha).attr('value','8');	//CAMBIAR BBDD REAL
-		}
+        if(diasDesdePhp[i].k_permisos_solic!=$('#k_permisos_solic').val())
+        {
+        	if((diasDesdePhp[i].i_autorizado_n1==1)&&(diasDesdePhp[i].i_autorizado_n2==1))
+    		{
+    			$('#'+fecha).addClass('aceptado_inferior');	
+    			$('#'+fecha).attr('value','8');	//CAMBIAR BBDD REAL
+    		}
+    		
+    		/*  DE MOMENTO NO PINTAMOS RECHAZADOS ABAJO
+    		else if(diasDesdePhp[i].sw_rechazo==-1)
+    		{
+    			$('#'+fecha).addClass('rechazado_inferior');	
+    			$('#'+fecha).attr('value','8');		//CAMBIAR BBDD REAL
+    		}
+    		*/
+    		else if(!rechazado)
+    		{
+    			$('#'+fecha).addClass('pendiente_inferior');
+    			$('#'+fecha).attr('value','8');		//CAMBIAR BBDD REAL
+    		}
+        }
+        
 		
-		/*  DE MOMENTO NO PINTAMOS RECHAZADOS ABAJO
-		else if(diasDesdePhp[i].sw_rechazo==-1)
-		{
-			$('#'+fecha).addClass('rechazado_inferior');	
-			$('#'+fecha).attr('value','8');		//CAMBIAR BBDD REAL
-		}
-		*/
-		else if(!rechazado)
-		{
-			$('#'+fecha).addClass('pendiente_inferior');
-			$('#'+fecha).attr('value','8');		//CAMBIAR BBDD REAL
-		}
 			
 	}
 	
@@ -950,12 +1003,12 @@ function pintar()
 	});
 	*/
 	
-	//alert($('#calendario').multiDatesPicker('value'));
+	alert($('#calendario').multiDatesPicker('value'));
 	
 	
 	//sincronizar_superior_inferior();
 	
-	alert($('#10-05-2016').val());
+	//alert($('#10-05-2016').val());
 	
 	
 	/*

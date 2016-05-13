@@ -82,10 +82,10 @@
 							<td class="motivoRechazoCell"><textarea disabled class="textareaMotivoRechazo"><?php echo $fila['desc_rechazo']?></textarea></td>
 							<td class="envioCell"><input onclick="return false" type="checkbox" <?php echo ($fila['sw_envio_solicitud']==-1)?' checked':''?>/></td>							
 							<?php if(($fila['i_autorizado_n1']=='Pendiente')&&($fila['i_autorizado_n2']=='Pendiente')):?>
-							<td class="eliminar_fila borde_invisible no_fondo"><img title="Eliminar fila" class="eliminar_fila_img " src="<?php echo base_url()?>assets/img/cross.png"/></td>	
+								<td class="eliminar_fila borde_invisible no_fondo"><img title="Eliminar fila" class="eliminar_fila_img " src="<?php echo base_url()?>assets/img/cross.png"/></td>	
 							<?php endif;?>							
 							<?php if($fila['sw_envio_solicitud']==0):?>
-								<td class="eliminar_fila borde_invisible no_fondo"><img title="Editar fila" class="editar_fila " src="<?php echo base_url()?>assets/img/pen.png"/></td>	
+								<td  class="eliminar_fila borde_invisible no_fondo"><img onclick="editar_solicitud(<?php echo $fila['k_permisos_solic']?>)" title="Editar fila" class="editar_fila " src="<?php echo base_url()?>assets/img/pen.png"/></td>	
 							<?php endif;?>						
 						</tr>	
 					<?php endforeach;?>

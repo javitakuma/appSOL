@@ -105,6 +105,9 @@
 	/*border:solid 1px #AAA;*/
 	position:relative;
 	color:#000;
+	font-size:90%;
+	font-family:arial;
+	vertical-align:middle;
 	
 }
 
@@ -121,6 +124,9 @@
 	resize:none;
 	background:#EFEFEF;
 	color:#000;
+	font-size:90%;
+	font-family:arial;
+	vertical-align:middle;
 }
 
 /*===========*/

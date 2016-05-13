@@ -57,3 +57,8 @@ $(document).ready(function()
 	$('#pendientesMostrar').html($('#diasPendientes').val());
 	*/
 });
+
+function editar_solicitud(k_permisos_solic)
+{
+	location.href=BASE_URL+"general/Permisos/editar_solicitud/"+k_permisos_solic;	
+}

@@ -284,6 +284,9 @@
 	margin:0;
 	border:none;
 	color:#000;
+	font-size:90%;
+	font-family:arial;
+  	vertical-align:middle;
 }
 
 #listadoPermisos .textareaMotivoRechazo
@@ -296,4 +299,7 @@
 	margin:0;
 	border:none;
 	color:#000;
+	font-size:90%;
+	font-family:arial;
+	vertical-align:middle;
 }
