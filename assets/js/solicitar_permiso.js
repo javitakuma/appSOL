@@ -79,7 +79,7 @@ $(document).ready(function() {
 	    
 	
 	//SI HEMOS HABILITADO EDICION...VAMOS A T_PERMISOS_SOLICITADOS_DET Y COGEMOS TODOS LOS DIAS QUE TIENE DE VACACIONES SOLICITADOS
-	
+	//NO LO USARE EN PRINCIPIO
 	/*
 	if($('#habilitar_edicion').val()==1)
 	{
@@ -122,7 +122,13 @@ $(document).ready(function() {
 		
 		var fecha_limite_final;
 		
+		//SI ES KEYOTROS NO LIMITAMOS EL NUMERO DE DIAS QUE PUEDE SOLICITAR
 		var diasMaximos=(Number)($('#pendientesDebidosMostrar').html())+(Number)($('#pendientesMostrar').html());
+		
+		if($('#k_proyecto_solicitud').val()==468)
+		{
+			diasMaximos=999;
+		}
 		
 		if($('#existe_next_year_bbdd').val()==1)
 		{
@@ -141,7 +147,25 @@ $(document).ready(function() {
 		        // Your CSS changes, just in case you still need them
 		       // $('a.ui-state-default').removeClass('ui-state-highlight');
 				
-				//alert('onselect');
+				//todo esto lo hacemos porque no bloquea los festivos cuando alcanzamos el maximo de dias
+				//miramos sin ha llegado al limite de dias
+				var sinDias=($('#pendientesDebidosMostrar').html()==0) && ($('#pendientesMostrar').html()==0);
+				
+				//cogemos las fechas seleccionadas
+				var fechas_selec=$('#calendario').val().split(', ');
+				//miramos si la fecha que ha hecho click esta en el array(en este punto ya la habra añadido o eliminado del array)
+				var estaDeseleccionando=fechas_selec.indexOf(date);
+				
+				//solo lo hacemos una vez porque da tantas vueltas por aqui como fechas haya
+				var solo_una_vez=true;
+				//si no tiene dias, no hemos pasado y la accion es desseleccionar(ya habra eliminado la fecha del array)...
+				if(sinDias && solo_una_vez && estaDeseleccionando!=-1)
+				{			
+					solo_una_vez=false;
+					$('#calendario').multiDatesPicker('toggleDate', date);
+					alert("No puedes seleccionar más dias (aunque sean festivos)");
+				};		
+				
 				sincronizar_superior_inferior();
 				actualizarDiasPendientes();
 			},
@@ -651,7 +675,7 @@ function ponerTagsDias()
 	
 }
 
-
+//ESTO EN EDITAR PERMISO
 function clickarFechas()
 {
 	

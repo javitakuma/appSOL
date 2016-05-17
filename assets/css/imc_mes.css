@@ -456,3 +456,82 @@
 {
 	border-radius:0 0 0 5px ;	
 }
+
+
+/*TABLA PERMISOS*/
+
+#tabla_permisos th
+{
+	border-top:none;
+	background: RGB(35,200,200);
+	cursor:default;		
+}
+
+#tabla_permisos td
+{
+	cursor:default;
+	color:#000;
+}
+
+#tabla_permisos td input
+{
+	cursor:default;
+	color:#000;
+}
+
+
+#tabla_permisos .input_horas_permisos
+{
+    margin:0;
+    padding: 20% 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    text-align: center; 
+    font-size:100%;
+}
+
+
+#tabla_permisos tr:last-child td
+{
+	border-bottom:none;
+	background: #EFEFEF;
+	cursor:default;
+}
+
+#tabla_permisos tr th:first-child
+{
+	border-left:none;
+	border-radius:5px 0 0 0;
+}
+
+#tabla_permisos tr td:first-child
+{
+	border-left:none;
+	cursor:default;	
+}
+
+#tabla_permisos tr th:last-child
+{
+	border-right:none;	
+	border-radius:0 5px 0 0;
+}
+
+#tabla_permisos tr td:last-child
+{
+	border-right:none;	
+}
+
+
+#tabla_permisos tr:last-child td:last-child
+{
+	border-radius:0 0 5px 0;	
+}
+
+#tabla_permisos tr:last-child td:first-child
+{
+	border-radius:0 0 0 5px ;	
+}
+
+
+

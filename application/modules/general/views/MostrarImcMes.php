@@ -161,6 +161,66 @@
 	                
 	            </table>	           
 	         
+	         	<br/><br/><br/><br/><br/><br/>
+	         	
+	         	
+	         	<h3 class="titulo-mediano" onclick="comparar_imc_permisos()">Permisos solicitados</h3>
+	         	
+	         	<table id="tabla_permisos">            	
+	                 <!-- 
+	                 CON ESTO PINTAMOS LA PRIMERA FILA DE LA TABLA CON TANTAS CELDAS COMO DIAS TENGA EL MES
+	                 Y COLOCAMOS EL NOMBRE DE CLASES Y VALORES DE FORMA DINAMICA
+	                 UTILIZO TERNARIOS EJ:  echo  $i<10   ?  '0'.$i  :  $i 
+	                 EVALUA LA CONDICION $i<10, SI ES AFIRMATIVA PINTA '0'.$i, SI NO LO ES PINTA $i
+	                 -->
+	                 <tr id="fila_titulos">                    
+	                    <th id="titulo_cod_proyecto">Código proyecto</th>
+	                    
+	                    <!-- PINTA ID DINAMICAMENTE Y LA CLASE SEGUN SEA EL DIA LABORABLE O NO --> 
+	                    <?php for ($i=1;$i<=$datos_imc_mes['dias_por_mes'];$i++):?>                    	
+	                    	<th id="titulo_permisos_dia<?php echo $i<10?'0'.$i:$i?>"
+	                    	class="celda-titulo <?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>"><?php echo $i?></th>	
+	                    <?php endfor;?>         
+	                                  
+	                    <th id="titulo_horas_totales">TOT</th>   
+	                </tr>
+	               	                
+	                
+	                <tr id="permisos_keyvacaciones" class="especial">
+	                    <td class="color_proy">KEYVACACIONES</td>	                    
+	                    <?php for ($i=1;$i<=$datos_imc_mes['dias_por_mes'];$i++):?>
+	                    	<td class="celda-color per-dia<?php echo $i<10?'0'.$i:$i?> <?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>">
+	                    		<input type="text" class="color_proy input_horas_permisos <?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>" value="0"/>
+	                    	</td>	
+	                    <?php endfor;?>      
+	                    <td class="celda-color total_horas_permisos color_proy">0</td>
+	                </tr>	
+	                
+	                <tr id="permisos_keyotros" class="especial">
+	                    <td class="color_proy">KEYOTROS</td>	                    
+	                    <?php for ($i=1;$i<=$datos_imc_mes['dias_por_mes'];$i++):?>
+	                    	<td class="celda-color per-dia<?php echo $i<10?'0'.$i:$i?> <?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>">
+	                    		<input type="text" class="color_proy input_horas_permisos <?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>" value="0"/>
+	                    	</td>	
+	                    <?php endfor;?>      
+	                    <td class="celda-color total_horas_permisos color_proy">0</td>
+	                </tr>
+	                
+	                     
+	                
+	                
+	                <!--  
+	                <tr id="ultima_fila">
+	                    <td>TOTAL</td>                    
+	                    <?php for ($i=1;$i<=$datos_imc_mes['dias_por_mes'];$i++):?>
+	                    	<td id="total<?php echo $i<10?'0'.$i:$i?>" class="celda-totales <?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>"></td>	
+	                    <?php endfor;?> 
+	                    <td id="horas_totales"></td>
+	                </tr>
+	                -->
+	            </table>
+	         	
+	         
 			 
 	        </div><!-- CIERRE INFERIOR -->
         </div><!-- CIERRE IMC_MENSUAL -->

@@ -70,7 +70,7 @@
 						</tr>							
 					 
 					<?php foreach($historico_permisos as $fila):?>
-						<tr>
+						<tr id="<?php echo $fila['k_permisos_solic']?>">
 							<td class="fechaCell"><?php echo $fila['f_solicitud']?></td>
 							<td class="tipoCell"><?php echo $fila['id_proyecto']?></td>
 							<td class="solicitanteCell"><?php echo $fila['id_consultor']?></td>
@@ -80,10 +80,13 @@
 							<td class="autRRHHCell"><?php echo $fila['i_autorizado_n2']?></td>
 							<td class="observacionesCell"><textarea disabled class="textareaObservaciones"><?php echo $fila['desc_observaciones']?></textarea></td>
 							<td class="motivoRechazoCell"><textarea disabled class="textareaMotivoRechazo"><?php echo $fila['desc_rechazo']?></textarea></td>
-							<td class="envioCell"><input onclick="return false" type="checkbox" <?php echo ($fila['sw_envio_solicitud']==-1)?' checked':''?>/></td>							
+							<td class="envioCell"><input onclick="return false" type="checkbox" <?php echo ($fila['sw_envio_solicitud']==-1)?' checked':''?>/></td>	
+							
+							<!-- PINTAMOS ELIMINAR SOLO SI AMBOS SWITCH SON PENDIENTES -->						
 							<?php if(($fila['i_autorizado_n1']=='Pendiente')&&($fila['i_autorizado_n2']=='Pendiente')):?>
 								<td class="eliminar_fila borde_invisible no_fondo"><img title="Eliminar fila" class="eliminar_fila_img " src="<?php echo base_url()?>assets/img/cross.png"/></td>	
-							<?php endif;?>							
+							<?php endif;?>	
+							<!-- PINTAMOS EDITAR SOLO SI NO SE HA ENVIADO -->							
 							<?php if($fila['sw_envio_solicitud']==0):?>
 								<td  class="eliminar_fila borde_invisible no_fondo"><img onclick="editar_solicitud(<?php echo $fila['k_permisos_solic']?>)" title="Editar fila" class="editar_fila " src="<?php echo base_url()?>assets/img/pen.png"/></td>	
 							<?php endif;?>						

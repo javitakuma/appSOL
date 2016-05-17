@@ -527,7 +527,126 @@ $(document).ready(function() {
     });
     
     
+    pintar_datos_permisos();
+    //comparar_imc_permisos();
+    
 });
+
+
+//COMPARA LOS DATOS DEL IMC Y DE LOS PERMISOS QUE TIENE ACEPTADOS
+function comparar_imc_permisos()
+{
+	//METODO RUDIMENTARIO PARA SABER LOS DIAS QUE TIENE EL MES
+	var dias_totales_mes= $('.celda-titulo').length;
+
+	var valido=true;
+	
+	
+	for(i=1;i<=dias_totales_mes;i++)
+	{
+		if(i<10)
+		{
+			i="0"+i;
+		}
+		
+		var total_vac_dia_imc=0;
+		var total_otros_dia_imc=0;
+		
+		//CALCULAMOS POR DIAS EL VALOR DE HORAS DE ESE DIA EN IMC PARA KEYVACACIONES Y KEYOTROS
+		$("#tabla_imc .dia"+i).each(function()
+		{
+			if($(this).parent().attr('id')==450)
+			{
+				total_vac_dia_imc+=(Number)($(this).find('input').val());
+			}
+			
+			if($(this).parent().attr('id')==468)
+			{
+				total_otros_dia_imc+=(Number)($(this).find('input').val());
+			}
+		});
+		
+		//COGEMOS LOS VALORES DE KEYOTROS Y KEYVACACIONES DE LA TABLA INFERIOR
+		var total_vac_dia_permisos=$('#permisos_keyvacaciones .per-dia'+i).find('input').val();
+				
+		var total_otros_dia_permisos=$('#permisos_keyotros .per-dia'+i).find('input').val();
+		
+		//COMPARAMOS LOS DOS PARES Y SI ALGUNO NO ES IGUAL PONEMOS EL BOOLEANO A FALSE
+		if(total_vac_dia_imc!=total_vac_dia_permisos||total_otros_dia_imc!=total_otros_dia_permisos)
+		{
+			valido=false;
+		}
+		//alert("dia "+i+" "+no_valida);
+		
+	}
+	
+}
+
+//PINTA EN LA TABLA INFERIOR LOS PERMISOS SOLICITADOS
+function pintar_datos_permisos()
+{
+	var mes=$('#mes_imc').val();
+	var year=$('#year_imc').val();
+	
+	
+	$('#tabla_permisos input').prop('disabled','disabled');
+	//NOS VAMOS POR AJAX A RECOGER DATOS
+	$.ajax({        
+	       type: "POST",
+	       url: BASE_URL+"general/Imc/cargar_permisos_para_imc",
+	       data: { mes:mes,year:year},
+	       dataType:'json',
+	       success: function(respuestaAjax) 
+	       {
+	    	   //POR CADA DIA DE PERMISO VAMOS A LA TABLA INFERIOR Y PINTAMOS LOS DATOS SEGUN SEA VACACIONES O KEYOTROS
+	    	    for(i=0;i<respuestaAjax.length;i++)
+	    	    {
+	    	    	var dia_permiso=respuestaAjax[i].dia_solic;
+	    	    	
+	    	    	
+	    	    	if(respuestaAjax[i].k_proyecto==450)
+	    	    	{
+	    	    		$('#permisos_keyvacaciones').find('.per-dia'+dia_permiso).find('input').val(respuestaAjax[i].horas_solic);
+	    	    		$('#permisos_keyvacaciones').find('.per-dia'+dia_permiso).find('input').attr('value',respuestaAjax[i].horas_solic);
+	    	    		//ADEMAS LE PONEMOS VALOR AL TAG TITLE QUE AYUDARA AL USUARIO
+	    	    		$('#permisos_keyvacaciones').find('.per-dia'+dia_permiso).find('input').attr('title',respuestaAjax[i].desc_observaciones);
+	    	    	}
+	    	    	
+	    	    	if(respuestaAjax[i].k_proyecto==468)
+	    	    	{
+	    	    		$('#permisos_keyotros').find('.per-dia'+dia_permiso).find('input').val(respuestaAjax[i].horas_solic);
+	    	    		$('#permisos_keyotros').find('.per-dia'+dia_permiso).find('input').attr('value',respuestaAjax[i].horas_solic);
+	    	    		//ADEMAS LE PONEMOS VALOR AL TAG TITLE QUE AYUDARA AL USUARIO
+	    	    		$('#permisos_keyotros').find('.per-dia'+dia_permiso).find('input').attr('title',respuestaAjax[i].desc_observaciones);	    	    				
+	    	    	}
+	    	    	
+	    	    }
+	    	    
+	    	    //CON ESTA CALCULAMOS EL TOTAL PARA LAS ULTIMAS CELDAS
+	    	    var total_vacaciones=0;
+	    		$('#permisos_keyvacaciones').find('.input_horas_permisos').each(function()
+	    		{	    			
+	    			total_vacaciones+=(Number)($(this).val());
+	    		});
+	    		//$('#permisos_keyvacaciones').find('.total_horas_permisos').val(total_vacaciones);
+	    		$('#permisos_keyvacaciones').find('.total_horas_permisos').html(total_vacaciones);
+	    		
+	    		
+	    		var total_otros=0;	    		
+	    		$('#permisos_keyotros').find('.input_horas_permisos').each(function()
+	    		{
+	    			//alert($(this).val());
+	    			total_otros+=(Number)($(this).val());
+	    		});
+	    		//$('#permisos_keyotros').find('.total_horas_permisos').val(total_otros);
+	    		$('#permisos_keyotros').find('.total_horas_permisos').html(total_otros);
+	    	    
+	       }
+	    });
+	
+	
+	
+}
 
 //ESTA FUNCION ACTUALIZA LA FILA INFERIOR DE LA TABLA EN CADA CAMBIO DE DATO
 function actualizarTotalesVertical()

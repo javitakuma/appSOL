@@ -51,6 +51,29 @@ $(document).ready(function()
 		}
 	});
 	
+	$('.eliminar_fila_img').on('click',function()
+			{
+				var id=$(this).parent().parent().attr('id');
+				
+				var aceptado=confirm("Deseas eliminar esa petición de vacaciones");
+				
+				if(aceptado)
+				{
+					$.ajax({        
+		        	       type: "POST",
+		        	       url: BASE_URL+"general/Permisos/eliminar_solicitud",
+		        	       data: { id : id},
+		        	       success: function(respuesta) {
+		        	    	   
+		        	    	   //alert("Su solicitud ha sido grabada");
+		        	    	   
+		        	    	   //LE MANDAMOS AL MENU PRINCIPAL PORQUE SI NO FALLA, NO SE PUEDE ACTUALIZAR EL k_permisos_solic
+		        	           location.reload();
+		        	       }
+		        	    })
+				}	        	    
+			});
+	
 	/*
 	//PONEMOS LOS VALORES DE DIAS PENDIENTES
 	$('#pendientesDebidosMostrar').html($('#diasPendientesDebidos').val());

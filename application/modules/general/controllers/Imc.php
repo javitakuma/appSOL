@@ -22,6 +22,18 @@ class Imc extends MX_Controller
 		enmarcar($this,"Imc.php",$datos);
 	}
 	
+	public function cargar_permisos_para_imc()
+	{
+		$year=$_REQUEST['year'];
+		$month=$_REQUEST['mes'];
+		
+		
+		$this->load->model('general/Permisos_model');
+		$datos_permisos_para_imc=$this->Permisos_model->cargar_datos_para_imc($this->session->userdata('k_consultor'),$year,$month);
+		
+		print json_encode($datos_permisos_para_imc);
+	}
+	
 	public function mostrarImcMes($year,$month)
 	{		
 		$datos['year'] =$year;
@@ -30,6 +42,11 @@ class Imc extends MX_Controller
 		$datos['js']="imc_mensual";
 		$datos['css']="imc_mes";
 		$datos['datos_imc_mes']=$this->Imc_model->cargar_datos_imc($this->session->userdata('k_consultor'),$year,$month);
+		
+		
+		
+		//var_dump($datos_permisos_para_imc);die;
+		
 		enmarcar($this,"MostrarImcMes.php",$datos);
 	}
 	
@@ -81,12 +98,6 @@ class Imc extends MX_Controller
 		$tipo=$_REQUEST['tipoProyecto'];
 		$year=$_REQUEST['year'];
 		$month=$_REQUEST['mes'];
-		/*
-		//PARA PROBAR
-		$tipo=1;
-		$year=05;
-		$month=2012;
-		*/
 		$codigos_solo_id=$this->Imc_model->listar_proyectos_por_tipo($this->session->userdata('k_consultor'),$tipo,$year,$month);
 		print json_encode($codigos_solo_id);
 	}

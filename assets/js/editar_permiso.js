@@ -10,7 +10,7 @@ var dias=[];
 //dias pendientes de aprobrar
 var diasPendientes=[];
 
-
+var primeraFechaMostrar;
 
 var diasCalendario;
 
@@ -63,6 +63,7 @@ $(document).ready(function() {
 		fila2['i_autorizado_n1']=diasDesdePhp[i].i_autorizado_n1;
 		fila2['i_autorizado_n2']=diasDesdePhp[i].i_autorizado_n2;
 		fila2['k_permisos_solic']=diasDesdePhp[i].k_permisos_solic;
+		fila2['horas_solic']=diasDesdePhp[i].horas_solic;
 		//dias.push(fila2);
 		
 		//dias pendientes de aprobar
@@ -75,6 +76,16 @@ $(document).ready(function() {
 		{
 			diasOcupados.push(fila2);
 		}
+		
+		//GUARDAMOS LA PRIMERA FECHA PARA QUE LE SALGA POSICIONADO EL CALENDARIO
+		var solo_una_vez=true;
+		
+		if( diasDesdePhp[i].k_permisos_solic == $('#k_permisos_solic').val()  && primeraFechaMostrar==null)
+		{
+			primeraFechaMostrar=fila2['fecha'];
+			solo_una_vez=false;
+		}
+		
 		
 	}
 	    
@@ -112,6 +123,7 @@ $(document).ready(function() {
 	ultimaFecha.setMonth(0);
 	ultimaFecha.setDate(31);
 	
+		
 	//INICIALIZAMOS EL DATEPICKER
 	$(function() {
 	    //$( "#datepicker" ).datepicker();
@@ -124,6 +136,13 @@ $(document).ready(function() {
 		var fecha_limite_final;
 		
 		var diasMaximos=(Number)($('#pendientesDebidosMostrar').html())+(Number)($('#pendientesMostrar').html());
+		
+		//SI ES KEYOTROS NO LIMITAMOS EL NUMERO DE DIAS QUE PUEDE SOLICITAR
+		if($('#k_proyecto_solicitud').val()==468)
+		{
+			diasMaximos=999;
+		}
+		
 		
 		if($('#existe_next_year_bbdd').val()==1)
 		{
@@ -142,10 +161,36 @@ $(document).ready(function() {
 		        // Your CSS changes, just in case you still need them
 		       // $('a.ui-state-default').removeClass('ui-state-highlight');
 				
-				//alert('onselect');
+				
+				
+				//todo esto lo hacemos porque no bloquea los festivos cuando alcanzamos el maximo de dias
+				//miramos sin ha llegado al limite de dias
+				var sinDias=($('#pendientesDebidosMostrar').html()==0) && ($('#pendientesMostrar').html()==0);
+				
+				//cogemos las fechas seleccionadas
+				var fechas_selec=$('#calendario').val().split(', ');
+				//miramos si la fecha que ha hecho click esta en el array(en este punto ya la habra añadido o eliminado del array)
+				var estaDeseleccionando=fechas_selec.indexOf(date);
+				
+				//solo lo hacemos una vez porque da tantas vueltas por aqui como fechas haya
+				var solo_una_vez=true;
+				//si no tiene dias, no hemos pasado y la accion es desseleccionar(ya habra eliminado la fecha del array)...
+				if(sinDias && solo_una_vez && estaDeseleccionando!=-1)
+				{			
+					solo_una_vez=false;
+					$('#calendario').multiDatesPicker('toggleDate', date);
+					alert("No puedes seleccionar más dias (aunque sean festivos)");
+				};				    
+				
 				sincronizar_superior_inferior();
 				actualizarDiasPendientes();
+				
+				
+				
+				
 			},
+			
+			defaultDate:new Date(primeraFechaMostrar),
 			
 			showOtherMonths: true,
 			firstDay: 1,
@@ -398,7 +443,7 @@ $(document).ready(function() {
 		sincronizar_superior_inferior();
 		
 		ponerTagsDias();
-		
+				
 	});
 	
 	
@@ -683,6 +728,7 @@ function clickarFechas()
 	var fechasPintar=[];
 	for(i=0;i<diasOcupados.length;i++)
     {  	
+		//DIA DE ESTA SOLICITUD(EDITABLE)
 		if(diasOcupados[i].k_permisos_solic==$('#k_permisos_solic').val())
 		{
 			//sumar_un_dia();
@@ -699,11 +745,60 @@ function clickarFechas()
     }
 	$("#calendario").multiDatesPicker('addDates', fechasPintar);
 	
+	
+	
+	//PONER HORAS
+	//PONER HORAS DIAS QUE SON DE ESTA SOLICITUD SI ES KEYOTROS
+	if($('#k_proyecto_solicitud').val()==468)
+	{
+		for(i=0;i<diasDesdePhp.length;i++)
+		{
+			if(diasDesdePhp[i].dia<10)
+			{
+				diasDesdePhp[i].dia="0"+diasDesdePhp[i].dia;
+			}
+			
+			if(diasDesdePhp[i].mes<10)
+			{
+				diasDesdePhp[i].mes="0"+diasDesdePhp[i].mes;
+			}
+			
+			var fecha=diasDesdePhp[i].dia_solic+"-"+diasDesdePhp[i].mes_solic+"-"+diasDesdePhp[i].year_solic;
+				        
+	        if(diasDesdePhp[i].k_permisos_solic==$('#k_permisos_solic').val())
+	        {
+	        	//SOLO PARA DIAS ACEPTADOS Y PENDIENTES(RECHAZADOS NO SE PINTAN AQUI)
+	        	var horas=diasDesdePhp[i].horas_solic;
+	        	//DIA ACEPTADO
+	        	
+	    			$('#'+fecha).addClass('aceptado_inferior');	
+	    			//$('#'+fecha).attr('value','8');	//CAMBIAR BBDD REAL
+	    			$('#'+fecha).attr('value',horas);
+	    		
+	    		
+	    		/*  DE MOMENTO NO PINTAMOS RECHAZADOS ABAJO
+	    		else if(diasDesdePhp[i].sw_rechazo==-1)
+	    		{
+	    			$('#'+fecha).addClass('rechazado_inferior');	
+	    			$('#'+fecha).attr('value','8');		//CAMBIAR BBDD REAL
+	    		}
+	    		*/
+	        	
+	    		
+	        }	
+				
+		}
+	}
+	
+	
+	
+	
 	actualizarDiasPendientes();
 	
 	
 }
 
+//NO LO USO DE MOMENTO
 function sumar_un_dia()
 {
 	if($('#diasPendientes').val()<$('#diasBase').val())
@@ -943,12 +1038,17 @@ function pintarInferiorInicial()
 		
         var rechazado=diasDesdePhp[i].i_autorizado_n1==2||diasDesdePhp[i].i_autorizado_n2==2;
         
+        //DIAS QUE NO SON DE ESTA SOLICITUD, LOS QUE SON DE ESTA SOLICITUD SE PONE EL VALOR EN CLICKAR
         if(diasDesdePhp[i].k_permisos_solic!=$('#k_permisos_solic').val())
         {
+        	//SOLO PARA DIAS ACEPTADOS Y PENDIENTES(RECHAZADOS NO SE PINTAN AQUI)
+        	var horas=diasDesdePhp[i].horas_solic;
+        	//DIA ACEPTADO
         	if((diasDesdePhp[i].i_autorizado_n1==1)&&(diasDesdePhp[i].i_autorizado_n2==1))
     		{
     			$('#'+fecha).addClass('aceptado_inferior');	
-    			$('#'+fecha).attr('value','8');	//CAMBIAR BBDD REAL
+    			//$('#'+fecha).attr('value','8');	//CAMBIAR BBDD REAL
+    			$('#'+fecha).attr('value',horas);
     		}
     		
     		/*  DE MOMENTO NO PINTAMOS RECHAZADOS ABAJO
@@ -958,14 +1058,14 @@ function pintarInferiorInicial()
     			$('#'+fecha).attr('value','8');		//CAMBIAR BBDD REAL
     		}
     		*/
+        	//DIA PENDIENTE
     		else if(!rechazado)
     		{
     			$('#'+fecha).addClass('pendiente_inferior');
-    			$('#'+fecha).attr('value','8');		//CAMBIAR BBDD REAL
+    			//$('#'+fecha).attr('value','8');		//CAMBIAR BBDD REAL
+    			$('#'+fecha).attr('value',horas);
     		}
-        }
-        
-		
+        }	
 			
 	}
 	
