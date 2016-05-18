@@ -231,7 +231,8 @@ td:disabled
 	font-size:90%;
 	font-weight:bold;
 	border-top:none;
-	background: RGB(35,200,200);
+	/*background: RGB(35,200,200);*/
+	background: #22C5B1;
 }
 
 .tabla_key td
@@ -347,7 +348,8 @@ td:disabled
 	font-size:90%;
 	font-weight:bold;
 	border-top:none;
-	background: RGB(35,200,200);
+	/*background: RGB(35,200,200);*/
+	background: #22C5B1;
 }
 
 .tabla_key td

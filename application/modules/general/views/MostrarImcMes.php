@@ -3,44 +3,63 @@
         
         <div id="imc_mensual">
         <div class="volver">
-			<img title="Volver" class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='location.href="<?php echo base_url()?>general/imc"'/>
+			<img title="Volver" class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='confirmar_boton_volver()'/>
 			<!--  <h3 class="titulo-peque">Volver</h3>-->
 		</div>
 	        <p class="titulo-grande centrado">IMC <?php echo $this->session->userdata('nom_consultor')." ("?><?php echo $mes_texto?> de <?php echo $year.")"?></p>
 	        <br/>
 	        <br/>
-        	<?php if($datos_imc_mes['t_imcs'][0]['sw_validacion']==0):?>
-	            <input id="enviar_imc" class="buttonGenericoPeque centrado-margin" type="button" value="Enviar IMC"/>
-	        <?php endif;?>
-	        <br/>
-	        <br/>
-	        <!-- SOLO PINTAMOS ESTA PARTE SI EL IMC NO ESTA ENVIADO -->
-	        <?php if($datos_imc_mes['t_imcs'][0]['sw_validacion']==0):?>
-	        <h2 class="titulo-mediano">Agregar un proyecto a la tabla</h2>
-	        <div id="superior_izquierda">
-	        	<div class="contenedor_select_35 textoSmallCaps">
-		            Tipo de proyecto
-		            <select id="tipo_proyecto">
-		                <option value="0">Selecciona una opcion</option>
-		                <option value="1">Proyecto externo</option>
-		                <option value="2">Proyecto interno</option>
-		                <option value="3">Proyecto especial</option>
-		            </select>
-	            </div>
-		        <div class="contenedor_select_35 textoSmallCaps">
-		            Código proyecto
-		            <select id="cod_proyecto_select" disabled>
-		                <option value="0">Selecciona un proyecto</option>
-		            </select>
-	            </div>
-	            <br/><br/>
-	            
-	            <input class="buttonGenericoPeque" type="button" id="agregar_proyecto" value="Agregar proyecto"/>
-	            <br/><br/>  
-	              
-	        </div>    
-        <?php endif;?>
         	
+        	
+        	
+        		<div id="superior">
+	        <!-- SOLO PINTAMOS ESTA PARTE SI EL IMC NO ESTA ENVIADO -->
+		        
+		        
+		        	<div id="superior_izquierda">
+			        <h2 class="titulo-mediano">Agregar línea de proyecto</h2>
+			        	<div class="contenedor_select_35 textoSmallCaps">
+				            Tipo de proyecto
+				            <select id="tipo_proyecto">
+				                <option value="0">Selecciona una opcion</option>
+				                <option value="1">Proyecto externo</option>
+				                <option value="2">Proyecto interno</option>
+				                <option value="3">Proyecto especial</option>
+				            </select>
+			            </div>
+				        <div class="contenedor_select_35 textoSmallCaps">
+				            Código proyecto
+				            <select id="cod_proyecto_select" disabled>
+				                <option value="0">Selecciona un proyecto</option>
+				            </select>
+			            </div>
+			            
+			            <input class="buttonGenericoPeque" type="button" id="agregar_proyecto" value="Agregar proyecto"/>
+			              
+			        </div>    <!-- FIN SUPERIOR IZQ -->
+		        	<div id="superior_derecha">
+		        		<table id="totales_imc" border="1">
+			                <tr>
+			                    <th>Horas consultor</th><th>Horas previstas</th><th>Jornadas totales</th>
+			                </tr>
+			                <tr>
+			                	<!-- AQUI NO PINTAMOS NADA, LO HAREMOS CON JS -->
+			                    <td id="horas_consultor"></td>
+			                    <td id="horas_previstas"><?php echo $datos_imc_mes['dias_laborables_por_mes']*8?></td>
+			                    <!-- AQUI NO PINTAMOS NADA, LO HAREMOS CON JS -->
+			                    <td id="jornadas"></td>
+			                </tr>	                
+		            	</table>
+		            	
+		            	<?php if($datos_imc_mes['t_imcs'][0]['sw_validacion']==0):?>
+	            			<input id="enviar_imc" class="buttonGenericoPeque centrado-margin" type="button" value="Enviar IMC"/>
+	        			<?php endif;?>
+	        	
+		        	</div><!-- FIN SUPERIOR IZQ -->
+		        </div><!-- FIN SUPERIOR -->		        
+       		 
+        	
+        	<br/><br/>
         	 
         	<div id="ayuda_proyectos">
         		<div class="interno contenedor_ayuda">
@@ -78,7 +97,7 @@
 	                    <!-- PINTA ID DINAMICAMENTE Y LA CLASE SEGUN SEA EL DIA LABORABLE O NO --> 
 	                    <?php for ($i=1;$i<=$datos_imc_mes['dias_por_mes'];$i++):?>                    	
 	                    	<th id="titulo_dia<?php echo $i<10?'0'.$i:$i?> "
-	                    	class="<?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>"><?php echo $i?></th>	
+	                    	class="<?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>"><?php echo $i<10?'0'.$i:$i?></th>	
 	                    <?php endfor;?>         
 	                                  
 	                    <th id="titulo_horas_totales">TOT</th>                    
@@ -127,7 +146,7 @@
 	                
 	                
 	                <tr id="ultima_fila">
-	                    <td>TOTAL</td>                    
+	                    <td>Total horas</td>                    
 	                    <?php for ($i=1;$i<=$datos_imc_mes['dias_por_mes'];$i++):?>
 	                    	<td id="total<?php echo $i<10?'0'.$i:$i?>" class="celda-totales <?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>"></td>	
 	                    <?php endfor;?> 
@@ -147,24 +166,12 @@
 	             
 	            
 	            <br/>
-	            <table id="totales_imc" border="1">
-	                <tr>
-	                    <th>Horas consultor</th><th>Horas previstas</th><th>Jornadas totales</th>
-	                </tr>
-	                <tr>
-	                	<!-- AQUI NO PINTAMOS NADA, LO HAREMOS CON JS -->
-	                    <td id="horas_consultor"></td>
-	                    <td id="horas_previstas"><?php echo $datos_imc_mes['dias_laborables_por_mes']*8?></td>
-	                    <!-- AQUI NO PINTAMOS NADA, LO HAREMOS CON JS -->
-	                    <td id="jornadas"></td>
-	                </tr>
-	                
-	            </table>	           
+	                       
 	         
-	         	<br/><br/><br/><br/><br/><br/>
+	         	<br/><br/>
 	         	
 	         	
-	         	<h3 class="titulo-mediano" onclick="comparar_imc_permisos()">Permisos solicitados</h3>
+	         	<h3 class="titulo-mediano" onclick="comparar_imc_permisos()">Recordatorio permisos solicitados</h3>
 	         	
 	         	<table id="tabla_permisos">            	
 	                 <!-- 
@@ -179,14 +186,14 @@
 	                    <!-- PINTA ID DINAMICAMENTE Y LA CLASE SEGUN SEA EL DIA LABORABLE O NO --> 
 	                    <?php for ($i=1;$i<=$datos_imc_mes['dias_por_mes'];$i++):?>                    	
 	                    	<th id="titulo_permisos_dia<?php echo $i<10?'0'.$i:$i?>"
-	                    	class="celda-titulo <?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>"><?php echo $i?></th>	
+	                    	class="celda-titulo <?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>"><?php echo $i<10?'0'.$i:$i?></th>	
 	                    <?php endfor;?>         
 	                                  
 	                    <th id="titulo_horas_totales">TOT</th>   
 	                </tr>
 	               	                
 	                
-	                <tr id="permisos_keyvacaciones" class="especial">
+	                <tr id="permisos_keyvacaciones" class="permisos">
 	                    <td class="color_proy">KEYVACACIONES</td>	                    
 	                    <?php for ($i=1;$i<=$datos_imc_mes['dias_por_mes'];$i++):?>
 	                    	<td class="celda-color per-dia<?php echo $i<10?'0'.$i:$i?> <?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>">
@@ -196,7 +203,7 @@
 	                    <td class="celda-color total_horas_permisos color_proy">0</td>
 	                </tr>	
 	                
-	                <tr id="permisos_keyotros" class="especial">
+	                <tr id="permisos_keyotros" class="permisos">
 	                    <td class="color_proy">KEYOTROS</td>	                    
 	                    <?php for ($i=1;$i<=$datos_imc_mes['dias_por_mes'];$i++):?>
 	                    	<td class="celda-color per-dia<?php echo $i<10?'0'.$i:$i?> <?php echo $datos_imc_mes['t_calendario'][$i-1]['sw_laborable']==-1?'laborable':'festivo'?>">
@@ -233,6 +240,7 @@
 		<input type="hidden" id="year_imc" value="<?php echo $year?>"/>	
 		
 		<input type="hidden" id="celdas_deshabilitadas" value="<?php echo $datos_imc_mes['t_imcs'][0]['sw_validacion']==0?'habilitadas':'deshabilitadas'?>"/>
+				
 		
 		<script>
 			var festivos=<?php echo $datos_imc_mes['dias_festivos_array']?>;

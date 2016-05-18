@@ -34,7 +34,7 @@ body {
 	width:90%;
 	height:100px;
 	margin:0 auto;
-	margin-bottom:50px;
+	/*margin-bottom:50px;*/
 	position:relative;
 	display:block;
 }
@@ -64,6 +64,9 @@ footer
 	font-size:200%;
 	color:rgb(35,144,139);
 	margin:0 auto;
+	position:absolute;
+	top:20%;
+	left:20%;
 }
 
 .flotarDerecha
@@ -180,6 +183,7 @@ h1,h2,h3,h4,h5,h6,h7
   background: rgb(35,144,139);
   text-shadow: 1px 1px 0 rgba(39,110,160);
   border-radius:5px;
+  transition:background 1s;
 }
 .buttonGenericoPeque:focus { outline: 0; }
 
@@ -187,6 +191,7 @@ h1,h2,h3,h4,h5,h6,h7
 .buttonGenericoPeque:hover 
 { 
 	background: rgb(15,124,119); 
+	transition:background 1s;
 }
 
 /*

@@ -21,6 +21,7 @@ $(document).ready(function() {
 	//Con esta funcion actualizamos los totales al cargar la página	
 	actualizarTotalesVertical(); 
 	
+	//IMC ENVIADO
 	if($('#celdas_deshabilitadas').val()=='deshabilitadas')
 	{
 		$('.input_horas').each(function()
@@ -29,9 +30,17 @@ $(document).ready(function() {
 		});
 		
 		$('.comentarios_textarea').each(function()
-				{
-					$(this).prop('disabled', 'disabled');
-				});
+		{
+			$(this).prop('disabled', 'disabled');
+		});
+		
+	
+		$('#tabla_imc').css('opacity', '0.85');
+	}
+	else//IMC ENVIADO HABILITAMOS ESTOS ELEMENTOS QUE POR DEFECTO LOS TENEMOS DESHABILITADOS POR ESTETICA
+	{
+		$('#superior_izquierda').css('visibility','visible');
+		$('#enviar_imc').css('visibility','visible');
 	}
 	
 	//EVENTO CLICK PARA EL BOTON AGREGAR PROYECTO
@@ -730,6 +739,16 @@ function actualizarTotalesVertical()
 	    
 	    
 	   
+}
+
+function confirmar_boton_volver()
+{
+	var respuesta_volver=confirm("¿Seguro que deseas volver? Asegurate de salvar tus cambios si así lo deseas.");
+	
+	if(respuesta_volver)
+	{
+		onclick=location.href=BASE_URL+"general/imc";
+	}	
 }
 
 //ESTA FUNCION ACTUALIZA EL TOTAL DE HORAS DE LA LINEA IMC QUE HA SIDO CAMBIADA

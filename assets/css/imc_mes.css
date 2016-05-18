@@ -3,13 +3,60 @@
 	display:none !important;		
 }
 
+#superior
+{
+	width:100%;
+	margin:0 auto;	
+	/*border:solid green 1px;*/
+	position:relative;
+}
 
+#superior_izquierda
+{
+	/*border:solid blue 1px;*/
+	width:40%;
+	margin:0;	
+	visibility:hidden;
+}
+
+#agregar_proyecto
+{
+	width:60%;
+}
+
+#superior_derecha
+{
+	/*border:solid blue 1px;*/
+	width:50%;
+	margin-left:50%;
+	position:absolute;
+	bottom:0;
+	
+}
+
+#totales_imc
+{
+	width:80%;
+	margin:5% auto;
+	/*margin-top:20px;/*
+	/*float:right;*/
+}
 
 .contenedor_select_35
 {	
 	display:inline-block;
-	width:40%;
-	min-width:160px;
+	width:80%;
+	margin-bottom:3%;
+}
+
+
+
+#enviar_imc
+{
+	width:50%;
+	margin:0 auto;
+	margin-left:25%;
+	visibility:hidden;
 }
 
 /*
@@ -21,13 +68,9 @@
 	margin:0 auto;
 }
 
-#enviar_imc
-{
-	width:30%;
-	margin:0 auto;
-	margin-left:35%;	
-	
-}
+
+
+
 
 #imc_mensual table
 {
@@ -35,8 +78,8 @@
 }
 #imc_mensual td,th
 {
-    width: 20px;
-    min-width: 20px;
+    width: 2%;
+    min-width: 2%;
     padding: 0px;
     margin:0px;
     text-align: center;
@@ -52,14 +95,14 @@
 
 #imc_mensual .comentarios
 {
-	width:250px;
-	height:30px;
+	width:20%;
+	/*height:30px;*/
 	padding:0px;
 }
 
 #imc_mensual .comentarios textarea
 {
-	width:250px;
+	width:98%;
 	margin:0px;	
 	border:none;
 	resize:none;
@@ -200,6 +243,11 @@
 
 */
 
+#imc_mensual #tabla_imc #titulo_cod_proyecto
+{
+	width:15%;
+}
+
 #imc_mensual #inferior
 {
     margin:20px auto;
@@ -305,7 +353,8 @@
 #tabla_imc th
 {
 	border-top:none;
-	background: RGB(35,200,200);
+	/*background: RGB(35,200,200);*/
+	background: #22C5B1;
 	cursor:default;
 	font-size:100%;
 }
@@ -318,7 +367,8 @@
 #tabla_imc tr:last-child td
 {
 	border-bottom:none;
-	background: RGB(35,200,200);
+	/*background: RGB(35,200,200);*/
+	background: #22C5B1;
 	cursor:default;
 }
 
@@ -326,13 +376,14 @@
 {
 	border-left:none;
 	border-radius:5px 0 0 0;
+	padding:3px;
 }
 
 #tabla_imc tr td:first-child
 {
 	border-left:none;
 	cursor:default;	
-	padding:10px;
+	padding:3px;
 }
 
 #tabla_imc tr th:last-child
@@ -377,17 +428,13 @@
 	========ESTILO TABLA TOTALES
 */
 
-#totales_imc
-{
-	margin-top:20px;
-	float:right;
-}
+
 
 #totales_imc table
 {
     border-collapse: collapse;
 }
-#totales_imc td,th
+#totales_imc td, #totales_imc th
 {
     width: 120px;
     height:25px;
@@ -406,7 +453,8 @@
 #totales_imc th
 {
 	border-top:none;
-	background: RGB(35,200,200);
+	/*background: RGB(35,200,200);*/
+	background: #22C5B1;
 	cursor:default;
 }
 
@@ -460,10 +508,27 @@
 
 /*TABLA PERMISOS*/
 
+
+#tabla_permisos
+{
+	opacity:0.70;
+}
+
+#tabla_permisos .permisos 
+{
+	background-color: white;
+}
+
+#tabla_permisos .permisos input
+{
+	background-color: white;
+}
+
 #tabla_permisos th
 {
 	border-top:none;
-	background: RGB(35,200,200);
+	/*background: RGB(35,200,200);*/
+	background: #22C5B1;
 	cursor:default;		
 }
 
@@ -495,7 +560,7 @@
 #tabla_permisos tr:last-child td
 {
 	border-bottom:none;
-	background: #EFEFEF;
+	/*background: #EFEFEF;*/
 	cursor:default;
 }
 

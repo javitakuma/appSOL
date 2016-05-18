@@ -16,5 +16,27 @@ $(document).ready(function() {
     	location.href=baseUrl+"general/Imc/mostrarImcMes/"+month+"/"+year;    		
     });
     */
+	
+	var condicion=$('#condicion').val();
+	
+	if(condicion==1)
+	{
+		$('#enviadosImc').css('font-weight','bold');
+		$('#enviadosImc').css('color','black');
+		$('#enviadosImc').css('background-color','#0f7c77');
+		//background: rgb(15,124,119)==#0f7c77; 
+	}
+	if(condicion==2)
+	{
+		$('#noEnviadosImc').css('font-weight','bold');
+		$('#noEnviadosImc').css('color','black');
+		$('#noEnviadosImc').css('background-color','#0f7c77');
+	}
+	if(condicion==3)
+	{
+		$('#todosImc').css('font-weight','bold');
+		$('#todosImc').css('color','black');
+		$('#todosImc').css('background-color','#0f7c77');
+	}
 });
 

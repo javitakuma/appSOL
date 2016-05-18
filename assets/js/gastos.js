@@ -2,6 +2,28 @@
 
 $(document).ready(function() {
 	
+var condicion=$('#condicion').val();
+	
+	if(condicion==0)
+	{
+		$('#pagadasGastos').css('font-weight','bold');
+		$('#pagadasGastos').css('color','black');
+		$('#pagadasGastos').css('background-color','#0f7c77');
+		//background: rgb(15,124,119)==#0f7c77; 
+	}
+	if(condicion==2)
+	{
+		$('#noPagadasGastos').css('font-weight','bold');
+		$('#noPagadasGastos').css('color','black');
+		$('#noPagadasGastos').css('background-color','#0f7c77');
+	}
+	if(condicion==1)
+	{
+		$('#todosGastos').css('font-weight','bold');
+		$('#todosGastos').css('color','black');
+		$('#todosGastos').css('background-color','#0f7c77');
+	}
+	
 	$(function() {
 		
 		//PONEMOS LA VENTANA EMERGENTE Y EL FONDO OSCURO OCULTOS POR DEFECTO

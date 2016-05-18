@@ -87,6 +87,7 @@
 {
 	
 	box-sizing: border-box;
+	/*height:40px;*/
 	height:40px;
 	padding:0px;
 	border-collapse: collapse;
@@ -118,7 +119,7 @@
 	top:0;
 	left:0;
 	width: 100%;
-	height: 100%;
+	height: 90%;
 	border:none;
 	margin:0px;	
 	resize:none;
@@ -262,9 +263,15 @@
 	cursor:pointer;
 }
 
-#div_agregar_fila p,img
+#div_agregar_fila img
 {
 	display: inline-block;	
+}
+
+#div_agregar_fila p
+{
+	display: inline-block;	
+	font-weight:bold;
 }
 
 
@@ -301,7 +308,8 @@
 {
 	padding:1% 1%;
 	border-top:none;
-	background: RGB(35,200,200);
+	/*background: RGB(35,200,200);*/
+	background: #22C5B1;
 	
 }
 

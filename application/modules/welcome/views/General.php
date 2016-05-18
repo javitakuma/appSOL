@@ -59,7 +59,7 @@
             	<div class="columna-menu">
             		<div class="opcion-columna" >
             			<img onclick='location.href="<?php echo base_url()?>general/Permisos/index"' src="<?php echo base_url()?>assets/img/vacaciones.png" class="imagen-opcion"/>
-            			<p class="nombre-opcion" onclick='location.href="<?php echo base_url()?>general/Permisos/index"'>VACACIONES</p>
+            			<p class="nombre-opcion" onclick='location.href="<?php echo base_url()?>general/Permisos/index"'>SOLICITUD PERMISOS</p>
             		</div>
             	</div>
             	

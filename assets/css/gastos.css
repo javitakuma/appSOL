@@ -61,6 +61,11 @@ table#listadoGastosGeneral
 	font-size:110%;
 }
 
+#listadoGastosGeneral .abrirCell:hover
+{
+	font-weight:bold;
+}
+
 
 
 #listadoGastosGeneral th
@@ -74,7 +79,8 @@ table#listadoGastosGeneral
 	border:solid 2px #AAA;	
 	font-size:70%;
 	font-weight:bold;
-    background: RGB(35,200,200);
+    /*background: RGB(35,200,200);*/
+    background: #22C5B1;
 }
 
 #listadoGastosGeneral td

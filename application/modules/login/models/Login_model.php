@@ -10,9 +10,30 @@ class Login_model extends CI_Model
 		
 	}
 	
+	public function todas_keys_a_default()
+	{
+		$this->load->database();
+		$this->db->trans_start();
+		
+		$data = array(
+				'pwd_guacd' => sha1('Keyrus123'),
+		);
+		
+		//$this->db->where('k_imc', $k_imc);
+		
+		$this->db->update('t_consultores_websol', $data);
+		// Produces:
+		// UPDATE t_imcs
+		// SET sw_validacion = '{-1}'
+		// WHERE k_imc = $k_imc		
+		
+		$this->db->trans_complete();
+		$this->db->close();
+	}
+	
 	public function validar_usuario($id,$pass)
 	{	
-		
+		$pass=sha1($pass);
 		
 		$this->load->database();		
 		
@@ -58,6 +79,8 @@ class Login_model extends CI_Model
 		$this->load->database();
 		$this->db->trans_start();
 		
+		$nuevo_password=sha1($nuevo_password);
+		
 		//HACEMOS UNA CONSULTA CUALQUIERA PARA PROBRAR QUE EL ID LOGADO SEA CORRECTO
 		$sql = "select user_guacd from t_consultores_websol
 				where k_consultor=?";		
@@ -66,7 +89,7 @@ class Login_model extends CI_Model
 		{
 			$sql = "update t_consultores_websol set pwd_guacd=?
 					where k_consultor=?";
-			$password_cambiado=$this->db->query($sql,array($nuevo_password,$k_consultor));	
+			$password_cambiado=$this->db->query($sql,array(sha1($nuevo_password),$k_consultor));	
 		}
 		//CHEQUEAMOS SI EL UPDATE HA ACTUALIZADO FILAS(DEVOLVERA 0 EN CASO CONTRARIO)
 		$correcto=$this->db->affected_rows();

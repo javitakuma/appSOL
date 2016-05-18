@@ -14,11 +14,11 @@
 			onclick='location.href="<?php echo base_url()?>general/Imc/index/3"'>
 		Todos
 		</button>			
-		<button id="todosImc" class="buttonGenericoPeque boton-imc"
+		<button id="enviadosImc" class="buttonGenericoPeque boton-imc"
 				onclick='location.href="<?php echo base_url()?>general/Imc/index/1"'>
 		Enviados			
 		</button>			
-		<button id="todosImc" class="buttonGenericoPeque boton-imc"
+		<button id="noEnviadosImc" class="buttonGenericoPeque boton-imc"
 				onclick='location.href="<?php echo base_url()?>general/Imc/index/2"'>
 		No enviados
 		</button>			
@@ -27,7 +27,9 @@
 	
 		
 	<div id="rejillaImc">
+	<!-- 
 	<h3 class="centrado titulo-mediano"><?php echo $condicion==1?'Enviados.':($condicion==2?'No enviados.':'Todos.')?></h3>
+	 -->
 		<table id="listadoImcGeneral">
 			<tr id="fila-titulos">
 				<th>ABRIR</th>
@@ -69,3 +71,4 @@
 	</div>
 </div>
 
+<input type="hidden" id="condicion" value="<?php echo $condicion?>"/>

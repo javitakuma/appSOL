@@ -1,0 +1,20 @@
+#contenedor_cambio_pass
+{
+	width:90%;
+	margin:0 auto;
+}
+
+#form_pass
+{
+	width:100%;	
+}
+
+#volver_pass
+{
+	font-size:120%;
+	width:20%;
+	margin-left:40% !important;
+	margin:0 auto;
+	height:40px;
+	color:white;
+}

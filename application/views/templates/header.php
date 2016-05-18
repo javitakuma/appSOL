@@ -3,13 +3,15 @@
 <div id="cabecera">
 	<a class="logoapp" href="<?php echo base_url()?>welcome"><img width="20%" src="<?php echo base_url()?>assets/img/logo_mediano.png"/></a>
 	
+	<h2 class="centrado titulo-aplicacion">Aplicación WebSOL 2.0</h2>
+	
 	<?php if($this->session->userdata('logueado')==TRUE):?>
 	<img width="4%" src="<?php echo base_url()?>assets/img/logout.png" title="Salir" class="flotarDerecha logout" id="logout"
 				onclick='location.href="<?php echo base_url()?>login/logout"'/>
 				
 	<?php endif;?>
 	
-	<h2 class="centrado titulo-aplicacion">Aplicación WebSOL 2.0</h2>
+	
 	
 		
 </div>

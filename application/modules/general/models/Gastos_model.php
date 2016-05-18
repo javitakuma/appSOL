@@ -55,8 +55,7 @@ class Gastos_model extends CI_Model
 	
 	public function get_hojas_gastos($condicion,$k_consultor)
 	{		
-		//$condicion   1=todas   2=pendiente pago 3= ninguna
-		
+		//$condicion   0=pagadas   1=todas   2=pendiente pago 
 		
 		
 		$this->load->database();

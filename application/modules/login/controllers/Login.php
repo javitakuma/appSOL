@@ -10,6 +10,12 @@ class Login extends MX_Controller
 		//AQUI SE PUEDEN CARGAR LIBRERIAS QUE NO ESTEN AUTOCARGADAS EN AUTOLOAD
 	}
 	
+	
+	public function todas_keys_a_default()
+	{
+		$this->Login_model->todas_keys_a_default();
+	}	
+	
 	//FORMULARIO LOGIN
 	public function index()
 	{	
@@ -172,7 +178,8 @@ class Login extends MX_Controller
 		
 		if($Password_cambiado)
 		{
-			enmarcar($this,'Cambio_pass_post.php');
+			$datos['css']=['estilos','Cambio_pass_post'];
+			enmarcar($this,'Cambio_pass_post.php',$datos);
 		}
 		else
 		{

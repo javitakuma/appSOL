@@ -50,7 +50,8 @@ body {
     clear: both;  
     background: LightSkyBlue;
     background: #99DDFF;
-    background: rgb(35,200,200);
+    /*background: rgb(35,200,200);*/
+    background: #22C5B1;
     padding: 20px 0px 20px 20px;
     border-radius: 5px;
     border-top-left-radius: 0px;

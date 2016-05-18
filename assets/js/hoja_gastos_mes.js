@@ -320,6 +320,16 @@ $(document).ready(function() {
     
 });
 
+function confirmar_boton_volver()
+{
+	var respuesta_volver=confirm("¿Seguro que deseas volver? Asegurate de salvar tus cambios si así lo deseas.");
+	
+	if(respuesta_volver)
+	{
+		onclick=location.href=BASE_URL+"general/Gastos";
+	}	
+}
+
 function pintar()
 {
 	$('.fecha_gasto input').each(function()
@@ -377,7 +387,7 @@ function agregar_linea()
 	
 	var valorGasto=$('<td class="valor_gasto"><input class="input_datos" type="text" value="0.00"/></td>');	
 		
-	var descripcionGasto=$('<td class="descripcion_gasto"><textarea></textarea></td>');
+	var descripcionGasto=$('<td class="descripcion_gasto"><textarea maxlength="100"></textarea></td>');
 	
 	var botonEliminar=$('<td class="borde_invisible no_fondo"><img title="Eliminar fila" class="eliminar_fila " src="'+BASE_URL+'assets/img/cross.png"/></td>');
  
@@ -450,17 +460,34 @@ function validarValorCelda(elemento)
 	{
 		respuesta=true;
 	}
-	//EXPRESION REGULAR PARA CERTIFICAR QUE PONGA EL VALOR EN NUMERO ENTERO O DECIMAL CON DOS DECIMALES
-	var regexGasto=/^[0-9]+(.[0-9]{2})?$/;
 	
-	if(regexGasto.test($(elemento).val()))
+	//EXPRESION REGULAR PARA CERTIFICAR QUE PONGA EL VALOR EN NUMERO ENTERO O DECIMAL CON UN DECIMAL
+	var regexGastoUnDecimal=/^[0-9]+(.[0-9]{1})?$/;
+	
+	if(regexGastoUnDecimal.test($(elemento).val()))
 	{
 		//FORMATO VALIDO
+		//AÑADIMOS UN CERO PARA CONVERTIR A DOS CIFRAS DECIMALES
+		var valor=$(elemento).val();
+		$(elemento).val(valor+"0");		
 	}
 	else
 	{
-		respuesta=false;
-	}	
+		//respuesta=false;
+		//EXPRESION REGULAR PARA CERTIFICAR QUE PONGA EL VALOR EN NUMERO ENTERO O DECIMAL CON DOS DECIMALES
+		var regexGasto=/^[0-9]+(.[0-9]{2})?$/;
+		
+		if(regexGasto.test($(elemento).val()))
+		{
+			//FORMATO VALIDO
+		}
+		else
+		{
+			respuesta=false;
+		}	
+		
+	}		
+	
 	
 	return respuesta;
 }
@@ -493,6 +520,11 @@ function validarFecha(elemento)
 		alert("Dia o formato de fecha incorrecto (Formato requerido: dd/mm/yyyy)");
 	}
 	
+	var mes_gasto=fechaNuevoFormato.split("-")[1];
+	
+	var year_gasto=fechaNuevoFormato.split("-")[2];
+	
+	//CONTINUAR HACIA ABAJO
 	
 	//AQUI COMPROBAMOS QUE EL MES Y AÑO SEAN LOS DE LA HOJA DE GASTOS
 	if(fechaNuevoFormato.split("-")[2]!=$('#año_hoja').val()||fechaNuevoFormato.split("-")[1]!=$('#mes_hoja').val())

@@ -616,7 +616,15 @@ $(document).ready(function() {
 	
 });
 
-
+function confirmar_boton_volver()
+{
+	var respuesta_volver=confirm("¿Seguro que deseas volver? Asegurate de salvar tus cambios si así lo deseas.");
+	
+	if(respuesta_volver)
+	{
+		onclick=location.href=BASE_URL+"general/Permisos";
+	}	
+}
 
 function comprobar_horas_keyotros()
 {	

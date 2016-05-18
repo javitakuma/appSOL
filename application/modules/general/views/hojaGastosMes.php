@@ -4,13 +4,11 @@
 	
 	<!--BOTON VOLVER, TITULO, FECHA PAGO Y BOTON ENVIAR GASTOS  -->
 	<div class="volver">
-			<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='location.href="<?php echo base_url()?>general/Gastos"'/>			
+			<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='confirmar_boton_volver()'/>			
 	</div>
 	<h1 class="centrado titulo-grande" onclick="pintar()">HOJA DE GASTOS <?php echo $this->session->userdata('nom_consultor')." ("?><?php echo $mes_texto?> de <?php echo $year.")"?></h1>
 	<br/>
-	<div id="superior">	 	
-				<p class="titulo-mediano" id="fecha_pago_hoja_gastos">Fecha de pago: <?php echo $datos_gastos['t_hojas_gastos'][0]['f_pago_hoja_gastos']?></p>
-				<br/>											
+	<div id="superior">	 							
 				<?php if($datos_gastos['t_hojas_gastos'][0]['sw_autorizar_revision']==0):?>
 	            <input id="enviar_gastos" class="buttonGenericoPeque centrado" type="button" value="Enviar gastos"/>
 	 			<?php endif;?> 		           
@@ -27,6 +25,7 @@
 	        	
 	        	<!--PARRAFO PARA MOSTRAR SI NO HAY FILAS  -->
 	        	<p id="parrafo_sin_gastos" class="titulo-mediano">No dispones de gastos en este mes</p>
+	        	<div id="div_agregar_fila"><img title="Agregar fila" class="imagen_agregar_fila " src="<?php echo base_url()?>assets/img/cross.png"/><p>Agregar nueva fila</p></div>
 	            <table id="tabla_gastos_pendientes_mes" class="tabla_key">   
 	                     	
 	                 <!-- 
@@ -78,7 +77,7 @@
 	                    </td> 
 	                    
 	                    <td class="descripcion_gasto">
-	                    	<textarea><?php echo $linea_gastos['desc_linea_gasto']?></textarea>
+	                    	<textarea  maxlength="100"><?php echo $linea_gastos['desc_linea_gasto']?></textarea>
 	                    </td>  
 	                    <td class="borde_invisible no_fondo"><img title="Eliminar fila" class="eliminar_fila " src="<?php echo base_url()?>assets/img/cross.png"/></td>             
 	                    
@@ -86,12 +85,9 @@
 	                	
 	                <?php endforeach;?>  
 	                
-	            </table> <!-- FINAL tabla_gastos_pendientes_mes -->
+	            </table> <!-- FINAL tabla_gastos_pendientes_mes -->           
 	            
-	            
-	            
-	            <div id="div_agregar_fila"><img title="Agregar fila" class="imagen_agregar_fila " src="<?php echo base_url()?>assets/img/cross.png"/><p>Agregar nueva fila</p></div>        
-				 <br/><br/>		  
+	            <br/>		  
 					 
 				                    
 	              

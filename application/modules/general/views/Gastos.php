@@ -13,11 +13,11 @@
 			onclick='location.href="<?php echo base_url()?>general/Gastos/index/1"'>
 		Ver todas
 		</button>			
-		<button id="todosGastos" class="buttonGenericoPeque boton-gastos"
+		<button id="noPagadasGastos" class="buttonGenericoPeque boton-gastos"
 				onclick='location.href="<?php echo base_url()?>general/Gastos/index/2"'>
 		Pendiente pago			
 		</button>			
-		<button id="todosGastos" class="buttonGenericoPeque boton-gastos"
+		<button id="pagadasGastos" class="buttonGenericoPeque boton-gastos"
 				onclick='location.href="<?php echo base_url()?>general/Gastos/index/0"'>
 		Pagadas
 		</button>			
@@ -27,8 +27,7 @@
 		
 	<div id="rejillaGastos">
 	
-	<h3 class="centrado titulo-mediano"><?php echo $condicion==1?'Todas.':($condicion==2?'Pendiente pago.':'Ninguna.')?></h3>
-		<div id="div_agregar_hoja"><img title="Agregar nueva hoja de gastos" class="imagen_agregar_hoja" src="<?php echo base_url()?>assets/img/cross.png"/><p class="titulo-peque">Agregar nueva hoja de gastos</p></div>
+	<div id="div_agregar_hoja"><img title="Agregar nueva hoja de gastos" class="imagen_agregar_hoja" src="<?php echo base_url()?>assets/img/cross.png"/><p class="titulo-peque">Agregar nueva hoja de gastos</p></div>
 		<table id="listadoGastosGeneral">
 			<tr id="fila-titulos">
 				<th id="abrir_titulo">ABRIR</th>
@@ -86,3 +85,5 @@
 </div>
 
 <div id="sombra"></div>
+
+<input type="hidden" id="condicion" value="<?php echo $condicion?>"/>

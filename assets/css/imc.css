@@ -16,6 +16,13 @@
 	margin:0px;
 	min-width:30px;
 }
+
+.boton-imc:active
+{
+	font-weight:bold;
+	color:black;
+}
+
 /*
 .paleta_color
 {
@@ -36,11 +43,15 @@ table#listadoImcGeneral
 {
 	border-collapse: collapse;
 	margin:0 auto;
+	margin-top:3%;
 	width:80%;
 	font-size:110%;
 }
 
-
+#listadoImcGeneral .abrirCell:hover
+{
+	font-weight:bold;
+}
 
 #listadoImcGeneral th
 {
@@ -51,7 +62,8 @@ table#listadoImcGeneral
 	border-collapse: collapse;
 	border:solid 2px #AAA;
 	font-weight:bold;
-    background: RGB(35,200,200);
+    /*background: RGB(35,200,200);*/
+    background: #22C5B1;
 }
 
 #listadoImcGeneral td
