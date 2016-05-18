@@ -72,6 +72,17 @@ $(document).ready(function() {
     		}
     	});
     	
+    	//VALIDA LA EQUIVALENCIA DE HORAS DE IMC Y PERMISOS    	
+    	if(!comparar_imc_permisos())
+    	{
+    		var respuesta_error_permisos=confirm("Las horas de permisos introducidas no coinciden con las solicitadas, ¿Desea continuar?");
+    		
+    		if(!respuesta_error_permisos)
+    		{
+    			cancelar_envio=true;
+    		}
+    	}
+    	
     	//VALIDA CADA CELDA DE HORAS QUE NO SEA MAYOR DE 8
     	$('.input_horas').each(function()
     	{
@@ -94,10 +105,8 @@ $(document).ready(function() {
     	
     	var error_longitud_comentario=false;
     	$('.comentarios_textarea').each(function()
-    	{
-    		
-    		var nombre_proyecto=$(this).parent().parent().find('td:first').html();
-    		
+    	{    		
+    		var nombre_proyecto=$(this).parent().parent().find('td:first').html();    		
     		
     		if($(this).val.length>50)
     		{
@@ -225,7 +234,17 @@ $(document).ready(function() {
     	    		}
     	    	});
     	    	
-    	    	
+    	    	//VALIDA LA EQUIVALENCIA DE HORAS DE IMC Y PERMISOS    	
+    	    	if(!comparar_imc_permisos())
+    	    	{
+    	    		var respuesta_error_permisos=confirm("Las horas de permisos introducidas no coinciden con las solicitadas, ¿Desea continuar?");
+    	    		
+    	    		if(!respuesta_error_permisos)
+    	    		{
+    	    			cancelar_envio=true;
+    	    		}
+    	    	}    	    	
+    	    	//VALIDA CADA CELDA DE HORAS QUE NO SEA MAYOR DE 8
     	    	$('.input_horas').each(function()
     	    	    	{
     	    	    		if($(this).val()<0||$(this).val()>8)
@@ -542,7 +561,7 @@ function comparar_imc_permisos()
 	var valido=true;
 	
 	
-	for(i=1;i<=dias_totales_mes;i++)
+	for(i=1;i<=dias_totales_mes&&valido;i++)
 	{
 		if(i<10)
 		{
@@ -579,6 +598,7 @@ function comparar_imc_permisos()
 		//alert("dia "+i+" "+no_valida);
 		
 	}
+	return valido;
 	
 }
 

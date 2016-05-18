@@ -36,7 +36,7 @@
 		     </div><!-- CIERRE dias_pendientes -->
 		     <div id="comentarios_permiso">
 		     	<h3 class="centrado titulo-mediano">Observaciones</h3>
-		     	<textarea id="observaciones_textarea"></textarea>
+		     	<textarea maxlength="150" id="observaciones_textarea"></textarea>
 		     </div>
 	     </div>           
 	     <div id="flotador_superior"></div>

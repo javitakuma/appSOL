@@ -194,6 +194,7 @@ $(document).ready(function() {
 				function(date) {
 			    var result = [true, '', null];
 			    
+			    //COMPARA LAS FECHAS DE FESTIVOS Y DEVUELVE TRUE CUANDO ENCUENTRA COINCIDENCIAS
 			    var matching = $.grep(festivosParaCalendario, function(event) {
 			        return (event.Date.valueOf() === date.valueOf());			        
 			    });
@@ -218,14 +219,14 @@ $(document).ready(function() {
 			    	if(diasOcupados[i].fecha.valueOf()==date.valueOf())
 			    	{
 			    		//DIAS ACEPTADOS
-			    		if(diasOcupados[i].i_autorizado_n1==1&&diasOcupados[i].i_autorizado_n2==1)//vacaciones de esta solicitud   
+			    		if(diasOcupados[i].i_autorizado_n1==1&&diasOcupados[i].i_autorizado_n2==1)  
 			    		{	
 			    			//result = [false, 'dia_aceptado', null];	
 			    			desbloqueado=false;
 					    	clase='dia_aceptado';
 			    		}
 			    		//DIAS RECHAZADOS
-			    		else if(diasOcupados[i].i_autorizado_n1==2||diasOcupados[i].i_autorizado_n2==2)//vacaciones de esta solicitud 
+			    		else if(diasOcupados[i].i_autorizado_n1==2||diasOcupados[i].i_autorizado_n2==2)
 			    		{	
 			    			//result = [false, 'dia_rechazado', null];
 			    			desbloqueado=true;
@@ -441,9 +442,15 @@ $(document).ready(function() {
 			    		alert("Debes introducir el valor del campo observaciones.");
 			    	}
 			    	
-			    	var observaciones=$('#observaciones_textarea').val();
+			    	//VALIDACION TAMAÑO MAXIMO CAMPO OBSERVACIONES
+			    	if($('#observaciones_textarea').val().length>150)
+			    	{
+			    		cancelar_envio=true;
+			    		alert("Has sobrepasado el tamaño máximo del campo observaciones(Máximo 150 caracteres).");
+			    	}			    	
 			    	
 			    	//GUARDAMOS ESTAS VARIABLES QUE NECESITAMOS LUEGO
+			    	var observaciones=$('#observaciones_textarea').val();			    	
 			    	var responsable_solicitud=$('#responsable_solicitud').val();
 			    	var diasPendientesDebidos=$('#diasPendientesDebidos').val();
 			    	var diasPendientes=$('#diasPendientes').val();
@@ -533,6 +540,13 @@ $(document).ready(function() {
 			    	{
 			    		cancelar_envio=true;
 			    		alert("Debes introducir el valor del campo observaciones.");
+			    	}
+			    	
+			    	//VALIDACION TAMAÑO MAXIMO CAMPO OBSERVACIONES
+			    	if($('#observaciones_textarea').val().length>150)
+			    	{
+			    		cancelar_envio=true;
+			    		alert("Has sobrepasado el tamaño máximo del campo observaciones(Máximo 150 caracteres).");
 			    	}
 			    	
 			    	var observaciones=$('#observaciones_textarea').val();
@@ -932,7 +946,7 @@ function pintarInferiorInicial()
 			$('#'+fecha).attr('value','8');		//CAMBIAR BBDD REAL
 		}
 		*/
-		else if(!rechazado)
+		else if(!rechazado)//DIAS PENDIENTES
 		{
 			$('#'+fecha).addClass('pendiente_inferior');
 			$('#'+fecha).attr('value','8');		//CAMBIAR BBDD REAL

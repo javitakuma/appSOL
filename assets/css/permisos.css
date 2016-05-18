@@ -56,6 +56,10 @@
 	width:60%;
 }
 
+#ayuda_permisos
+{
+	width:7%;
+}
 
 #horas_jornada
 {
@@ -303,3 +307,53 @@
 	font-family:arial;
 	vertical-align:middle;
 }
+
+#titulo_ayuda
+{
+	width:60%;	
+	margin:0 auto;
+}
+
+#imagen_cierre_popup
+{
+	width:3%;
+	position:absolute;
+	right:5%;
+	top:5%;
+	
+}
+
+#texto_ayuda
+{
+	padding-top:10%;
+}
+
+#texto_ayuda p
+{
+	margin-top:3%;
+	font-weight:600;
+	font-seize:90%;
+}
+
+#sombra
+{
+	background-color:rgba(0,0,0,0.5);
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:888;
+}
+
+#dialog {
+padding:1% 1%;
+background-color:#EFEFEF;
+width:50%;
+height:50%;
+top: 25%;
+left: 25%;
+position:absolute;
+z-index:999;
+border-radius:15px;
+/*display:none;*/
+}
+

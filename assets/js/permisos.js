@@ -1,6 +1,33 @@
 
 $(document).ready(function() 
 {	
+	$("#dialog").css('display','none');
+	
+	$("#sombra").css('display','none');			
+	
+	$('#ayuda_permisos').on('click',function()
+	{
+		//LE DAMOS EL TAMAÑO DE LA PANTALLA A LA SOMBRA
+		$("#sombra").css('width',$(window).width()+"px");
+		$("#sombra").css('height',$(window).height()+"px");
+		
+		//LE DAMOS EL TAMAÑO DE LA PANTALLA A LA SOMBRA
+		$("#sombra").css('width',$(window).width()+"px");
+		$("#sombra").css('height',$(window).height()+"px");
+		
+		//LOS HACEMOS VISIBLES
+		$("#dialog").css('display','block');
+		$("#sombra").css('display','block');
+	});
+	
+	//LOS CERRAMOS Y HACEMOS INVISIBLES
+	$('#imagen_cierre_popup').on('click',function()
+	{
+		$("#dialog").css('display','none');
+		$("#sombra").css('display','none');
+	});	
+	
+	
 	//EVENTO BOTON NUEVA SOLICITUD
 	$('#seleccionar_dias').on('click',function()
 	{
@@ -53,7 +80,7 @@ $(document).ready(function()
 	
 	$('.eliminar_fila_img').on('click',function()
 			{
-				var id=$(this).parent().parent().attr('id');
+				var k_permiso_solic=$(this).parent().parent().attr('id');
 				
 				var aceptado=confirm("Deseas eliminar esa petición de vacaciones");
 				
@@ -62,7 +89,7 @@ $(document).ready(function()
 					$.ajax({        
 		        	       type: "POST",
 		        	       url: BASE_URL+"general/Permisos/eliminar_solicitud",
-		        	       data: { id : id},
+		        	       data: { k_permiso_solic : k_permiso_solic},
 		        	       success: function(respuesta) {
 		        	    	   
 		        	    	   //alert("Su solicitud ha sido grabada");

@@ -135,7 +135,8 @@ class Permisos_model extends CI_Model
 		$this->load->database();
 		$this->db->trans_start();
 		
-		$sql ="SELECT A.dia_solic,A.mes_solic,A.año_solic year_solic,B.i_autorizado_n1,B.i_autorizado_n2,A.k_permisos_solic,A.horas_solic FROM t_permisos_solicitados_det A
+		$sql ="SELECT A.dia_solic,A.mes_solic,A.año_solic year_solic,B.i_autorizado_n1,B.i_autorizado_n2,A.k_permisos_solic,A.horas_solic 
+		FROM t_permisos_solicitados_det A
 		join t_permisos_solicitados B 
 		on A.k_permisos_solic=B.k_permisos_solic		
 		where B.k_consultor ='$k_consultor'";

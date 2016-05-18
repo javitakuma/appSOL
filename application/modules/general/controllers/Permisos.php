@@ -114,15 +114,6 @@ class Permisos extends MX_Controller
 	//EDICION DE UNA SOLICITUD
 	public function editar_solicitud($k_permiso_solic,$year=0)
 	{	
-		/*
-		echo $_SERVER['HTTP_REFERER'];
-		
-		echo "<br/>";
-		
-		echo base_url('general/Permisos');
-		
-		die;
-		*/
 		
 		//PARTE ANTI HACK
 		$this->load->model('welcome/Welcome_model');
@@ -286,9 +277,44 @@ class Permisos extends MX_Controller
 	
 	public function eliminar_solicitud()
 	{
-		$id_eliminar=$_REQUEST['id'];
+		//PARTE ANTI HACK
+		$this->load->model('welcome/Welcome_model');
+		$k_consultor_original=$this->session->userdata('login_original');
 		
-		$this->Permisos_model->eliminar_solicitud($id_eliminar);
+		$k_permiso_solic=$_REQUEST['k_permiso_solic'];
+			
+		$PERFIL_JP=$this->session->userdata('PERFIL_JP_original');
+		$PERFIL_FINAN=$this->session->userdata('PERFIL_FINAN_original');
+		$datos['usuarios_perfil']=$this->Welcome_model->cargar_usuarios_perfil($k_consultor_original,$PERFIL_JP,$PERFIL_FINAN);
+		
+		$usuario_de_permiso=$this->Permisos_model->get_usuario_by_k_permiso_solic($k_permiso_solic);
+		
+		//echo $usuario_de_permiso;die;
+		
+		$validado=false;
+		
+		foreach ($datos['usuarios_perfil'] as $fila)
+		{
+			if($fila['k_consultor']==$usuario_de_permiso)
+			{
+				$validado=true;
+			}
+		}
+		
+		$todosDatosTabla=$this->Permisos_model->cargar_datos_solicitud_activa($k_permiso_solic);
+		
+		if($todosDatosTabla[0]['sw_envio_solicitud']==-1||!$validado)
+		{
+			enmarcar($this,'AccesoDenegado.php',$datos);
+		}
+		else
+		{
+			$id_eliminar=$_REQUEST['k_permiso_solic'];
+			
+			$this->Permisos_model->eliminar_solicitud($id_eliminar);
+		}
+		
+		
 	}
 	
 	public function enviar_solicitud()
@@ -308,7 +334,7 @@ class Permisos extends MX_Controller
 		$datos_guardar['k_consultor']=$this->session->userdata('k_consultor');
 		$datos_guardar['id_consultor']=$this->session->userdata('id_consultor');
 		$datos_guardar['k_consultor_solic']=$this->session->userdata('login_original');
-	
+		
 		
 		$k_permisos_solic=$this->Permisos_model->grabar_solicitud_editado($datos_guardar);
 		

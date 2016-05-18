@@ -35,6 +35,8 @@
 			            <br/><br/>
 			            
 			            <input class="buttonGenericoPeque" type="button" id="seleccionar_dias" value="Nueva solicitud"/>
+        				<img id="ayuda_permisos" title="Ayuda solicitud permisos" class="cursor_pointer" src="<?php echo base_url()?>assets/img/help.png"/>
+        				
 			            <br/><br/>  
 	              	</form>
 	        	</div><!-- CIERRE permisos_sup_izq -->
@@ -104,3 +106,21 @@
 
 <input type="hidden" id="diasPendientesDebidos" value="5"/>
 <input type="hidden" id="diasPendientes" value="22"/>
+
+
+<!-- VENTANA EMERGENTE AYUDA -->
+
+<div id="dialog">
+	<img title="Cerrar" id="imagen_cierre_popup" src="<?php echo base_url()?>assets/img/cross.png"/>	
+	<p id="titulo_ayuda" class="centrado titulo-mediano">AYUDA SOLICITUD PERMISOS</p>
+	<div id="texto_ayuda">	
+		<p>- Es necesario imputar el número de horas de jornada laboral para el tipo de permiso Keyvacaciones, no siendo necesario para el tipo de permiso Keyotros.</p>
+		<p>- Solicita los permisos dividiéndolos por paquetes vacacionales, evitando solicitar semanas no consecutivas.</p>
+		<p>- Una solicitud puede ser editada siempre y cuando no haya sido enviada.</p>
+		<p>- Una solicitud puede ser eliminada mientras se encuentre en estado pendiente de aprobación en ambos niveles de autorización.</p>
+	</div>
+	
+</div>
+
+<div id="sombra"></div>
+
