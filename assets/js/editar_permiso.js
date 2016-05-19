@@ -628,8 +628,7 @@ $(document).ready(function() {
         	       type: "POST",
         	       url: BASE_URL+"general/Permisos/enviar_solicitud",
         	       data: { observaciones : observaciones,responsable_solicitud : responsable_solicitud,diasPendientesDebidos : diasPendientesDebidos,diasPendientes : diasPendientes,dias_solicitados : dias_solicitados,horas_jornada:horas_jornada,horas_por_dias : horas_por_dias,year_solicitud : year_solicitud, k_permisos_solic:k_permisos_solic, k_proyecto_solicitud:k_proyecto_solicitud},
-        	       success: function(respuesta) {
-        	            //alert("RESPUESTA_AJAX479"+respuesta); 
+        	       success: function(respuesta) { 
         	    	   
         	    	   alert("Solicitud enviada."); 
         	    	   
@@ -641,6 +640,15 @@ $(document).ready(function() {
 	
 });
 
+function confirmar_boton_volver()
+{
+	var respuesta_volver=confirm("¿Seguro que deseas volver? Asegurate de salvar tus cambios si así lo deseas.");
+	
+	if(respuesta_volver)
+	{
+		onclick=location.href=BASE_URL+"general/Permisos";
+	}	
+}
 
 
 function comprobar_horas_keyotros()

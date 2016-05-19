@@ -1,9 +1,10 @@
  <div id="contenedor_permisos">
-        <div class="volver">
-			<img title="Volver" class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='location.href="<?php echo base_url()?>welcome"'/>
-			<!--  <h3 class="titulo-peque">Volver</h3>-->
+        <div id="div-volver" class="volver">
+			<img id="imagen-volver" title="Volver" class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" onclick='location.href="<?php echo base_url()?>welcome"'/>
+			<!--  <h3 class="titulo-peque">Volver</h3>-->			
 		</div>
-	        <p class="titulo-grande centrado">PERMISOS <?php echo $this->session->userdata('nom_consultor')?></p>
+		<p id="titulo-pagina" class="titulo-grande centrado">PERMISOS <?php echo $this->session->userdata('nom_consultor')?></p>
+	        
 	        <br/>
 	        <br/>
 	        
@@ -56,7 +57,10 @@
 	        </div><!-- CIERRE superior -->
         	
         	<div id="inferior">
-				<h3 class="titulo-mediano">Histórico permisos</h3>
+				<h3 id="titulo_historico_permisos" class="titulo-mediano">Histórico permisos</h3>
+				<div onclick='location.href="<?php echo base_url()?>general/Permisos/mostrar_permisos_calendario"'  id="div_calendario_permisos">
+					<p class="titulo-peque">Ver en calendario</p><img id="permisos_en_calendario" src="<?php echo base_url()?>assets/img/imc.png"/>
+				</div>
 					<table id="listadoPermisos" class="tabla_key">
 						<tr id="fila-titulos">
 							<th id="fecha_titulo">FECHA SOLICITUD</th>
@@ -95,9 +99,6 @@
 						</tr>	
 					<?php endforeach;?>
 					
-					
-					
-					
 					</table>
 				</div><!-- CIERRE inferior -->
         	  
@@ -114,7 +115,7 @@
 	<img title="Cerrar" id="imagen_cierre_popup" src="<?php echo base_url()?>assets/img/cross.png"/>	
 	<p id="titulo_ayuda" class="centrado titulo-mediano">AYUDA SOLICITUD PERMISOS</p>
 	<div id="texto_ayuda">	
-		<p>- Es necesario imputar el número de horas de jornada laboral para el tipo de permiso Keyvacaciones, no siendo necesario para el tipo de permiso Keyotros.</p>
+		<p>- Para generar una nueva solicitud es necesario imputar el número de horas de jornada laboral para el tipo de permiso Keyvacaciones, no siendo necesario para el tipo de permiso Keyotros(en este caso se ingresarán en la siguiente pantalla).</p>
 		<p>- Solicita los permisos dividiéndolos por paquetes vacacionales, evitando solicitar semanas no consecutivas.</p>
 		<p>- Una solicitud puede ser editada siempre y cuando no haya sido enviada.</p>
 		<p>- Una solicitud puede ser eliminada mientras se encuentre en estado pendiente de aprobación en ambos niveles de autorización.</p>

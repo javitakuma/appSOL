@@ -3,10 +3,10 @@
 <div id="contenedorHojaGastos">
 	
 	<!--BOTON VOLVER, TITULO, FECHA PAGO Y BOTON ENVIAR GASTOS  -->
-	<div class="volver">
-			<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='confirmar_boton_volver()'/>			
+	<div id="div-volver" class="volver">
+			<img id="imagen-volver" class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='confirmar_boton_volver()'/>			
 	</div>
-	<h1 class="centrado titulo-grande" onclick="pintar()">HOJA DE GASTOS <?php echo $this->session->userdata('nom_consultor')." ("?><?php echo $mes_texto?> de <?php echo $year.")"?></h1>
+	<h1 id="titulo-pagina" class="centrado titulo-grande" onclick="pintar()">HOJA DE GASTOS <?php echo $this->session->userdata('nom_consultor')." ("?><?php echo $mes_texto?> de <?php echo $year.")"?></h1>
 	<br/>
 	<div id="superior">	 							
 				<?php if($datos_gastos['t_hojas_gastos'][0]['sw_autorizar_revision']==0):?>
@@ -25,7 +25,7 @@
 	        	
 	        	<!--PARRAFO PARA MOSTRAR SI NO HAY FILAS  -->
 	        	<p id="parrafo_sin_gastos" class="titulo-mediano">No dispones de gastos en este mes</p>
-	        	<div id="div_agregar_fila"><img title="Agregar fila" class="imagen_agregar_fila " src="<?php echo base_url()?>assets/img/cross.png"/><p>Agregar nueva fila</p></div>
+	        	<div id="div_agregar_fila"><img title="Agregar fila" class="imagen_agregar_fila " src="<?php echo base_url()?>assets/img/cross.png"/><p>Agregar nueva linea de gasto</p></div>
 	            <table id="tabla_gastos_pendientes_mes" class="tabla_key">   
 	                     	
 	                 <!-- 

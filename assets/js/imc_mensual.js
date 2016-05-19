@@ -511,10 +511,25 @@ $(document).ready(function() {
     	}
     });
     
+    
+    $("#dialog1").css('display','none');
+    $("#dialog2").css('display','none');
+    $("#dialog3").css('display','none');
+	
+	$("#sombra").css('display','none');	
+    
+	
+	$( window ).resize(function() {
+		$("#sombra").css('width',$(document).width()+"px");
+		$("#sombra").css('height',$(document).height()+"px");
+	});
+    
     //EVENTO CLICK AYUDA PROYECTOS
     
-    $('#ayuda_proyectos img').on('click', function(event) 
-    {    	
+    $('#ayuda_proyectos .contenedor_ayuda').on('click', function(event) 
+    {    
+    	//MODO ANTIGUO
+    	/*
     	if($(this).parent().hasClass('interno'))
     	{
     		window.open(BASE_URL+"assets/html/ayuda_interno.html", "", "width=700,height=700, scrollbars=yes");
@@ -527,33 +542,48 @@ $(document).ready(function() {
     	{
     		window.open(BASE_URL+"assets/html/ayuda_especial.html", "", "width=700,height=700, scrollbars=yes");
     	}
-    	
-    	
-    	
-    	
-    	/*
-    		var attr_class=$(this).parent().parent().find('td:first-child').attr('class');
-    		var k_linea_imc_borrar=attr_class.split(' ')[0];
-    		
-    		if(attr_class.split(' ')[0]=='nueva')
-    		{
-    			//borrando fila no grabada(como no estaba grabada,la borramos y nos olvidamos de ella)
-    			$(this).parent().parent().remove();
-        		actualizarTotalesVertical();   			
-    		}
-    		else
-    		{
-    			//borrando fila que estaba grabada(la guardamos en un array que luego usaremos para borrar esas lineas de imc con su codigo)
-    			fila_eliminar={};
-    			fila_eliminar['k_linea_imc_borrar']=k_linea_imc_borrar;
-    			lineasEliminadas.push(fila_eliminar); 
-    			$(this).parent().parent().remove();
-        		actualizarTotalesVertical();    			
-    		}
-    		 		
     	*/
+    	
+    	//LE DAMOS EL TAMAÑO DE LA PANTALLA A LA SOMBRA
+    	$("#sombra").css('width',$(document).width()+"px");
+		$("#sombra").css('height',$(document).height()+"px");
+		$("#sombra").css('display','block');
+    	
+    	if($(this).hasClass('interno'))
+    	{
+    		//LOS HACEMOS VISIBLES
+    		$("#dialog1").css('display','block');
+    		//window.open(BASE_URL+"assets/html/ayuda_interno.html", "", "width=700,height=700, scrollbars=yes");
+    	}
+    	else if($(this).hasClass('externo'))
+    	{
+    		$("#dialog2").css('display','block');
+    		//window.open(BASE_URL+"assets/html/ayuda_externo.html", "", "width=700,height=700, scrollbars=yes");
+    	}
+    	else if($(this).hasClass('especial'))
+    	{
+    		$("#dialog3").css('display','block');
+    		//window.open(BASE_URL+"assets/html/ayuda_especial.html", "", "width=700,height=700, scrollbars=yes");
+    	}  	
     });
     
+  //LOS CERRAMOS Y HACEMOS INVISIBLES
+    $('.imagen_cierre_popup').on('click',function()
+	{
+		$("#dialog1").css('display','none');
+		$("#dialog2").css('display','none');
+		$("#dialog3").css('display','none');
+		$("#sombra").css('display','none');
+	});	
+    
+    $('#sombra').on('click',function()
+	{
+    		$("#dialog1").css('display','none');
+    		$("#dialog2").css('display','none');
+    		$("#dialog3").css('display','none');
+    		$("#sombra").css('display','none');		
+	});	
+        	
     
     pintar_datos_permisos();
     //comparar_imc_permisos();

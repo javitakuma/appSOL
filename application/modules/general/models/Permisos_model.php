@@ -8,6 +8,50 @@ class Permisos_model extends CI_Model
 		parent::__construct();		
 	}
 	
+	
+	public function verificar_admin_rrhh($k_consultor_original)
+	{
+		$this->load->database();
+		$this->db->trans_start();
+		
+		$sql ="SELECT ";
+		
+		$es_administrador_rrhh=$this->db->query($sql)->row_array();
+		
+		$this->db->trans_complete();
+		$this->db->close();
+		return $es_administrador_rrhh;
+	}
+	
+	public function primer_dia_calendario()
+	{
+		$this->load->database();
+		$this->db->trans_start();
+		
+		$sql ="SELECT f_dia_calendario FROM t_calendario LIMIT 1";
+		
+		$primer_dia=$this->db->query($sql)->row_array();		
+		
+		$this->db->trans_complete();
+		$this->db->close();
+		return $primer_dia['f_dia_calendario'];
+	}
+	
+	public function ultimo_dia_calendario()
+	{
+		$this->load->database();
+		$this->db->trans_start();
+	
+		$sql ="SELECT f_dia_calendario FROM t_calendario ORDER BY f_dia_calendario DESC LIMIT 1";
+	
+		$ultimo_dia=$this->db->query($sql)->row_array();
+	
+		$this->db->trans_complete();
+		$this->db->close();
+				
+		return $ultimo_dia['f_dia_calendario'];
+	}
+	
 	public function get_usuario_by_k_permiso_solic($k_permiso_solic)
 	{
 		$this->load->database();
@@ -135,11 +179,12 @@ class Permisos_model extends CI_Model
 		$this->load->database();
 		$this->db->trans_start();
 		
-		$sql ="SELECT A.dia_solic,A.mes_solic,A.año_solic year_solic,B.i_autorizado_n1,B.i_autorizado_n2,A.k_permisos_solic,A.horas_solic 
+		$sql ="SELECT A.dia_solic,A.mes_solic,A.año_solic year_solic,B.i_autorizado_n1,B.i_autorizado_n2,A.k_permisos_solic,A.horas_solic ,B.desc_observaciones
 		FROM t_permisos_solicitados_det A
 		join t_permisos_solicitados B 
 		on A.k_permisos_solic=B.k_permisos_solic		
-		where B.k_consultor ='$k_consultor'";
+		where B.k_consultor ='$k_consultor'
+		ORDER BY year_solic, mes_solic,dia_solic,A.k_permisos_solic";
 		
 		$diasSolicitados=$this->db->query($sql)->result_array();
 		
@@ -260,7 +305,7 @@ class Permisos_model extends CI_Model
 			$primer_dia=$this->db->query($sql)->result_array();
 				
 			$sql2 ="SELECT CONCAT(dia_solic,'-',mes_solic,'-',año_solic) ultima_fecha FROM t_permisos_solicitados_det
-			WHERE k_permisos_solic={$permisos[$i]['k_permisos_solic']}  ORDER BY año_solic,mes_solic,dia_solic DESC LIMIT 1";
+			WHERE k_permisos_solic={$permisos[$i]['k_permisos_solic']}  ORDER BY año_solic DESC,mes_solic DESC,dia_solic DESC LIMIT 1";
 			
 			$ultimo_dia=$this->db->query($sql2)->result_array();
 			
@@ -275,7 +320,7 @@ class Permisos_model extends CI_Model
 		return $permisos;
 	}
 	
-	public function cargar_festivos()
+	public function cargar_festivos($solovista)
 	{
 		$this->load->database();
 		$this->db->trans_start();		
@@ -283,7 +328,14 @@ class Permisos_model extends CI_Model
 		$ultimoDiaYear = date('Y')-1 . '-09-30';
 		
 				
-		$sql ="SELECT f_dia_calendario FROM t_calendario WHERE sw_laborable=0 and f_dia_calendario>'$ultimoDiaYear'";		
+		$sql ="SELECT f_dia_calendario FROM t_calendario WHERE sw_laborable=0 and f_dia_calendario>'$ultimoDiaYear'";	
+		
+		//SI ES SOLO VISTA COGEMOS TOODOS LOS FESTIVOS
+		if($solovista==1)
+		{
+			$sql ="SELECT f_dia_calendario FROM t_calendario WHERE sw_laborable=0";
+		}
+		
 		
 		$festivos=$this->db->query($sql)->result_array();		
 			
@@ -490,7 +542,7 @@ class Permisos_model extends CI_Model
 	}
 	
 	public function eliminar_solicitud($id_eliminar)
-	{
+	{		
 		$this->load->database();
 		$this->db->trans_start();
 				

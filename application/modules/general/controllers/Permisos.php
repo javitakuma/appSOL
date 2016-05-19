@@ -16,6 +16,10 @@ class Permisos extends MX_Controller
 		$this->mostrar_permiso_anual();
 	}
 	
+	public function mostrar_permisos_calendario()
+	{
+		$this->solicitar_permiso(0,0,1);
+	}
 	
 	public function cargar_dias_para_horas()
 	{
@@ -59,13 +63,13 @@ class Permisos extends MX_Controller
 		enmarcar($this,'Permisos.php',$datos);
 	}
 	
-	public function solicitar_permiso($k_permiso_solic=0,$year=0)
-	{
+	public function solicitar_permiso($k_permiso_solic=0,$year=0,$solovista=0)
+	{		
 		//ir al modelo para sacar los dias pendientes de disfrutar
 		//$datos['permisos']=$this->Permisos_model->cargar_permisos($k_consultor);
 		
 		//CAMBIO DEV-PRO
-		
+		$datos['solovista']=$solovista;;				
 		
 		//AÑO "FISCAL" DE LAS VACACIONES
 		$datos['year_solicitud']=$year;		
@@ -77,25 +81,38 @@ class Permisos extends MX_Controller
 		//NOS APUNTAMOS SI ES KEYVACACIONES O KEYOTROS
 		$datos['tipo_solicitud']="";
 		
-		if($_REQUEST['tipo_solicitud']=="450")
+		if(!$solovista)
 		{
-			$datos['tipo_solicitud']="KEYVACACIONES";
-		}
-		if($_REQUEST['tipo_solicitud']=="468")
-		{
-			$datos['tipo_solicitud']="KEYOTROS";
+			if($_REQUEST['tipo_solicitud']=="450")
+			{
+				$datos['tipo_solicitud']="KEYVACACIONES";
+			}
+			if($_REQUEST['tipo_solicitud']=="468")
+			{
+				$datos['tipo_solicitud']="KEYOTROS";
+			}	
 		}
 		
-		$datos['k_proyecto_solicitud']=$_REQUEST['tipo_solicitud'];
+		$k_consultor_original=$this->session->userdata('login_original');
+		
+		//$es_administrador_rrhh=$this->Permisos_model->verificar_admin_rrhh($k_consultor_original);
+		
+		$datos['adm_rrhh']=false;
+		
+		$datos['primer_dia_t_calendario']=$this->Permisos_model->primer_dia_calendario();
+		
+		$datos['ultimo_dia_t_calendario']=$this->Permisos_model->ultimo_dia_calendario();
+		
+		$datos['k_proyecto_solicitud']=$solovista?null:$_REQUEST['tipo_solicitud'];
 		
 		//NOS APUNTAMOS EL RESPONSABLE
-		$datos['responsable_solicitud']=$_REQUEST['responsable_solicitud'];
+		$datos['responsable_solicitud']=$solovista?null:$_REQUEST['responsable_solicitud'];
 		
 		$datos['horas_jornada']=isset($_REQUEST['horas_jornada'])?$_REQUEST['horas_jornada']:0;
 				
 		$datos['existe_next_year_bbdd']=$this->Permisos_model->comprobar_calendario_proximo_year($datos['year_solicitud']);
 		
-		$datos['festivos']=json_encode($this->Permisos_model->cargar_festivos());
+		$datos['festivos']=json_encode($this->Permisos_model->cargar_festivos($solovista));
 				
 		$k_consultor=$this->session->userdata('k_consultor');
 		$datos['diasYaSolicitados']=json_encode($this->Permisos_model->cargar_dias_solicitados($k_consultor));
@@ -112,7 +129,7 @@ class Permisos extends MX_Controller
 	}
 	
 	//EDICION DE UNA SOLICITUD
-	public function editar_solicitud($k_permiso_solic,$year=0)
+	public function editar_solicitud($k_permiso_solic,$year=0,$solovista=0)
 	{	
 		
 		//PARTE ANTI HACK
@@ -195,7 +212,7 @@ class Permisos extends MX_Controller
 			//MIRAMOS SI EXISTE EL CALENDARIO DEL AÑO SIGUIENTE PARA PINTAR EL MES DE ENERO DEL AÑO SIGUIENTE
 			$datos['existe_next_year_bbdd']=$this->Permisos_model->comprobar_calendario_proximo_year($datos['year_solicitud']);
 			//DIAS FESTIVOS DEL CALENDARIO
-			$datos['festivos']=json_encode($this->Permisos_model->cargar_festivos());
+			$datos['festivos']=json_encode($this->Permisos_model->cargar_festivos($solovista));
 			
 			//DIAS QUE YA TIENE PEDIDOS
 			$k_consultor=$this->session->userdata('k_consultor');
@@ -277,6 +294,7 @@ class Permisos extends MX_Controller
 	
 	public function eliminar_solicitud()
 	{
+		
 		//PARTE ANTI HACK
 		$this->load->model('welcome/Welcome_model');
 		$k_consultor_original=$this->session->userdata('login_original');
@@ -289,12 +307,11 @@ class Permisos extends MX_Controller
 		
 		$usuario_de_permiso=$this->Permisos_model->get_usuario_by_k_permiso_solic($k_permiso_solic);
 		
-		//echo $usuario_de_permiso;die;
 		
 		$validado=false;
 		
 		foreach ($datos['usuarios_perfil'] as $fila)
-		{
+		{ 
 			if($fila['k_consultor']==$usuario_de_permiso)
 			{
 				$validado=true;
@@ -303,7 +320,8 @@ class Permisos extends MX_Controller
 		
 		$todosDatosTabla=$this->Permisos_model->cargar_datos_solicitud_activa($k_permiso_solic);
 		
-		if($todosDatosTabla[0]['sw_envio_solicitud']==-1||!$validado)
+		
+		if($todosDatosTabla[0]['i_autorizado_n1']!=0||$todosDatosTabla[0]['i_autorizado_n1']!=0||!$validado)
 		{
 			enmarcar($this,'AccesoDenegado.php',$datos);
 		}
@@ -335,8 +353,15 @@ class Permisos extends MX_Controller
 		$datos_guardar['id_consultor']=$this->session->userdata('id_consultor');
 		$datos_guardar['k_consultor_solic']=$this->session->userdata('login_original');
 		
+		if($datos_guardar['k_permisos_solic']==0)
+		{
+			$k_permisos_solic=$this->Permisos_model->grabar_solicitud($datos_guardar);
+		}
+		else
+		{
+			$k_permisos_solic=$this->Permisos_model->grabar_solicitud_editado($datos_guardar);
+		}	
 		
-		$k_permisos_solic=$this->Permisos_model->grabar_solicitud_editado($datos_guardar);
 		
 		$this->Permisos_model->enviar_solicitud($k_permisos_solic);
 		

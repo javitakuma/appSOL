@@ -1,3 +1,22 @@
+#div-volver
+{
+	width:10%;
+	display:inline-block;	
+}
+
+#imagen-volver
+{
+	width:40%;	
+}
+
+#titulo-pagina
+{
+	display:inline-block;
+	margin:0 auto;
+	margin-left:5%;
+	width:70%;	
+}
+
 
 #contenedor_permisos
 {

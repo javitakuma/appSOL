@@ -6,6 +6,14 @@
 
 /* Layout helpers
 ----------------------------------*/
+
+
+
+/*CAMBIOS MARCADOS ORIGINAL*/
+
+
+
+
 .ui-helper-hidden {
 	display: none;
 }
@@ -433,7 +441,8 @@ td:disabled
 .ui-state-disabled,
 .ui-widget-content .ui-state-disabled,
 .ui-widget-header .ui-state-disabled {
-	opacity: .35;
+	opacity: .50;
+	/*ORIGINAL*/
 	filter:Alpha(Opacity=35);
 	background-image: none;
 }

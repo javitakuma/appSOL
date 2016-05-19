@@ -50,7 +50,13 @@ var condicion=$('#condicion').val();
 		{
 			$("#dialog").css('display','none');
 			$("#sombra").css('display','none');
-		});		
+		});	
+		
+		$('#sombra').on('click',function()
+		{
+	    		$("#dialog").css('display','none');
+	    		$("#sombra").css('display','none');		
+		});	
 		
 		//BOTON SUBMIT DE LA VENTANA EMERGENTE DE LA SELECCION DE MES Y AÑO
 		$('#boton_selecciones_hoja').on('click',function()

@@ -1,14 +1,11 @@
-
-
-
 <div id="contenedorImc">
 
-	<div class="volver">
-			<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='location.href="<?php echo base_url()?>welcome"'/>
+	<div id="div-volver" class="volver">
+			<img id="imagen-volver" class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='location.href="<?php echo base_url()?>welcome"'/>
 			<!--  <h3 class="titulo-peque">Volver</h3>-->
 	</div>
 	
-	<h1 class="centrado titulo-grande">IMC</h1>
+	<h1 id="titulo-pagina" class="centrado titulo-grande">IMC</h1>
 	<div class="botonera">
 		<button id="todosImc" class="buttonGenericoPeque boton-imc"
 			onclick='location.href="<?php echo base_url()?>general/Imc/index/3"'>

@@ -2,12 +2,12 @@
 
 <div id="contenedorGastos">
 
-	<div class="volver">
-			<img class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='location.href="<?php echo base_url()?>welcome"'/>
+	<div id="div-volver" class="volver">
+			<img id="imagen-volver" class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='location.href="<?php echo base_url()?>welcome"'/>
 			
 	</div>
 	
-	<h1 class="centrado titulo-grande">HOJAS DE GASTOS</h1>
+	<h1 id="titulo-pagina" class="centrado titulo-grande">HOJAS DE GASTOS</h1>
 	<div class="botonera">
 		<button id="todosGastos" class="buttonGenericoPeque boton-gastos"
 			onclick='location.href="<?php echo base_url()?>general/Gastos/index/1"'>
@@ -81,7 +81,7 @@
 	</div>
 		
 	</form>
-	<button id="boton_selecciones_hoja" class="centrado buttonGenericoPeque">Enviar</button>
+	<button id="boton_selecciones_hoja" class="centrado buttonGenericoPeque">Crear</button>
 </div>
 
 <div id="sombra"></div>

@@ -1,9 +1,9 @@
  <div id="contenedor_permisos">
-        <div class="volver">
-			<img title="Volver" class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='location.href="<?php echo base_url()?>general/Permisos"'/>
+        <div id="div-volver" class="volver">
+			<img id="imagen-volver" title="Volver" class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='confirmar_boton_volver()'/>
 			<!--  <h3 class="titulo-peque">Volver</h3>-->
 		</div>
-	        <p class="titulo-grande centrado" onclick="pintar()">SOLICITUD PERMISOS <?php echo $tipo_solicitud?></p>
+	        <p id="titulo-pagina" class="titulo-grande centrado" onclick="pintar()">SOLICITUD PERMISOS <?php echo $tipo_solicitud?></p>
 	        <p class="titulo-grande centrado"><?php echo $this->session->userdata('nom_consultor')?></p>
 	        
 	        <?php if(true):?>

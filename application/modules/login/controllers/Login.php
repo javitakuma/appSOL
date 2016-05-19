@@ -136,8 +136,7 @@ class Login extends MX_Controller
 			$this->session->set_userdata('PERFIL_IMC',$usuarioEncontradoCambiar['sw_imc_sol']);
 			$this->session->set_userdata('login_original',$this->session->userdata('login_original'));
 			$this->session->set_userdata('logueado',$this->session->userdata('logueado'));		
-		}
-		
+		}		
 		else
 		{
 			//echo "cambio usuario no posible";

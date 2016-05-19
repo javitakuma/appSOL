@@ -5,11 +5,20 @@
 <nav id="menu" class="pushmenu pushmenu-left" role="navigation">
 <ul>
 	<li><a href="<?php echo base_url()?>welcome/general" title="General">GENERAL</a></li>
+	<li><a href="#" title="Operaciones">OPERACIONES</a></li>
+	<li><a href="#" title="Comercial_finanzas">COMERCIAL/FINANZAS</a></li>
+	<li><a href="#" title="RRHH">RRHH</a></li>
+	<li><a href="#" title="IT">IT</a></li>
+</ul>
+<!-- 	VERSIONES FUTURAS  
+<ul>
+	<li><a href="<?php echo base_url()?>welcome/general" title="General">GENERAL</a></li>
 	<li><a href="<?php echo base_url()?>welcome/operaciones" title="Operaciones">OPERACIONES</a></li>
 	<li><a href="<?php echo base_url()?>welcome/comercial_finanzas" title="Comercial_finanzas">COMERCIAL/FINANZAS</a></li>
 	<li><a href="<?php echo base_url()?>welcome/general" title="RRHH">RRHH</a></li>
 	<li><a href="<?php echo base_url()?>welcome/general" title="IT">IT</a></li>
 </ul>
+-->
 </nav>     
 
   
@@ -45,7 +54,7 @@
  		
         <div id="contenedor-submenu">	        
         
-        	<h2 class="titulo-mediano">General</h2>
+        	<h2 class="centrado titulo-mediano">GENERAL</h2>
         	
             <div id="contenedor-opciones">
             

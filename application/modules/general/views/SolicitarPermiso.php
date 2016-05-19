@@ -1,12 +1,12 @@
  <div id="contenedor_permisos">
-        <div class="volver">
-			<img title="Volver" class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='confirmar_boton_volver()'/>
+        <div id="div-volver" class="volver">
+			<img id="imagen-volver" title="Volver" class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='confirmar_boton_volver()'/>
 			<!--  <h3 class="titulo-peque">Volver</h3>-->
 		</div>
-	        <p class="titulo-grande centrado" onclick="pintar()">SOLICITUD PERMISOS <?php echo $tipo_solicitud?></p>
+	        <p id="titulo-pagina" class="titulo-grande centrado" onclick="pintar()">SOLICITUD PERMISOS <?php echo $tipo_solicitud?></p>
 	        <p class="titulo-grande centrado"><?php echo $this->session->userdata('nom_consultor')?></p>
 	        
-	        <?php if(true):?>
+	        <?php if($solovista!=1):?>
 	            <input id="enviar_solicitud" class="buttonGenericoPeque centrado" type="button" value="Enviar solicitud"/>
 	 		<?php endif;?> 
 	        <br/>
@@ -24,7 +24,11 @@
 				</table>
 			</article>	
 		</div> 
+		
+		
+				
 		<div id="sup-der">
+			<?php if ($solovista!=1):?>
 			<div id="dias_pendientes" class="centrado centrado-margin titulo-mediano">
 		        	<div>
 		        		<p>DIAS PENDIENTES</p>
@@ -38,12 +42,19 @@
 		     	<h3 class="centrado titulo-mediano">Observaciones</h3>
 		     	<textarea maxlength="150" id="observaciones_textarea"></textarea>
 		     </div>
-	     </div>           
+		     
+		     <?php endif;?>
+	     </div>  
+	     
+	     
+	              
 	     <div id="flotador_superior"></div>
 	  </div> <!-- CIERRE superior -->  
 	  
-	  
+	  <?php if ($solovista!=1):?><!-- IF TABLA INFERIOR -->
 	  <input id="grabar_solicitud" class="buttonGenericoPeque" type="button" value="Grabar solicitud"/>
+	  
+	  
 	  
 	  <div id="inferior">
 	  
@@ -117,7 +128,7 @@
 	
 </table>
 	  </div>
-	   
+	   <?php endif;?><!-- FIN IF TABLA INFERIOR -->
 </div>
 
 
@@ -131,6 +142,10 @@
 <input type="hidden" id="year_solicitud" value="<?php echo $year_solicitud?>"/>
 <input type="hidden" id="existe_next_year_bbdd" value="<?php echo $existe_next_year_bbdd?>"/>
 <input type="hidden" id="k_permisos_solic" value="<?php echo isset($k_permisos_solic)?$k_permisos_solic:'0'?>"/>
+<input type="hidden" id="solovista" value="<?php echo $solovista?>"/>
+<input type="hidden" id="primer_dia_t_calendario" value="<?php echo $primer_dia_t_calendario?>"/>
+<input type="hidden" id="ultimo_dia_t_calendario" value="<?php echo $ultimo_dia_t_calendario?>"/>
+<input type="hidden" id="adm_rrhh" value="<?php echo $adm_rrhh?>"/>
 
 <?php if(isset($habilitar_edicion)):?>
 <input type="hidden" id="habilitar_edicion" value="0"/>

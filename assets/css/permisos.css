@@ -1,3 +1,23 @@
+#div-volver
+{
+	width:10%;
+	display:inline-block;	
+}
+
+#imagen-volver
+{
+	width:40%;	
+}
+
+#titulo-pagina
+{
+	display:inline-block;
+	margin:0 auto;
+	margin-left:5%;
+	width:70%;	
+}
+
+
 #dias_pendientes
 {
 	width:10%;
@@ -100,9 +120,34 @@
 }
 */
 
+#div_calendario_permisos
+{
+	display:inline-block;
+	margin-bottom:1%;
+	margin-left:80%;
+	cursor:pointer;
+}
+
+#div_calendario_permisos p
+{
+	display:inline-block;	
+}
+
+#div_calendario_permisos img
+{
+	display:inline-block;
+	width:10%;	
+	margin-left:5%;
+}
+
 #inferior
 {
 	margin-top:3%;
+}
+
+#titulo_historico_permisos
+{
+	margin-bottom:0px;
 }
 
 /*======ESTILO TABLA GENERICO======*/
@@ -129,7 +174,7 @@
 	border:solid 1px #AAA;
     vertical-align:middle;
     cursor:default;
-	font-size:80%;
+	font-size:70%;
 	font-weight:bold;
 	border-top:none;
 	/*background: RGB(35,200,200);*/
@@ -230,7 +275,7 @@
 
 #listadoPermisos .tipoCell
 {
-	width:13%;
+	width:12%;
 }
 
 #listadoPermisos .solicitanteCell
@@ -260,14 +305,21 @@
 
 #listadoPermisos .observacionesCell
 {
-	width:17%;
+	width:16%;
 	padding:0.3%;
 	max-height:20px;
 }
 
 #listadoPermisos .motivoRechazoCell
 {
-	width:17%;
+	width:16%;
+	padding:0.3%;
+	max-height:20px;
+}
+
+#listadoPermisos .envioCell
+{
+	width:8%;
 	padding:0.3%;
 	max-height:20px;
 }
@@ -333,7 +385,7 @@
 {
 	margin-top:3%;
 	font-weight:600;
-	font-seize:90%;
+	font-size:90%;
 }
 
 #sombra

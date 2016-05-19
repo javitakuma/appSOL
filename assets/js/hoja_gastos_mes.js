@@ -462,7 +462,7 @@ function validarValorCelda(elemento)
 	}
 	
 	//EXPRESION REGULAR PARA CERTIFICAR QUE PONGA EL VALOR EN NUMERO ENTERO O DECIMAL CON UN DECIMAL
-	var regexGastoUnDecimal=/^[0-9]+(.[0-9]{1})?$/;
+	var regexGastoUnDecimal=/^[0-9]+(.[0-9]{1})+$/;
 	
 	if(regexGastoUnDecimal.test($(elemento).val()))
 	{
@@ -495,6 +495,7 @@ function validarValorCelda(elemento)
 //VALIDACION FECHA
 function validarFecha(elemento)
 {
+	
 	var respuesta=false;
 	
 	//CAMBIAMOS LA FECHA DE FORMATO yyyy-mm-dd A dd-mm-yyyy PARA VALIDARLA (input date cambia formato)
@@ -524,11 +525,35 @@ function validarFecha(elemento)
 	
 	var year_gasto=fechaNuevoFormato.split("-")[2];
 	
+	var number_mes_hoja=(Number)($('#mes_hoja').val());
+	
+	var number_año_hoja=(Number)($('#año_hoja').val());
+	
 	//CONTINUAR HACIA ABAJO
 	
 	//AQUI COMPROBAMOS QUE EL MES Y AÑO SEAN LOS DE LA HOJA DE GASTOS
-	if(fechaNuevoFormato.split("-")[2]!=$('#año_hoja').val()||fechaNuevoFormato.split("-")[1]!=$('#mes_hoja').val())
+	if(fechaNuevoFormato.split("-")[2]==$('#año_hoja').val() && fechaNuevoFormato.split("-")[1]==$('#mes_hoja').val())
+	{	
+		//CORRECTO		
+	}  //MES ANTERIOR MISMO AÑO 
+	else if(fechaNuevoFormato.split("-")[2]==$('#año_hoja').val() && fechaNuevoFormato.split("-")[1]==number_mes_hoja-1)
 	{
+		//CORRECTO
+	}// 2 MESES ANTERIOR MISMO AÑO
+	else if(fechaNuevoFormato.split("-")[2]==$('#año_hoja').val() && fechaNuevoFormato.split("-")[1]==number_mes_hoja-2)
+	{
+		//CORRECTO
+	}//MES ANTERIOR AÑO ANTERIOR(GASTOS DICIEMBRE EN HOJA ENERO) 
+	else if(fechaNuevoFormato.split("-")[2]==number_año_hoja-1 && fechaNuevoFormato.split("-")[1]==number_mes_hoja+11)
+	{
+		//CORRECTO
+	}//MES 2 ANTERIOR AÑO ANTERIOR(GASTOS DICIEMBRE EN HOJA FEBRERO O DE NOVIEMNBRE EN ENERO) 
+	else if(fechaNuevoFormato.split("-")[2]==number_año_hoja-1 && fechaNuevoFormato.split("-")[1]==number_mes_hoja+10)
+	{
+		//CORRECTO
+	}
+	else
+	{			
 		respuesta=false;
 		alert("Solo se admiten gastos para el mes en curso de la hoja("+($('#mes_hoja').val())+"/"+($('#año_hoja').val())+")");
 	}

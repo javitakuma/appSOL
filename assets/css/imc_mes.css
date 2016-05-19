@@ -1,3 +1,23 @@
+#div-volver
+{
+	width:10%;
+	display:inline-block;	
+}
+
+#imagen-volver
+{
+	width:40%;	
+}
+
+#titulo-pagina
+{
+	display:inline-block;
+	margin:0 auto;
+	margin-left:5%;
+	width:70%;	
+}
+
+
 .display_none
 {
 	display:none !important;		
@@ -6,7 +26,7 @@
 #superior
 {
 	width:100%;
-	margin:0 auto;	
+	margin:3% auto;	
 	/*border:solid green 1px;*/
 	position:relative;
 }
@@ -33,6 +53,86 @@
 	bottom:0;
 	
 }
+
+
+/*TEXTOS AYUDA PROYECTOS*/
+.titulo_ayuda
+{
+	width:60%;	
+	margin:0 auto;
+}
+
+.imagen_cierre_popup
+{
+	width:2%;
+	position:absolute;
+	right:5%;
+	top:5%;
+	
+}
+
+.texto_ayuda
+{
+	padding-top:5%;
+	font-size:100%;
+}
+
+.texto_ayuda p
+{
+	margin-top:3%;
+	font-weight:400;
+	font-size:100%;
+}
+
+
+@media (min-width: 500px) {
+    .texto_ayuda  { font-size: 70%; }
+}
+
+@media (min-width: 700px) {
+    .texto_ayuda  { font-size: 90%; }
+}
+
+#sombra
+{
+	background-color:rgba(0,0,0,0.5);
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:888;
+}
+
+.dialog {
+padding:1% 5%;
+background-color:#EFEFEF;
+width:80%;
+height:80%;
+top: 10%;
+left: 5%;
+position:absolute;
+z-index:999;
+border-radius:15px;
+/*display:none;*/
+}
+
+.dialog .negrita
+{
+	font-weight:bold;
+}
+
+.dialog ul
+{
+    list-style-type: lower-alpha;
+}
+
+.dialog li
+{
+    margin:5px 0;
+    margin-left:5%;
+}
+
+
+
 
 #totales_imc
 {
@@ -134,7 +234,6 @@
 #ayuda_proyectos
 {
 	width:90%;
-	height:50px;
 	margin:0 auto;
 	display:inline-block;
 }
@@ -423,6 +522,16 @@
 	padding:0;
 }
 
+#tabla_imc th
+{
+	padding:0.85% 0;
+}
+
+#tabla_imc tr:last-child td
+{
+	padding:0.85% 0;
+}
+
 
 /*
 	========ESTILO TABLA TOTALES
@@ -506,12 +615,14 @@
 }
 
 
+
+
 /*TABLA PERMISOS*/
 
 
 #tabla_permisos
 {
-	opacity:0.70;
+	opacity:0.80;
 }
 
 #tabla_permisos .permisos 
@@ -529,7 +640,9 @@
 	border-top:none;
 	/*background: RGB(35,200,200);*/
 	background: #22C5B1;
-	cursor:default;		
+	cursor:default;	
+	
+	padding:0.85% 0;	
 }
 
 #tabla_permisos td

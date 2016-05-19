@@ -1,32 +1,42 @@
 
 $(document).ready(function() 
-{	
+{		
 	$("#dialog").css('display','none');
 	
 	$("#sombra").css('display','none');			
 	
+	//EVENTO CLICK
 	$('#ayuda_permisos').on('click',function()
 	{
 		//LE DAMOS EL TAMAÑO DE LA PANTALLA A LA SOMBRA
-		$("#sombra").css('width',$(window).width()+"px");
-		$("#sombra").css('height',$(window).height()+"px");
+		$("#sombra").css('width',$(document).width()+"px");
+		$("#sombra").css('height',$(document).height()+"px");
 		
-		//LE DAMOS EL TAMAÑO DE LA PANTALLA A LA SOMBRA
-		$("#sombra").css('width',$(window).width()+"px");
-		$("#sombra").css('height',$(window).height()+"px");
 		
 		//LOS HACEMOS VISIBLES
 		$("#dialog").css('display','block');
 		$("#sombra").css('display','block');
-	});
+	});	
 	
 	//LOS CERRAMOS Y HACEMOS INVISIBLES
 	$('#imagen_cierre_popup').on('click',function()
 	{
 		$("#dialog").css('display','none');
 		$("#sombra").css('display','none');
+	});
+	
+	$('#sombra').on('click',function()
+	{
+    		$("#dialog").css('display','none');
+    		$("#sombra").css('display','none');		
 	});	
 	
+	$( window ).resize(function() {
+		$("#sombra").css('width',$(document).width()+"px");
+		$("#sombra").css('height',$(document).height()+"px");
+	});
+	
+	//FINAL EVENTOS POP UPS
 	
 	//EVENTO BOTON NUEVA SOLICITUD
 	$('#seleccionar_dias').on('click',function()
