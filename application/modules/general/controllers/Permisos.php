@@ -69,7 +69,7 @@ class Permisos extends MX_Controller
 		//$datos['permisos']=$this->Permisos_model->cargar_permisos($k_consultor);
 		
 		//CAMBIO DEV-PRO
-		$datos['solovista']=$solovista;;				
+		$datos['solovista']=$solovista;			
 		
 		//AÑO "FISCAL" DE LAS VACACIONES
 		$datos['year_solicitud']=$year;		
