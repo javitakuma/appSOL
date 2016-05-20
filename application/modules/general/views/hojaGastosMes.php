@@ -148,10 +148,10 @@
 	                    <td class="fecha_gasto"><?php echo $linea_gastos['f_linea_gasto']?></td>     
 	                    
 	                    <td class="valor_gasto"><?php echo $linea_gastos['i_imp_linea_gasto']?></td> 
-	                    
-	                    <td class="autorizacion1"><?php echo $linea_gastos['k_linea_gasto_autorizado1']==0?'Pendiente':($linea_gastos['k_linea_gasto_autorizado1']==-1)?'Autorizado':'No autorizado'?></td>
-	                    
-	                    <td class="autorizacion2"><?php echo $linea_gastos['k_linea_gasto_autorizado2']==0?'Pendiente':($linea_gastos['k_linea_gasto_autorizado1']==-1)?'Autorizado':'No autorizado'?></td>
+	                   
+	                    <td class="autorizacion1"><?php echo ($linea_gastos['k_linea_gasto_autorizado1']==0)?'Pendiente':($linea_gastos['k_linea_gasto_autorizado1']==1?'Autorizado':'No autorizado')?></td>
+	                    	                    
+	                    <td class="autorizacion2"><?php echo ($linea_gastos['k_linea_gasto_autorizado2']==0)?'Pendiente':($linea_gastos['k_linea_gasto_autorizado1']==1?'Autorizado':'No autorizado')?></td>
 	                    
 	                    <td class="descripcion_gasto"><textarea disabled="disabled"><?php echo $linea_gastos['desc_linea_gasto']?></textarea></td> 
 	                    

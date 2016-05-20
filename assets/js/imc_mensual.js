@@ -43,6 +43,8 @@ $(document).ready(function() {
 		$('#enviar_imc').css('visibility','visible');
 	}
 	
+	
+	
 	//EVENTO CLICK PARA EL BOTON AGREGAR PROYECTO
 	$("#agregar_proyecto").click(function() 
 	{
@@ -57,6 +59,18 @@ $(document).ready(function() {
 		}
 		
 	});
+	
+	
+	$('#tabla_imc').delegate(".comentarios_textarea", 'focus', function(event)
+	{
+		$(this).removeClass('colorErrorCelda');
+	});
+	
+	$('#tabla_imc').delegate(".comentarios_textarea", 'blur', function(event)
+	{
+		error_validar_comentarios_linea_imc();
+	});
+	
 	
 	
 	
@@ -81,16 +95,7 @@ $(document).ready(function() {
     		}
     	});
     	
-    	//VALIDA LA EQUIVALENCIA DE HORAS DE IMC Y PERMISOS    	
-    	if(!comparar_imc_permisos())
-    	{
-    		var respuesta_error_permisos=confirm("Las horas de permisos introducidas no coinciden con las solicitadas, ¿Desea continuar?");
-    		
-    		if(!respuesta_error_permisos)
-    		{
-    			cancelar_envio=true;
-    		}
-    	}
+    	
     	
     	//VALIDA CADA CELDA DE HORAS QUE NO SEA MAYOR DE 8
     	$('.input_horas').each(function()
@@ -112,6 +117,13 @@ $(document).ready(function() {
     		}
     	});
     	
+    	
+    	if(error_validar_comentarios_linea_imc())
+    	{
+    		cancelar_envio=true;
+    	}
+    	
+    	/*   OLD 20-05
     	var error_longitud_comentario=false;
     	$('.comentarios_textarea').each(function()
     	{    		
@@ -120,6 +132,8 @@ $(document).ready(function() {
     		if($(this).val.length>50)
     		{
     			error_longitud_comentario=true;
+    			
+    			$(this).addClass('colorErrorCelda');//NEW 20-05
     		}
     		
     		
@@ -135,6 +149,8 @@ $(document).ready(function() {
     			{
     				cancelar_envio=true;
     				alert("El código de proyecto KEYPREVENTA debe incluir un comentarios con el formato:\n\n Cliente / Tecnología / Actividad \n\nEjemplo:Direct / Tableau Qlik Sense / Poc");
+    				
+    				$(this).addClass('colorErrorCelda');//NEW 20-05
     			}     			
     		}
     		
@@ -146,6 +162,8 @@ $(document).ready(function() {
     			{
     				cancelar_envio=true;
     				alert("El código de proyecto KEYCURINT debe incluir un comentario.");
+    				
+    				$(this).addClass('colorErrorCelda');//NEW 20-05
     			}    			     			
     		}    	    		
     		
@@ -156,6 +174,7 @@ $(document).ready(function() {
     			{
     				cancelar_envio=true;
     				alert("El código de proyecto KEYSINPROY debe incluir un comentario.");
+    				$(this).addClass('colorErrorCelda');//NEW 20-05
     			}
     			     			
     		}
@@ -184,6 +203,7 @@ $(document).ready(function() {
     			    	cancelar_envio=true;
     			    	alert("El código de proyecto KEYOTROS debe acompañar un comentario que ha de comenzar con una de las siguientes expresiones:\n" +
     			    			"HOSPITAL FAMILIAR, DEFUNCION FAMILIAR, DEFUNCION FAMILIAR, ASUNTOS PROPIOS, MUDANZA, MATRIMONIO, PATERNIDAD, ACADEMICO, ACADÉMICO, LACTANCIA, PRENATAL, PERMISO KEYRUS O PERMISO SIN SUELDO.");
+    			    	$(this).addClass('colorErrorCelda');//NEW 20-05
     			    }
 
     		};	
@@ -192,10 +212,22 @@ $(document).ready(function() {
     		{
     			alert("La longitud máxima del campo comentarios es de 50 caracteres");
     			cancelar_envio=true;
+    			$(this).addClass('colorErrorCelda');//NEW 20-05
     		}
     	    		
     	 });
+    	*/
     	
+    	//VALIDA LA EQUIVALENCIA DE HORAS DE IMC Y PERMISOS    	
+    	if(!cancelar_envio&&!comparar_imc_permisos())
+    	{
+    		var respuesta_error_permisos=confirm("Las horas de permisos introducidas no coinciden con las solicitadas, ¿Desea continuar?");
+    		
+    		if(!respuesta_error_permisos)
+    		{
+    			cancelar_envio=true;
+    		}
+    	}
     	
     	//SI NO HEMOS CANCELADO ENTRAMOS AQUI
     	if(!cancelar_envio)
@@ -243,16 +275,7 @@ $(document).ready(function() {
     	    		}
     	    	});
     	    	
-    	    	//VALIDA LA EQUIVALENCIA DE HORAS DE IMC Y PERMISOS    	
-    	    	if(!comparar_imc_permisos())
-    	    	{
-    	    		var respuesta_error_permisos=confirm("Las horas de permisos introducidas no coinciden con las solicitadas, ¿Desea continuar?");
-    	    		
-    	    		if(!respuesta_error_permisos)
-    	    		{
-    	    			cancelar_envio=true;
-    	    		}
-    	    	}    	    	
+    	    	   	    	
     	    	//VALIDA CADA CELDA DE HORAS QUE NO SEA MAYOR DE 8
     	    	$('.input_horas').each(function()
     	    	    	{
@@ -263,6 +286,11 @@ $(document).ready(function() {
     	    	    		}
     	    	    	});
     	    	
+    	    	if(error_validar_comentarios_linea_imc())
+    	    	{
+    	    		cancelar_envio=true;
+    	    	}
+    	    	/* OLD20-05
     	    	var error_longitud_comentario=false;
     	    	$('.comentarios_textarea').each(function()
     	    	{
@@ -353,7 +381,8 @@ $(document).ready(function() {
     	    		
     	    	    		
     	    	 });
-    	    	
+    	    	*/
+    	    	/*
     	    	//comprobamos que cuadren las horas del imc con las previstas
     	    	if( $('#horas_consultor').html()!=$('#horas_previstas').html())
     	    	{
@@ -365,8 +394,17 @@ $(document).ready(function() {
     	    			cancelar_envio=true;
     	    		}    	    		
     	    	}
-    	    	
-    	    	
+    	    	*/
+    	    	//VALIDA LA EQUIVALENCIA DE HORAS DE IMC Y PERMISOS    	
+    	    	if(!cancelar_envio&&!comparar_imc_permisos())
+    	    	{
+    	    		var respuesta_error_permisos=confirm("Las horas de permisos introducidas no coinciden con las solicitadas, ¿Desea continuar?");
+    	    		
+    	    		if(!respuesta_error_permisos)
+    	    		{
+    	    			cancelar_envio=true;
+    	    		}
+    	    	} 
     	    	
     	    	//SI NO HEMOS CANCELADO ENTRAMOS AQUI
     	    	if(!cancelar_envio)
@@ -463,6 +501,8 @@ $(document).ready(function() {
     */
     
     
+    
+    
     //EVENTO PARA LA ACCION BLUR DE LOS INPUT
     $('#tabla_imc').delegate(".input_horas", 'blur', function(event) {
     	//alert($(this).parent().parent().find('.total_horas_imc').html());
@@ -470,6 +510,8 @@ $(document).ready(function() {
     	{
     		actualizarTotalesHorizontal(this);
         	actualizarTotalesVertical();
+        	$(this).removeClass('colorErrorCelda');//NEW 20-05
+        	$(this).parent().removeClass('colorErrorCelda');//NEW 20-05
     	}
     	else
     	{
@@ -478,6 +520,10 @@ $(document).ready(function() {
     		actualizarTotalesHorizontal(this);
         	actualizarTotalesVertical();
         	$(this).focus();
+        	
+        	$(this).addClass('colorErrorCelda');//NEW 20-05
+        	$(this).parent().addClass('colorErrorCelda');//NEW 20-05
+        	
     	}
     	
         // ...
@@ -524,8 +570,8 @@ $(document).ready(function() {
 		$("#sombra").css('height',$(document).height()+"px");
 	});
     
-    //EVENTO CLICK AYUDA PROYECTOS
-    
+	
+    //EVENTO CLICK AYUDA PROYECTOS    
     $('#ayuda_proyectos .contenedor_ayuda').on('click', function(event) 
     {    
     	//MODO ANTIGUO
@@ -589,6 +635,109 @@ $(document).ready(function() {
     //comparar_imc_permisos();
     
 });
+
+
+//VALIDACION CAMPO COMENTARIOS
+
+function error_validar_comentarios_linea_imc()
+{
+	var cancelar_envio=false;
+	
+	var error_longitud_comentario=false;
+	$('.comentarios_textarea').each(function()
+	{    		
+		var nombre_proyecto=$(this).parent().parent().find('td:first').html();    		
+		
+		if($(this).val.length>50)
+		{
+			error_longitud_comentario=true;
+			
+			$(this).addClass('colorErrorCelda');//NEW 20-05
+		}
+		
+		
+		if(nombre_proyecto=='PRO251')//CAMBIAR PRODUCCION KEYPREVENTA  DEV-PRO 
+		{  
+			var regex_preventa=/^[\w\W]+\/[\w\W]+\/[\w\W]+$/;
+			
+			if(regex_preventa.test($(this).val()))
+			{
+				//alert("valida");
+			}
+			else
+			{
+				cancelar_envio=true;
+				alert("El código de proyecto KEYPREVENTA debe incluir un comentarios con el formato:\n\n Cliente / Tecnología / Actividad \n\nEjemplo:Direct / Tableau Qlik Sense / Poc");
+				
+				$(this).addClass('colorErrorCelda');//NEW 20-05
+			}     			
+		}
+		
+		
+		if(nombre_proyecto=='PRO240')//CAMBIAR PRODUCCION KEYCURINT  DEV-PRO 
+		{  
+			
+			if($(this).val()=="")
+			{
+				cancelar_envio=true;
+				alert("El código de proyecto KEYCURINT debe incluir un comentario.");
+				
+				$(this).addClass('colorErrorCelda');//NEW 20-05
+			}    			     			
+		}    	    		
+		
+		if(nombre_proyecto=='PRO256')//CAMBIAR PRODUCCION KEYSINPROY  DEV-PRO
+		{  
+			
+			if($(this).val()=="")
+			{
+				cancelar_envio=true;
+				alert("El código de proyecto KEYSINPROY debe incluir un comentario.");
+				$(this).addClass('colorErrorCelda');//NEW 20-05
+			}
+			     			
+		}
+		
+		if(nombre_proyecto=='PRO468')//CAMBIAR PRODUCCION KEYOTROS   DEV-PRO
+		{  
+			
+			//SI FALLARA QUITAR  LO QUE NO SEA TEXTO PLANO
+			
+			//PARA AGREGAR UNO NUEVO PONER EL TEXTO +  ([\s]+[\w\W]*)*$ PARA CAMPOS QUE NO REQUIERAN EXPLICACION Y TEXTO + ([\s]+[\w\W]+)+$/ PARA CAMPOS QUE SI LO REQUIERAN
+			
+			var expresiones_validas = [/^HOSPITAL FAMILIAR([\s]+[\w\W]+)+$/, /DEFUNCION FAMILIAR([\s]+[\w\W]+)+$/,  /ASUNTOS PROPIOS([\s]+[\w\W]+)+$/,/MUDANZA([\s]+[\w\W]*)*$/,/MATRIMONIO([\s]+[\w\W]*)*$/,/PATERNIDAD([\s]+[\w\W]*)*$/,/ACADEMICO([\s]+[\w\W]+)+$/,/LACTANCIA([\s]+[\w\W]*)*$/,/PRENATAL([\s]+[\w\W]*)*$/,/PERMISO KEYRUS([\s]+[\w\W]+)+$/,/PERMISO SIN SUELDO([\s]+[\w\W]+)+$/,];
+
+			   	var key_otros_valido=false;		    
+
+			    for (i=0; i < expresiones_validas.length&&!key_otros_valido; i++) 
+			    {
+			        if ($(this).val().match(expresiones_validas[i])) 
+			        {
+			        	key_otros_valido=true;
+			        }      			        
+			    }
+			    
+			    if(!key_otros_valido)
+			    {
+			    	cancelar_envio=true;
+			    	alert("El código de proyecto KEYOTROS debe acompañar un comentario que ha de comenzar con una de las siguientes expresiones:\n" +
+			    			"HOSPITAL FAMILIAR, DEFUNCION FAMILIAR, DEFUNCION FAMILIAR, ASUNTOS PROPIOS, MUDANZA, MATRIMONIO, PATERNIDAD, ACADEMICO, ACADÉMICO, LACTANCIA, PRENATAL, PERMISO KEYRUS O PERMISO SIN SUELDO.");
+			    	$(this).addClass('colorErrorCelda');//NEW 20-05
+			    }
+
+		};	
+		
+		if(error_longitud_comentario)
+		{
+			alert("La longitud máxima del campo comentarios es de 50 caracteres");
+			cancelar_envio=true;
+			$(this).addClass('colorErrorCelda');//NEW 20-05
+		}
+	    		
+	 });
+	
+	return cancelar_envio||error_longitud_comentario;
+}
 
 
 //COMPARA LOS DATOS DEL IMC Y DE LOS PERMISOS QUE TIENE ACEPTADOS
@@ -728,10 +877,12 @@ function actualizarTotalesVertical()
 			    if(isNaN(sum))
 			    {
 			    	$('#total'+i).html('##');
+			    	$('#total'+i).addClass('colorErrorCelda');//NEW 20-05
 			    }
 			    else
 			    {
 			    	$('#total'+i).html(sum);
+			    	$('#total'+i).removeClass('colorErrorCelda');//NEW 20-05
 			    }
 			    
 			    
@@ -749,12 +900,21 @@ function actualizarTotalesVertical()
 	    	$('#horas_consultor').html('##');
 		    $('#horas_totales').html('##');
 		    $('#jornadas').html('##');
+		    
+		    $('#horas_consultor').addClass('colorErrorCelda');//NEW 20-05
+		    $('#horas_totales').addClass('colorErrorCelda');//NEW 20-05
+		    $('#jornadas').addClass('colorErrorCelda');//NEW 20-05
+		    
 	    }
 	    else
 	    {
 	    	$('#horas_consultor').html(sum2);
 		    $('#horas_totales').html(sum2);
 		    $('#jornadas').html(sum2/8);
+		    
+		    $('#horas_consultor').removeClass('colorErrorCelda');//NEW 20-05
+		    $('#horas_totales').removeClass('colorErrorCelda');//NEW 20-05
+		    $('#jornadas').removeClass('colorErrorCelda');//NEW 20-05
 	    }
 	    
 	    //PINTAMOS LA CASILLA DE LAS HORAS VERDE O ROJA SEGUN SEAN CORRECTAS O NO
@@ -792,10 +952,12 @@ function actualizarTotalesHorizontal(element)
 	if(isNaN(sum))
     {
 		$(element).parent().parent().find('.total_horas_imc').html('##');
+		$(element).parent().parent().find('.total_horas_imc').addClass('colorErrorCelda');//NEW 20-05
     }
     else
     {
     	$(element).parent().parent().find('.total_horas_imc').html(sum);
+    	$(element).parent().parent().find('.total_horas_imc').removeClass('colorErrorCelda');//NEW 20-05
     }
 	
 	
@@ -860,7 +1022,7 @@ function validarValorCelda(elemento)
 {
 	var respuesta=false;
 	
-	if(Number($(elemento).val())>=0&&Number($(elemento).val())<=24)
+	if(Number($(elemento).val())>=0&&Number($(elemento).val())<=8)
 	{
 		respuesta=true;
 	}

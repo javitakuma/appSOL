@@ -19,9 +19,9 @@ var emple={"employees":[
 $(document).ready(function() {
 	
 	//Con esta funcion actualizamos los totales al cargar la página	
-	actualizarTotales(); 
+	actualizarTotales(); 	
 	
-	
+	//CALENDARIO SELECCION FECHAS
 	$('#tabla_gastos_pendientes_mes').delegate('.fecha_gasto input','focus',function()
 	{
 		$(this).datepicker(
@@ -45,9 +45,7 @@ $(document).ready(function() {
     	var cancelar_envio=false;
     	
     	//VALIDAMOS QUE HAYA SELECCIONADO UN PROYECTO EN CADA FILA
-    	
-    	
-    	
+    	    	
     	
     	//VALIDAMOS QUE HAYA VALORES CORRECTOS EN EL IMPORTE
     	$('.valor_gasto input').each(function()
@@ -56,45 +54,69 @@ $(document).ready(function() {
     		{
     			cancelar_envio=true;
     			alert("Tienes valores negativos en las celdas de valor.");
+    			$(this).addClass('colorErrorCelda'); //NEW 20-05
     		}
     		else if(isNaN($(this).val()))
     		{
     			cancelar_envio=true;
     			alert("Tienes valores incorrecto en las celdas de valor.");
-    		}
+    			$(this).addClass('colorErrorCelda'); //NEW 20-05
+    		}    		
     	});
     	
     	//VALIDAMOS QUE HAYA SELECCIONADO UNA FECHA CORRECTA EN CADA FILA
     	$('.fecha_gasto input').each(function()
     	    	{
 		    		if (!validarFecha(this))
-		        	{		        		
-		        		
+		        	{		
 		        		cancelar_envio=true;
+		        		$(this).addClass('colorErrorCelda');//NEW20-05
 		            	//actualizarTotales();
 		        	}
     	    	});
     	
     	//VALIDAMOS QUE HAYA SELECCIONADO UN TIPO GASTO EN CADA FILA
-    	$('.select_tipo_gasto').each(function()
-    	    	{
-    	    		if($(this).val()==0)
-    	    		{
-    	    			cancelar_envio=true;
-    	    			alert("Debes seleccionar un tipo de gasto para cada línea.");
-    	    			
-    	    		}
-    	});
     	
+    	
+    	if(error_validar_proyecto())
+    	{
+    		cancelar_envio=true;
+    	}
+    	
+    	/* OLD20-05
     	$('.select_proyecto').each(function()
     	    	{
     	    		if($(this).val()==0)
     	    		{
     	    			cancelar_envio=true;
     	    			alert("Debes seleccionar un proyecto para cada línea.");
+    	    			$(this).addClass('colorErrorCelda');//NEW20-05  
     	    		}
     	});
+    	*/
     	
+    	if(error_validar_tipo_gasto())
+    	{
+    		cancelar_envio=true;
+    	}
+    	
+    	/*
+    	 $('.select_tipo_gasto').each(function()
+    	    	{
+    	    		if($(this).val()==0)
+    	    		{
+    	    			cancelar_envio=true;
+    	    			alert("Debes seleccionar un tipo de gasto para cada línea.");
+    	    			$(this).addClass('colorErrorCelda');//NEW20-05    	    			
+    	    		}
+    	});    	 
+    	 */    	
+    	
+    	if(error_validar_comentario_linea())
+    	{
+    		cancelar_envio=true;
+    	}
+    	/*
     	var error_longitud_comentario=false;
     	
     	//VALIDAMOS EL TAMAÑO DEL CAMPO DESCRIPCION
@@ -106,12 +128,19 @@ $(document).ready(function() {
     		{
     			error_longitud_comentario=true;
     			cancelar_envio=true;
-    			alert("La longitud máxima del campo comentarios es de 100 caracteres");
-    		}   
+    			alert("La longitud máxima del campo comentarios es de 100 caracteres.");
+    		}  
+    		
+    		if($(this).val()=='')
+    		{
+    			error_longitud_comentario=true;
+    			cancelar_envio=true;
+    			alert("Debe introducir una descripción para cada línea de gasto.");
+    		} 
     		
     	    		
     	 });
-    	
+    	*/
     	
     	//SI NO HEMOS CANCELADO ENTRAMOS AQUI
     	if(!cancelar_envio)
@@ -177,25 +206,16 @@ $(document).ready(function() {
     			        	}
     	    	    	});
     	    	
-    	    	//VALIDAMOS QUE HAYA SELECCIONADO UN TIPO GASTO EN CADA FILA
-    	    	$('.select_tipo_gasto').each(function()
-    	    	    	{
-    	    	    		if($(this).val()==0)
-    	    	    		{
-    	    	    			cancelar_envio=true;
-    	    	    			alert("Debes seleccionar un tipo de gasto para cada línea.");
-    	    	    			
-    	    	    		}
-    	    	});
+    	    	if(error_validar_proyecto())
+    	    	{
+    	    		cancelar_envio=true;
+    	    	}
     	    	
-    	    	$('.select_proyecto').each(function()
-    	    	    	{
-    	    	    		if($(this).val()==0)
-    	    	    		{
-    	    	    			cancelar_envio=true;
-    	    	    			alert("Debes seleccionar un proyecto para cada línea.");
-    	    	    		}
-    	    	});
+    	    	//VALIDAMOS QUE HAYA SELECCIONADO UN TIPO GASTO EN CADA FILA
+    	    	if(error_validar_tipo_gasto())
+    	    	{
+    	    		cancelar_envio=true;
+    	    	}
     	    	
     	    	var error_longitud_comentario=false;
     	    	
@@ -209,7 +229,14 @@ $(document).ready(function() {
     	    			error_longitud_comentario=true;
     	    			cancelar_envio=true;
     	    			alert("La longitud máxima del campo comentarios es de 100 caracteres");
-    	    		}   
+    	    		}  
+    	    		
+    	    		if($(this).val()=='')
+    	    		{
+    	    			error_longitud_comentario=true;
+    	    			cancelar_envio=true;
+    	    			alert("Debe introducir una descripción para cada línea de gasto.");
+    	    		}
     	    		
     	    	    		
     	    	 });
@@ -241,7 +268,75 @@ $(document).ready(function() {
     
     
     
+    $('#tabla_gastos_pendientes_mes').delegate(".select_proyecto", 'focus', function(event) 
+    {    	
+    	$(this).removeClass('colorErrorCelda');
+    	$(this).parent().removeClass('colorErrorCelda');
+    	
+    });
     
+    $('#tabla_gastos_pendientes_mes').delegate(".select_proyecto", 'blur', function(event) 
+    {    	
+    	error_validar_proyecto();
+    	
+    });
+    
+    $('#tabla_gastos_pendientes_mes').delegate(".select_tipo_gasto", 'focus', function(event) 
+    {    	
+    	$(this).removeClass('colorErrorCelda');
+    	$(this).parent().removeClass('colorErrorCelda');
+    	
+    });
+    
+    $('#tabla_gastos_pendientes_mes').delegate(".select_tipo_gasto", 'blur', function(event) 
+    {    	
+    	error_validar_tipo_gasto()
+    	
+    });  
+    
+    $('#tabla_gastos_pendientes_mes').delegate(".fecha_gasto input", 'focus', function(event) 
+    {    	
+    	$(this).removeClass('colorErrorCelda');
+    	$(this).parent().removeClass('colorErrorCelda');
+    	
+    });
+    
+    $('#tabla_gastos_pendientes_mes').delegate(".fecha_gasto input", 'change', function(event) 
+    {     
+    	validarFecha(this);
+    });
+    
+    /*
+    $('#tabla_gastos_pendientes_mes').delegate(".descripcion_gasto textarea", 'focus', function(event) 
+    {    	
+    	$(this).removeClass('colorErrorCelda');
+    	$(this).parent().removeClass('colorErrorCelda');
+    	
+    });
+    */
+    $('#tabla_gastos_pendientes_mes').delegate(".descripcion_gasto textarea", 'focus', function(event) 
+    {    	
+    	$(this).removeClass('colorErrorCelda');  
+    	$(this).parent().removeClass('colorErrorCelda');
+    });
+    
+    $('#tabla_gastos_pendientes_mes').delegate(".descripcion_gasto textarea", 'keypress', function(event) 
+    {    	
+    	$(this).removeClass('colorErrorCelda');  
+    	$(this).parent().removeClass('colorErrorCelda');
+    });
+    
+    $('#tabla_gastos_pendientes_mes').delegate(".descripcion_gasto textarea", 'blur', function(event) 
+    {    	
+    	error_validar_comentario_linea();    	
+    });
+    
+    
+    $('#tabla_gastos_pendientes_mes').delegate(".valor_gasto input", 'focus', function(event) 
+    {    	
+    	//validarFecha($(this).parent().prev().find('input'));
+    });
+       
 	
 	//EVENTO BLUR PARA LAS CASILLAS DE GASTO PARA VALIDAR
 	$('#tabla_gastos_pendientes_mes').delegate(".valor_gasto input", 'blur', function(event) {
@@ -249,16 +344,26 @@ $(document).ready(function() {
     	if (validarValorCelda(this))
     	{
         	actualizarTotales();
+        	$(this).removeClass('colorErrorCelda'); //NEW 20-05
+        	$(this).parent().removeClass('colorErrorCelda');
     	}
     	else
     	{
     		alert("Has introducido un valor numérico erroneo (Formato: 1.11)");
-    		$(this).focus();
+    		//$(this).focus();
         	actualizarTotales();
-        	$(this).focus();
+        	//$(this).focus();
+        	$(this).addClass('colorErrorCelda'); //NEW 20-05
+        	$(this).parent().addClass('colorErrorCelda');
     	}
     	
-        // ...
+    });
+	
+	//EVENTO BLUR PARA LAS CASILLAS DE GASTO PARA VALIDAR
+	$('#tabla_gastos_pendientes_mes').delegate(".valor_gasto input", 'click', function(event) {
+    	
+		$(this).removeClass('colorErrorCelda'); //NEW 20-05 
+		$(this).parent().removeClass('colorErrorCelda');
     });
 	
 	//EVENTO BLUR PARA LAS CASILLAS DE LA FECHA PARA VALIDARLA
@@ -319,6 +424,149 @@ $(document).ready(function() {
     });
     
 });
+
+function error_validar_proyecto()
+{
+	var error_validar=false;
+	
+	$('.select_proyecto').each(function()
+	{
+		if($(this).val()==0)
+		{
+			error_validar=true;
+			alert("Debes seleccionar un proyecto para cada línea.");
+			$(this).addClass('colorErrorCelda');//NEW20-05  
+			$(this).parent().addClass('colorErrorCelda');//NEW20-05  
+		}
+	});
+	
+	return error_validar;
+}
+
+function error_validar_tipo_gasto()
+{
+	var error_validar=false;
+	
+	$('.select_tipo_gasto').each(function()
+	{
+		if($(this).val()==0)
+		{
+			error_validar=true;
+			alert("Debes seleccionar un tipo de gasto para cada línea.");
+			$(this).addClass('colorErrorCelda');//NEW20-05 
+			$(this).parent().addClass('colorErrorCelda');//NEW20-05
+		}
+	});
+	return error_validar;
+}
+
+//VALIDACION FECHA
+function validarFecha(elemento)
+{
+	
+	var respuesta=false;
+	
+	//CAMBIAMOS LA FECHA DE FORMATO yyyy-mm-dd A dd-mm-yyyy PARA VALIDARLA (input date cambia formato)
+	//var cambioFormato=$(elemento).val().split("-");
+	
+	//var fechaNuevoFormato=cambioFormato[2]+"-"+cambioFormato[1]+"-"+cambioFormato[0];
+	
+	var fechaNuevoFormato=$(elemento).val();   //para formato dd-mm-yyyy
+	
+	//alert(fechaNuevoFormato);
+	
+	
+	//VALIDA LA FECHA EN FORMATO DD-MM-YYYY
+	var regexFecha=/^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
+	
+	//COMPROBAMOS EL FORMATO	
+	if(regexFecha.test(fechaNuevoFormato))
+	{
+		respuesta=true;
+	}
+	else
+	{
+		alert("Dia o formato de fecha incorrecto (Formato requerido: dd/mm/yyyy)");
+	}
+	
+	var mes_gasto=fechaNuevoFormato.split("-")[1];
+	
+	var year_gasto=fechaNuevoFormato.split("-")[2];
+	
+	var number_mes_hoja=(Number)($('#mes_hoja').val());
+	
+	var number_año_hoja=(Number)($('#año_hoja').val());
+	
+	//CONTINUAR HACIA ABAJO
+	
+	//AQUI COMPROBAMOS QUE EL MES Y AÑO SEAN LOS DE LA HOJA DE GASTOS
+	if(fechaNuevoFormato.split("-")[2]==$('#año_hoja').val() && fechaNuevoFormato.split("-")[1]==$('#mes_hoja').val())
+	{	
+		//CORRECTO		
+	}  //MES ANTERIOR MISMO AÑO 
+	else if(fechaNuevoFormato.split("-")[2]==$('#año_hoja').val() && fechaNuevoFormato.split("-")[1]==number_mes_hoja-1)
+	{
+		//CORRECTO
+	}// 2 MESES ANTERIOR MISMO AÑO
+	else if(fechaNuevoFormato.split("-")[2]==$('#año_hoja').val() && fechaNuevoFormato.split("-")[1]==number_mes_hoja-2)
+	{
+		//CORRECTO
+	}//MES ANTERIOR AÑO ANTERIOR(GASTOS DICIEMBRE EN HOJA ENERO) 
+	else if(fechaNuevoFormato.split("-")[2]==number_año_hoja-1 && fechaNuevoFormato.split("-")[1]==number_mes_hoja+11)
+	{
+		//CORRECTO
+	}//MES 2 ANTERIOR AÑO ANTERIOR(GASTOS DICIEMBRE EN HOJA FEBRERO O DE NOVIEMNBRE EN ENERO) 
+	else if(fechaNuevoFormato.split("-")[2]==number_año_hoja-1 && fechaNuevoFormato.split("-")[1]==number_mes_hoja+10)
+	{
+		//CORRECTO
+	}
+	else
+	{			
+		respuesta=false;
+		alert("Solo se admiten gastos para el mes en curso de la hoja("+($('#mes_hoja').val())+"/"+($('#año_hoja').val())+") y los dos meses anteriores.");
+		$(elemento).addClass('colorErrorCelda');
+		$(elemento).parent().addClass('colorErrorCelda');
+	}
+	
+	
+	//AQUI COMPROBAMOS QUE EL MES Y AÑO SEAN LOS DE LA HOJA DE GASTOS(PARA VERSION YYYY-MM-DD
+	/*)
+	if(cambioFormato[0]!=$('#año_hoja').val()||cambioFormato[1]!=$('#mes_hoja').val())
+	{
+		respuesta=false;
+		alert("Solo se admiten gastos para el mes en curso de la hoja("+($('#mes_hoja').val())+"/"+($('#año_hoja').val())+")");
+	}
+	*/
+	return respuesta;
+}
+
+function error_validar_comentario_linea()
+{	
+	//VALIDAMOS EL TAMAÑO DEL CAMPO DESCRIPCION
+	
+	var error_validar=false;
+	$('.descripcion_gasto textarea').each(function()
+	{    		
+		//var nombre_proyecto=$(this).parent().parent().find('td:first').html();          CAMBIADO    				
+		
+		if($(this).val().length>100)
+		{
+			error_validar=true;
+			alert("La longitud máxima del campo comentarios es de 100 caracteres.");
+			$(this).addClass('colorErrorCelda');//NEW20-05
+			$(this).parent().addClass('colorErrorCelda');//NEW20-05 
+		} 		
+		if($(this).val()=='')
+		{
+			error_validar=true;
+			alert("Debe introducir una descripción para cada línea de gasto.");
+			$(this).addClass('colorErrorCelda');//NEW20-05 
+			$(this).parent().addClass('colorErrorCelda');//NEW20-05 
+		} 	    		
+	 });
+	
+	return error_validar;
+}
 
 function confirmar_boton_volver()
 {
@@ -492,83 +740,7 @@ function validarValorCelda(elemento)
 	return respuesta;
 }
 
-//VALIDACION FECHA
-function validarFecha(elemento)
-{
-	
-	var respuesta=false;
-	
-	//CAMBIAMOS LA FECHA DE FORMATO yyyy-mm-dd A dd-mm-yyyy PARA VALIDARLA (input date cambia formato)
-	//var cambioFormato=$(elemento).val().split("-");
-	
-	//var fechaNuevoFormato=cambioFormato[2]+"-"+cambioFormato[1]+"-"+cambioFormato[0];
-	
-	var fechaNuevoFormato=$(elemento).val();   //para formato dd-mm-yyyy
-	
-	//alert(fechaNuevoFormato);
-	
-	
-	//VALIDA LA FECHA EN FORMATO DD-MM-YYYY
-	var regexFecha=/^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
-	
-	//COMPROBAMOS EL FORMATO	
-	if(regexFecha.test(fechaNuevoFormato))
-	{
-		respuesta=true;
-	}
-	else
-	{
-		alert("Dia o formato de fecha incorrecto (Formato requerido: dd/mm/yyyy)");
-	}
-	
-	var mes_gasto=fechaNuevoFormato.split("-")[1];
-	
-	var year_gasto=fechaNuevoFormato.split("-")[2];
-	
-	var number_mes_hoja=(Number)($('#mes_hoja').val());
-	
-	var number_año_hoja=(Number)($('#año_hoja').val());
-	
-	//CONTINUAR HACIA ABAJO
-	
-	//AQUI COMPROBAMOS QUE EL MES Y AÑO SEAN LOS DE LA HOJA DE GASTOS
-	if(fechaNuevoFormato.split("-")[2]==$('#año_hoja').val() && fechaNuevoFormato.split("-")[1]==$('#mes_hoja').val())
-	{	
-		//CORRECTO		
-	}  //MES ANTERIOR MISMO AÑO 
-	else if(fechaNuevoFormato.split("-")[2]==$('#año_hoja').val() && fechaNuevoFormato.split("-")[1]==number_mes_hoja-1)
-	{
-		//CORRECTO
-	}// 2 MESES ANTERIOR MISMO AÑO
-	else if(fechaNuevoFormato.split("-")[2]==$('#año_hoja').val() && fechaNuevoFormato.split("-")[1]==number_mes_hoja-2)
-	{
-		//CORRECTO
-	}//MES ANTERIOR AÑO ANTERIOR(GASTOS DICIEMBRE EN HOJA ENERO) 
-	else if(fechaNuevoFormato.split("-")[2]==number_año_hoja-1 && fechaNuevoFormato.split("-")[1]==number_mes_hoja+11)
-	{
-		//CORRECTO
-	}//MES 2 ANTERIOR AÑO ANTERIOR(GASTOS DICIEMBRE EN HOJA FEBRERO O DE NOVIEMNBRE EN ENERO) 
-	else if(fechaNuevoFormato.split("-")[2]==number_año_hoja-1 && fechaNuevoFormato.split("-")[1]==number_mes_hoja+10)
-	{
-		//CORRECTO
-	}
-	else
-	{			
-		respuesta=false;
-		alert("Solo se admiten gastos para el mes en curso de la hoja("+($('#mes_hoja').val())+"/"+($('#año_hoja').val())+")");
-	}
-	
-	
-	//AQUI COMPROBAMOS QUE EL MES Y AÑO SEAN LOS DE LA HOJA DE GASTOS(PARA VERSION YYYY-MM-DD
-	/*)
-	if(cambioFormato[0]!=$('#año_hoja').val()||cambioFormato[1]!=$('#mes_hoja').val())
-	{
-		respuesta=false;
-		alert("Solo se admiten gastos para el mes en curso de la hoja("+($('#mes_hoja').val())+"/"+($('#año_hoja').val())+")");
-	}
-	*/
-	return respuesta;
-}
+
 
 //ESTA FUNCION ACTUALIZA LA FILA DE TOTALES Y VALORA SI EXISTEN LINEAS DE GASTO O NO PARA PINTAR LA TABLA O LA ADVERTENCIA DE QUE NO EXISTEN
 function actualizarTotales()

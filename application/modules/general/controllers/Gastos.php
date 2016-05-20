@@ -71,7 +71,7 @@ class Gastos extends MX_Controller
 		
 		$this->Gastos_model->enviar_hoja_gastos($k_hoja_gastos);
 	
-		echo "Hoja de gastos guardada.";
+		echo "Hoja de gastos enviada.";
 	}
 	
 	public function generar_nueva_hoja_gastos()

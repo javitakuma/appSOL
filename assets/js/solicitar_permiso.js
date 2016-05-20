@@ -65,6 +65,7 @@ $(document).ready(function() {
 		//alert(fechaFormateada);
 		
 		fila2['desc_observaciones']=diasDesdePhp[i].desc_observaciones;
+		//FECHA EN FORMATO ESPAÑOL QUE PONEMOS DE CLASE EN EL CALENDARIO PARA LUEGO PONER EL TAG TITLE
 		fila2['fecha_formato_esp']=fecha_formato_esp;
 		fila2['fecha']=new Date(fechaFormateada);
 		fila2['i_autorizado_n1']=diasDesdePhp[i].i_autorizado_n1;
@@ -152,6 +153,8 @@ $(document).ready(function() {
 			fecha_limite_final=new Date(year_calendario,11,31);
 		}
 		
+		var show_other_months=true;
+		
 		if($('#solovista').val()==1)
 		{
 			var primer=$('#primer_dia_t_calendario').val();
@@ -161,6 +164,7 @@ $(document).ready(function() {
 			fecha_limite_final=new Date(ultimo.split("-")[0],ultimo.split("-")[1]-1,ultimo.split("-")[2]);
 			meses_mostrar=[3,4];
 			step_months=12;
+			show_other_months=false;
 			
 			/*$('.ui-state-disabled').css('opacity','1.0');*/
 			
@@ -188,8 +192,8 @@ $(document).ready(function() {
 				
 				//solo lo hacemos una vez porque da tantas vueltas por aqui como fechas haya
 				var solo_una_vez=true;
-				//si no tiene dias, no hemos pasado y la accion es desseleccionar(ya habra eliminado la fecha del array)...
-				if(sinDias && solo_una_vez && estaDeseleccionando!=-1)
+				//si no tiene dias, no hemos pasado, la accion es desseleccionar(ya habra eliminado la fecha del array) y no es keyotros...
+				if(sinDias && solo_una_vez && estaDeseleccionando!=-1 && ($('#k_proyecto_solicitud').val()!=468))
 				{			
 					solo_una_vez=false;
 					$('#calendario').multiDatesPicker('toggleDate', date);
@@ -200,7 +204,7 @@ $(document).ready(function() {
 				actualizarDiasPendientes();
 			},
 			
-			showOtherMonths: true,
+			showOtherMonths: show_other_months,
 			firstDay: 1,
 			maxPicks: diasMaximos,
 			dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ],

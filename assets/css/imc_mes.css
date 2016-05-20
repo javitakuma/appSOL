@@ -1,3 +1,9 @@
+.colorErrorCelda
+{
+	background-color:rgb(255, 119, 119) !important;
+}
+
+
 #div-volver
 {
 	width:10%;
@@ -176,7 +182,19 @@ border-radius:15px;
 {
     border-collapse: collapse;
 }
-#imc_mensual td,th
+#imc_mensual th
+{
+    width: 2%;
+    min-width: 2%;
+    padding: 0px;
+    margin:0px;
+    text-align: center;
+    border-collapse: collapse;
+	border:solid 1px #AAA;
+    vertical-align:middle;
+}
+
+#imc_mensual td
 {
     width: 2%;
     min-width: 2%;
@@ -202,7 +220,7 @@ border-radius:15px;
 
 #imc_mensual .comentarios textarea
 {
-	width:98%;
+	width:100%;
 	margin:0px;	
 	border:none;
 	resize:none;
