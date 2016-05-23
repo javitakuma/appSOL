@@ -123,7 +123,7 @@
 	                    <td class="comentarios"><textarea maxlength="50" class="comentarios_textarea"><?php echo $linea_imc['desc_comentarios']?></textarea></td>
 	                    <?php if($datos_imc_mes['t_imcs'][0]['sw_validacion']==0):?>
 	                    	
-	                    	<td class="borde_invisible no_fondo"><img title="Eliminar fila" class="eliminar_fila " src="<?php echo base_url()?>assets/img/cross.png"/></td>
+	                    	<td class="borde_invisible no_fondo"><img title="Eliminar fila" class="eliminar_fila " src="<?php echo base_url()?>assets/img/red_cross_120px.png"/></td>
 	                    	<!-- 
 	                    	<td class="borde_invisible no_fondo"><input class="eliminar_fila " type="image" src="<?php echo base_url()?>assets/img/cross.png"/></td>
 	                		 -->    

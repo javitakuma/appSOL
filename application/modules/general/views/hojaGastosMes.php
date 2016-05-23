@@ -25,7 +25,7 @@
 	        	
 	        	<!--PARRAFO PARA MOSTRAR SI NO HAY FILAS  -->
 	        	<p id="parrafo_sin_gastos" class="titulo-mediano">No dispones de gastos en este mes</p>
-	        	<div id="div_agregar_fila"><img title="Agregar fila" class="imagen_agregar_fila " src="<?php echo base_url()?>assets/img/cross.png"/><p>Agregar nueva linea de gasto</p></div>
+	        	<div id="div_agregar_fila"><img title="Agregar fila" class="imagen_agregar_fila " src="<?php echo base_url()?>assets/img/green_cross_2.png"/><p>Agregar nueva linea de gasto</p></div>
 	            <table id="tabla_gastos_pendientes_mes" class="tabla_key">   
 	                     	
 	                 <!-- 
@@ -79,7 +79,7 @@
 	                    <td class="descripcion_gasto">
 	                    	<textarea  maxlength="100"><?php echo $linea_gastos['desc_linea_gasto']?></textarea>
 	                    </td>  
-	                    <td class="borde_invisible no_fondo"><img title="Eliminar fila" class="eliminar_fila " src="<?php echo base_url()?>assets/img/cross.png"/></td>             
+	                    <td class="borde_invisible no_fondo"><img title="Eliminar fila" class="eliminar_fila " src="<?php echo base_url()?>assets/img/red_cross_120px.png"/></td>             
 	                    
 	                </tr>
 	                	

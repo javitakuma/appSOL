@@ -60,6 +60,8 @@
 	  
 	  <div id="inferior">
 	  
+	 <h2 class="titulo-mediano">Histórico permisos año actual</h2> 
+	  
 	 <!-- TABLA INFERIOR PARA INTRODUCIR HORAS --> 
 	<table id="celdas_horas" class="tabla_key">
 	<tr class="primera-fila">

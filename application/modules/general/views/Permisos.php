@@ -110,7 +110,7 @@
 							
 							<!-- PINTAMOS ELIMINAR SOLO SI AMBOS SWITCH SON PENDIENTES -->						
 							<?php if(($fila['i_autorizado_n1']=='Pendiente')&&($fila['i_autorizado_n2']=='Pendiente')):?>
-								<td class="eliminar_fila borde_invisible no_fondo"><img title="Eliminar fila" class="eliminar_fila_img " src="<?php echo base_url()?>assets/img/cross.png"/></td>	
+								<td class="eliminar_fila borde_invisible no_fondo"><img title="Eliminar fila" class="eliminar_fila_img " src="<?php echo base_url()?>assets/img/red_cross_120px.png"/></td>	
 							<?php endif;?>	
 							<!-- PINTAMOS EDITAR SOLO SI NO SE HA ENVIADO -->							
 							<?php if($fila['sw_envio_solicitud']==0):?>

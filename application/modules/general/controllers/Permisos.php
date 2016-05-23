@@ -97,9 +97,9 @@ class Permisos extends MX_Controller
 		
 		$k_consultor_original=$this->session->userdata('login_original');
 		
-		//$es_administrador_rrhh=$this->Permisos_model->verificar_admin_rrhh($k_consultor_original);
+		$es_administrador_rrhh=$this->Permisos_model->verificar_admin_rrhh($k_consultor_original);
 		
-		$datos['adm_rrhh']=false;
+		$datos['adm_rrhh']=$es_administrador_rrhh;
 		
 		$datos['primer_dia_t_calendario']=$this->Permisos_model->primer_dia_calendario();
 		

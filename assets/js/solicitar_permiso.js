@@ -293,14 +293,19 @@ $(document).ready(function() {
 			    
 			    if(date.valueOf()<fechaActualMenosVariosDias.valueOf())
 			    {
-			    	desbloqueado=false;
+			    	//SOLO SI NO ES ADMIN DE PERMISOS
+			    	if($('#adm_rrhh').val()!=1)
+					{		
+			    		desbloqueado=false;
+					}
+			    	
+			    	
 			    }
 				
 			  //SI ES ADMINISTRADOR NO LE LIMITAMOS LAS FECHAS
-				if($('#adm_rrhh').val()==1)
-				{		
-					desbloqueado=true;
-				}
+			    
+				
+			    
 			    
 			    //ESTO LO UTILIZAREMOS PARA BLOQUEAR TODAS Y CREAR LA VISTA VER EN CALENDARIO
 			    if($('#solovista').val()==1)

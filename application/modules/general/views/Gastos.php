@@ -27,7 +27,7 @@
 		
 	<div id="rejillaGastos">
 	
-	<div id="div_agregar_hoja"><img title="Agregar nueva hoja de gastos" class="imagen_agregar_hoja" src="<?php echo base_url()?>assets/img/cross.png"/><p class="titulo-peque">Agregar nueva hoja de gastos</p></div>
+	<div id="div_agregar_hoja"><img title="Agregar nueva hoja de gastos" class="imagen_agregar_hoja" src="<?php echo base_url()?>assets/img/green_cross_2.png"/><p class="titulo-peque">Agregar nueva hoja de gastos</p></div>
 		<table id="listadoGastosGeneral">
 			<tr id="fila-titulos">
 				<th id="abrir_titulo">ABRIR</th>

@@ -14,13 +14,19 @@ class Permisos_model extends CI_Model
 		$this->load->database();
 		$this->db->trans_start();
 		
-		$sql ="SELECT ";
+		$sql ="SELECT * from t_consultores where k_consultor=$k_consultor_original AND sw_admin_permisos=-1";
 		
 		$es_administrador_rrhh=$this->db->query($sql)->row_array();
 		
+		$respuesta=false;
+		if($es_administrador_rrhh!=null)
+		{
+			$respuesta=true;
+		}
+		
 		$this->db->trans_complete();
 		$this->db->close();
-		return $es_administrador_rrhh;
+		return $respuesta;
 	}
 	
 	public function primer_dia_calendario()
