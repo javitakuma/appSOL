@@ -16,9 +16,9 @@ class Permisos extends MX_Controller
 		$this->mostrar_permiso_anual();
 	}
 	
-	public function mostrar_permisos_calendario()
+	public function mostrar_permisos_calendario($k_permiso_solicitud_calendario=0)
 	{
-		$this->solicitar_permiso(0,0,1);
+		$this->solicitar_permiso(0,0,1,$k_permiso_solicitud_calendario);
 	}
 	
 	public function cargar_dias_para_horas()
@@ -57,13 +57,15 @@ class Permisos extends MX_Controller
 		$dias_debidos_two_years=$this->Permisos_model->cargar_dias_debidos($k_consultor,$datos['year_solicitud']);		
 		$datos['diasDebidos']=$dias_debidos_two_years['dias_debidos'];
 		$datos['diasDebidosPendientes']=$dias_debidos_two_years['dias_debidos_pendientes'];
+		$datos['diasDebidosFuturo']=$dias_debidos_two_years['dias_debidos_futuro'];
+		$datos['dias_base_siguiente']=$dias_debidos_two_years['dias_base_siguiente'];
 		
 		$datos['historico_permisos']=$this->Permisos_model->cargar_historico_permisos($k_consultor);	
 				
 		enmarcar($this,'Permisos.php',$datos);
 	}
 	
-	public function solicitar_permiso($k_permiso_solic=0,$year=0,$solovista=0)
+	public function solicitar_permiso($k_permiso_solic=0,$year=0,$solovista=0,$k_permiso_solicitud_calendario=0)
 	{		
 		//ir al modelo para sacar los dias pendientes de disfrutar
 		//$datos['permisos']=$this->Permisos_model->cargar_permisos($k_consultor);
@@ -112,15 +114,21 @@ class Permisos extends MX_Controller
 				
 		$datos['existe_next_year_bbdd']=$this->Permisos_model->comprobar_calendario_proximo_year($datos['year_solicitud']);
 		
-		$datos['festivos']=json_encode($this->Permisos_model->cargar_festivos($solovista));
+		$todos=$solovista||$datos['adm_rrhh'];		
+		
+		$datos['festivos']=json_encode($this->Permisos_model->cargar_festivos($todos));
 				
 		$k_consultor=$this->session->userdata('k_consultor');
-		$datos['diasYaSolicitados']=json_encode($this->Permisos_model->cargar_dias_solicitados($k_consultor));
+		
+		//CARGAMOS LOS DIAS SOLICITADOS(COMO SEGUNDO PARAMETRO PODEMOS PASAR UN PAQUETE DE SOLICITUDES)
+		$datos['diasYaSolicitados']=json_encode($this->Permisos_model->cargar_dias_solicitados($k_consultor,$k_permiso_solicitud_calendario));
 				
 		$dias_debidos_two_years=$this->Permisos_model->cargar_dias_debidos($k_consultor,$datos['year_solicitud']);
 		
 		$datos['diasDebidos']=$dias_debidos_two_years['dias_debidos'];
 		$datos['diasDebidosPendientes']=$dias_debidos_two_years['dias_debidos_pendientes'];
+		$datos['diasDebidosFuturo']=$dias_debidos_two_years['dias_debidos_futuro'];
+		$datos['dias_base_siguiente']=$dias_debidos_two_years['dias_base_siguiente'];
 				
 		$datos['js']=['solicitar_permiso','jquery-ui.multidatespicker'];
 		$datos['css']=['jquery-ui-1.10.1','solicitar_permiso'];
@@ -129,8 +137,10 @@ class Permisos extends MX_Controller
 	}
 	
 	//EDICION DE UNA SOLICITUD
-	public function editar_solicitud($k_permiso_solic,$year=0,$solovista=0)
+	public function editar_solicitud($k_permiso_solic,$year=0,$solovista=0,$k_permiso_solicitud_calendario=0)
 	{	
+		
+		$datos['solovista']=$solovista;
 		
 		//PARTE ANTI HACK
 		$this->load->model('welcome/Welcome_model');
@@ -211,19 +221,30 @@ class Permisos extends MX_Controller
 					
 			//MIRAMOS SI EXISTE EL CALENDARIO DEL AÑO SIGUIENTE PARA PINTAR EL MES DE ENERO DEL AÑO SIGUIENTE
 			$datos['existe_next_year_bbdd']=$this->Permisos_model->comprobar_calendario_proximo_year($datos['year_solicitud']);
+			
+			$datos['adm_rrhh']=false;
+			
 			//DIAS FESTIVOS DEL CALENDARIO
-			$datos['festivos']=json_encode($this->Permisos_model->cargar_festivos($solovista));
+			$todos=$solovista||$datos['adm_rrhh'];		
+		
+			$datos['festivos']=json_encode($this->Permisos_model->cargar_festivos($todos));
 			
 			//DIAS QUE YA TIENE PEDIDOS
 			$k_consultor=$this->session->userdata('k_consultor');
-			$datos['diasYaSolicitados']=json_encode($this->Permisos_model->cargar_dias_solicitados($k_consultor));
+			$datos['diasYaSolicitados']=json_encode($this->Permisos_model->cargar_dias_solicitados($k_consultor,$k_permiso_solicitud_calendario));
 		
 			//CALCULAMOS LOS DIAS QUE LE QUEDAN DE VACACIONES Y TAMBIEN LOS QUE TENIA EN ORIGEN
 			$dias_debidos_two_years=$this->Permisos_model->cargar_dias_debidos($k_consultor,$datos['year_solicitud'],$k_permiso_solic);
+			
+			$datos['primer_dia_t_calendario']=$this->Permisos_model->primer_dia_calendario();
+			
+			$datos['ultimo_dia_t_calendario']=$this->Permisos_model->ultimo_dia_calendario();
 		
 			//DIAS PENDIENTES QUE TIENE
 			$datos['diasDebidos']=$dias_debidos_two_years['dias_debidos'];
 			$datos['diasDebidosPendientes']=$dias_debidos_two_years['dias_debidos_pendientes'];
+			$datos['diasDebidosFuturo']=$dias_debidos_two_years['dias_debidos_futuro'];
+			$datos['dias_base_siguiente']=$dias_debidos_two_years['dias_base_siguiente'];
 			
 			
 			//DIAS QUE LE CORRESPONDEN  (ESTO NO ESTA EN EL DE SOLICITAR)

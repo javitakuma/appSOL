@@ -3,7 +3,7 @@
 			<img id="imagen-volver" title="Volver" class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='confirmar_boton_volver()'/>
 			<!--  <h3 class="titulo-peque">Volver</h3>-->
 		</div>
-	        <p id="titulo-pagina" class="titulo-grande centrado" onclick="pintar()">SOLICITUD PERMISOS <?php echo $tipo_solicitud?></p>
+	        <p id="titulo-pagina" class="titulo-grande centrado">SOLICITUD PERMISOS <?php echo $tipo_solicitud?></p>
 	        <p class="titulo-grande centrado"><?php echo $this->session->userdata('nom_consultor')?></p>
 	        
 	        <?php if($solovista!=1):?>
@@ -29,6 +29,31 @@
 				
 		<div id="sup-der">
 			<?php if ($solovista!=1):?>
+			
+			<div id="dias_pendientes" class="centrado centrado-margin">
+	        	<div id="dias_pendientes_titulo" class=" titulo-mediano">
+	        		<p>DIAS PENDIENTES</p>
+	        	</div>
+	        	<div id="dias_pendientes_anterior">
+	        		<label>Año <?php echo $year_solicitud-1?></label><p id="pendientesDebidosMostrar"></p><p>&nbsp;día/s.</p>
+	        	</div>
+	        	<div id="dias_pendientes_actual">
+	        		<label>Año <?php echo $year_solicitud?></label><p id="pendientesMostrar"></p><p>&nbsp;día/s.</p>
+	        	</div>
+	        	<?php if($dias_base_siguiente==null):?>
+	        		<div id="dias_pendientes_siguiente" class="invisible">
+	        			<label>Año <?php echo $year_solicitud+1?></label><p id="pendientesFuturoMostrar"></p><p>&nbsp;día/s.</p>
+	        		</div>
+	        	<?php endif;?>
+	        	
+	        	<?php if($dias_base_siguiente!=null):?>
+	        		<div id="dias_pendientes_siguiente">
+	        			<label>Año <?php echo $year_solicitud+1?></label><p id="pendientesFuturoMostrar"></p><p>&nbsp;día/s.</p>
+	        		</div>
+	        	<?php endif;?>			        	        	
+		     </div><!-- CIERRE dias_pendientes -->
+			
+			<!-- 
 			<div id="dias_pendientes" class="centrado centrado-margin titulo-mediano">
 		        	<div>
 		        		<p>DIAS PENDIENTES</p>
@@ -37,7 +62,8 @@
 		        		<label>Año <?php echo $year_solicitud-1?></label><p id="pendientesDebidosMostrar"></p>
 		        		<label>Año <?php echo $year_solicitud?></label><p id="pendientesMostrar"></p>	
 		        	</div>	        	
-		     </div><!-- CIERRE dias_pendientes -->
+		     </div>
+			 -->
 		     <div id="comentarios_permiso">
 		     	<h3 class="centrado titulo-mediano">Observaciones</h3>
 		     	<textarea maxlength="150" id="observaciones_textarea"></textarea>
@@ -135,6 +161,7 @@
 
 <input type="hidden" id="diasPendientesDebidos" value="<?php echo $diasDebidosPendientes?>"/>
 <input type="hidden" id="diasPendientes" value="<?php echo $diasDebidos?>"/>
+<input type="hidden" id="diasPendientesFuturo" value="<?php echo $diasDebidosFuturo?>"/>
 <input type="hidden" id="tipo_solicitud" value="<?php echo $tipo_solicitud?>"/>
 <input type="hidden" id="k_proyecto_solicitud" value="<?php echo $k_proyecto_solicitud?>"/>
 <input type="hidden" id="responsable_solicitud" value="<?php echo $responsable_solicitud?>"/>

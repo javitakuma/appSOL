@@ -25,14 +25,27 @@
 			</article>	
 		</div> 
 		<div id="sup-der">
-			<div id="dias_pendientes" class="centrado centrado-margin titulo-mediano">
-		        	<div>
-		        		<p>DIAS PENDIENTES</p>
-		        	</div>
-		        	<div>
-		        		<label>Año <?php echo $year_solicitud-1?></label><p id="pendientesDebidosMostrar"></p>
-		        		<label>Año <?php echo $year_solicitud?></label><p id="pendientesMostrar"></p>	
-		        	</div>	        	
+			<div id="dias_pendientes" class="centrado centrado-margin">
+	        	<div id="dias_pendientes_titulo" class=" titulo-mediano">
+	        		<p>DIAS PENDIENTES</p>
+	        	</div>
+	        	<div id="dias_pendientes_anterior">
+	        		<label>Año <?php echo $year_solicitud-1?></label><p id="pendientesDebidosMostrar"></p><p>&nbsp;día/s.</p>
+	        	</div>
+	        	<div id="dias_pendientes_actual">
+	        		<label>Año <?php echo $year_solicitud?></label><p id="pendientesMostrar"></p><p>&nbsp;día/s.</p>
+	        	</div>
+	        	<?php if($dias_base_siguiente==null):?>
+	        		<div id="dias_pendientes_siguiente" class="invisible">
+	        			<label>Año <?php echo $year_solicitud+1?></label><p id="pendientesFuturoMostrar"></p><p>&nbsp;día/s.</p>
+	        		</div>
+	        	<?php endif;?>
+	        	
+	        	<?php if($dias_base_siguiente!=null):?>
+	        		<div id="dias_pendientes_siguiente">
+	        			<label>Año <?php echo $year_solicitud+1?></label><p id="pendientesFuturoMostrar"></p><p>&nbsp;día/s.</p>
+	        		</div>
+	        	<?php endif;?>			        	        	
 		     </div><!-- CIERRE dias_pendientes -->
 		     <div id="comentarios_permiso">
 		     	<h3 class="centrado titulo-mediano">Observaciones</h3>
@@ -124,6 +137,7 @@
 
 <input type="hidden" id="diasPendientesDebidos" value="<?php echo $diasDebidosPendientes?>"/>
 <input type="hidden" id="diasPendientes" value="<?php echo $diasDebidos?>"/>
+<input type="hidden" id="diasPendientesFuturo" value="<?php echo $diasDebidosFuturo?>"/>
 <input type="hidden" id="tipo_solicitud" value="<?php echo $tipo_solicitud?>"/>
 <input type="hidden" id="k_proyecto_solicitud" value="<?php echo $k_proyecto_solicitud?>"/>
 <input type="hidden" id="responsable_solicitud" value="<?php echo $responsable_solicitud?>"/>
@@ -131,6 +145,11 @@
 <input type="hidden" id="year_solicitud" value="<?php echo $year_solicitud?>"/>
 <input type="hidden" id="existe_next_year_bbdd" value="<?php echo $existe_next_year_bbdd?>"/>
 <input type="hidden" id="k_permisos_solic" value="<?php echo isset($k_permisos_solic)?$k_permisos_solic:'0'?>"/>
+<input type="hidden" id="solovista" value="<?php echo $solovista?>"/>
+<input type="hidden" id="primer_dia_t_calendario" value="<?php echo $primer_dia_t_calendario?>"/>
+<input type="hidden" id="ultimo_dia_t_calendario" value="<?php echo $ultimo_dia_t_calendario?>"/>
+<input type="hidden" id="adm_rrhh" value="<?php echo $adm_rrhh?>"/>
+
 
 <input type="hidden" id="dias_base" value="<?php echo $dias_base?>"/>
 <input type="hidden" id="dias_base_anterior" value="<?php echo $dias_base_anterior?>"/>

@@ -147,6 +147,53 @@ td:disabled
 }
 */
 
+
+
+#dias_pendientes
+{
+	width:100%;
+	margin-right:0;
+	margin-bottom:5%;
+}
+
+#dias_pendientes div
+{
+	display:inline-block;
+	width:100%;
+	font-size:130%;
+	font-weight:bold;
+}
+
+#dias_pendientes_titulo
+{
+	margin-bottom:5%;
+}
+
+#dias_pendientes label
+{
+	display:inline-block;
+	margin-right:10%;
+	/*border:solid 1px red;*/	
+}
+
+#dias_pendientes p
+{
+	display:inline-block;
+	/*border:solid 1px red;*/	
+}
+
+.invisible
+{
+	visibility:hidden;
+}
+
+
+
+
+
+
+
+
 #inferior
 {
 	width:100%;	

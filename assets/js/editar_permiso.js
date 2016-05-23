@@ -133,16 +133,22 @@ $(document).ready(function() {
 		
 		var year_siguiente=((Number)(year_calendario))+1;
 		
+		var fecha_limite_inicial=new Date(year_calendario-1,9,1);
+		
 		var fecha_limite_final;
 		
-		var diasMaximos=(Number)($('#pendientesDebidosMostrar').html())+(Number)($('#pendientesMostrar').html());
+		var meses_mostrar=2;
+		
+		var step_months=1;
+		
+		var diasMaximos=(Number)($('#pendientesDebidosMostrar').html())+(Number)($('#pendientesMostrar').html())+(Number)($('#pendientesFuturoMostrar').html());
+		
 		
 		//SI ES KEYOTROS NO LIMITAMOS EL NUMERO DE DIAS QUE PUEDE SOLICITAR
 		if($('#k_proyecto_solicitud').val()==468)
 		{
 			diasMaximos=999;
 		}
-		
 		
 		if($('#existe_next_year_bbdd').val()==1)
 		{
@@ -152,6 +158,18 @@ $(document).ready(function() {
 		{
 			fecha_limite_final=new Date(year_calendario,11,31);
 		}
+		
+		//PODER IR ATRAS EN EL TIEMPO PARA SELECCIONAR VACACIONES SIN LIMITE
+		if($('#adm_rrhh').val()==1)
+		{
+			var primer=$('#primer_dia_t_calendario').val();		
+			fecha_limite_inicial=new Date(primer.split("-")[0],primer.split("-")[1]-1,primer.split("-")[2]);
+		}
+		
+		
+		
+		
+		
 				
 	    $( "#calendario" ).multiDatesPicker({
 	    	//PARAMETROS DEL OBJETO DATEPICKER
@@ -165,7 +183,7 @@ $(document).ready(function() {
 				
 				//todo esto lo hacemos porque no bloquea los festivos cuando alcanzamos el maximo de dias
 				//miramos sin ha llegado al limite de dias
-				var sinDias=($('#pendientesDebidosMostrar').html()==0) && ($('#pendientesMostrar').html()==0);
+				var sinDias=( ($('#pendientesDebidosMostrar').html()==0) && ($('#pendientesMostrar').html()==0) && ($('#pendientesFuturoMostrar').html()==0));
 				
 				//cogemos las fechas seleccionadas
 				var fechas_selec=$('#calendario').val().split(', ');
@@ -175,7 +193,7 @@ $(document).ready(function() {
 				//solo lo hacemos una vez porque da tantas vueltas por aqui como fechas haya
 				var solo_una_vez=true;
 				//si no tiene dias, no hemos pasado y la accion es desseleccionar(ya habra eliminado la fecha del array)...
-				if(sinDias && solo_una_vez && estaDeseleccionando!=-1)
+				if(sinDias && solo_una_vez && estaDeseleccionando!=-1  && ($('#k_proyecto_solicitud').val()!=468))
 				{			
 					solo_una_vez=false;
 					$('#calendario').multiDatesPicker('toggleDate', date);
@@ -199,7 +217,7 @@ $(document).ready(function() {
 			monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
 			numberOfMonths:2,   //[2,2]  FORMATO CUADRICULA
 			dateFormat: "dd-mm-yy",
-			minDate: new Date(year_calendario-1,9,1),
+			minDate: fecha_limite_inicial,
 			maxDate: fecha_limite_final,//new Date(year_siguiente,0,31),
 			//EN onChange RECOGEMOS EL MES QUE NOS QUEDA AL CAMBIAR EN EL CALENDARIO Y SE LO PASAMOS A ESA FUNCION
 			onChangeMonthYear:function (year, month, inst) {
@@ -280,8 +298,14 @@ $(document).ready(function() {
 			    	desbloqueado=false;
 			    }
 				
-			    //ESTO LO UTILIZAREMOS PARA BLOQUEAR TODA Y CREAR LA VISTA VER EN CALENDARIO
-			    if(false)
+			  //SI ES ADMINISTRADOR NO LE LIMITAMOS LAS FECHAS
+				if($('#adm_rrhh').val()==1)
+				{		
+					desbloqueado=true;
+				}
+			    
+			    //ESTO LO UTILIZAREMOS PARA BLOQUEAR TODAS Y CREAR LA VISTA VER EN CALENDARIO
+			    if($('#solovista').val()==1)
 			    {
 			    	desbloqueado=false;
 			    }
@@ -302,11 +326,17 @@ $(document).ready(function() {
 		
 	});
 	
+	if($('#k_proyecto_solicitud').val()!=468)
+	{
+		$('#dias_pendientes').css('visibility','visible');
+	}
+	
 	
 	//PONEMOS LOS VALORES DE DIAS PENDIENTES QUE HEMOS RECOGIDOS DE BBDD
 	
 	$('#pendientesDebidosMostrar').html($('#diasPendientesDebidos').val());
 	$('#pendientesMostrar').html($('#diasPendientes').val());
+	$('#pendientesFuturoMostrar').html($('#diasPendientesFuturo').val());
 	
 	
 	//COGEMOS LA FECHA DE HOY Y LA FORMATEAMOS A yy-mm-dd PARA IR A LA BBDD y COGER DIAS DE LA BASE DE DATOS
@@ -880,26 +910,37 @@ function actualizarDiasPendientes()
 	
 	
 	if($('#diasPendientesDebidos').val()>seleccionados)
-	{
+	{		
 		$('#pendientesDebidosMostrar').html($('#diasPendientesDebidos').val()-seleccionados);
 		$('#pendientesMostrar').html($('#diasPendientes').val());
+		$('#pendientesFuturoMostrar').html($('#diasPendientesFuturo').val());
 	}
 	//SI HA CONSUMIDO TODOS LOS DEL AÑO PASADO PASAMOS POR AQUI
 	else
 	{
-		diasPendientes=(Number)($('#diasPendientes').val());
-		diasPendientesDebidos=(Number)($('#diasPendientesDebidos').val());		
+		//SI LE QUEDAN DIAS DE ESTE AÑO DESPUES DE LA SELECCION PINTAMOS AQUI
+		if( ( (Number)($('#diasPendientesDebidos').val()) + (Number)($('#diasPendientes').val())) > seleccionados)
+		{			
+			diasPendientes=(Number)($('#diasPendientes').val());
+			diasPendientesDebidos=(Number)($('#diasPendientesDebidos').val());		
+			
+			$('#pendientesDebidosMostrar').html(0);
+			$('#pendientesMostrar').html(diasPendientes+diasPendientesDebidos-seleccionados);
+			$('#pendientesFuturoMostrar').html($('#diasPendientesFuturo').val());
+		}
+		else
+		{			
+			diasPendientes=(Number)($('#diasPendientes').val());
+			diasPendientesDebidos=(Number)($('#diasPendientesDebidos').val());	
+			diasPendientesFuturo=(Number)($('#diasPendientesFuturo').val());
+			
+			$('#pendientesDebidosMostrar').html(0);
+			$('#pendientesMostrar').html(0);
+			$('#pendientesFuturoMostrar').html(diasPendientes+diasPendientesDebidos+diasPendientesFuturo-seleccionados);
+		}
 		
-		$('#pendientesDebidosMostrar').html(0);
-		$('#pendientesMostrar').html(diasPendientes+diasPendientesDebidos-seleccionados);
 	}
 	
-	/*
-	if($('#pendientesMostrar').html()==0)
-	{
-		alert("No te quedan días");
-	}
-	*/
 }
 
 //funcion que simula sumar un dia a los pendiente cuando clickamos manualmente para editar porque si no esos dias contarian doble porque ya 
@@ -941,6 +982,7 @@ function sincronizar_superior_inferior()
 		{
 			var horas_jornada=(Number)($('#horas_jornada').val());			
 			$(this).find('input').attr('value',horas_jornada);
+			$(this).find('input').val(horas_jornada);
 		}				
 	});
 	

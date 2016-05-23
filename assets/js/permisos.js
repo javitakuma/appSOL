@@ -58,12 +58,21 @@ $(document).ready(function()
 		//COMPROBAMOS QUE INTRODUZCA HORAS SOLO SI ES KEYVACACIONES
 		if($('#tipo_solicitud').val()==450)
 		{
-			if(isNaN($('#horas_jornada').val()) || $('#horas_jornada').val()>10 || $('#horas_jornada').val()<=0)
+			if($('#pendientesDebidosMostrar').html()==0&&$('#pendientesMostrar').html()==0&&$('#pendientesFuturoMostrar').html()==0)
+			{
+				cancelar_accion=true;
+				alert("No dispones de días de vacaciones");
+			}
+			else if(isNaN($('#horas_jornada').val()) || $('#horas_jornada').val()>10 || $('#horas_jornada').val()<=0)
 			{
 				cancelar_accion=true;
 				alert("Selecciona un número de horas correcto (Formato: 6.5).");
 			}
+			
 		}
+		
+		
+		
 		
 		//SI NO HEMOS CANCELADO ENTRAMOS A LA SIGUIENTE PANTALLA
 		if(!cancelar_accion)

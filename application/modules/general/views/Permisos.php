@@ -43,15 +43,30 @@
 	        	</div><!-- CIERRE permisos_sup_izq -->
 	        	
 	        	<div id="permisos_sup_der">
-	        		<div id="dias_pendientes" class="centrado centrado-margin titulo-mediano">
-		        	<div>
-		        		<p>DIAS PENDIENTES</p>
-		        	</div>
-		        	<div>
-		        		<label>Año <?php echo $year_actual-1?></label><p id="pendientesDebidosMostrar"><?php echo $diasDebidosPendientes?></p>
-		        		<label>Año <?php echo $year_actual?></label><p id="pendientesMostrar"><?php echo $diasDebidos?></p>	
-		        	</div>	        	
-		     </div><!-- CIERRE dias_pendientes -->  		     	
+	        		<div id="dias_pendientes" class="centrado centrado-margin">
+			        	<div id="dias_pendientes_titulo" class=" titulo-mediano">
+			        		<p>DIAS PENDIENTES</p>
+			        	</div>
+			        	<div id="dias_pendientes_anterior">
+			        		<label>Año <?php echo $year_actual-1?></label><p id="pendientesDebidosMostrar"><?php echo $diasDebidosPendientes?></p><p>&nbsp;día/s.</p>
+			        	</div>
+			        	<div id="dias_pendientes_actual">
+			        		<label>Año <?php echo $year_actual?></label><p id="pendientesMostrar"><?php echo $diasDebidos?></p><p>&nbsp;día/s.</p>
+			        	</div>
+			        	<?php if($dias_base_siguiente==null):?>
+			        		<div id="dias_pendientes_siguiente" class="invisible">
+			        			<label>Año <?php echo $year_actual+1?></label><p id="pendientesFuturoMostrar">0</p><p>&nbsp;día/s.</p>
+			        		</div>
+			        	<?php endif;?>
+			        	
+			        	<?php if($dias_base_siguiente!=null):?>
+			        		<div id="dias_pendientes_siguiente">
+			        			<label>Año <?php echo $year_actual+1?></label><p id="pendientesFuturoMostrar"><?php echo $diasDebidosFuturo?></p><p>&nbsp;día/s.</p>
+			        		</div>
+			        	<?php endif;?>
+			        		
+			        	        	
+		     		</div><!-- CIERRE dias_pendientes -->  		     	
 	        		
 	        	</div><!-- CIERRE permisos_sup_der -->
 	        </div><!-- CIERRE superior -->
@@ -59,7 +74,7 @@
         	<div id="inferior">
 				<h3 id="titulo_historico_permisos" class="titulo-mediano">Histórico permisos</h3>
 				<div onclick='location.href="<?php echo base_url()?>general/Permisos/mostrar_permisos_calendario"'  id="div_calendario_permisos">
-					<p class="titulo-peque">Ver en calendario</p><img id="permisos_en_calendario" src="<?php echo base_url()?>assets/img/imc.png"/>
+					<p class="titulo-peque">Ver todas </p><img id="permisos_en_calendario" src="<?php echo base_url()?>assets/img/eye.png"/>
 				</div>
 					<table id="listadoPermisos" class="tabla_key">
 						<tr id="fila-titulos">
@@ -68,11 +83,12 @@
 							<th id="solicitante_titulo">SOLICITANTE</th>
 							<th id="fecha_inicial_titulo">FECHA INICIAL</th>
 							<th id="fecha_final_titulo">FECHA FINAL</th>
+							<th id="numero_dias">DIAS</th>
 							<th id="autorizacion_responsable_titulo">AUTORIZ RESP</th>	
 							<th id="autorizacion_rrhh_titulo">AUTORIZ RRHH</th>		
 							<th id="observaciones_titulo">OBSERVACIONES</th>		
 							<th id="motivo_rechazo_titulo">MOTIVO RECHAZO</th>
-							<th id="sw_envio_solicitud">ENVIADO</th>			
+							<th id="sw_envio_solicitud">ENVIO</th>			
 						</tr>							
 					 
 					<?php foreach($historico_permisos as $fila):?>
@@ -82,11 +98,15 @@
 							<td class="solicitanteCell"><?php echo $fila['id_consultor']?></td>
 							<td class="fechaInicialCell"><?php echo $fila['primer_dia']?></td>
 							<td class="fechaFinalCell"><?php echo $fila['ultimo_dia']?></td>
+							<td class="numeroDiasCell"><?php echo $fila['numero_dias']?></td>
 							<td class="autRespCell"><?php echo $fila['i_autorizado_n1']?></td>
 							<td class="autRRHHCell"><?php echo $fila['i_autorizado_n2']?></td>
 							<td class="observacionesCell"><textarea disabled class="textareaObservaciones"><?php echo $fila['desc_observaciones']?></textarea></td>
 							<td class="motivoRechazoCell"><textarea disabled class="textareaMotivoRechazo"><?php echo $fila['desc_rechazo']?></textarea></td>
 							<td class="envioCell"><input onclick="return false" type="checkbox" <?php echo ($fila['sw_envio_solicitud']==-1)?' checked':''?>/></td>	
+							
+							<td class="borde_invisible no_fondo ver_calendario_img"><img class="ver_calendario_img" onclick='location.href="<?php echo base_url()?>general/Permisos/mostrar_permisos_calendario/<?php echo $fila['k_permisos_solic']?>"' title="Ver en calendario" src="<?php echo base_url()?>assets/img/eye.png"/></td>
+														
 							
 							<!-- PINTAMOS ELIMINAR SOLO SI AMBOS SWITCH SON PENDIENTES -->						
 							<?php if(($fila['i_autorizado_n1']=='Pendiente')&&($fila['i_autorizado_n2']=='Pendiente')):?>
@@ -94,7 +114,7 @@
 							<?php endif;?>	
 							<!-- PINTAMOS EDITAR SOLO SI NO SE HA ENVIADO -->							
 							<?php if($fila['sw_envio_solicitud']==0):?>
-								<td  class="eliminar_fila borde_invisible no_fondo"><img onclick="editar_solicitud(<?php echo $fila['k_permisos_solic']?>)" title="Editar fila" class="editar_fila " src="<?php echo base_url()?>assets/img/pen.png"/></td>	
+								<td  class="borde_invisible no_fondo"><img onclick="editar_solicitud(<?php echo $fila['k_permisos_solic']?>)" title="Editar fila" class="editar_fila " src="<?php echo base_url()?>assets/img/pen.png"/></td>	
 							<?php endif;?>						
 						</tr>	
 					<?php endforeach;?>

@@ -310,6 +310,7 @@
 .eliminar_fila
 {
 	width:15px;
+	margin-left:3%;
 }
 
 
@@ -442,7 +443,9 @@
 	line-height: 1;
 	margin-top: 2px;
 	width: 30px;
+	color:transparent;
 }
+
 
 
 .ui-datepicker .ui-icon-circle-triangle-w {
@@ -476,8 +479,9 @@
 }
 
 .ui-datepicker .ui-icon {
-	width:10px;
-	height:10px;	
+	width:1px;
+	height:1px;	
+	color:transparent;
 	/*
 	background-image:url(http://localhost/appSOL/assets/img/cross.png) !important;
 	background-size:11px 11px;

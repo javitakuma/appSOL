@@ -18,33 +18,7 @@
 }
 
 
-#dias_pendientes
-{
-	width:10%;
-	margin-right:0;
-	margin-bottom:5%;
-}
 
-#dias_pendientes div
-{
-	display:inline-block;
-	width:35%;
-	float:left;
-	/*border:solid 1px red;*/	
-}
-
-#contenedor_permisos
-{
-	width:80%;
-	margin:0 auto;
-	padding:0;
-}
-
-#dias_pendientes
-{
-	width:60%;
-	vertical-align: bottom;
-}
 
 #permisos_superior
 {
@@ -98,25 +72,63 @@
 	top:0;
 }
 
+#dias_pendientes
+{
+	width:10%;
+	margin-right:0;
+	margin-bottom:5%;
+}
 
-#permisos_sup_der div
+#dias_pendientes div
 {
 	display:inline-block;
 	width:100%;
-}
-/*
-#permisos_sup_der .fila-autorizaciones .radio-container
-{
-	display:inline-block;
-	width:30%;
-	vertical-align:top;
+	font-size:130%;
+	font-weight:bold;
 }
 
-#permisos_sup_der .fila-autorizaciones .com-rechazo
+#dias_pendientes_titulo
+{
+	margin-bottom:5%;
+}
+
+#dias_pendientes label
 {
 	display:inline-block;
-	width:35%;
-	resize:none;
+	margin-right:10%;
+	/*border:solid 1px red;*/	
+}
+
+
+
+#dias_pendientes p
+{
+	display:inline-block;
+	/*border:solid 1px red;*/	
+}
+
+.invisible
+{
+	visibility:hidden;
+}
+
+#contenedor_permisos
+{
+	width:80%;
+	margin:0 auto;
+	padding:0;
+}
+
+#dias_pendientes
+{
+	width:60%;
+	vertical-align: bottom;
+}
+
+/*
+.invisible
+{
+	visibility:hidden;
 }
 */
 
@@ -124,7 +136,7 @@
 {
 	display:inline-block;
 	margin-bottom:1%;
-	margin-left:80%;
+	margin-left:75%;
 	cursor:pointer;
 }
 
@@ -136,7 +148,7 @@
 #div_calendario_permisos img
 {
 	display:inline-block;
-	width:10%;	
+	width:15%;	
 	margin-left:5%;
 }
 
@@ -267,6 +279,11 @@
 	width:15px;
 }
 
+.ver_calendario_img
+{
+	width:20px;
+}
+
 
 #listadoPermisos .fechaCell
 {
@@ -305,21 +322,21 @@
 
 #listadoPermisos .observacionesCell
 {
-	width:16%;
+	width:14%;
 	padding:0.3%;
 	max-height:20px;
 }
 
 #listadoPermisos .motivoRechazoCell
 {
-	width:16%;
+	width:14%;
 	padding:0.3%;
 	max-height:20px;
 }
 
 #listadoPermisos .envioCell
 {
-	width:8%;
+	width:5%;
 	padding:0.3%;
 	max-height:20px;
 }

@@ -137,7 +137,8 @@ $(document).ready(function() {
 		var step_months=1;
 		
 		//SI ES KEYOTROS NO LIMITAMOS EL NUMERO DE DIAS QUE PUEDE SOLICITAR
-		var diasMaximos=(Number)($('#pendientesDebidosMostrar').html())+(Number)($('#pendientesMostrar').html());
+		var diasMaximos=(Number)($('#pendientesDebidosMostrar').html())+(Number)($('#pendientesMostrar').html())+(Number)($('#pendientesFuturoMostrar').html());
+		
 		
 		if($('#k_proyecto_solicitud').val()==468)
 		{
@@ -154,6 +155,14 @@ $(document).ready(function() {
 		}
 		
 		var show_other_months=true;
+		
+		//PODER IR ATRAS EN EL TIEMPO PARA SELECCIONAR VACACIONES SIN LIMITE
+		if($('#adm_rrhh').val()==1)
+		{
+			var primer=$('#primer_dia_t_calendario').val();		
+			fecha_limite_inicial=new Date(primer.split("-")[0],primer.split("-")[1]-1,primer.split("-")[2]);
+		}
+		
 		
 		if($('#solovista').val()==1)
 		{
@@ -183,7 +192,7 @@ $(document).ready(function() {
 				
 				//todo esto lo hacemos porque no bloquea los festivos cuando alcanzamos el maximo de dias
 				//miramos sin ha llegado al limite de dias
-				var sinDias=($('#pendientesDebidosMostrar').html()==0) && ($('#pendientesMostrar').html()==0);
+				var sinDias=( ($('#pendientesDebidosMostrar').html()==0) && ($('#pendientesMostrar').html()==0) && ($('#pendientesFuturoMostrar').html()==0));
 				
 				//cogemos las fechas seleccionadas
 				var fechas_selec=$('#calendario').val().split(', ');
@@ -324,6 +333,7 @@ $(document).ready(function() {
 	
 	$('#pendientesDebidosMostrar').html($('#diasPendientesDebidos').val());
 	$('#pendientesMostrar').html($('#diasPendientes').val());
+	$('#pendientesFuturoMostrar').html($('#diasPendientesFuturo').val());
 	
 	
 	//COGEMOS LA FECHA DE HOY Y LA FORMATEAMOS A yy-mm-dd PARA IR A LA BBDD y COGER DIAS DE LA BASE DE DATOS
@@ -665,12 +675,20 @@ $(document).ready(function() {
 
 function confirmar_boton_volver()
 {
-	var respuesta_volver=confirm("¿Seguro que deseas volver? Asegurate de salvar tus cambios si así lo deseas.");
-	
-	if(respuesta_volver)
+	if($('#solovista').val()!=1)
+	{
+		var respuesta_volver=confirm("¿Seguro que deseas volver? Asegurate de salvar tus cambios si así lo deseas.");
+		
+		if(respuesta_volver)
+		{
+			onclick=location.href=BASE_URL+"general/Permisos";
+		}
+	}	
+	else
 	{
 		onclick=location.href=BASE_URL+"general/Permisos";
-	}	
+	}
+		
 }
 
 function comprobar_horas_keyotros()
@@ -831,27 +849,45 @@ function actualizarDiasPendientes()
 	//var seleccionados=$('td.ui-state-highlight').not(".ui-state-disabled").length
 	var seleccionados=$('#calendario').val().split(" ").length;
 	
+		
 	if($('#calendario').val()=="")
 	{
 		//alert("Ningún dia seleccionado");
 		seleccionados=0;
 	}
 	
-	//SI LE QUEDANO DIAS DEL AÑO PASADO DESPUES DE LA SELECCION PINTAMOS AQUI
+	//SI LE QUEDAN DIAS DEL AÑO PASADO DESPUES DE LA SELECCION PINTAMOS AQUI
 	
 	if($('#diasPendientesDebidos').val()>seleccionados)
-	{
+	{		
 		$('#pendientesDebidosMostrar').html($('#diasPendientesDebidos').val()-seleccionados);
 		$('#pendientesMostrar').html($('#diasPendientes').val());
+		$('#pendientesFuturoMostrar').html($('#diasPendientesFuturo').val());
 	}
 	//SI HA CONSUMIDO TODOS LOS DEL AÑO PASADO PASAMOS POR AQUI
 	else
 	{
-		diasPendientes=(Number)($('#diasPendientes').val());
-		diasPendientesDebidos=(Number)($('#diasPendientesDebidos').val());		
+		//SI LE QUEDAN DIAS DE ESTE AÑO DESPUES DE LA SELECCION PINTAMOS AQUI
+		if( ( (Number)($('#diasPendientesDebidos').val()) + (Number)($('#diasPendientes').val())) > seleccionados)
+		{			
+			diasPendientes=(Number)($('#diasPendientes').val());
+			diasPendientesDebidos=(Number)($('#diasPendientesDebidos').val());		
+			
+			$('#pendientesDebidosMostrar').html(0);
+			$('#pendientesMostrar').html(diasPendientes+diasPendientesDebidos-seleccionados);
+			$('#pendientesFuturoMostrar').html($('#diasPendientesFuturo').val());
+		}
+		else
+		{			
+			diasPendientes=(Number)($('#diasPendientes').val());
+			diasPendientesDebidos=(Number)($('#diasPendientesDebidos').val());	
+			diasPendientesFuturo=(Number)($('#diasPendientesFuturo').val());
+			
+			$('#pendientesDebidosMostrar').html(0);
+			$('#pendientesMostrar').html(0);
+			$('#pendientesFuturoMostrar').html(diasPendientes+diasPendientesDebidos+diasPendientesFuturo-seleccionados);
+		}
 		
-		$('#pendientesDebidosMostrar').html(0);
-		$('#pendientesMostrar').html(diasPendientes+diasPendientesDebidos-seleccionados);
 	}
 	
 	/*
@@ -897,8 +933,9 @@ function sincronizar_superior_inferior()
 		//SI ES KEYVACACIONES LE PONEMOS EL VALOR QUE INTRODUJO EN LA PANTALLA ANTERIOR
 		if($('#tipo_solicitud').val()=='KEYVACACIONES')
 		{
-			var horas_jornada=(Number)($('#horas_jornada').val());			
+			var horas_jornada=(Number)($('#horas_jornada').val());
 			$(this).find('input').attr('value',horas_jornada);
+			$(this).find('input').val(horas_jornada);
 		}				
 	});
 	
