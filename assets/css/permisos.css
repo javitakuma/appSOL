@@ -150,6 +150,9 @@
 	display:inline-block;
 	width:15%;	
 	margin-left:5%;
+	position:relative;
+	bottom:3px;
+	
 }
 
 #inferior
@@ -238,7 +241,7 @@
 	border-right: none;	
 }
 
-.tabla_key tr td:nth-last-child(2)
+.tabla_key tr:last-child td:nth-last-child(2)
 {
 	border-right: none;	
 	border-radius:0 0 5px 0;
@@ -281,7 +284,9 @@
 
 .ver_calendario_img
 {
-	width:20px;
+	width:25px;
+	position:relative;
+	bottom:1px;
 }
 
 
@@ -339,6 +344,7 @@
 	width:5%;
 	padding:0.3%;
 	max-height:20px;
+	border-right:none;
 }
 
 #listadoPermisos .eliminar_fila

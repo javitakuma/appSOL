@@ -1,3 +1,9 @@
+.bordeRojo
+{
+	/*background-color:#FFF !important;*/
+	outline:solid 1px red;	
+}
+
 .colorErrorCelda
 {
 	background-color:rgb(255, 119, 119) !important;
@@ -306,7 +312,7 @@ border-radius:15px;
 	font-size:100%;
 	line-height:16px;
 	font-weight:bold;
-    width: 90%;
+    width: 85%;
     height: auto;
     margin: 0;
     padding:0;
@@ -393,7 +399,7 @@ border-radius:15px;
 
 .eliminar_fila
 {
-	width:18px;
+	width:15px;
 }
 
 

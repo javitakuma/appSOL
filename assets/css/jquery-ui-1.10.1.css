@@ -398,8 +398,9 @@ td:disabled
 .ui-widget-content .ui-state-highlight,
 .ui-widget-header .ui-state-highlight {
 	/*border: 1px solid RGB(35,200,200);*/
+	/*ORIGINAL*/
 	/*background: #ffe45c url(images/ui-bg_highlight-soft_75_ffe45c_1x100.png) 50% top repeat-x;*/
-	background: #23C8C8 url(images/ui-bg_highlight-soft_75_ffe45c_1x100.png) 50% top repeat-x;
+	background: #22C5B1 url(images/ui-bg_highlight-soft_75_ffe45c_1x100.png) 50% top repeat-x;
 	color:white;
 	/*color: #363636;*/
 }

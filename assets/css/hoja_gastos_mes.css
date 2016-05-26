@@ -160,7 +160,7 @@
 .tabla_key 
 {
 	width:100%;
-    margin:10px auto;
+    margin:5px auto;
 }
 
 #totales_gastos
@@ -288,6 +288,7 @@
 	display: inline-block;	
 	cursor:pointer;
 	width:40%;
+	margin-bottom:5px;
 }
 
 #div_agregar_fila img

@@ -40,6 +40,8 @@ class Gastos_model extends CI_Model
 	
 	public function  crear_hoja_gastos($k_consultor,$year,$month,$id_consultor)
 	{
+		$this->load->database();
+		$this->db->trans_start();
 		//Cambiamos el mes a texto
 		
 		$mesTexto=$this->mesTexto($month);
@@ -50,6 +52,9 @@ class Gastos_model extends CI_Model
 				'f_mes_hoja_gastos'   			=>   $month,
 		);
 		$this->db->insert('t_hojas_gastos',$data);
+		
+		$this->db->trans_complete();
+		$this->db->close();
 	}
 	
 	

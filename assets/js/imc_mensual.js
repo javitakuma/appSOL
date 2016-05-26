@@ -500,11 +500,14 @@ $(document).ready(function() {
     });
     */
     
-    
-    
+  //EVENTO PARA LA ACCION BLUR DE LOS INPUT
+    $('#tabla_imc').delegate(".input_horas", 'focus', function(event) {
+    	$(this).addClass('bordeRojo');
+    });
     
     //EVENTO PARA LA ACCION BLUR DE LOS INPUT
     $('#tabla_imc').delegate(".input_horas", 'blur', function(event) {
+    	$(this).removeClass('bordeRojo');
     	//alert($(this).parent().parent().find('.total_horas_imc').html());
     	if (validarValorCelda(this))
     	{
@@ -707,23 +710,23 @@ function error_validar_comentarios_linea_imc()
 			
 			var expresiones_validas = [/^HOSPITAL FAMILIAR([\s]+[\w\W]+)+$/, /DEFUNCION FAMILIAR([\s]+[\w\W]+)+$/,  /ASUNTOS PROPIOS([\s]+[\w\W]+)+$/,/MUDANZA([\s]+[\w\W]*)*$/,/MATRIMONIO([\s]+[\w\W]*)*$/,/PATERNIDAD([\s]+[\w\W]*)*$/,/ACADEMICO([\s]+[\w\W]+)+$/,/LACTANCIA([\s]+[\w\W]*)*$/,/PRENATAL([\s]+[\w\W]*)*$/,/PERMISO KEYRUS([\s]+[\w\W]+)+$/,/PERMISO SIN SUELDO([\s]+[\w\W]+)+$/,];
 
-			   	var key_otros_valido=false;		    
+		   	var key_otros_valido=false;		    
 
-			    for (i=0; i < expresiones_validas.length&&!key_otros_valido; i++) 
-			    {
-			        if ($(this).val().match(expresiones_validas[i])) 
-			        {
-			        	key_otros_valido=true;
-			        }      			        
-			    }
-			    
-			    if(!key_otros_valido)
-			    {
-			    	cancelar_envio=true;
-			    	alert("El código de proyecto KEYOTROS debe acompañar un comentario que ha de comenzar con una de las siguientes expresiones:\n" +
-			    			"HOSPITAL FAMILIAR, DEFUNCION FAMILIAR, DEFUNCION FAMILIAR, ASUNTOS PROPIOS, MUDANZA, MATRIMONIO, PATERNIDAD, ACADEMICO, ACADÉMICO, LACTANCIA, PRENATAL, PERMISO KEYRUS O PERMISO SIN SUELDO.");
-			    	$(this).addClass('colorErrorCelda');//NEW 20-05
-			    }
+		    for (i=0; i < expresiones_validas.length&&!key_otros_valido; i++) 
+		    {
+		        if ($(this).val().match(expresiones_validas[i])) 
+		        {
+		        	key_otros_valido=true;
+		        }      			        
+		    }
+		    
+		    if(!key_otros_valido)
+		    {
+		    	cancelar_envio=true;
+		    	alert("El código de proyecto KEYOTROS debe acompañar un comentario que ha de comenzar con una de las siguientes expresiones:\n" +
+		    			"HOSPITAL FAMILIAR, DEFUNCION FAMILIAR, DEFUNCION FAMILIAR, ASUNTOS PROPIOS, MUDANZA, MATRIMONIO, PATERNIDAD, ACADEMICO, LACTANCIA, PRENATAL, PERMISO KEYRUS O PERMISO SIN SUELDO.");
+		    	$(this).addClass('colorErrorCelda');//NEW 20-05
+		    }
 
 		};	
 		
@@ -877,12 +880,12 @@ function actualizarTotalesVertical()
 			    if(isNaN(sum))
 			    {
 			    	$('#total'+i).html('##');
-			    	$('#total'+i).addClass('colorErrorCelda');//NEW 20-05
+			    	//$('#total'+i).addClass('colorErrorCelda');//NEW 20-05
 			    }
 			    else
 			    {
 			    	$('#total'+i).html(sum);
-			    	$('#total'+i).removeClass('colorErrorCelda');//NEW 20-05
+			    	//$('#total'+i).removeClass('colorErrorCelda');//NEW 20-05
 			    }
 			    
 			    
@@ -901,9 +904,9 @@ function actualizarTotalesVertical()
 		    $('#horas_totales').html('##');
 		    $('#jornadas').html('##');
 		    
-		    $('#horas_consultor').addClass('colorErrorCelda');//NEW 20-05
-		    $('#horas_totales').addClass('colorErrorCelda');//NEW 20-05
-		    $('#jornadas').addClass('colorErrorCelda');//NEW 20-05
+		    //$('#horas_consultor').addClass('colorErrorCelda');//NEW 20-05
+		    //$('#horas_totales').addClass('colorErrorCelda');//NEW 20-05
+		    //$('#jornadas').addClass('colorErrorCelda');//NEW 20-05
 		    
 	    }
 	    else
@@ -912,9 +915,9 @@ function actualizarTotalesVertical()
 		    $('#horas_totales').html(sum2);
 		    $('#jornadas').html(sum2/8);
 		    
-		    $('#horas_consultor').removeClass('colorErrorCelda');//NEW 20-05
-		    $('#horas_totales').removeClass('colorErrorCelda');//NEW 20-05
-		    $('#jornadas').removeClass('colorErrorCelda');//NEW 20-05
+		    //$('#horas_consultor').removeClass('colorErrorCelda');//NEW 20-05
+		    //$('#horas_totales').removeClass('colorErrorCelda');//NEW 20-05
+		    //$('#jornadas').removeClass('colorErrorCelda');//NEW 20-05
 	    }
 	    
 	    //PINTAMOS LA CASILLA DE LAS HORAS VERDE O ROJA SEGUN SEAN CORRECTAS O NO
@@ -931,15 +934,7 @@ function actualizarTotalesVertical()
 	   
 }
 
-function confirmar_boton_volver()
-{
-	var respuesta_volver=confirm("¿Seguro que deseas volver? Asegurate de salvar tus cambios si así lo deseas.");
-	
-	if(respuesta_volver)
-	{
-		onclick=location.href=BASE_URL+"general/imc";
-	}	
-}
+
 
 //ESTA FUNCION ACTUALIZA EL TOTAL DE HORAS DE LA LINEA IMC QUE HA SIDO CAMBIADA
 function actualizarTotalesHorizontal(element)
@@ -952,15 +947,25 @@ function actualizarTotalesHorizontal(element)
 	if(isNaN(sum))
     {
 		$(element).parent().parent().find('.total_horas_imc').html('##');
-		$(element).parent().parent().find('.total_horas_imc').addClass('colorErrorCelda');//NEW 20-05
+		//$(element).parent().parent().find('.total_horas_imc').addClass('colorErrorCelda');//NEW 20-05
     }
     else
     {
     	$(element).parent().parent().find('.total_horas_imc').html(sum);
-    	$(element).parent().parent().find('.total_horas_imc').removeClass('colorErrorCelda');//NEW 20-05
+    	//$(element).parent().parent().find('.total_horas_imc').removeClass('colorErrorCelda');//NEW 20-05
     }
 	
 	
+}
+
+function confirmar_boton_volver()
+{
+	var respuesta_volver=confirm("¿Seguro que deseas volver? Asegurate de salvar tus cambios si así lo deseas.");
+	
+	if(respuesta_volver)
+	{
+		onclick=location.href=BASE_URL+"general/imc";
+	}	
 }
 
 function crearObjetosParaGrabar()

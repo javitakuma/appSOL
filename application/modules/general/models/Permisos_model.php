@@ -79,14 +79,24 @@ class Permisos_model extends CI_Model
 		$this->load->database();
 		$this->db->trans_start();
 		
-				
+		
+		$sql ="SELECT A.horas_cons horas_solic,A.dia_cons dia_solic,B.k_proyecto,A.desc_observaciones
+		FROM t_permisos_consumidos_det A
+		JOIN t_permisos_consumidos B
+		ON A.k_permisos_cons=B.k_permisos_cons
+		where B.k_consultor ='$k_consultor' and B.mes_cons='$mes' and B.año_cons='$year'
+		ORDER BY dia_solic";
+		
+		/*		
 		$sql ="select horas_solic, dia_solic, k_proyecto,desc_observaciones from t_permisos_solicitados_det A
 		join t_permisos_solicitados B on A.k_permisos_solic=B.k_permisos_solic
 		where B.k_consultor=$k_consultor and A.mes_solic='$mes' and año_solic='$year' and i_autorizado_n1=1 and i_autorizado_n2=1
 		order by dia_solic";
+		*/
 		
 		$datos_permisos_para_imc=$this->db->query($sql)->result_array();
 				
+		
 		$this->db->trans_complete();
 		$this->db->close();
 		return $datos_permisos_para_imc;
@@ -198,7 +208,6 @@ class Permisos_model extends CI_Model
 	public function cargar_dias_solicitados($k_consultor,$k_permiso_solicitud_calendario)
 	{		
 		
-		
 		$this->load->database();
 		$this->db->trans_start();
 		
@@ -220,6 +229,7 @@ class Permisos_model extends CI_Model
 			FROM t_permisos_consumidos_det A
 			JOIN t_permisos_consumidos B
 			ON A.k_permisos_cons=B.k_permisos_cons
+			where B.k_consultor ='$k_consultor'
 			ORDER BY year_solic, mes_solic,dia_solic,k_permisos_solic";
 		}
 		else//SOLOVISTA PARA UN k_permisos EN CONCRETO
@@ -234,7 +244,7 @@ class Permisos_model extends CI_Model
 		}
 		
 		$diasSolicitados=$this->db->query($sql)->result_array();
-				
+			
 				
 		$this->db->trans_complete();
 		$this->db->close();
@@ -462,7 +472,26 @@ class Permisos_model extends CI_Model
 			$mes=$dia_partido[1];
 			$year=$dia_partido[2];	
 			
-			$year_vac=($datos_guardar['diasPendientesDebidos']>0)?$datos_guardar['year_solicitud']-1:$datos_guardar['year_solicitud'];
+			
+			$year_vac;
+			//$year_vac=($datos_guardar['diasPendientesDebidos']>0)?$datos_guardar['year_solicitud']-1:$datos_guardar['year_solicitud'];
+			
+			if($datos_guardar['diasPendientesDebidos']>0)
+			{
+				$year_vac=$datos_guardar['year_solicitud']-1;
+			}
+			else if($datos_guardar['diasPendientes']>0)
+			{
+				$year_vac=$datos_guardar['year_solicitud'];
+			}
+			else
+			{
+				$year_vac=$datos_guardar['year_solicitud']+1;
+			}
+			
+			echo $datos_guardar['diasPendientes']." dias pend <br/>";
+			
+			echo $year_vac."<br/>";
 			
 			if($datos_guardar['k_proyecto_solicitud']==468)
 			{
@@ -481,7 +510,22 @@ class Permisos_model extends CI_Model
 				
 			$resultado=$this->db->insert('t_permisos_solicitados_det',$data);
 			
-			$datos_guardar['diasPendientesDebidos']--;
+			if($datos_guardar['diasPendientesDebidos']>0)
+			{
+				$datos_guardar['diasPendientesDebidos']--;
+			}
+			else if($datos_guardar['diasPendientes']>0)
+			{
+				$datos_guardar['diasPendientes']--;
+			}
+			else
+			{
+				$datos_guardar['diasPendientesFuturo']--;
+			}
+						
+			//$datos_guardar['diasPendientesDebidos']--;
+			
+			
 			//FIN INSERT
 			 
 			 
@@ -558,10 +602,25 @@ class Permisos_model extends CI_Model
 			$mes=$dia_partido[1];
 			$year=$dia_partido[2];
 				
-			$year_vac=($datos_guardar['diasPendientesDebidos']>0)?$datos_guardar['year_solicitud']-1:$datos_guardar['year_solicitud'];
+			$year_vac;
+				//$year_vac=($datos_guardar['diasPendientesDebidos']>0)?$datos_guardar['year_solicitud']-1:$datos_guardar['year_solicitud'];
+			
+			//SEGUN LE QUEDEN DIAS PENDIENTES EN UN AÑO O EN OTRO LE PONEMOS ESE VALOR EN AÑO_VAC DE LA BBD
+			if($datos_guardar['diasPendientesDebidos']>0)
+			{
+				$year_vac=$datos_guardar['year_solicitud']-1;
+			}
+			else if($datos_guardar['diasPendientes']>0)
+			{
+				$year_vac=$datos_guardar['year_solicitud'];
+			}
+			else
+			{
+				$year_vac=$datos_guardar['year_solicitud']+1;
+			}
 							
 					
-			
+			//SI ES KEYOTROS LO PONEMOS NULL PORQUE NO CUENTA COMO DIA
 			if($datos_guardar['k_proyecto_solicitud']==468)
 			{
 				$year_vac=null;
@@ -577,10 +636,26 @@ class Permisos_model extends CI_Model
 					'año_solic' 	 		=>   $year,
 					'año_vac'   			=>   $year_vac,
 			);
-	
+			
+			//RESTAMOS DIAS AL CONTADOR DE DIAS PENDIENTES SEGUN POR EL AÑO QUE VAYAMOS
 			$resultado=$this->db->insert('t_permisos_solicitados_det',$data);
-				
-			$datos_guardar['diasPendientesDebidos']--;
+			
+			if($datos_guardar['diasPendientesDebidos']>0)
+			{
+				$datos_guardar['diasPendientesDebidos']--;
+			}
+			else if($datos_guardar['diasPendientes']>0)
+			{
+				$datos_guardar['diasPendientes']--;
+			}
+			else
+			{
+				$datos_guardar['diasPendientesFuturo']--;
+			}
+			
+			//$datos_guardar['diasPendientesDebidos']--;
+			
+			
 			//FIN INSERT
 	
 			

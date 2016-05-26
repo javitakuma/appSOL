@@ -65,12 +65,16 @@ class Permisos extends MX_Controller
 		enmarcar($this,'Permisos.php',$datos);
 	}
 	
+	//$k_permiso_solic (si es 0 es solicitud nueva)
+	//$year en principio no lo usa, cojo el año del sistema
+	//$solovista para mostrar vacaciones en el calendario
+	//$k_permiso_solicitud_calendario el K de la solicitud que se quiere ver en solovista, si es 0 muestra todas
 	public function solicitar_permiso($k_permiso_solic=0,$year=0,$solovista=0,$k_permiso_solicitud_calendario=0)
 	{		
 		//ir al modelo para sacar los dias pendientes de disfrutar
 		//$datos['permisos']=$this->Permisos_model->cargar_permisos($k_consultor);
 		
-		//CAMBIO DEV-PRO
+		//CAMBIO DEV-PRO???
 		$datos['solovista']=$solovista;			
 		
 		//AÑO "FISCAL" DE LAS VACACIONES
@@ -95,8 +99,9 @@ class Permisos extends MX_Controller
 			}	
 		}
 		
+		//USUARIO QUE HA HECHO LOGIN (NO ACTIVO)
 		$k_consultor_original=$this->session->userdata('login_original');
-		
+						
 		$es_administrador_rrhh=$this->Permisos_model->verificar_admin_rrhh($k_consultor_original);
 		
 		$datos['adm_rrhh']=$es_administrador_rrhh;
@@ -120,9 +125,12 @@ class Permisos extends MX_Controller
 				
 		$k_consultor=$this->session->userdata('k_consultor');
 		
-		//CARGAMOS LOS DIAS SOLICITADOS(COMO SEGUNDO PARAMETRO PODEMOS PASAR UN PAQUETE DE SOLICITUDES)
+		
+		
+		//CARGAMOS LOS DIAS SOLICITADOS(COMO SEGUNDO PARAMETRO PODEMOS PASAR UN PAQUETE DE SOLICITUDES, SI NO MOSTRAREMOS ToDOS)
 		$datos['diasYaSolicitados']=json_encode($this->Permisos_model->cargar_dias_solicitados($k_consultor,$k_permiso_solicitud_calendario));
-				
+			
+		
 		$dias_debidos_two_years=$this->Permisos_model->cargar_dias_debidos($k_consultor,$datos['year_solicitud']);
 		
 		$datos['diasDebidos']=$dias_debidos_two_years['dias_debidos'];
@@ -137,6 +145,10 @@ class Permisos extends MX_Controller
 	}
 	
 	//EDICION DE UNA SOLICITUD
+	//$k_permiso_solic (si es 0 es solicitud nueva)
+	//$year en principio no lo usa, cojo el año del sistema
+	//$solovista para mostrar vacaciones en el calendario
+	//$k_permiso_solicitud_calendario el K de la solicitud que se quiere ver en solovista, si es 0 muestra todas
 	public function editar_solicitud($k_permiso_solic,$year=0,$solovista=0,$k_permiso_solicitud_calendario=0)
 	{	
 		
@@ -163,9 +175,6 @@ class Permisos extends MX_Controller
 				$validado=true;
 			}	
 		}
-		
-		
-		
 		//$datos['permisos']=$this->Permisos_model->cargar_permisos($k_consultor);
 	
 		//CAMBIO DEV-PRO	
@@ -180,7 +189,7 @@ class Permisos extends MX_Controller
 			$datos['year_solicitud']=date('Y');
 		}
 		
-		//COGEMOS TOODOS LOS DATOS DE ESA SOLICITUD
+		//COGEMOS ToDOS LOS DATOS DE ESA SOLICITUD
 		$todosDatosTabla=$this->Permisos_model->cargar_datos_solicitud_activa($k_permiso_solic);
 		
 		if($todosDatosTabla[0]['sw_envio_solicitud']==-1||!$validado)
@@ -267,6 +276,7 @@ class Permisos extends MX_Controller
 		$datos_guardar['responsable_solicitud']=$_REQUEST['responsable_solicitud'];
 		$datos_guardar['diasPendientesDebidos']=$_REQUEST['diasPendientesDebidos'];
 		$datos_guardar['diasPendientes']=$_REQUEST['diasPendientes'];
+		$datos_guardar['diasPendientesFuturo']=$_REQUEST['diasPendientesFuturo'];
 		$datos_guardar['dias_solicitados']=$_REQUEST['dias_solicitados'];
 		$datos_guardar['horas_por_dias']=isset($_REQUEST['horas_por_dias'])?$_REQUEST['horas_por_dias']:"";
 		$datos_guardar['horas_jornada']=isset($_REQUEST['horas_jornada'])?$_REQUEST['horas_jornada']:"";
@@ -276,14 +286,10 @@ class Permisos extends MX_Controller
 		$datos_guardar['k_consultor']=$this->session->userdata('k_consultor');
 		$datos_guardar['id_consultor']=$this->session->userdata('id_consultor');
 		$datos_guardar['k_consultor_solic']=$this->session->userdata('login_original');
-		
-		
+				
 		//NOS DEVOLVEMOS EL K QUE HEMOS GUARDADO
 		$k_permisos_solic=$this->Permisos_model->grabar_solicitud($datos_guardar);
 		
-		//echo $k_permisos_solic;
-		
-		//echo "Cambio guardados.";
 		
 	}
 	
@@ -294,6 +300,7 @@ class Permisos extends MX_Controller
 		$datos_guardar['responsable_solicitud']=$_REQUEST['responsable_solicitud'];
 		$datos_guardar['diasPendientesDebidos']=$_REQUEST['diasPendientesDebidos'];
 		$datos_guardar['diasPendientes']=$_REQUEST['diasPendientes'];
+		$datos_guardar['diasPendientesFuturo']=$_REQUEST['diasPendientesFuturo'];
 		$datos_guardar['dias_solicitados']=$_REQUEST['dias_solicitados'];
 		$datos_guardar['horas_por_dias']=isset($_REQUEST['horas_por_dias'])?$_REQUEST['horas_por_dias']:"";
 		$datos_guardar['horas_jornada']=isset($_REQUEST['horas_jornada'])?$_REQUEST['horas_jornada']:"";
@@ -304,13 +311,12 @@ class Permisos extends MX_Controller
 		$datos_guardar['id_consultor']=$this->session->userdata('id_consultor');
 		$datos_guardar['k_consultor_solic']=$this->session->userdata('login_original');
 		
+		
+		
 		//NOS DEVOLVEMOS EL K QUE HEMOS GUARDADO
 		$k_permisos_solic=$this->Permisos_model->grabar_solicitud_editado($datos_guardar);
 		
 		
-		//echo $k_permisos_solic;
-	
-		//echo "Cambio guardados.";	
 	}
 	
 	public function eliminar_solicitud()
@@ -331,6 +337,7 @@ class Permisos extends MX_Controller
 		
 		$validado=false;
 		
+		//MIRAMOS SI EL USUARIO QUE HACE LA ACCION ESTA DENTRO DEL PERFIL DEL LOGUEADO
 		foreach ($datos['usuarios_perfil'] as $fila)
 		{ 
 			if($fila['k_consultor']==$usuario_de_permiso)
@@ -341,10 +348,11 @@ class Permisos extends MX_Controller
 		
 		$todosDatosTabla=$this->Permisos_model->cargar_datos_solicitud_activa($k_permiso_solic);
 		
-		
+		//SI ES UN PERMISO QUE NO ESTA PENDIENTE LE REDIRIGIMOS
 		if($todosDatosTabla[0]['i_autorizado_n1']!=0||$todosDatosTabla[0]['i_autorizado_n1']!=0||!$validado)
 		{
 			enmarcar($this,'AccesoDenegado.php',$datos);
+			DIE;
 		}
 		else
 		{
@@ -363,6 +371,7 @@ class Permisos extends MX_Controller
 		$datos_guardar['responsable_solicitud']=$_REQUEST['responsable_solicitud'];
 		$datos_guardar['diasPendientesDebidos']=$_REQUEST['diasPendientesDebidos'];
 		$datos_guardar['diasPendientes']=$_REQUEST['diasPendientes'];
+		$datos_guardar['diasPendientesFuturo']=$_REQUEST['diasPendientesFuturo'];
 		$datos_guardar['dias_solicitados']=$_REQUEST['dias_solicitados'];
 		$datos_guardar['horas_por_dias']=isset($_REQUEST['horas_por_dias'])?$_REQUEST['horas_por_dias']:"";
 		$datos_guardar['horas_jornada']=isset($_REQUEST['horas_jornada'])?$_REQUEST['horas_jornada']:"";
@@ -374,11 +383,12 @@ class Permisos extends MX_Controller
 		$datos_guardar['id_consultor']=$this->session->userdata('id_consultor');
 		$datos_guardar['k_consultor_solic']=$this->session->userdata('login_original');
 		
+		//SI ES UNA SOLICITUD NUEVA...
 		if($datos_guardar['k_permisos_solic']==0)
 		{
 			$k_permisos_solic=$this->Permisos_model->grabar_solicitud($datos_guardar);
 		}
-		else
+		else//SI ES UNA EDITADA...
 		{
 			$k_permisos_solic=$this->Permisos_model->grabar_solicitud_editado($datos_guardar);
 		}	

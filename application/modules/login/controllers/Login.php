@@ -177,7 +177,7 @@ class Login extends MX_Controller
 		
 		if($Password_cambiado)
 		{
-			$datos['css']=['estilos','Cambio_pass_post'];
+			$datos['css']=['estilos','Cambio_pass_post','formulario'];
 			enmarcar($this,'Cambio_pass_post.php',$datos);
 		}
 		else

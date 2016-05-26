@@ -33,6 +33,9 @@ class Login_model extends CI_Model
 	
 	public function validar_usuario($id,$pass)
 	{	
+		$this->load->database();
+		$this->db->trans_start();
+		
 		$pass=sha1($pass);
 		
 		$this->load->database();		
@@ -48,7 +51,8 @@ class Login_model extends CI_Model
 			$usuarioEncontrado=$this->db->query($sql, array($id,$pass))->row_array();
 		}	
 				
-		$this->db->close();	
+		$this->db->trans_complete();
+		$this->db->close();
 		
 		return $usuarioEncontrado;
 				
@@ -58,6 +62,7 @@ class Login_model extends CI_Model
 	{		
 	
 		$this->load->database();
+		$this->db->trans_start();
 	
 		$sql = "select A.k_consultor, A.id_consultor, B.pwd_guacd, A.nom_consultor, A.sw_baja, A.sw_resp_proyectos, A.sw_administrador_petra,
 						A.sw_administracion,A.sw_comercial, A.sw_consultor, A.sw_rrhh, A.sw_imc_sol from t_consultores A, t_consultores_websol B
@@ -67,6 +72,7 @@ class Login_model extends CI_Model
 			$usuarioEncontradoCambiar=$this->db->query($sql, array($id_nuevo_usuario))->row_array();
 		
 	
+		$this->db->trans_complete();
 		$this->db->close();
 	
 		return $usuarioEncontradoCambiar;
@@ -79,8 +85,7 @@ class Login_model extends CI_Model
 		$this->load->database();
 		$this->db->trans_start();
 		
-		$nuevo_password=sha1($nuevo_password);
-		
+				
 		//HACEMOS UNA CONSULTA CUALQUIERA PARA PROBRAR QUE EL ID LOGADO SEA CORRECTO
 		$sql = "select user_guacd from t_consultores_websol
 				where k_consultor=?";		
@@ -133,12 +138,6 @@ class Login_model extends CI_Model
 		$this->db->close();
 		return $usuarios_perfil;
 	
-	}
-	
-	
-	
-	
-	
-	
+	}	
 	
 }

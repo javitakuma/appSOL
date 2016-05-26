@@ -38,7 +38,11 @@ class Imc extends MX_Controller
 	{		
 		$datos['year'] =$year;
 		$datos['mes'] =$month;
+		
+		
 		$datos['mes_texto'] =$this->mesTexto($month);
+		
+		
 		$datos['js']="imc_mensual";
 		$datos['css']="imc_mes";
 		$datos['datos_imc_mes']=$this->Imc_model->cargar_datos_imc($this->session->userdata('k_consultor'),$year,$month);
@@ -107,7 +111,7 @@ class Imc extends MX_Controller
 	public function mesTexto($numero)
 	{
 		$mes_texto="";
-		switch ($numero) {
+		switch ($numero) {			
 			case 01:
 				$mes_texto="Enero";
 				break;
@@ -145,6 +149,17 @@ class Imc extends MX_Controller
 				$mes_texto="Diciembre";
 				break;
 		}	
+		//PONGO ESTO PORQUE MISTERIOSAMENTE NO FUNICONAN EL CASE 08 Y 09
+		if($numero=='08')
+		{
+			$mes_texto='Agosto';
+		}
+		
+		if($numero=='09')
+		{
+			$mes_texto='Septiembre';
+		}
+		
 		return $mes_texto;
 	}
 	

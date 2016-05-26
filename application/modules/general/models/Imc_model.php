@@ -12,7 +12,8 @@ class Imc_model extends CI_Model
 	{		
 		//$condicion   1=enviados   2=no enviados   3= todos
 		
-		$this->load->database();		
+		$this->load->database();
+		$this->db->trans_start();		
 		
 		//EVALUAMOS LAS CONDICIONES EN LA QUERY, SEGUN NOS VENGA VALOR 1, 2 O 3 LA QUERY NOS DEVOLVERA UNOS U OTROS DATOS
 		
@@ -32,6 +33,7 @@ class Imc_model extends CI_Model
 		var_dump($resultado_imc);
 		die;
 		*/
+		$this->db->trans_complete();
 		$this->db->close();
 		return $resultado_imc;
 		//var_dump($resultado_imc);

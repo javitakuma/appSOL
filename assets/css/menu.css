@@ -169,14 +169,14 @@
 
 .imagen-opcion
 {
-	width:15%;
+	width:17%;
 	height:auto;
 	display:inline-block;
 }
 
 .nombre-opcion
 {
-	width:80%;
+	width:78%;
 	font-size:150%;
 	vertical-align:text-top;
 	font-weight:bold;
@@ -258,11 +258,12 @@
 }
 
 #nav_list {
-  background: url(https://assets/img/cross.png) no-repeat left top;
-  cursor: pointer;
-  
-  width: 15%;
-  height: 150%;
+  background: url(../img/E_mio.png) no-repeat left top;
+  background-size:95%;
+  background-size:98%;
+  cursor: pointer;  
+  width: 20%;
+  height: 180%;
   text-indent: -99999em;
   color:black;
 }
@@ -274,9 +275,9 @@ nav-list.active {
 #texto_menu
 {
 	width:80%;
-	font-size:140%;
+	font-size:160%;
 	font-weight:bold;
-	margin-left:2em;
+	margin-left:1.5em;
 }
 
  .buttonset {

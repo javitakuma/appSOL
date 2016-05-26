@@ -74,7 +74,7 @@
         	<div id="inferior">
 				<h3 id="titulo_historico_permisos" class="titulo-mediano">Histórico permisos</h3>
 				<div onclick='location.href="<?php echo base_url()?>general/Permisos/mostrar_permisos_calendario"'  id="div_calendario_permisos">
-					<p class="titulo-peque">Ver todas </p><img id="permisos_en_calendario" src="<?php echo base_url()?>assets/img/eye.png"/>
+					<p class="titulo-peque">Ver todas </p><img id="permisos_en_calendario" src="<?php echo base_url()?>assets/img/ojo2.png"/>
 				</div>
 					<table id="listadoPermisos" class="tabla_key">
 						<tr id="fila-titulos">
@@ -105,16 +105,16 @@
 							<td class="motivoRechazoCell"><textarea disabled class="textareaMotivoRechazo"><?php echo $fila['desc_rechazo']?></textarea></td>
 							<td class="envioCell"><input onclick="return false" type="checkbox" <?php echo ($fila['sw_envio_solicitud']==-1)?' checked':''?>/></td>	
 							
-							<td class="borde_invisible no_fondo ver_calendario_img"><img class="ver_calendario_img" onclick='location.href="<?php echo base_url()?>general/Permisos/mostrar_permisos_calendario/<?php echo $fila['k_permisos_solic']?>"' title="Ver en calendario" src="<?php echo base_url()?>assets/img/eye.png"/></td>
+							<td class="borde_invisible no_fondo ver_calendario_img"><img class="ver_calendario_img" onclick='location.href="<?php echo base_url()?>general/Permisos/mostrar_permisos_calendario/<?php echo $fila['k_permisos_solic']?>"' title="Ver en calendario" src="<?php echo base_url()?>assets/img/ojo2.png"/></td>
 														
 							
 							<!-- PINTAMOS ELIMINAR SOLO SI AMBOS SWITCH SON PENDIENTES -->						
 							<?php if(($fila['i_autorizado_n1']=='Pendiente')&&($fila['i_autorizado_n2']=='Pendiente')):?>
-								<td class="eliminar_fila borde_invisible no_fondo"><img title="Eliminar fila" class="eliminar_fila_img " src="<?php echo base_url()?>assets/img/red_cross_120px.png"/></td>	
+								<td class="eliminar_fila borde_invisible no_fondo"><img title="Eliminar solicitud" class="eliminar_fila_img " src="<?php echo base_url()?>assets/img/red_cross_120px.png"/></td>	
 							<?php endif;?>	
 							<!-- PINTAMOS EDITAR SOLO SI NO SE HA ENVIADO -->							
 							<?php if($fila['sw_envio_solicitud']==0):?>
-								<td  class="borde_invisible no_fondo"><img onclick="editar_solicitud(<?php echo $fila['k_permisos_solic']?>)" title="Editar fila" class="editar_fila " src="<?php echo base_url()?>assets/img/pen.png"/></td>	
+								<td  class="borde_invisible no_fondo"><img onclick="editar_solicitud(<?php echo $fila['k_permisos_solic']?>)" title="Editar solicitud" class="editar_fila " src="<?php echo base_url()?>assets/img/pen.png"/></td>	
 							<?php endif;?>						
 						</tr>	
 					<?php endforeach;?>

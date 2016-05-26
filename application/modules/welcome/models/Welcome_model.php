@@ -10,14 +10,12 @@ class Welcome_model extends CI_Model
 		
 	}
 	
+	//cargar los usuarios que puede manipular ese consultor
 	public function cargar_usuarios_perfil($k_consultor_original,$PERFIL_JP,$PERFIL_FINAN)
 	{		
 		$this->load->database();
-		$this->db->trans_start();
+		$this->db->trans_start();		
 		
-		
-		
-		//PROBADA EN PGADMIN
 		$sql="SELECT t_consultores.k_consultor, t_consultores.id_consultor, t_consultores.nom_consultor, t_consultores.sw_administrador_petra, 
 		t_consultores.sw_comercial, t_consultores.sw_administracion, $PERFIL_FINAN  Expr1, t_consultores.sw_baja
 		FROM t_consultores
@@ -34,9 +32,7 @@ class Welcome_model extends CI_Model
 		
 		ORDER BY t_consultores.id_consultor";
 		
-		$usuarios_perfil=$this->db->query($sql)->result_array();
-		
-		
+		$usuarios_perfil=$this->db->query($sql)->result_array();		
 		
 		$this->db->trans_complete();
 		$this->db->close();
@@ -48,8 +44,6 @@ class Welcome_model extends CI_Model
 	{
 		$this->load->database();
 		$this->db->trans_start();
-	
-	
 	
 		//PROBADA EN PGADMIN
 		$sql="SELECT t_consultores.k_consultor, t_consultores.id_consultor, t_consultores.nom_consultor, t_consultores.sw_administrador_petra,
@@ -68,9 +62,7 @@ class Welcome_model extends CI_Model
 	
 		ORDER BY t_consultores.id_consultor";
 	
-		$usuarios_perfil=$this->db->query($sql)->result_array();
-	
-	
+		$usuarios_perfil=$this->db->query($sql)->result_array();	
 	
 		$this->db->trans_complete();
 		$this->db->close();
