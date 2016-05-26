@@ -78,26 +78,11 @@ class Gastos extends MX_Controller
 	{
 		$year=$_REQUEST['year_seleccion'];
 		$month=$_REQUEST['mes_seleccion'];
-		
-		/*
-		if(strlen($month)==1)
-		{
-			$month='0564'+$month;
-		}
-		echo $month;
-		die;
-		*/
-		
+				
 		$this->Gastos_model->buscar_hojas_gastos($this->session->userdata('k_consultor'),$year,$month,$this->session->userdata('id_consultor'));
 		
 		$this->mostrar_gastos_mes($year, $month);
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 	

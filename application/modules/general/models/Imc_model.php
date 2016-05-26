@@ -1,5 +1,8 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
+mb_internal_encoding ( "UTF-8" );
+header('Content-type: text/html; charset=UTF-8');
+
 class Imc_model extends CI_Model
 {
 	
@@ -12,27 +15,25 @@ class Imc_model extends CI_Model
 	{		
 		//$condicion   1=enviados   2=no enviados   3= todos
 		
-		$this->load->database();
-		$this->db->trans_start();		
 		
+		$this->load->database();
+		$this->db->trans_start();
+				
 		//EVALUAMOS LAS CONDICIONES EN LA QUERY, SEGUN NOS VENGA VALOR 1, 2 O 3 LA QUERY NOS DEVOLVERA UNOS U OTROS DATOS
 		
 		$sql = "SELECT t_imcs.k_consultor, COALESCE(t_imcs.i_tot_horas_imc,0) i_tot_horas_imc, COALESCE(t_imcs.i_tot_horas_imc_validadas,0) i_tot_horas_imc_validadas, 
-						t_imcs.sw_validacion, t_imcs.mes_imc, t_imcs.año_imc year_imc, t_imcs.k_imc
+						t_imcs.sw_validacion, t_imcs.mes_imc, t_imcs.\"año_imc\" year_imc, t_imcs.k_imc
 				FROM t_imcs
 				GROUP BY t_imcs.k_consultor, t_imcs.i_tot_horas_imc, t_imcs.i_tot_horas_imc_validadas, 
-						t_imcs.sw_validacion, t_imcs.mes_imc, t_imcs.año_imc, t_imcs.k_imc
+						t_imcs.sw_validacion, t_imcs.mes_imc, year_imc, t_imcs.k_imc
 				HAVING (((t_imcs.k_consultor)=$k_consultor) AND ((t_imcs.sw_validacion)=0) AND ($condicion=2)) OR (((t_imcs.k_consultor)=$k_consultor) AND ((t_imcs.sw_validacion)=-1) AND 
 						($condicion=1)) OR (((t_imcs.k_consultor)=$k_consultor) AND ($condicion=3))
-				ORDER BY  t_imcs.año_imc DESC,t_imcs.mes_imc DESC";
+				ORDER BY  year_imc DESC,t_imcs.mes_imc DESC";
 		
 		
 		$resultado_imc=$this->db->query($sql)->result_array();
 		
-		/*
-		var_dump($resultado_imc);
-		die;
-		*/
+		
 		$this->db->trans_complete();
 		$this->db->close();
 		return $resultado_imc;
@@ -54,16 +55,23 @@ class Imc_model extends CI_Model
 		
 		//==========IMC MES==============
 		$sql ="SELECT *
-		FROM t_imcs WHERE k_consultor = ? AND año_imc = ? AND mes_imc = ?";
+		FROM t_imcs WHERE k_consultor = ? AND \"año_imc\" = ? AND mes_imc = ?";
 		
 		$datos_imc_mes['t_imcs']=$this->db->query($sql,array($k_consultor,$year,$month))->result_array();
 		
 		//===========LINEAS IMC=====================		
 		$sql2 ="SELECT t_lineas_imc.k_linea_imc, t_lineas_imc.k_imc, t_lineas_imc.k_proyecto, 
-				t_lineas_imc.i_horas_01, t_lineas_imc.i_horas_02, t_lineas_imc.i_horas_03, t_lineas_imc.i_horas_04, t_lineas_imc.i_horas_05, t_lineas_imc.i_horas_06, t_lineas_imc.i_horas_07, t_lineas_imc.i_horas_08, t_lineas_imc.i_horas_09, t_lineas_imc.i_horas_10, t_lineas_imc.i_horas_11, t_lineas_imc.i_horas_12, t_lineas_imc.i_horas_13, t_lineas_imc.i_horas_14, t_lineas_imc.i_horas_15, t_lineas_imc.i_horas_16, t_lineas_imc.i_horas_17, t_lineas_imc.i_horas_18, t_lineas_imc.i_horas_19, t_lineas_imc.i_horas_20, t_lineas_imc.i_horas_21, t_lineas_imc.i_horas_22, t_lineas_imc.i_horas_23, t_lineas_imc.i_horas_24, t_lineas_imc.i_horas_25, t_lineas_imc.i_horas_26, t_lineas_imc.i_horas_27, t_lineas_imc.i_horas_28, t_lineas_imc.i_horas_29, t_lineas_imc.i_horas_30, t_lineas_imc.i_horas_31, 
+				t_lineas_imc.i_horas_01, t_lineas_imc.i_horas_02, t_lineas_imc.i_horas_03, t_lineas_imc.i_horas_04, 
+				t_lineas_imc.i_horas_05, t_lineas_imc.i_horas_06, t_lineas_imc.i_horas_07, t_lineas_imc.i_horas_08, 
+				t_lineas_imc.i_horas_09, t_lineas_imc.i_horas_10, t_lineas_imc.i_horas_11, t_lineas_imc.i_horas_12, 
+				t_lineas_imc.i_horas_13, t_lineas_imc.i_horas_14, t_lineas_imc.i_horas_15, t_lineas_imc.i_horas_16, 
+				t_lineas_imc.i_horas_17, t_lineas_imc.i_horas_18, t_lineas_imc.i_horas_19, t_lineas_imc.i_horas_20, 
+				t_lineas_imc.i_horas_21, t_lineas_imc.i_horas_22, t_lineas_imc.i_horas_23, t_lineas_imc.i_horas_24, 
+				t_lineas_imc.i_horas_25, t_lineas_imc.i_horas_26, t_lineas_imc.i_horas_27, t_lineas_imc.i_horas_28, 
+				t_lineas_imc.i_horas_29, t_lineas_imc.i_horas_30, t_lineas_imc.i_horas_31, 
 				t_lineas_imc.i_tot_horas_linea_imc, t_lineas_imc.desc_comentarios,
 				t_proyectos.id_proyecto, t_proyectos.sw_proy_especial,t_proyectos.sw_interno
-		FROM t_lineas_imc INNER JOIN t_proyectos ON t_lineas_imc.k_proyecto = t_proyectos.k_proyecto
+				FROM t_lineas_imc INNER JOIN t_proyectos ON t_lineas_imc.k_proyecto = t_proyectos.k_proyecto
 				WHERE t_lineas_imc.k_imc={$datos_imc_mes['t_imcs'][0]['k_imc']}
 				ORDER BY t_lineas_imc.k_linea_imc";		
 		

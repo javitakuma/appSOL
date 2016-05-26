@@ -648,8 +648,9 @@ function error_validar_comentarios_linea_imc()
 	
 	var error_longitud_comentario=false;
 	$('.comentarios_textarea').each(function()
-	{    		
-		var nombre_proyecto=$(this).parent().parent().find('td:first').html();    		
+	{    
+		//var nombre_proyecto=$(this).parent().parent().find('td:first').html(); 
+		var id_proyecto=$(this).parent().parent().attr('id');    		
 		
 		if($(this).val.length>50)
 		{
@@ -659,7 +660,7 @@ function error_validar_comentarios_linea_imc()
 		}
 		
 		
-		if(nombre_proyecto=='PRO251')//CAMBIAR PRODUCCION KEYPREVENTA  DEV-PRO 
+		if(id_proyecto=='251')//CAMBIAR PRODUCCION KEYPREVENTA  DEV-PRO PRO251---
 		{  
 			var regex_preventa=/^[\w\W]+\/[\w\W]+\/[\w\W]+$/;
 			
@@ -677,7 +678,7 @@ function error_validar_comentarios_linea_imc()
 		}
 		
 		
-		if(nombre_proyecto=='PRO240')//CAMBIAR PRODUCCION KEYCURINT  DEV-PRO 
+		if(id_proyecto=='240')//CAMBIAR PRODUCCION KEYCURINT  DEV-PRO    PRO240-
 		{  
 			
 			if($(this).val()=="")
@@ -689,7 +690,7 @@ function error_validar_comentarios_linea_imc()
 			}    			     			
 		}    	    		
 		
-		if(nombre_proyecto=='PRO256')//CAMBIAR PRODUCCION KEYSINPROY  DEV-PRO
+		if(id_proyecto=='256')//CAMBIAR PRODUCCION KEYSINPROY  DEV-PRO   PRO256
 		{  
 			
 			if($(this).val()=="")
@@ -701,7 +702,7 @@ function error_validar_comentarios_linea_imc()
 			     			
 		}
 		
-		if(nombre_proyecto=='PRO468')//CAMBIAR PRODUCCION KEYOTROS   DEV-PRO
+		if(id_proyecto=='468')//CAMBIAR PRODUCCION KEYOTROS   DEV-PRO  PRO468-
 		{  
 			
 			//SI FALLARA QUITAR  LO QUE NO SEA TEXTO PLANO
@@ -1128,7 +1129,7 @@ function agregar_proyecto_a_tabla()
 	
 	//creamos el boton
 	
-	var boton=$('<td class="borde_invisible no_fondo"><img title="Eliminar fila" class="eliminar_fila " src="'+BASE_URL+'assets/img/cross.png"/></td>');
+	var boton=$('<td class="borde_invisible no_fondo"><img title="Eliminar fila" class="eliminar_fila " src="'+BASE_URL+'assets/img/red_cross_120px.png"/></td>');
 	fila.append(boton);
 	
 	//agregamos la fila

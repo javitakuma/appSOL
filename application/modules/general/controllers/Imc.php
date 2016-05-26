@@ -1,5 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
+mb_internal_encoding ( "UTF-8" );
+
 class Imc extends MX_Controller
 {
 	
@@ -13,6 +15,7 @@ class Imc extends MX_Controller
 	
 	public function index($condicion=2)
 	{
+		
 		$k_consultor=$this->session->userdata('k_consultor');
 		$datos['imc_mensuales']=$this->Imc_model->get_imc_mensuales($condicion,$k_consultor);
 		$datos['js'] ="imc";

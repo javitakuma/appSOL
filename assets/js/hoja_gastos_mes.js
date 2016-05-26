@@ -36,7 +36,6 @@ $(document).ready(function() {
 	});
 	
 	
-	//TODO lO QUE HAREMOS CUANDO MANDEMOS DATOS
     $("#grabar").click(function(event) 
     {    
     	//AÑADIMOS EVENTO CLICK AL BOTON GRABAR  
@@ -636,8 +635,8 @@ function agregar_linea()
 	var valorGasto=$('<td class="valor_gasto"><input class="input_datos" type="text" value="0.00"/></td>');	
 		
 	var descripcionGasto=$('<td class="descripcion_gasto"><textarea maxlength="100"></textarea></td>');
-	
-	var botonEliminar=$('<td class="borde_invisible no_fondo"><img title="Eliminar fila" class="eliminar_fila " src="'+BASE_URL+'assets/img/cross.png"/></td>');
+		
+	var botonEliminar=$('<td class="borde_invisible no_fondo"><img title="Eliminar fila" class="eliminar_fila " src="'+BASE_URL+'assets/img/red_cross_120px.png"/></td>');
  
 	fila.append(fechaGasto);
 	fila.append(valorGasto);
@@ -710,7 +709,9 @@ function validarValorCelda(elemento)
 	}
 	
 	//EXPRESION REGULAR PARA CERTIFICAR QUE PONGA EL VALOR EN NUMERO ENTERO O DECIMAL CON UN DECIMAL
-	var regexGastoUnDecimal=/^[0-9]+(.[0-9]{1})+$/;
+	var regexGastoUnDecimal=/^[0-9]+(.[0-9]{1}){1}$/;
+	
+	var regexEnteroMasPunto=/^[0-9]+(.){1}$/;
 	
 	if(regexGastoUnDecimal.test($(elemento).val()))
 	{
@@ -718,7 +719,12 @@ function validarValorCelda(elemento)
 		//AÑADIMOS UN CERO PARA CONVERTIR A DOS CIFRAS DECIMALES
 		var valor=$(elemento).val();
 		$(elemento).val(valor+"0");		
-	}
+	}	
+	else if(regexEnteroMasPunto.test($(elemento).val()))
+	{
+		var valor=$(elemento).val();
+		$(elemento).val(valor+"00");
+	}	
 	else
 	{
 		//respuesta=false;

@@ -84,7 +84,7 @@ class Permisos_model extends CI_Model
 		FROM t_permisos_consumidos_det A
 		JOIN t_permisos_consumidos B
 		ON A.k_permisos_cons=B.k_permisos_cons
-		where B.k_consultor ='$k_consultor' and B.mes_cons='$mes' and B.año_cons='$year'
+		where B.k_consultor ='$k_consultor' and B.mes_cons='$mes' and B.\"año_cons\"='$year'
 		ORDER BY dia_solic";
 		
 		/*		
@@ -110,7 +110,7 @@ class Permisos_model extends CI_Model
 		
 		$sql ="SELECT (coalesce(dias_vac_base,0)+coalesce(dias_vac_compensables,0)+coalesce(dias_vac_especiales,0)+
 		coalesce(dias_vac_jornada_verano,0)+coalesce(dias_vac_resto,0)) suma_dias FROM t_permisos_vacaciones 
-		WHERE k_consultor=$k_consultor AND año_vac=$year_solicitud AND sw_validado=-1";
+		WHERE k_consultor=$k_consultor AND \"año_vac\"=$year_solicitud AND sw_validado=-1";
 		
 		$total_vac_este=$this->db->query($sql)->row_array();
 						
@@ -119,14 +119,14 @@ class Permisos_model extends CI_Model
 		
 		$sql2 ="SELECT (coalesce(dias_vac_base,0)+coalesce(dias_vac_compensables,0)+coalesce(dias_vac_especiales,0)+
 		coalesce(dias_vac_jornada_verano,0)+coalesce(dias_vac_resto,0)) suma_dias FROM t_permisos_vacaciones 
-		WHERE k_consultor=$k_consultor AND año_vac=$year_anterior AND sw_validado=-1";
+		WHERE k_consultor=$k_consultor AND \"año_vac\"=$year_anterior AND sw_validado=-1";
 		
 		$total_vac_anterior=$this->db->query($sql2)->row_array();
 		
 		
 		$sql2bis ="SELECT (coalesce(dias_vac_base,0)+coalesce(dias_vac_compensables,0)+coalesce(dias_vac_especiales,0)+
 		coalesce(dias_vac_jornada_verano,0)+coalesce(dias_vac_resto,0)) suma_dias FROM t_permisos_vacaciones
-		WHERE k_consultor=$k_consultor AND año_vac=$year_siguiente AND sw_validado=-1";
+		WHERE k_consultor=$k_consultor AND \"año_vac\"=$year_siguiente AND sw_validado=-1";
 		
 		$total_vac_siguiente=$this->db->query($sql2bis)->row_array();
 		
@@ -134,7 +134,7 @@ class Permisos_model extends CI_Model
 		//AL CARGARLO Y LOS DESCUENTA
 		$sql3 ="SELECT count(*) suma_consumidos FROM t_permisos_solicitados_det A
 		join t_permisos_solicitados B on A.k_permisos_solic=B.k_permisos_solic
-		WHERE A.año_vac=$year_solicitud AND B.i_autorizado_n1!=2 AND B.i_autorizado_n2!=2 AND A.k_permisos_solic!=$k_permiso_solic AND B.k_consultor=$k_consultor";
+		WHERE A.\"año_vac\"=$year_solicitud AND B.i_autorizado_n1!=2 AND B.i_autorizado_n2!=2 AND A.k_permisos_solic!=$k_permiso_solic AND B.k_consultor=$k_consultor";
 		
 		$consumidos_este=$this->db->query($sql3)->row_array();
 		
@@ -142,13 +142,13 @@ class Permisos_model extends CI_Model
 		//AL CARGARLO Y LOS DESCUENTA
 		$sql4 ="SELECT count(*) suma_consumidos FROM t_permisos_solicitados_det A
 		join t_permisos_solicitados B on A.k_permisos_solic=B.k_permisos_solic
-		WHERE A.año_vac=$year_anterior AND B.i_autorizado_n1!=2 AND B.i_autorizado_n2!=2 AND A.k_permisos_solic!=$k_permiso_solic AND B.k_consultor=$k_consultor";
+		WHERE A.\"año_vac\"=$year_anterior AND B.i_autorizado_n1!=2 AND B.i_autorizado_n2!=2 AND A.k_permisos_solic!=$k_permiso_solic AND B.k_consultor=$k_consultor";
 		
 		$consumidos_anterior=$this->db->query($sql4)->row_array();
 		
 		$sql5 ="SELECT count(*) suma_consumidos FROM t_permisos_solicitados_det A
 		join t_permisos_solicitados B on A.k_permisos_solic=B.k_permisos_solic
-		WHERE A.año_vac=$year_siguiente AND B.i_autorizado_n1!=2 AND B.i_autorizado_n2!=2 AND A.k_permisos_solic!=$k_permiso_solic AND B.k_consultor=$k_consultor";
+		WHERE A.\"año_vac\"=$year_siguiente AND B.i_autorizado_n1!=2 AND B.i_autorizado_n2!=2 AND A.k_permisos_solic!=$k_permiso_solic AND B.k_consultor=$k_consultor";
 		
 		$consumidos_siguiente=$this->db->query($sql5)->row_array();
 				
@@ -217,14 +217,14 @@ class Permisos_model extends CI_Model
 		if($k_permiso_solicitud_calendario==0)
 		{						
 			
-			$sql ="SELECT A.dia_solic,A.mes_solic,A.año_solic year_solic,B.i_autorizado_n1,B.i_autorizado_n2,
+			$sql ="SELECT A.dia_solic,A.mes_solic,A.\"año_solic\" year_solic,B.i_autorizado_n1,B.i_autorizado_n2,
 			A.k_permisos_solic,A.horas_solic ,B.desc_observaciones
 			FROM t_permisos_solicitados_det A
 			join t_permisos_solicitados B
 			on A.k_permisos_solic=B.k_permisos_solic
 			where B.k_consultor ='$k_consultor' AND i_autorizado_n1!=1 AND i_autorizado_n2!=1
 			UNION ALL			
-			SELECT A.dia_cons dia_solic,B.mes_cons mes_solic,B.año_cons year_solic,1 i_autorizado_n1,1 i_autorizado_n2,
+			SELECT A.dia_cons dia_solic,B.mes_cons mes_solic,B.\"año_cons\" year_solic,1 i_autorizado_n1,1 i_autorizado_n2,
 			9223372036854775807 k_permisos_solic,A.horas_cons horas_solic ,A.desc_observaciones
 			FROM t_permisos_consumidos_det A
 			JOIN t_permisos_consumidos B
@@ -234,7 +234,7 @@ class Permisos_model extends CI_Model
 		}
 		else//SOLOVISTA PARA UN k_permisos EN CONCRETO
 		{
-			$sql ="SELECT A.dia_solic,A.mes_solic,A.año_solic year_solic,B.i_autorizado_n1,B.i_autorizado_n2,A.k_permisos_solic,A.horas_solic ,B.desc_observaciones
+			$sql ="SELECT A.dia_solic,A.mes_solic,A.\"año_solic\" year_solic,B.i_autorizado_n1,B.i_autorizado_n2,A.k_permisos_solic,A.horas_solic ,B.desc_observaciones
 			FROM t_permisos_solicitados_det A
 			join t_permisos_solicitados B
 			on A.k_permisos_solic=B.k_permisos_solic
@@ -356,13 +356,13 @@ class Permisos_model extends CI_Model
 		
 		for($i=0;$i<sizeof($permisos);$i++)
 		{
-			$sql ="SELECT CONCAT(dia_solic,'-',mes_solic,'-',año_solic) primera_fecha FROM t_permisos_solicitados_det
-			WHERE k_permisos_solic={$permisos[$i]['k_permisos_solic']} ORDER BY año_solic,mes_solic,dia_solic ASC LIMIT 1";
+			$sql ="SELECT CONCAT(dia_solic,'-',mes_solic,'-',\"año_solic\") primera_fecha FROM t_permisos_solicitados_det
+			WHERE k_permisos_solic={$permisos[$i]['k_permisos_solic']} ORDER BY \"año_solic\",mes_solic,dia_solic ASC LIMIT 1";
 				
 			$primer_dia=$this->db->query($sql)->result_array();
 				
-			$sql2 ="SELECT CONCAT(dia_solic,'-',mes_solic,'-',año_solic) ultima_fecha FROM t_permisos_solicitados_det
-			WHERE k_permisos_solic={$permisos[$i]['k_permisos_solic']}  ORDER BY año_solic DESC,mes_solic DESC,dia_solic DESC LIMIT 1";
+			$sql2 ="SELECT CONCAT(dia_solic,'-',mes_solic,'-',\"año_solic\") ultima_fecha FROM t_permisos_solicitados_det
+			WHERE k_permisos_solic={$permisos[$i]['k_permisos_solic']}  ORDER BY \"año_solic\" DESC,mes_solic DESC,dia_solic DESC LIMIT 1";
 			
 			$ultimo_dia=$this->db->query($sql2)->result_array();
 			
@@ -504,8 +504,8 @@ class Permisos_model extends CI_Model
 					'horas_solic'         	=>   $horas,
 					'dia_solic' 			=>   $dia,
 					'mes_solic'      		=>   $mes,
-					'año_solic' 	 		=>   $year,
-					'año_vac'   			=>   $year_vac,
+					'\"año_solic\"' 	 	=>   $year,
+					'\"año_vac\"'   		=>   $year_vac,
 			);
 				
 			$resultado=$this->db->insert('t_permisos_solicitados_det',$data);
@@ -633,8 +633,8 @@ class Permisos_model extends CI_Model
 					'horas_solic'         	=>   $horas,
 					'dia_solic' 			=>   $dia,
 					'mes_solic'      		=>   $mes,
-					'año_solic' 	 		=>   $year,
-					'año_vac'   			=>   $year_vac,
+					'\"año_solic\"' 	 	=>   $year,
+					'\"año_vac\"'   		=>   $year_vac,
 			);
 			
 			//RESTAMOS DIAS AL CONTADOR DE DIAS PENDIENTES SEGUN POR EL AÑO QUE VAYAMOS

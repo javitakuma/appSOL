@@ -68,6 +68,34 @@
 
 
 /*TEXTOS AYUDA PROYECTOS*/
+
+
+
+
+
+
+#sombra
+{
+	background-color:rgba(0,0,0,0.5);
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:888;
+}
+
+.dialog {
+padding:1% 0%;
+background-color:#EFEFEF;
+width:80%;
+height:80%;
+top: 10%;
+left: 10%;
+position:absolute;
+z-index:999;
+border-radius:15px;
+/*display:none;*/
+}
+
 .titulo_ayuda
 {
 	width:60%;	
@@ -85,46 +113,38 @@
 
 .texto_ayuda
 {
-	padding-top:5%;
-	font-size:100%;
+	width:95%;
+	margin-left:2.5%;
+	padding-top:2%;
+	font-size:180%;
+	height:85%;
+	position:absolute;
+	bottom:2%;
+	overflow: auto;
 }
+
+@media (max-width: 500px) {
+    .texto_ayuda { font-size: 100%;}
+}
+
+
+@media (min-width: 500px) {
+    .texto_ayuda  { font-size: 100%; }
+}
+
+@media (min-width: 600px) {
+    .texto_ayuda  { font-size: 100%; }
+}
+
+@media (min-width: 700px) {
+    .texto_ayuda  { font-size: 100%; }
+}
+
 
 .texto_ayuda p
 {
 	margin-top:3%;
 	font-weight:400;
-	font-size:100%;
-}
-
-
-@media (min-width: 500px) {
-    .texto_ayuda  { font-size: 70%; }
-}
-
-@media (min-width: 700px) {
-    .texto_ayuda  { font-size: 90%; }
-}
-
-#sombra
-{
-	background-color:rgba(0,0,0,0.5);
-	position:absolute;
-	top:0;
-	left:0;
-	z-index:888;
-}
-
-.dialog {
-padding:1% 5%;
-background-color:#EFEFEF;
-width:80%;
-height:80%;
-top: 10%;
-left: 5%;
-position:absolute;
-z-index:999;
-border-radius:15px;
-/*display:none;*/
 }
 
 .dialog .negrita

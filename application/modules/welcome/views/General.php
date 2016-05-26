@@ -67,17 +67,19 @@
             	
             	<div class="columna-menu">
             		<div class="opcion-columna" >
-            			<img onclick='location.href="<?php echo base_url()?>general/Permisos/index"' src="<?php echo base_url()?>assets/img/permisos4.png" class="imagen-opcion"/>
-            			<p class="nombre-opcion" onclick='location.href="<?php echo base_url()?>general/Permisos/index"'>SOLICITUD PERMISOS</p>
+            			<img onclick='location.href="<?php echo base_url()?>general/Gastos/index"' src="<?php echo base_url()?>assets/img/gastos.png" class="imagen-opcion"/>
+            			<p class="nombre-opcion" onclick='location.href="<?php echo base_url()?>general/Gastos/index"'>GASTOS</p>
             		</div>
             	</div>
             	
             	<div class="columna-menu">
             		<div class="opcion-columna" >
-            			<img onclick='location.href="<?php echo base_url()?>general/Gastos/index"' src="<?php echo base_url()?>assets/img/gastos.png" class="imagen-opcion"/>
-            			<p class="nombre-opcion" onclick='location.href="<?php echo base_url()?>general/Gastos/index"'>GASTOS</p>
+            			<img onclick='location.href="<?php echo base_url()?>general/Permisos/index"' src="<?php echo base_url()?>assets/img/permisos4.png" class="imagen-opcion"/>
+            			<p class="nombre-opcion" onclick='location.href="<?php echo base_url()?>general/Permisos/index"'>SOLICITUD PERMISOS</p>
             		</div>
             	</div>
+            	
+            	
             	
             	
             </div>

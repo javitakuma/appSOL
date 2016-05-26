@@ -73,6 +73,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
+
+/*
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => '10.40.1.61',
@@ -94,7 +96,18 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+*/
+
+
+
+
 /*
+ * 
+ * 		'hostname' => '10.40.1.50',
+    	'username' => 'postgres',
+    	'password' => 'K3yru5123',
+    	'database' => 'KEYRUS_DB_PRO',
+    
  		'hostname' => getenv('DB_HOST'),
         'username' => getenv('DB_USERNAME'),
         'password' => getenv('DB_PASSWORD'),

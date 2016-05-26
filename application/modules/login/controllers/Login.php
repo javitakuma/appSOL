@@ -1,7 +1,10 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
- 
+
+mb_internal_encoding ( "utf8" );
+
 class Login extends MX_Controller
 {
+	
 	
 	public function __construct()
 	{		
@@ -19,6 +22,7 @@ class Login extends MX_Controller
 	//FORMULARIO LOGIN
 	public function index()
 	{	
+		
 		//VALIDAMOS SI HAY USUARIO ACTIVO
 		//SI ESTA LOGUEADO LE MANDAMOS AL WELCOME
 		if($this->session->userdata('logueado'))

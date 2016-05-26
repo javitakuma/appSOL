@@ -21,7 +21,7 @@ class Gastos_model extends CI_Model
 		
 		$sql = "SELECT k_hoja_gastos
 		FROM t_hojas_gastos
-		WHERE (t_hojas_gastos.k_consultor=$k_consultor) AND (t_hojas_gastos.f_año_hoja_gastos=$year) AND (t_hojas_gastos.f_mes_hoja_gastos LIKE '$month')";
+		WHERE (t_hojas_gastos.k_consultor=$k_consultor) AND (t_hojas_gastos.\"f_año_hoja_gastos\"=$year) AND (t_hojas_gastos.f_mes_hoja_gastos LIKE '$month')";
 		
 		
 		$hoja_ya_creada=$this->db->query($sql)->num_rows()>0;	
@@ -48,7 +48,7 @@ class Gastos_model extends CI_Model
 		$data = array(
 				'k_consultor'       			=>   $k_consultor,
 				'com_hoja_gastos'         		=>   "Gastos $id_consultor $mesTexto $year",
-				'f_año_hoja_gastos' 			=>   $year,
+				'"f_año_hoja_gastos"'			=>   $year,
 				'f_mes_hoja_gastos'   			=>   $month,
 		);
 		$this->db->insert('t_hojas_gastos',$data);
@@ -69,15 +69,17 @@ class Gastos_model extends CI_Model
 		//EVALUAMOS LAS CONDICIONES EN LA QUERY, SEGUN NOS VENGA VALOR 1, 2 O 3 LA QUERY NOS DEVOLVERA UNOS U OTROS DATOS
 		
 		$sql = "SELECT t_hojas_gastos.i_tot_hoja_gastos, t_hojas_gastos.f_pago_hoja_gastos, t_hojas_gastos.k_hoja_gastos, t_hojas_gastos.f_mes_hoja_gastos, 
-				t_hojas_gastos.f_año_hoja_gastos, t_hojas_gastos.i_tot_gastos_autorizados, t_hojas_gastos.i_tot_gastos_no_autorizados, 
+				t_hojas_gastos.\"f_año_hoja_gastos\", t_hojas_gastos.i_tot_gastos_autorizados, t_hojas_gastos.i_tot_gastos_no_autorizados, 
 				t_hojas_gastos.i_tot_gastos_pendientes, t_hojas_gastos.sw_autorizar_revision, t_hojas_gastos.i_imp_pagado
 				FROM t_hojas_gastos
 				WHERE (($condicion=1) AND (t_hojas_gastos.k_consultor=$k_consultor)) OR 
 				(($condicion=2) AND (t_hojas_gastos.k_consultor=$k_consultor) AND (t_hojas_gastos.i_imp_pagado!=t_hojas_gastos.i_tot_gastos_autorizados)) OR 
 				(($condicion=2) AND (t_hojas_gastos.k_consultor=$k_consultor) AND (t_hojas_gastos.i_tot_gastos_pendientes=t_hojas_gastos.i_tot_hoja_gastos)) OR
 				(($condicion=0) AND (t_hojas_gastos.k_consultor=$k_consultor) AND (t_hojas_gastos.i_imp_pagado=t_hojas_gastos.i_tot_gastos_autorizados) AND (t_hojas_gastos.sw_autorizar_revision!=0))
-				GROUP BY t_hojas_gastos.i_tot_hoja_gastos, t_hojas_gastos.f_pago_hoja_gastos, t_hojas_gastos.k_hoja_gastos, t_hojas_gastos.f_mes_hoja_gastos, t_hojas_gastos.f_año_hoja_gastos, t_hojas_gastos.i_tot_gastos_autorizados, t_hojas_gastos.i_tot_gastos_no_autorizados, t_hojas_gastos.i_tot_gastos_pendientes, t_hojas_gastos.sw_autorizar_revision, t_hojas_gastos.i_imp_pagado
-				ORDER BY t_hojas_gastos.f_año_hoja_gastos DESC,t_hojas_gastos.f_mes_hoja_gastos DESC";
+				GROUP BY t_hojas_gastos.i_tot_hoja_gastos, t_hojas_gastos.f_pago_hoja_gastos, t_hojas_gastos.k_hoja_gastos, t_hojas_gastos.f_mes_hoja_gastos, 
+				t_hojas_gastos.\"f_año_hoja_gastos\", t_hojas_gastos.i_tot_gastos_autorizados, t_hojas_gastos.i_tot_gastos_no_autorizados, 
+				t_hojas_gastos.i_tot_gastos_pendientes, t_hojas_gastos.sw_autorizar_revision, t_hojas_gastos.i_imp_pagado
+				ORDER BY t_hojas_gastos.\"f_año_hoja_gastos\" DESC,t_hojas_gastos.f_mes_hoja_gastos DESC";
 		
 		
 		$resultado_hojas_gastos=$this->db->query($sql)->result_array();
@@ -101,9 +103,9 @@ class Gastos_model extends CI_Model
 		
 		//===========SELECCIONAMOS LA CLAVE DE LA HOJA DE GASTOS DE ESE MES=========
 		
-		$sql = "SELECT k_hoja_gastos, com_hoja_gastos,f_pago_hoja_gastos,f_año_hoja_gastos,f_mes_hoja_gastos,sw_autorizar_revision
+		$sql = "SELECT k_hoja_gastos, com_hoja_gastos,f_pago_hoja_gastos,\"f_año_hoja_gastos\",f_mes_hoja_gastos,sw_autorizar_revision
 		FROM t_hojas_gastos
-		WHERE (t_hojas_gastos.k_consultor=$k_consultor) AND (t_hojas_gastos.f_año_hoja_gastos=$year) AND (t_hojas_gastos.f_mes_hoja_gastos LIKE '$month')";
+		WHERE (t_hojas_gastos.k_consultor=$k_consultor) AND (t_hojas_gastos.\"f_año_hoja_gastos\"=$year) AND (t_hojas_gastos.f_mes_hoja_gastos LIKE '$month')";
 		
 		
 		$datos_gastos['t_hojas_gastos']=$this->db->query($sql)->result_array();
