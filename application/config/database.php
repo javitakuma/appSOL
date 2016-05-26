@@ -101,15 +101,3 @@ $db['default'] = array(
 
 
 
-/*
- * 
- * 		'hostname' => '10.40.1.50',
-    	'username' => 'postgres',
-    	'password' => 'K3yru5123',
-    	'database' => 'KEYRUS_DB_PRO',
-    
- 		'hostname' => getenv('DB_HOST'),
-        'username' => getenv('DB_USERNAME'),
-        'password' => getenv('DB_PASSWORD'),
-        'database' => getenv('DB_DBNAME'),
- */

@@ -69,6 +69,8 @@
 	width:15%;
 	display:inline-block;
 	margin-left:2%;
+	position:relative;
+	top:-5px;
 }
 
 .push
@@ -119,6 +121,7 @@
 {
 	position:absolute;
 	right:3%;
+	top:-3px;
 	margin-left:20px;
 	width:30%;
 	height:120%;

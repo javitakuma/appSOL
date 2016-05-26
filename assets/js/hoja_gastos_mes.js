@@ -70,7 +70,6 @@ $(document).ready(function() {
 		        	{		
 		        		cancelar_envio=true;
 		        		$(this).addClass('colorErrorCelda');//NEW20-05
-		            	//actualizarTotales();
 		        	}
     	    	});
     	
@@ -201,7 +200,6 @@ $(document).ready(function() {
     			        	{		        		
     			        		
     			        		cancelar_envio=true;
-    			            	//actualizarTotales();
     			        	}
     	    	    	});
     	    	
@@ -762,11 +760,18 @@ function actualizarTotales()
 	    if(isNaN(sum))
 	    {
 	    	$('#pendientes_hoja').html('##');
+	    	$('#total_hoja').html('##');
 	    }
 	    else
 	    {
 	    	//ASI LO PONEMOS EN FORMATO CON DOS DECIMALES
 	    	$('#pendientes_hoja').html(parseFloat(Math.round(sum * 100) / 100).toFixed(2)+"€");
+	    	
+	    	var diferencial=$('#diferencial_total_pendientes').val();
+	    	
+	    	var total=sum+(Number)(diferencial);
+	    	
+	    	$('#total_hoja').html(parseFloat(Math.round(total* 100) / 100).toFixed(2)+"€");
 	    }	
 	    	    
 	    var numeroFilas=$('.fila-datos').length;

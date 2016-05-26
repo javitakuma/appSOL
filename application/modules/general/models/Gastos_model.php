@@ -12,17 +12,17 @@ class Gastos_model extends CI_Model
 	public function buscar_hojas_gastos($k_consultor,$year,$month,$id_consultor)
 	{
 		//$id_consultor lo pasamos por si hay que crear la hoja para crear el comentario
-		
-				
+						
 		$this->load->database();
-		$this->db->trans_start();
-		
+		$this->db->trans_start();		
 		//===========SELECCIONAMOS LA CLAVE DE LA HOJA DE GASTOS DEL MES QUE NOS HAN PASADO POR SI EXISTIERA=========
 		
 		$sql = "SELECT k_hoja_gastos
 		FROM t_hojas_gastos
 		WHERE (t_hojas_gastos.k_consultor=$k_consultor) AND (t_hojas_gastos.\"f_año_hoja_gastos\"=$year) AND (t_hojas_gastos.f_mes_hoja_gastos LIKE '$month')";
 		
+		$this->db->trans_complete();
+		$this->db->close();
 		
 		$hoja_ya_creada=$this->db->query($sql)->num_rows()>0;	
 		
@@ -30,10 +30,7 @@ class Gastos_model extends CI_Model
 		if(!$hoja_ya_creada)
 		{
 			$this->crear_hoja_gastos($k_consultor,$year,$month,$id_consultor);		
-		}
-		
-		$this->db->trans_complete();
-		$this->db->close();
+		}		
 		
 		return $hoja_ya_creada;
 	}
@@ -125,7 +122,8 @@ class Gastos_model extends CI_Model
 		t_linea_gasto.desc_linea_gasto, t_linea_gasto.com_rechazo_linea_gasto, t_linea_gasto.i_linea_hito, t_linea_gasto.k_linea_gasto_autorizado1, 
 		t_linea_gasto.k_linea_gasto_autorizado2
 		FROM t_linea_gasto
-		WHERE (((t_linea_gasto.k_linea_gasto_autorizado1)=0) AND ((t_linea_gasto.k_linea_gasto_autorizado2)=0))AND (t_linea_gasto.k_hoja_gasto=$k_hoja_gastos)";
+		WHERE (((t_linea_gasto.k_linea_gasto_autorizado1)=0) AND ((t_linea_gasto.k_linea_gasto_autorizado2)=0))AND (t_linea_gasto.k_hoja_gasto=$k_hoja_gastos)
+		ORDER BY t_linea_gasto.k_linea_gasto";
 		
 		$datos_gastos['lineas_gastos_pendientes']=$this->db->query($sql_lineas_gastos_pendientes)->result_array();
 		
@@ -174,6 +172,7 @@ class Gastos_model extends CI_Model
 		
 		$datos_gastos['proyectos_consultor']=$this->db->query($sql_proyectos_consultor,array($hoy_menos_mes,$hoy))->result_array();
 		$datos_gastos['proyectos_consultor_JSON']=json_encode($datos_gastos['proyectos_consultor']);
+		
 		
 		/*SELECCIONA LOS TIPOS DE LINEA DE GASTOS PARA EL DESPLEGABLE*/
 		

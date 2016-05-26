@@ -6,7 +6,11 @@
 	<div id="div-volver" class="volver">
 			<img id="imagen-volver" class="cursor_pointer" src="<?php echo base_url()?>assets/img/back.png" width="4%" onclick='confirmar_boton_volver()'/>			
 	</div>
+	<!--  
 	<h1 id="titulo-pagina" class="centrado titulo-grande" onclick="pintar()">HOJA DE GASTOS <?php echo $this->session->userdata('nom_consultor')." ("?><?php echo $mes_texto?> de <?php echo $year.")"?></h1>
+	-->
+	<h1 id="titulo-pagina" class="centrado titulo-grande">HOJA DE GASTOS</h1>
+	<h1 id="titulo-pagina-segundo" class="centrado titulo-grande"><?php echo $this->session->userdata('nom_consultor')." ("?><?php echo $mes_texto?> de <?php echo $year.")"?></h1>
 	<br/>
 	<div id="superior">	 							
 				<?php if($datos_gastos['t_hojas_gastos'][0]['sw_autorizar_revision']==0):?>
@@ -37,10 +41,7 @@
 						<th class="fecha_gasto_titulo">FECHA</th>
 						<th class="valor_gasto_titulo">VALOR(€)</th>
 						<th class="descripcion_gasto_titulo">DESCRIPCIÓN LINEA GASTO</th>									
-					</tr>	                
-	                
-	                
-	                
+					</tr>	
 	                
 	                <!-- 
 	                 CON ESTO PINTAMOS UNA FILA DE LA TABLA POR CADA LINEA DE GASTO QUE HAYAMOS COGIDO DE LA BASE DE DATOS
@@ -196,6 +197,7 @@
 		<input type="hidden" id="k_hoja_gastos" value="<?php echo $datos_gastos['t_hojas_gastos'][0]['k_hoja_gastos']?>"/>
 		<input type="hidden" id="mes_hoja" value="<?php echo $mes?>"/>
 		<input type="hidden" id="año_hoja" value="<?php echo $year?>"/>	
+		<input type="hidden" id="diferencial_total_pendientes" value="<?php echo $datos_gastos['gastos_totales'][0]['i_tot_hoja_gastos']-$datos_gastos['gastos_totales'][0]['i_tot_gastos_pendientes']?>"/>	
 		
 		<script>
 			var proyectos_consultor=<?php echo $datos_gastos['proyectos_consultor_JSON']?>;
