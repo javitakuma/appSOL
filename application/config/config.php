@@ -24,6 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $config['base_url'] = 'http://localhost/appSOL';
+//$config['base_url'] = 'http://www.websol2.keyrus.es';
 //$config['base_url'] = 'http://10.40.1.60';
 
 /*

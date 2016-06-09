@@ -253,13 +253,13 @@
 	<img title="Cerrar" class="imagen_cierre_popup" src="<?php echo base_url()?>assets/img/cross.png"/>	
 	<p class="titulo_ayuda centrado titulo-mediano">AYUDA PROYECTOS INTERNOS</p>
 	<div class="texto_ayuda">	
-		<p class="titulo-peque negrita">KEYCURINT: Formación interna / externa</p>
+		<p class="titulo-peque negrita">KEYCURINT: Formación interna / externa.</p>
         <ul>
             <li>RR.HH. es el responsable de aprobar las horas imputadas a KEYCURINT por lo que siempre ha de ser informado con anterioridad 
                 de la formación que un consultor va a recibir y así poder activarlo previamente en su IMC de ese mes. 
             </li>    
             <li>Las horas que se imputen a KEYCURINT deberán ser completadas con un pequeño comentario al tipo de formación en la 
-                que se está involucrado: <span class="negrita">Ejemplo: ‘Formación Interna ODI’ o ‘Formación en SAP Data Services’</span>
+                que se está involucrado: <span class="negrita">Ejemplo: ‘Formación Interna ODI’ o ‘Formación en SAP Data Services’.</span>
             </li>
         </ul>	
             
@@ -271,7 +271,7 @@
             </li>    
             <li>
                 Debe completarse el campo comentario con una breve descripción que referencie claramente el objeto de la 
-                actividad. <span class="negrita">Ejemplo: ‘Cliente/Tecnología/Actividad’, ‘Direct/Tableau Qlik Sense/POC’</span>
+                actividad. <span class="negrita">Ejemplo: ‘Cliente/Tecnología/Actividad’, ‘Direct/Tableau Qlik Sense/POC’.</span>
             </li>
             <li>
                 Si se ha colaborado en un mismo mes en más de una actividad DISTINTA de preventa, debe rellenarse un 
@@ -284,7 +284,7 @@
             proyectos en los que se está involucrado. A este código de proyecto se imputa únicamente a indicación del responsable, 
             cuando aplican periodos de cambio o solape entre proyectos ya sea con el mismo u otro responsable comercial. Será el 
             responsable comercial normalmente el que comunique al consultor sobre su uso. Se recomienda añadir un comentario con el motivo 
-            o referencia. <span class="negrita">Ejemplo: ‘Salida proyecto X responsable Y’</span> 
+            o referencia. <span class="negrita">Ejemplo: ‘Salida proyecto X responsable Y’.</span> 
         </p>
    </div>
 	
@@ -355,7 +355,7 @@
                 <span class="negrita">DEFUNCION FAMILIAR,</span>permiso por defunción de 4 días para familiares de 1er grado (padres, hijos, cónyuge), o de 2 días para familiares hasta 2º grado de consanguinidad o afinidad, con un máximo de 4 días para ambos casos si incluye desplazamientos largos.  <span class="negrita">Ejemplo: DEFUNCION FAMILIAR abuela</span>
             </li>
             <li>
-                <span class="negrita">ASUNTOS PROPIOS,</span>permiso por defunción de 4 días para familiares de 1er grado (padres, hijos, cónyuge), o de 2 días para familiares hasta 2º grado de consanguinidad o afinidad, con un máximo de 4 días para ambos casos si incluye desplazamientos largos.  <span class="negrita">Ejemplo: ASUNTOS PROPIOS Médico, ASUNTOS PROPIOS firma hipoteca</span>
+                <span class="negrita">ASUNTOS PROPIOS,</span>permiso que, previa autorización y presentando el correspondiente justificante, habilita para gestiones de carácter público o privado que por necesidad deben ser dentro de la jornada de trabajo, y siempre aplicando el sentido común para evitar abusos.<span class="negrita"> Ejemplos: ASUNTOS PROPIOS Médico, ASUNTOS PROPIOS Firma Hipoteca.</span>
             </li>
             <li>
                 <span class="negrita">MUDANZA,</span>1 día en caso de cambio de domicilio.

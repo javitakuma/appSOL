@@ -336,4 +336,42 @@ class Imc_model extends CI_Model
 		
 	}
 	
+	public function prueba()
+	{
+		$this->load->database();
+		$this->db->trans_start();
+		
+		$tipo=3;
+		$sql;
+		$codigos_proyecto;
+		
+		//==========CODIGOS PROYECTO==============
+		if($tipo==1 ||$tipo==2)
+		{
+			$sql ="SELECT A.k_proyecto,B.id_proyecto
+			FROM t_consultores_proyecto A
+			INNER JOIN t_proyectos B on A.k_proyecto=B.k_proyecto
+			WHERE A.k_consultor = ? AND f_inicio_cp<? AND f_fin_cp>? AND B.sw_baja=0 AND
+			((B.sw_interno=0 AND B.sw_proy_especial=0 AND $tipo=1)OR
+			(B.sw_interno=-1 AND B.sw_proy_especial=0 AND $tipo=2))";
+				
+			$hoy=date('Y-m-d');
+			$hoy_menos_mes=date('Y-m-d',strtotime ( '-1 month'));
+			//TODO
+			$codigos_proyecto=$this->db->query($sql,array($k_consultor,$hoy,$hoy_menos_mes))->result_array();
+		}
+		
+		if($tipo==3)
+		{
+			$sql ="SELECT * FROM t_proyectos where sw_proy_especial=-1";
+			$codigos_proyecto=$this->db->query($sql)->result_array();
+		}
+		$this->db->trans_complete();
+		$this->db->close();
+		
+		var_dump($codigos_proyecto);die;
+		
+		return $codigos_proyecto;
+	}
+	
 }

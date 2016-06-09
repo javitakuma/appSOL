@@ -71,6 +71,7 @@
             			<p class="nombre-opcion" onclick='location.href="<?php echo base_url()?>general/Gastos/index"'>GASTOS</p>
             		</div>
             	</div>
+            	
             	<!--  
             	<div class="columna-menu">
             		<div class="opcion-columna" >

@@ -198,6 +198,8 @@
 		<input type="hidden" id="mes_hoja" value="<?php echo $mes?>"/>
 		<input type="hidden" id="año_hoja" value="<?php echo $year?>"/>	
 		<input type="hidden" id="diferencial_total_pendientes" value="<?php echo $datos_gastos['gastos_totales'][0]['i_tot_hoja_gastos']-$datos_gastos['gastos_totales'][0]['i_tot_gastos_pendientes']?>"/>	
+		<input type="hidden" id="gastos_enviados" value="<?php echo $datos_gastos['t_hojas_gastos'][0]['sw_autorizar_revision']==-1?>"/>	
+		
 		
 		<script>
 			var proyectos_consultor=<?php echo $datos_gastos['proyectos_consultor_JSON']?>;

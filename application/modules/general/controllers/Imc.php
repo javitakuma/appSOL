@@ -1,6 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
-mb_internal_encoding ( "UTF-8" );
 
 class Imc extends MX_Controller
 {
@@ -108,6 +107,13 @@ class Imc extends MX_Controller
 		$codigos_solo_id=$this->Imc_model->listar_proyectos_por_tipo($this->session->userdata('k_consultor'),$tipo,$year,$month);
 		print json_encode($codigos_solo_id);
 	}
+	
+	public function prueba()
+	{
+		
+		$this->Imc_model->prueba();
+	}
+	
 	
 	
 	

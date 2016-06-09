@@ -85,6 +85,8 @@ class Login_model extends CI_Model
 		$this->load->database();
 		$this->db->trans_start();
 		
+		//$nuevo_password=sha1($nuevo_password);
+		
 				
 		//HACEMOS UNA CONSULTA CUALQUIERA PARA PROBRAR QUE EL ID LOGADO SEA CORRECTO
 		$sql = "select user_guacd from t_consultores_websol
@@ -94,7 +96,7 @@ class Login_model extends CI_Model
 		{
 			$sql = "update t_consultores_websol set pwd_guacd=?
 					where k_consultor=?";
-			$password_cambiado=$this->db->query($sql,array(sha1($nuevo_password),$k_consultor));	
+			$password_cambiado=$this->db->query($sql,array($nuevo_password,$k_consultor));	
 		}
 		//CHEQUEAMOS SI EL UPDATE HA ACTUALIZADO FILAS(DEVOLVERA 0 EN CASO CONTRARIO)
 		$correcto=$this->db->affected_rows();

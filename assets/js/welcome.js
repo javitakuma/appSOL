@@ -1,5 +1,13 @@
 $(document).ready(function() 
-	{
+	{	
+		
+		//SI EL USUARIO NO PUEDE CAMBIAR A OTROS USUARIOS QUE NO SEAN EL SUYO EL PONEMOS LA CELDA DESBLOQUEADA
+		if($('#usuarioActivo').find('option').length<=1)
+		{
+			$('#usuarioActivo').attr('disabled','disabled');
+		}
+		
+	
 		//EVENTO CHANGE PARA EL SELECT DEL USUARIO ACTIVO
 		$('#usuarioActivo').on('change',function()
 		{

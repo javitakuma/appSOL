@@ -3,6 +3,13 @@
 
 */
 
+
+#usuarioActivo
+{
+	disabled:true;
+}
+
+
 /*
 	========CONTENEDOR GRANDE===========
 */
@@ -226,7 +233,7 @@
 }
 
 .pushmenu a:hover {
-  background:#00A287;
+  background:#22C5B1;
 }
 
 .pushmenu a:active {

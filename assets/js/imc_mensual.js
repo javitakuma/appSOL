@@ -18,6 +18,7 @@ var emple={"employees":[
 //HASTA QUE NO SE CARGA EL DOCUMENTO NO CARGA ESTAS FUNCIONES
 $(document).ready(function() {
 	
+	
 	//Con esta funcion actualizamos los totales al cargar la página	
 	actualizarTotalesVertical(); 
 	
@@ -218,10 +219,46 @@ $(document).ready(function() {
     	 });
     	*/
     	
+    	
+    	var error_preventa=false;
+    	
+    	$('.comentarios_textarea').each(function()
+    	{    
+    		//var nombre_proyecto=$(this).parent().parent().find('td:first').html(); 
+    		var id_proyecto=$(this).parent().parent().attr('id');    		
+    		    		
+    		
+    		if(id_proyecto=='251')//CAMBIAR PRODUCCION KEYPREVENTA  DEV-PRO PRO251---
+    		{  
+    			var regex_preventa=/^[\w\W]+\/[\w\W]+\/[\w\W]+$/;
+    			
+    			if(regex_preventa.test($(this).val()))
+    			{
+    				//alert("valida");
+    			}
+    			else
+    			{
+    				error_preventa=true;
+    			}     			
+    		}
+    	});    	
+    	if(error_preventa)
+    	{      			
+			
+			var respuesta_preventa=confirm("El código de proyecto KEYPREVENTA debería incluir un comentario con el formato:\n\n Cliente / Tecnología / Actividad \n\nEjemplo:Direct / Tableau Qlik Sense / Poc\n\n ¿Desea continuar igualmente?");
+			 
+			if(!respuesta_preventa)
+			{
+				cancelar_envio=true;
+			}
+    		
+    	}
+    	
+    	
     	//VALIDA LA EQUIVALENCIA DE HORAS DE IMC Y PERMISOS    	
     	if(!cancelar_envio&&!comparar_imc_permisos())
     	{
-    		var respuesta_error_permisos=confirm("Las horas de permisos introducidas no coinciden con las solicitadas, ¿Desea continuar?");
+    	var respuesta_error_permisos=confirm("Las horas de permisos introducidas no coinciden con las solicitadas, ¿Desea continuar?");
     		
     		if(!respuesta_error_permisos)
     		{
@@ -382,7 +419,7 @@ $(document).ready(function() {
     	    	    		
     	    	 });
     	    	*/
-    	    	/*
+    	    	
     	    	//comprobamos que cuadren las horas del imc con las previstas
     	    	if( $('#horas_consultor').html()!=$('#horas_previstas').html())
     	    	{
@@ -394,7 +431,41 @@ $(document).ready(function() {
     	    			cancelar_envio=true;
     	    		}    	    		
     	    	}
-    	    	*/
+    	    	
+    	    	var error_preventa=false;
+    	    	
+    	    	$('.comentarios_textarea').each(function()
+    	    	{    
+    	    		//var nombre_proyecto=$(this).parent().parent().find('td:first').html(); 
+    	    		var id_proyecto=$(this).parent().parent().attr('id');    		
+    	    		    		
+    	    		
+    	    		if(id_proyecto=='251')//CAMBIAR PRODUCCION KEYPREVENTA  DEV-PRO PRO251---
+    	    		{  
+    	    			var regex_preventa=/^[\w\W]+\/[\w\W]+\/[\w\W]+$/;
+    	    			
+    	    			if(regex_preventa.test($(this).val()))
+    	    			{
+    	    				//alert("valida");
+    	    			}
+    	    			else
+    	    			{
+    	    				error_preventa=true;
+    	    			}     			
+    	    		}
+    	    	});    	
+    	    	if(error_preventa)
+    	    	{      			
+    				
+    				var respuesta_preventa=confirm("El código de proyecto KEYPREVENTA debería incluir un comentario con el formato:\n\n Cliente / Tecnología / Actividad \n\nEjemplo:Direct / Tableau Qlik Sense / Poc\n\n ¿Desea continuar igualmente?");
+    				 
+    				if(!respuesta_preventa)
+    				{
+    					cancelar_envio=true;
+    				}
+    	    		
+    	    	}
+    	    	
     	    	//VALIDA LA EQUIVALENCIA DE HORAS DE IMC Y PERMISOS    	
     	    	if(!cancelar_envio&&!comparar_imc_permisos())
     	    	{
@@ -405,6 +476,17 @@ $(document).ready(function() {
     	    			cancelar_envio=true;
     	    		}
     	    	} 
+    	    	
+    	    	if(!cancelar_envio)
+    	    	{
+    	    		var respuesta_confirmacion_envio=confirm("¿Seguro que deseas enviar el IMC? No podrás realizar más cambios posteriores.");
+    	    		
+    	    		if(!respuesta_confirmacion_envio)
+    	    		{
+    	    			cancelar_envio=true;
+    	    		}
+    	    	}
+    	    	
     	    	
     	    	//SI NO HEMOS CANCELADO ENTRAMOS AQUI
     	    	if(!cancelar_envio)
@@ -645,6 +727,7 @@ $(document).ready(function() {
 function error_validar_comentarios_linea_imc()
 {
 	var cancelar_envio=false;
+	var error_preventa=false;
 	
 	var error_longitud_comentario=false;
 	$('.comentarios_textarea').each(function()
@@ -658,25 +741,7 @@ function error_validar_comentarios_linea_imc()
 			
 			$(this).addClass('colorErrorCelda');//NEW 20-05
 		}
-		
-		
-		if(id_proyecto=='251')//CAMBIAR PRODUCCION KEYPREVENTA  DEV-PRO PRO251---
-		{  
-			var regex_preventa=/^[\w\W]+\/[\w\W]+\/[\w\W]+$/;
-			
-			if(regex_preventa.test($(this).val()))
-			{
-				//alert("valida");
-			}
-			else
-			{
-				cancelar_envio=true;
-				alert("El código de proyecto KEYPREVENTA debe incluir un comentarios con el formato:\n\n Cliente / Tecnología / Actividad \n\nEjemplo:Direct / Tableau Qlik Sense / Poc");
 				
-				$(this).addClass('colorErrorCelda');//NEW 20-05
-			}     			
-		}
-		
 		
 		if(id_proyecto=='240')//CAMBIAR PRODUCCION KEYCURINT  DEV-PRO    PRO240-
 		{  
@@ -961,12 +1026,18 @@ function actualizarTotalesHorizontal(element)
 
 function confirmar_boton_volver()
 {
-	var respuesta_volver=confirm("¿Seguro que deseas volver? Asegurate de salvar tus cambios si así lo deseas.");
+	var respuesta_volver=true;
+	
+	//IMC NO ENVIADO
+	if($('#celdas_deshabilitadas').val()=='habilitadas')
+	{
+		respuesta_volver=confirm("¿Seguro que deseas volver? Asegúrate de salvar tus cambios si así lo deseas.");			
+	}
 	
 	if(respuesta_volver)
 	{
 		onclick=location.href=BASE_URL+"general/imc";
-	}	
+	}
 }
 
 function crearObjetosParaGrabar()

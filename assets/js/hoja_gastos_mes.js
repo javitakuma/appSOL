@@ -156,7 +156,7 @@ $(document).ready(function() {
         	       url: BASE_URL+"general/Gastos/grabar_gastos_mes",
         	       data: { lineasActualizadas : lineasActualizadas,lineasCreadas : lineasCreadas,lineasEliminadas : lineasEliminadas,k_hoja_gastos:k_hoja_gastos},
         	       success: function(respuesta) {
-        	            alert(respuesta);    	            
+        	    	    alert(respuesta);    	            
         	            location.reload();
         	       }
         	    }); 
@@ -238,6 +238,16 @@ $(document).ready(function() {
     	    	    		
     	    	 });
     	    	
+    	    	if(!cancelar_envio)
+    	    	{
+    	    		var respuesta_confirmacion_envio=confirm("¿Seguro que deseas enviar la hoja de gastos? No podrás realizar más cambios posteriores.");
+    	    		
+    	    		if(!respuesta_confirmacion_envio)
+    	    		{
+    	    			cancelar_envio=true;
+    	    		}
+    	    	}
+    	    	
     	    	
     	    	//SI NO HEMOS CANCELADO ENTRAMOS AQUI
     	    	if(!cancelar_envio)
@@ -255,7 +265,7 @@ $(document).ready(function() {
     	        	       url: BASE_URL+"general/Gastos/enviar_hoja_gastos_mes",
     	        	       data: { lineasActualizadas : lineasActualizadas,lineasCreadas : lineasCreadas,lineasEliminadas : lineasEliminadas,k_hoja_gastos:k_hoja_gastos},
     	        	       success: function(respuesta) {
-    	        	            alert(respuesta);    	            
+    	        	    	    alert(respuesta);    	            
     	        	            location.reload();
     	        	       }
     	        	    }); 
@@ -567,12 +577,28 @@ function error_validar_comentario_linea()
 
 function confirmar_boton_volver()
 {
+	
+		var respuesta_volver=true;
+		
+		//IMC NO ENVIADO
+		if($('#gastos_enviados').val()!='1')
+		{
+			respuesta_volver=confirm("¿Seguro que deseas volver? Asegúrate de salvar tus cambios si así lo deseas.");			
+		}
+		
+		if(respuesta_volver)
+		{
+			onclick=location.href=BASE_URL+"general/Gastos";
+		}
+		
+	/*
 	var respuesta_volver=confirm("¿Seguro que deseas volver? Asegurate de salvar tus cambios si así lo deseas.");
 	
 	if(respuesta_volver)
 	{
 		onclick=location.href=BASE_URL+"general/Gastos";
 	}	
+	*/
 }
 
 function pintar()
@@ -706,10 +732,14 @@ function validarValorCelda(elemento)
 		respuesta=true;
 	}
 	
+	
+	
 	//EXPRESION REGULAR PARA CERTIFICAR QUE PONGA EL VALOR EN NUMERO ENTERO O DECIMAL CON UN DECIMAL
 	var regexGastoUnDecimal=/^[0-9]+(.[0-9]{1}){1}$/;
 	
 	var regexEnteroMasPunto=/^[0-9]+(.){1}$/;
+	
+	var regexEnteroSolo=/^[0-9]+$/;
 	
 	if(regexGastoUnDecimal.test($(elemento).val()))
 	{
@@ -722,7 +752,12 @@ function validarValorCelda(elemento)
 	{
 		var valor=$(elemento).val();
 		$(elemento).val(valor+"00");
-	}	
+	}		
+	else if(regexEnteroSolo.test($(elemento).val()))
+	{
+		var valor=$(elemento).val();
+		$(elemento).val(valor+".00");
+	}
 	else
 	{
 		//respuesta=false;
