@@ -528,7 +528,7 @@ $("#dialog").css('display','none');
     {  						    	 		    			
 		var numero_dias=$('#calendario').val().split(" ").length;
 		
-		if(numero_dias>0&&$('#calendario').val()!="")
+		if(numero_dias>0 && $('#calendario').val()!="")
 		{
 			//SI LOS DATOS SON INCORRECTOS NO EJECUTAREMOS EL GRABADO
 	    	var cancelar_envio=false;
@@ -633,6 +633,7 @@ $("#dialog").css('display','none');
 		else
 		{                    
 			alert("No has seleccionado ningún día");
+			cancelar_envio=true;
 		}	
         
         if(!cancelar_envio)

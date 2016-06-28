@@ -23,7 +23,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/appSOL';
+//$config['base_url'] = 'http://localhost/appSOL';
+$config['base_url'] = 'http://localhost/websol';
 //$config['base_url'] = 'http://www.websol2.keyrus.es';
 //$config['base_url'] = 'http://10.40.1.60';
 
