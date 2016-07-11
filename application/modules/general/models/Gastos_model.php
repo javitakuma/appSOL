@@ -272,6 +272,21 @@ class Gastos_model extends CI_Model
 			// SET sw_validacion = '{-1}'
 			// WHERE k_imc = $k_imc
 		
+			
+			
+			$data2 = array(
+					'k_linea_gasto_autorizado1' => 0,
+					'k_linea_gasto_autorizado2' => 0,
+			);
+			
+			$this->db->where('k_hoja_gastos', $k_hoja_gastos);
+			$this->db->update('t_linea_gasto', $data2);
+			
+			// Produces:
+			// UPDATE t_linea_gasto
+			// SET k_linea_gasto_autorizado1 = 0
+			// SET k_linea_gasto_autorizado2 = 0
+			// WHERE k_hoja_gastos = $k_imc
 		
 		
 			$this->db->trans_complete();

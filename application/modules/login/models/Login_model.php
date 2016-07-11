@@ -36,7 +36,7 @@ class Login_model extends CI_Model
 		$this->load->database();
 		$this->db->trans_start();
 		
-		//$pass=sha1($pass);
+		$pass=sha1($pass);
 		
 		$this->load->database();		
 		
@@ -85,7 +85,7 @@ class Login_model extends CI_Model
 		$this->load->database();
 		$this->db->trans_start();
 		
-		//$nuevo_password=sha1($nuevo_password);
+		$nuevo_password=sha1($nuevo_password);
 		
 				
 		//HACEMOS UNA CONSULTA CUALQUIERA PARA PROBRAR QUE EL ID LOGADO SEA CORRECTO

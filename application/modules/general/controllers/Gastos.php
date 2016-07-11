@@ -81,7 +81,8 @@ class Gastos extends MX_Controller
 				
 		$this->Gastos_model->buscar_hojas_gastos($this->session->userdata('k_consultor'),$year,$month,$this->session->userdata('id_consultor'));
 		
-		$this->mostrar_gastos_mes($year, $month);
+		header('Location:'.base_url().'general/Gastos/mostrar_gastos_mes/'.$year.'/'. $month);
+		//$this->mostrar_gastos_mes($year, $month);   DE ESTE MODO PROVOCA ERROR AL REENVIAR DATOS DE FORMULARIO
 	}
 	
 	

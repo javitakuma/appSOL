@@ -1,5 +1,6 @@
 </head>
 <body>
+<div id="wrapper">
 <div id="cabecera">
 	<a class="logoapp" href="<?php echo base_url()?>welcome"><img width="20%" src="<?php echo base_url()?>assets/img/logo_mediano.png"/></a>
 	
@@ -15,6 +16,6 @@
 	
 		
 </div>
-
+<div id="content">
 
 

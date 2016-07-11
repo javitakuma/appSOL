@@ -76,8 +76,17 @@ class Login extends MX_Controller
 					'logueado' => TRUE
 			);
 			$this->session->set_userdata($usuario_data);
+			
 			//REDIRECCIONAMOS A LA PANTALLA DE BIENVENIDA
-			header("Location:".base_url().'welcome/general');
+			if($pass=='Keyrus2016')
+			{
+				header("Location:".base_url().'login/cambiar_pass');				
+			}
+			else			
+			{
+				header("Location:".base_url().'welcome/general');
+			}
+			
 			 
 		}
 		else//LOGIN INCORRECTO, REDIRECCIONAMOS A LOGIN CON ERRORES

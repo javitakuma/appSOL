@@ -257,3 +257,7 @@
 
 <div id="sombra"></div>
 
+<div id="enviando">
+   <p class="titulo-grande">ESPERE POR FAVOR...</p>
+</div>
+

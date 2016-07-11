@@ -1,7 +1,29 @@
-.bordeRojo
+#enviando
 {
-	/*background-color:#FFF !important;*/
-	outline:solid 1px red;	
+	width:30%;
+	height:30%;
+	background-color: rgba(0,0,0,0.7);
+	position:absolute;
+	top:35%;
+	left:35%;
+	border-radius:15px;
+	display: none;
+}
+
+#enviando p
+{
+	position:absolute;
+	top:60%;
+	left:50%;
+	color:white;
+	font-weight:bold;
+}
+
+
+.casillaActiva
+{
+	font-size:130% !important;
+	font-weight:bold;
 }
 
 .colorErrorCelda

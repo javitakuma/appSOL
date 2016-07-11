@@ -1,3 +1,24 @@
+#enviando
+{
+	width:30%;
+	height:30%;
+	background-color: rgba(0,0,0,0.7);
+	position:absolute;
+	top:35%;
+	left:35%;
+	border-radius:15px;
+	display: none;
+}
+
+#enviando p
+{
+	position:absolute;
+	top:60%;
+	left:50%;
+	color:white;
+	font-weight:bold;
+}
+
 .colorErrorCelda
 {
 	background-color:rgb(255, 119, 119) !important;

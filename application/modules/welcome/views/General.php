@@ -5,10 +5,12 @@
 <nav id="menu" class="pushmenu pushmenu-left" role="navigation">
 <ul>
 	<li><a href="<?php echo base_url()?>welcome/general" title="General">GENERAL</a></li>
+	<!-- 
 	<li><a href="#" title="Operaciones">OPERACIONES</a></li>
 	<li><a href="#" title="Comercial_finanzas">COMERCIAL/FINANZAS</a></li>
 	<li><a href="#" title="RRHH">RRHH</a></li>
 	<li><a href="#" title="IT">IT</a></li>
+	 -->
 </ul>
 <!-- 	VERSIONES FUTURAS  
 <ul>
@@ -57,14 +59,15 @@
         	<h2 class="centrado titulo-mediano">GENERAL</h2>
         	
             <div id="contenedor-opciones">
-            
+            <!-- SOLO TIENE ACCESO SI TIENE PERFIL IMC ACTIVO -->
+            <?php if($this->session->userdata('PERFIL_IMC')==-1):?>
             	<div class="columna-menu">
             		<div class="opcion-columna" >
             			<img onclick='location.href="<?php echo base_url()?>general/Imc/index"' src="<?php echo base_url()?>assets/img/imc.png" class="imagen-opcion"/>
             			<p class="nombre-opcion" onclick='location.href="<?php echo base_url()?>general/Imc/index"'>IMC</p>
             		</div>
             	</div>
-            	
+            <?php endif;?>	
             	<div class="columna-menu">
             		<div class="opcion-columna" >
             			<img onclick='location.href="<?php echo base_url()?>general/Gastos/index"' src="<?php echo base_url()?>assets/img/gastos.png" class="imagen-opcion"/>

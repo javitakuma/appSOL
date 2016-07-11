@@ -76,7 +76,7 @@ class Permisos_model extends CI_Model
 	
 	
 	//===================================VERSIONES PRODUCCION============(CON MOTIVO DE LAS "EÑES" EN POSTGRE)
-	
+	/*
 	
 	 //COGE LOS PERMISOS ACEPTADOS DE UN MES PARA LA AYUDA DEL IMC
 	 public function cargar_datos_para_imc($k_consultor,$year,$mes)//VERSION PROD
@@ -275,8 +275,8 @@ class Permisos_model extends CI_Model
 	 $this->load->database();
 	 $this->db->trans_start();
 	
-	
-	 $sql ="SELECT k_permisos_solic, to_char(f_solicitud, 'DD-MM-YYYY') f_solicitud,C.id_consultor,id_proyecto,
+	 //fecha_formato_original solo lo uso para ordenar
+	 $sql ="SELECT k_permisos_solic, to_char(f_solicitud, 'DD-MM-YYYY') f_solicitud,f_solicitud as fecha_formato_original,C.id_consultor,id_proyecto,
 	 CASE i_autorizado_n1
 	 WHEN 0 THEN 'Pendiente'
 	 WHEN 1 THEN 'Autorizado'
@@ -292,7 +292,7 @@ class Permisos_model extends CI_Model
 	 JOIN t_proyectos B on A.k_proyecto=B.k_proyecto
 	 JOIN t_consultores C on A.k_consultor_solic=C.k_consultor
 	 WHERE A.k_consultor=$k_consultor
-	 ORDER BY f_solicitud DESC, k_permisos_solic DESC";
+	 ORDER BY fecha_formato_original DESC, k_permisos_solic DESC";
 	
 	
 	
@@ -301,29 +301,29 @@ class Permisos_model extends CI_Model
 	
 	 for($i=0;$i<sizeof($permisos);$i++)
 	 {
-	 $sql ="SELECT CONCAT(dia_solic,'-',mes_solic,'-',\"año_solic\") primera_fecha FROM t_permisos_solicitados_det
-	 WHERE k_permisos_solic={$permisos[$i]['k_permisos_solic']} ORDER BY \"año_solic\",mes_solic,dia_solic ASC LIMIT 1";
-	
-	 $primer_dia=$this->db->query($sql)->result_array();
-	
-	 $sql2 ="SELECT CONCAT(dia_solic,'-',mes_solic,'-',\"año_solic\") ultima_fecha FROM t_permisos_solicitados_det
-	 WHERE k_permisos_solic={$permisos[$i]['k_permisos_solic']}  ORDER BY \"año_solic\" DESC,mes_solic DESC,dia_solic DESC LIMIT 1";
-	 	
-	 $ultimo_dia=$this->db->query($sql2)->result_array();
-	 	
-	 $sql3 ="SELECT COUNT(*) numero_dias FROM t_permisos_solicitados_det
-	 WHERE k_permisos_solic={$permisos[$i]['k_permisos_solic']}";
-	
-	 $numero_dias=$this->db->query($sql3)->result_array();
-	 	
-	 $permisos[$i]['primer_dia']=$primer_dia[0]['primera_fecha'];
-	 $permisos[$i]['ultimo_dia']=$ultimo_dia[0]['ultima_fecha'];
-	 $permisos[$i]['numero_dias']=$numero_dias[0]['numero_dias'];
+		 $sql ="SELECT CONCAT(dia_solic,'-',mes_solic,'-',\"año_solic\") primera_fecha FROM t_permisos_solicitados_det
+		 WHERE k_permisos_solic={$permisos[$i]['k_permisos_solic']} ORDER BY \"año_solic\",mes_solic,dia_solic ASC LIMIT 1";
+		
+		 $primer_dia=$this->db->query($sql)->result_array();
+		
+		 $sql2 ="SELECT CONCAT(dia_solic,'-',mes_solic,'-',\"año_solic\") ultima_fecha FROM t_permisos_solicitados_det
+		 WHERE k_permisos_solic={$permisos[$i]['k_permisos_solic']}  ORDER BY \"año_solic\" DESC,mes_solic DESC,dia_solic DESC LIMIT 1";
+		 	
+		 $ultimo_dia=$this->db->query($sql2)->result_array();
+		 	
+		 $sql3 ="SELECT COUNT(*) numero_dias FROM t_permisos_solicitados_det
+		 WHERE k_permisos_solic={$permisos[$i]['k_permisos_solic']}";
+		
+		 $numero_dias=$this->db->query($sql3)->result_array();
+		 	
+		 $permisos[$i]['primer_dia']=$primer_dia[0]['primera_fecha'];
+		 $permisos[$i]['ultimo_dia']=$ultimo_dia[0]['ultima_fecha'];
+		 $permisos[$i]['numero_dias']=$numero_dias[0]['numero_dias'];
 	 }
 	 	
 	 $this->db->trans_complete();
 	 $this->db->close();
-	
+	 
 	
 	 return $permisos;
 	 }
@@ -413,10 +413,7 @@ class Permisos_model extends CI_Model
 	 {
 	 $year_vac=$datos_guardar['year_solicitud']+1;
 	 }
-	 	
-	 echo $datos_guardar['diasPendientes']." dias pend <br/>";
-	 	
-	 echo $year_vac."<br/>";
+	 		 
 	 	
 	 if($datos_guardar['k_proyecto_solicitud']==468)
 	 {
@@ -599,7 +596,7 @@ class Permisos_model extends CI_Model
 	 }
 	 
 	
-	
+	*/
 	
 	
 	//===================================FINAL VERSIONES PRODUCCION============(CON MOTIVO DE LAS "EÑES" EN POSTGRE)
@@ -608,7 +605,7 @@ class Permisos_model extends CI_Model
 	//===================================VERSIONES DESARROLLO============(CON MOTIVO DE LAS "EÑES" EN POSTGRE)
 	
 	 
-	 /*
+	 
 	 
 	//COGE LOS PERMISOS ACEPTADOS DE UN MES PARA LA AYUDA DEL IMC
 	public function cargar_datos_para_imc($k_consultor,$year,$mes)//VERSION DESARROLLO
@@ -809,8 +806,8 @@ class Permisos_model extends CI_Model
 		$this->load->database();
 		$this->db->trans_start();
 	
-	
-		$sql ="SELECT k_permisos_solic, to_char(f_solicitud, 'DD-MM-YYYY') f_solicitud,C.id_consultor,id_proyecto,
+	    //fecha_formato_original solo lo uso para ordenar
+		$sql ="SELECT k_permisos_solic, to_char(f_solicitud, 'DD-MM-YYYY') f_solicitud,f_solicitud as fecha_formato_original,C.id_consultor,id_proyecto,
 		CASE i_autorizado_n1
 		WHEN 0 THEN 'Pendiente'
 		WHEN 1 THEN 'Autorizado'
@@ -826,12 +823,27 @@ class Permisos_model extends CI_Model
 		JOIN t_proyectos B on A.k_proyecto=B.k_proyecto
 		JOIN t_consultores C on A.k_consultor_solic=C.k_consultor
 		WHERE A.k_consultor=$k_consultor
-		ORDER BY f_solicitud DESC, k_permisos_solic DESC";
+		ORDER BY fecha_formato_original DESC, k_permisos_solic DESC";
 	
 	
 	
 		$permisos=$this->db->query($sql)->result_array();
 	
+		
+		for($i=0;$i<sizeof($permisos);$i++)
+		{
+			$sql_orden ="SELECT CONCAT(año_solic,mes_solic,dia_solic) fecha_para_ordenar FROM t_permisos_solicitados_det
+			WHERE k_permisos_solic={$permisos[$i]['k_permisos_solic']} ORDER BY año_solic,mes_solic,dia_solic ASC LIMIT 1";
+		
+			$dia_ordenar=$this->db->query($sql_orden)->result_array();			
+		
+			$permisos[$i]['dia_orden']=$dia_ordenar[0]['fecha_para_ordenar'];
+		}
+		
+		usort($permisos, function($a, $b) {
+			return $b['dia_orden'] - $a['dia_orden'];
+		});
+		
 	
 		for($i=0;$i<sizeof($permisos);$i++)
 		{
@@ -946,9 +958,6 @@ class Permisos_model extends CI_Model
 				$year_vac=$datos_guardar['year_solicitud']+1;
 			}
 	
-			echo $datos_guardar['diasPendientes']." dias pend <br/>";
-	
-			echo $year_vac."<br/>";
 	
 			if($datos_guardar['k_proyecto_solicitud']==468)
 			{
@@ -1128,7 +1137,7 @@ class Permisos_model extends CI_Model
 	
 	}
 	
-	*/
+	
 	
 	
 	//===================================FINAL VERSIONES DESARROLLO============(CON MOTIVO DE LAS "EÑES" EN POSTGRE)
@@ -1237,7 +1246,7 @@ class Permisos_model extends CI_Model
 		$this->db->trans_start();
 		
 		
-		$sql ="SELECT k_proyecto,id_proyecto,nom_proyecto FROM t_proyectos where id_proyecto IN('PRO450','PRO468')";
+		$sql ="SELECT k_proyecto,id_proyecto,nom_proyecto FROM t_proyectos where k_proyecto IN(450,468)";
 		
 		
 		

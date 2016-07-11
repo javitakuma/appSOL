@@ -7,6 +7,8 @@ var lineasEliminadas=[];
 var lineasCreadas=[];
 var lineasActualizadas=[];
 
+var bloqueoPeticiones=false;//Para evitar varias peticiones por ajax a la vez
+
 //EJEMPLO JSON
 /*
 var emple={"employees":[
@@ -242,6 +244,7 @@ $(document).ready(function() {
     			}     			
     		}
     	});    	
+    	
     	if(error_preventa)
     	{      			
 			
@@ -266,6 +269,13 @@ $(document).ready(function() {
     		}
     	}
     	
+    	
+    	if(bloqueoPeticiones)
+		{
+			cancelar_envio=true;
+		}
+    	
+    	
     	//SI NO HEMOS CANCELADO ENTRAMOS AQUI
     	if(!cancelar_envio)
     	{
@@ -275,6 +285,10 @@ $(document).ready(function() {
         	var k_imc=Number($('#k_imc').val()); 
         	//EN DATA EL PRIMER DATO ES EL NOMBRE EN LADO SERVIDOR DE LA VARIABLE, EL SEGUNDO EN LADO CLIENTE
         	
+        	bloqueoPeticiones=true;
+        	
+        	$('#enviando').css('display','block');
+        	
         	//SUCCESS INDICA LA ACCION A SEGUIR DESPUES DE LA RESPUESTA
         	
         	$.ajax({        
@@ -282,6 +296,7 @@ $(document).ready(function() {
         	       url: BASE_URL+"general/Imc/mostrar_imc_mes_post",
         	       data: { lineasActualizadas : lineasActualizadas,lineasCreadas : lineasCreadas,lineasEliminadas : lineasEliminadas,total_horas:total_horas},
         	       success: function(respuesta) {
+        	    	    $('#enviando').css('display','none');
         	            alert(respuesta);    	            
         	            location.reload();
         	       }
@@ -487,6 +502,11 @@ $(document).ready(function() {
     	    		}
     	    	}
     	    	
+    	    	if(bloqueoPeticiones)
+    			{
+    				cancelar_envio=true;
+    			}
+    	    	
     	    	
     	    	//SI NO HEMOS CANCELADO ENTRAMOS AQUI
     	    	if(!cancelar_envio)
@@ -499,13 +519,15 @@ $(document).ready(function() {
     	        	
     	        	//SUCCESS INDICA LA ACCION A SEGUIR DESPUES DE LA RESPUESTA
     	        	
-    	        	
+    	        	bloqueoPeticiones=true;
+    	        	$('#enviando').css('display','block');
     	        	
     	        	$.ajax({        
     	        	       type: "POST",
     	        	       url: BASE_URL+"general/Imc/enviar_imc",
     	        	       data: { lineasActualizadas : lineasActualizadas,lineasCreadas : lineasCreadas,lineasEliminadas : lineasEliminadas,total_horas:total_horas,k_imc:k_imc},
     	        	       success: function(respuesta) {
+    	        	    	   $('#enviando').css('display','none');
     	        	            alert(respuesta); 
     	        	            location.reload();
     	        	       }
@@ -584,12 +606,12 @@ $(document).ready(function() {
     
   //EVENTO PARA LA ACCION BLUR DE LOS INPUT
     $('#tabla_imc').delegate(".input_horas", 'focus', function(event) {
-    	$(this).addClass('bordeRojo');
+    	$(this).addClass('casillaActiva');
     });
     
     //EVENTO PARA LA ACCION BLUR DE LOS INPUT
     $('#tabla_imc').delegate(".input_horas", 'blur', function(event) {
-    	$(this).removeClass('bordeRojo');
+    	$(this).removeClass('casillaActiva');
     	//alert($(this).parent().parent().find('.total_horas_imc').html());
     	if (validarValorCelda(this))
     	{

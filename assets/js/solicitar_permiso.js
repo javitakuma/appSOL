@@ -4,6 +4,8 @@ var diasOcupadosDesdeAjax;
 
 var diasOcupados=[];//AQUI FINALMENTE METEMOS APROBADOS, RECHAZADOS Y PENDIENTES
 
+var bloqueoPeticiones=false;//Para evitar varias peticiones por ajax a la vez
+
 //todos los dias de vacaciones
 var dias=[];
 
@@ -635,6 +637,12 @@ $("#dialog").css('display','none');
 			alert("No has seleccionado ningún día");
 			cancelar_envio=true;
 		}	
+		
+		if(bloqueoPeticiones)
+		{
+			cancelar_envio=true;
+		}
+    	
         
         if(!cancelar_envio)
         {
@@ -643,13 +651,16 @@ $("#dialog").css('display','none');
            var year_solicitud=$('#year_solicitud').val(); 
            var k_permisos_solic=$('#k_permisos_solic').val();
            var k_proyecto_solicitud=$('#k_proyecto_solicitud').val();
+           
+           bloqueoPeticiones=true;    
+           $('#enviando').css('display','block');
                                 
            $.ajax({        
 	       type: "POST",
 	       url: BASE_URL+"general/Permisos/grabar_solicitud",
 	       data: { observaciones : observaciones,responsable_solicitud : responsable_solicitud,diasPendientesDebidos : diasPendientesDebidos,diasPendientes : diasPendientes,dias_solicitados : dias_solicitados, diasPendientesFuturo:diasPendientesFuturo ,horas_jornada:horas_jornada,horas_por_dias : horas_por_dias,year_solicitud : year_solicitud, k_permisos_solic:k_permisos_solic, k_proyecto_solicitud:k_proyecto_solicitud},
 	       success: function(respuesta) {
-	    	   
+	    	   $('#enviando').css('display','none');
 	    	   alert("Su solicitud ha sido grabada");
 	    	   
 	    	   //LE MANDAMOS AL MENU PRINCIPAL PORQUE SI NO FALLA, NO SE PUEDE ACTUALIZAR EL k_permisos_solic
@@ -770,7 +781,12 @@ $("#dialog").css('display','none');
 		else
 		{                    
 			alert("No has seleccionado ningún día");
-		}	
+		}
+		
+		if(bloqueoPeticiones)
+		{
+			cancelar_envio=true;
+		}
         
         if(!cancelar_envio)
         {
@@ -779,6 +795,8 @@ $("#dialog").css('display','none');
            var year_solicitud=$('#year_solicitud').val(); 
            var k_permisos_solic=$('#k_permisos_solic').val();
            var k_proyecto_solicitud=$('#k_proyecto_solicitud').val();
+           
+           bloqueoPeticiones=true;
                                 
            $.ajax({        
     	       type: "POST",

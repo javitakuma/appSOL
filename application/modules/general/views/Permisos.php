@@ -18,7 +18,7 @@
 				            <select id="tipo_solicitud" name="tipo_solicitud">
 				            	<option value="0">Selecciona un tipo de permiso</option>
 				            	<?php foreach ($tipo_permisos['tipo_solicitud'] as $tipo):?>
-				            		<option value="<?php echo $tipo['k_proyecto']?>"><?php echo $tipo['nom_proyecto']?></option>
+				            		<option value="<?php echo $tipo['k_proyecto']?>"><?php echo $tipo['id_proyecto']?></option>
 				            	<?php endforeach;?>
 				            </select>
 			            </div>

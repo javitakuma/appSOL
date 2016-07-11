@@ -295,6 +295,20 @@ class Imc_model extends CI_Model
 		
 		
 		
+		$data2 = array(
+				'k_linea_imc_autorizado_1' => 0,
+		);
+		
+		$this->db->where('k_imc', $k_imc);
+		
+		$this->db->update('t_lineas_imc', $data2);
+		// Produces:
+		// UPDATE t_lineas_imc
+		// SET k_linea_imc_autorizado_1 = '{-1}'
+		// WHERE k_imc = $k_imc
+		
+		
+		
 		$this->db->trans_complete();
 		$this->db->close();
 	

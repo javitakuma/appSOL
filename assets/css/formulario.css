@@ -245,7 +245,8 @@ input:focus ~ .highlight {
 
 /*
 ===============FOOTER================
-*/
+
+
 
 footer { text-align: center; }
 
@@ -276,7 +277,7 @@ footer img {
 footer img:hover { opacity: .83; }
 
 footer img:focus , footer a:focus { outline: none; }
-
+*/
 .error
 {
 	color:red;

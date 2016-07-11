@@ -7,6 +7,8 @@ var lineasEliminadas=[];
 var lineasCreadas=[];
 var lineasActualizadas=[];
 
+var bloqueoPeticiones=false;//Para evitar varias peticiones por ajax a la vez
+
 //EJEMPLO JSON
 /*
 var emple={"employees":[
@@ -140,6 +142,12 @@ $(document).ready(function() {
     	 });
     	*/
     	
+    	if(bloqueoPeticiones)
+		{
+			cancelar_envio=true;
+		}
+    	
+    	
     	//SI NO HEMOS CANCELADO ENTRAMOS AQUI
     	if(!cancelar_envio)
     	{
@@ -148,6 +156,9 @@ $(document).ready(function() {
     		var k_hoja_gastos=($('#k_hoja_gastos').val());
         	
         	//EN DATA EL PRIMER DATO ES EL NOMBRE EN LADO SERVIDOR DE LA VARIABLE, EL SEGUNDO EN LADO CLIENTE
+    		
+    		bloqueoPeticiones=true;
+    		$('#enviando').css('display','block');
         	
         	//SUCCESS INDICA LA ACCION A SEGUIR DESPUES DE LA RESPUESTA
         	
@@ -156,6 +167,7 @@ $(document).ready(function() {
         	       url: BASE_URL+"general/Gastos/grabar_gastos_mes",
         	       data: { lineasActualizadas : lineasActualizadas,lineasCreadas : lineasCreadas,lineasEliminadas : lineasEliminadas,k_hoja_gastos:k_hoja_gastos},
         	       success: function(respuesta) {
+        	    	   $('#enviando').css('display','none');
         	    	    alert(respuesta);    	            
         	            location.reload();
         	       }
@@ -248,6 +260,11 @@ $(document).ready(function() {
     	    		}
     	    	}
     	    	
+    	    	if(bloqueoPeticiones)
+    			{
+    				cancelar_envio=true;
+    			}
+    	    	
     	    	
     	    	//SI NO HEMOS CANCELADO ENTRAMOS AQUI
     	    	if(!cancelar_envio)
@@ -257,6 +274,9 @@ $(document).ready(function() {
     	    		var k_hoja_gastos=($('#k_hoja_gastos').val());
     	        	
     	        	//EN DATA EL PRIMER DATO ES EL NOMBRE EN LADO SERVIDOR DE LA VARIABLE, EL SEGUNDO EN LADO CLIENTE
+    	    		
+    	    		bloqueoPeticiones=true;
+    	    		$('#enviando').css('display','block');
     	        	
     	        	//SUCCESS INDICA LA ACCION A SEGUIR DESPUES DE LA RESPUESTA
     	        	
@@ -265,6 +285,7 @@ $(document).ready(function() {
     	        	       url: BASE_URL+"general/Gastos/enviar_hoja_gastos_mes",
     	        	       data: { lineasActualizadas : lineasActualizadas,lineasCreadas : lineasCreadas,lineasEliminadas : lineasEliminadas,k_hoja_gastos:k_hoja_gastos},
     	        	       success: function(respuesta) {
+    	        	    	   $('#enviando').css('display','none');
     	        	    	    alert(respuesta);    	            
     	        	            location.reload();
     	        	       }
@@ -748,11 +769,13 @@ function validarValorCelda(elemento)
 		var valor=$(elemento).val();
 		$(elemento).val(valor+"0");		
 	}	
+	/*
 	else if(regexEnteroMasPunto.test($(elemento).val()))
 	{
 		var valor=$(elemento).val();
 		$(elemento).val(valor+"00");
-	}		
+	}
+	*/		
 	else if(regexEnteroSolo.test($(elemento).val()))
 	{
 		var valor=$(elemento).val();
@@ -791,7 +814,6 @@ function actualizarTotales()
 	        sum += Number($(this).val());
 	    });
 	    
-	    
 	    if(isNaN(sum))
 	    {
 	    	$('#pendientes_hoja').html('##');
@@ -799,6 +821,7 @@ function actualizarTotales()
 	    }
 	    else
 	    {
+	    	/*
 	    	//ASI LO PONEMOS EN FORMATO CON DOS DECIMALES
 	    	$('#pendientes_hoja').html(parseFloat(Math.round(sum * 100) / 100).toFixed(2)+"€");
 	    	
@@ -807,6 +830,7 @@ function actualizarTotales()
 	    	var total=sum+(Number)(diferencial);
 	    	
 	    	$('#total_hoja').html(parseFloat(Math.round(total* 100) / 100).toFixed(2)+"€");
+	    	*/
 	    }	
 	    	    
 	    var numeroFilas=$('.fila-datos').length;

@@ -1,5 +1,4 @@
 
-
 <div id="contenedorHojaGastos">
 	
 	<!--BOTON VOLVER, TITULO, FECHA PAGO Y BOTON ENVIAR GASTOS  -->
@@ -178,13 +177,15 @@
 	                 	<th>NO AUTORIZADOS</th>
 	                 	<th>TOTAL PAGADO</th>
 	                </tr>
+	                 
 	                <tr>	                	
 	                    <td id="total_hoja"><?php echo $datos_gastos['gastos_totales'][0]['i_tot_hoja_gastos']?>€</td>
 	                    <td id="pendientes_hoja"><?php echo $datos_gastos['gastos_totales'][0]['i_tot_gastos_pendientes']?>€</td>
 	                    <td id="autorizados_hoja"><?php echo $datos_gastos['gastos_totales'][0]['i_tot_gastos_autorizados']?>€</td>
 	                    <td id="no_autorizados_hoja"><?php echo $datos_gastos['gastos_totales'][0]['i_tot_gastos_no_autorizados']?>€</td>
 	                    <td id="total_pagado_hoja"><?php echo $datos_gastos['gastos_totales'][0]['i_imp_pagado']?>€</td>	                    
-	                </tr>	                
+	                </tr>
+	              
 	            </table>
 	           
 	         	
@@ -206,4 +207,6 @@
 			var tipos_gasto=<?php echo $datos_gastos['tipos_gastos_JSON']?>;
 		</script>
 
-
+<div id="enviando">
+   <p class="titulo-grande">ESPERE POR FAVOR...</p>
+</div>
