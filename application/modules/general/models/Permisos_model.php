@@ -76,8 +76,8 @@ class Permisos_model extends CI_Model
 	
 	
 	//===================================VERSIONES PRODUCCION============(CON MOTIVO DE LAS "EÑES" EN POSTGRE)
-	/*
 	
+	/*
 	 //COGE LOS PERMISOS ACEPTADOS DE UN MES PARA LA AYUDA DEL IMC
 	 public function cargar_datos_para_imc($k_consultor,$year,$mes)//VERSION PROD
 	 {
@@ -596,8 +596,8 @@ class Permisos_model extends CI_Model
 	 }
 	 
 	
-	*/
 	
+	*/
 	
 	//===================================FINAL VERSIONES PRODUCCION============(CON MOTIVO DE LAS "EÑES" EN POSTGRE)
 	
@@ -763,14 +763,14 @@ class Permisos_model extends CI_Model
 		{
 	
 			$sql ="SELECT A.dia_solic,A.mes_solic,A.año_solic year_solic,B.i_autorizado_n1,B.i_autorizado_n2,
-			A.k_permisos_solic,A.horas_solic ,B.desc_observaciones
+			A.k_permisos_solic,A.horas_solic ,B.desc_observaciones, año_vac year_vac
 			FROM t_permisos_solicitados_det A
 			join t_permisos_solicitados B
 			on A.k_permisos_solic=B.k_permisos_solic
 			where B.k_consultor ='$k_consultor' AND i_autorizado_n1!=1 AND i_autorizado_n2!=1
 			UNION ALL
 			SELECT A.dia_cons dia_solic,B.mes_cons mes_solic,B.año_cons year_solic,1 i_autorizado_n1,1 i_autorizado_n2,
-			9223372036854775807 k_permisos_solic,A.horas_cons horas_solic ,A.desc_observaciones
+			9223372036854775807 k_permisos_solic,A.horas_cons horas_solic ,A.desc_observaciones, año_vac year_vac
 			FROM t_permisos_consumidos_det A
 			JOIN t_permisos_consumidos B
 			ON A.k_permisos_cons=B.k_permisos_cons
@@ -779,7 +779,7 @@ class Permisos_model extends CI_Model
 		}
 		else//SOLOVISTA PARA UN k_permisos EN CONCRETO
 		{
-			$sql ="SELECT A.dia_solic,A.mes_solic,A.año_solic year_solic,B.i_autorizado_n1,B.i_autorizado_n2,A.k_permisos_solic,A.horas_solic ,B.desc_observaciones
+			$sql ="SELECT A.dia_solic,A.mes_solic,A.año_solic year_solic,B.i_autorizado_n1,B.i_autorizado_n2,A.k_permisos_solic,A.horas_solic ,B.desc_observaciones, año_vac year_vac
 			FROM t_permisos_solicitados_det A
 			join t_permisos_solicitados B
 			on A.k_permisos_solic=B.k_permisos_solic
@@ -788,8 +788,7 @@ class Permisos_model extends CI_Model
 	
 		}
 	
-		$diasSolicitados=$this->db->query($sql)->result_array();
-			
+		$diasSolicitados=$this->db->query($sql)->result_array();			
 	
 		$this->db->trans_complete();
 		$this->db->close();
@@ -840,6 +839,7 @@ class Permisos_model extends CI_Model
 			$permisos[$i]['dia_orden']=$dia_ordenar[0]['fecha_para_ordenar'];
 		}
 		
+		//ordeno el array por el primer dia
 		usort($permisos, function($a, $b) {
 			return $b['dia_orden'] - $a['dia_orden'];
 		});
@@ -861,10 +861,22 @@ class Permisos_model extends CI_Model
 			WHERE k_permisos_solic={$permisos[$i]['k_permisos_solic']}";
 	
 			$numero_dias=$this->db->query($sql3)->result_array();
+			
+			$sql4 ="SELECT COUNT(*) numero_dias_year_anterior FROM t_permisos_solicitados_det
+			WHERE k_permisos_solic={$permisos[$i]['k_permisos_solic']} AND año_vac<CAST(año_solic AS INTEGER)";
+			
+			$numero_dias_year_anterior=$this->db->query($sql4)->row_array();
 	
 			$permisos[$i]['primer_dia']=$primer_dia[0]['primera_fecha'];
 			$permisos[$i]['ultimo_dia']=$ultimo_dia[0]['ultima_fecha'];
 			$permisos[$i]['numero_dias']=$numero_dias[0]['numero_dias'];
+			
+			
+			if($numero_dias_year_anterior['numero_dias_year_anterior']>0)
+			{
+				$permisos[$i]['numero_dias']=$numero_dias_year_anterior['numero_dias_year_anterior'].'*+'.($permisos[$i]['numero_dias']-$numero_dias_year_anterior['numero_dias_year_anterior']);
+			}
+			
 		}
 			
 		$this->db->trans_complete();
@@ -1344,4 +1356,20 @@ class Permisos_model extends CI_Model
 		$this->db->close();
 	} 
 	
+	
+	public function get_resp_aut_rrhh($k_proyecto)
+	{
+			
+		$this->load->database();
+		$this->db->trans_start();
+		
+		$sql ="SELECT k_jefe_proyecto from t_proyectos where k_proyecto=$k_proyecto";
+	
+		$jefe_proyecto=$this->db->query($sql)->row_array();		
+	
+		$this->db->trans_complete();
+		$this->db->close();
+		
+		return $jefe_proyecto['k_jefe_proyecto'];
+	}
 }

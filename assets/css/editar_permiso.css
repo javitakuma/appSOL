@@ -284,6 +284,12 @@ td.dia_rechazado span
 	color: white !important;
 }
 
+td.dia_anterior span
+{	
+	color: black !important;
+	font-style:italic;
+}
+
 td:disabled
 {
 	background:red !important;

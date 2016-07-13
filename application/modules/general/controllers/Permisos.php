@@ -399,5 +399,11 @@ class Permisos extends MX_Controller
 		echo "Solicitud enviada.";	
 	}
 	
+	public function get_resp_aut_rrhh()
+	{
+		$k_proyecto=$_REQUEST['k_proyecto'];
+		echo $this->Permisos_model->get_resp_aut_rrhh($k_proyecto);	
+	}
+	
 	
 }

@@ -71,6 +71,8 @@
 	  </div> <!-- CIERRE superior -->  
 	  
 	  
+	  
+	  
 	  <?php if ($solovista!=1):?><!-- IF TABLA INFERIOR -->
 	  <input id="grabar_solicitud" class="buttonGenericoPeque" type="button" value="Grabar solicitud"/>	  
 	  
@@ -143,6 +145,7 @@
 	</table>
 	</div>
 	   <?php endif;?><!-- FIN IF TABLA INFERIOR -->
+	   
 </div>
 
 
@@ -169,7 +172,6 @@
 <?php if(!isset($habilitar_edicion)):?>
 <input type="hidden" id="habilitar_edicion" value="1"/><!-- CAMBIAR POR VALUE=1 -->
 <?php endif;?>
-
 
 <script>
 	var festivosDesdePhp=<?php echo $festivos?>;

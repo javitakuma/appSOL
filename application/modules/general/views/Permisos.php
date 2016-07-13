@@ -137,6 +137,7 @@
 	<div id="texto_ayuda">	
 		<p>- Para generar una nueva solicitud es necesario imputar el número de horas de jornada laboral para el tipo de permiso Keyvacaciones, no siendo necesario para el tipo de permiso Keyotros(en este caso se ingresarán en la siguiente pantalla).</p>
 		<p>- Solicita los permisos dividiéndolos por paquetes vacacionales, evitando solicitar semanas no consecutivas.</p>
+		<p>- No se pueden solicitar permisos que incluyan días de vacaciones de dos años diferentes, debes hacer un primera solicitud agotando los días del primer año y posteriormente completar las vacaciones con una nueva solicitud.</p>
 		<p>- Una solicitud puede ser editada siempre y cuando no haya sido enviada.</p>
 		<p>- Una solicitud puede ser eliminada mientras se encuentre en estado pendiente de aprobación en ambos niveles de autorización.</p>
 	</div>

@@ -129,6 +129,8 @@ $("#dialog").css('display','none');
 		fila2['fecha']=new Date(fechaFormateada);
 		fila2['i_autorizado_n1']=diasDesdePhp[i].i_autorizado_n1;
 		fila2['i_autorizado_n2']=diasDesdePhp[i].i_autorizado_n2;
+		fila2['year_vac']=diasDesdePhp[i].year_vac;
+		fila2['year_solic']=diasDesdePhp[i].year_solic;
 		//dias.push(fila2);
 		
 		//dias pendientes de aprobar
@@ -318,7 +320,15 @@ $("#dialog").css('display','none');
 			    		if(diasOcupados[i].i_autorizado_n1==1&&diasOcupados[i].i_autorizado_n2==1)  
 			    		{		
 			    			desbloqueado=false;
-					    	clase='dia_aceptado '+diasOcupados[i].fecha_formato_esp;
+			    			if(diasOcupados[i].year_solic>diasOcupados[i].year_vac)
+			    			{
+			    				clase='dia_aceptado dia_anterior '+diasOcupados[i].fecha_formato_esp;
+			    			}
+			    			else
+			    			{
+			    				clase='dia_aceptado '+diasOcupados[i].fecha_formato_esp;
+			    			}
+					    	
 			    		}
 			    		//DIAS RECHAZADOS
 			    		else if(diasOcupados[i].i_autorizado_n1==2||diasOcupados[i].i_autorizado_n2==2)
@@ -329,8 +339,15 @@ $("#dialog").css('display','none');
 			    		}			    		
 			    		else//DIAS PENDIENTES
 			    		{
+			    			if(diasOcupados[i].year_solic>diasOcupados[i].year_vac)
+			    			{
+			    				clase='dia_pendiente dia_anterior '+diasOcupados[i].fecha_formato_esp;
+			    			}
+			    			else
+			    			{
+			    				clase='dia_pendiente '+diasOcupados[i].fecha_formato_esp;
+			    			}
 			    			desbloqueado=false;
-					    	clase='dia_pendiente '+diasOcupados[i].fecha_formato_esp;
 			    		}
 			    		
 			    	}
@@ -340,7 +357,7 @@ $("#dialog").css('display','none');
 			    //DESHABILITAMOS TODAS LAS CELDAS DEL CALENDARIO HASTA 5 DIAS ANTES DE HOY
 			    var fechaActualMenosVariosDias=new Date();
 				
-			    fechaActualMenosVariosDias.setDate(fechaActualMenosVariosDias.getDate()-5);
+			    fechaActualMenosVariosDias.setDate(fechaActualMenosVariosDias.getDate()-50);
 			    
 			    if(date.valueOf()<fechaActualMenosVariosDias.valueOf())
 			    {
@@ -389,7 +406,7 @@ $("#dialog").css('display','none');
 	$('#pendientesDebidosMostrar').html($('#diasPendientesDebidos').val());
 	$('#pendientesMostrar').html($('#diasPendientes').val());
 	$('#pendientesFuturoMostrar').html($('#diasPendientesFuturo').val());
-	
+		
 	
 	//COGEMOS LA FECHA DE HOY Y LA FORMATEAMOS A yy-mm-dd PARA IR A LA BBDD y COGER DIAS DE LA BASE DE DATOS
 	var fechaActual=new Date();
@@ -527,13 +544,31 @@ $("#dialog").css('display','none');
 	
 	//AÑADIMOS EVENTO CLICK AL BOTON GRABAR 
 	$("#grabar_solicitud").click(function(event) 
-    {  						    	 		    			
+    {  		
+		
+		
 		var numero_dias=$('#calendario').val().split(" ").length;
 		
 		if(numero_dias>0 && $('#calendario').val()!="")
 		{
 			//SI LOS DATOS SON INCORRECTOS NO EJECUTAREMOS EL GRABADO
-	    	var cancelar_envio=false;
+	    	var cancelar_envio=false;	   
+	    	
+	    	
+	    	if($('#pendientesDebidosMostrar').html()!=$('#diasPendientesDebidos').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
+			{
+				alert("No se pueden solicitar permisos que incluyan días de vacaciones de dos años diferentes, " +
+						"debes hacer un primera solicitud agotando los días del primer año y posteriormente completar las vacaciones con una nueva solicitud.");
+				cancelar_envio=true;
+			}
+			
+			if($('#pendientesFuturoMostrar').html()!=$('#diasPendientesFuturo').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
+			{
+				alert("No se pueden solicitar permisos que incluyan días de vacaciones de dos años diferentes, " +
+				"debes hacer un primera solicitud agotando los días del primer año y posteriormente completar las vacaciones con una nueva solicitud.");
+				cancelar_envio=true;
+			}	    	
+	    	
 	    	
 	    	//COMPROBAMOS QUE NO HAYA SOLICITADO MAS DIAS DE LOS QUE PUEDE,AUNQUE NUNCA DEBERIA PASAR POR AQUI
 	    	if( ((Number)($('#pendientesDebidosMostrar').html())<0 ) || ((Number)($('#pendientesMostrar').html())<0) )
@@ -673,13 +708,29 @@ $("#dialog").css('display','none');
 	//AÑADIMOS EVENTO CLICK AL BOTON ENVIAR
 	$("#enviar_solicitud").click(function(event) 
     {    
-    			    			
+				
+		
 		var numero_dias=$('#calendario').val().split(" ").length;
 		
 		if(numero_dias>0&&$('#calendario').val()!="")
 		{
 			//SI LOS DATOS SON INCORRECTOS NO EJECUTAREMOS EL GRABADO
 	    	var cancelar_envio=false;
+	    	
+	    	
+	    	if($('#pendientesDebidosMostrar').html()!=$('#diasPendientesDebidos').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
+			{
+	    		alert("No se pueden solicitar permisos que incluyan días de vacaciones de dos años diferentes, " +
+				"debes hacer un primera solicitud agotando los días del primer año y posteriormente completar las vacaciones con una nueva solicitud.");
+				cancelar_envio=true;
+			}
+			
+			if($('#pendientesFuturoMostrar').html()!=$('#diasPendientesFuturo').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
+			{
+				alert("No se pueden solicitar permisos que incluyan días de vacaciones de dos años diferentes, " +
+				"debes hacer un primera solicitud agotando los días del primer año y posteriormente completar las vacaciones con una nueva solicitud.");
+				cancelar_envio=true;
+			}
 	    	
 	    	//COMPROBAMOS QUE NO HAYA SOLICITADO MAS DIAS DE LOS QUE PUEDE,AUNQUE NUNCA DEBERIA PASAR POR AQUI
 	    	if( ((Number)($('#pendientesDebidosMostrar').html())<0 ) || ((Number)($('#pendientesMostrar').html())<0) )
@@ -811,6 +862,12 @@ $("#dialog").css('display','none');
         }
 	});
 	
+	if($('#solovista').val()==1)
+	{
+		$('footer').css('position','fixed');
+	}
+	
+	
 });
 
 
@@ -830,6 +887,7 @@ function confirmar_boton_volver()
 	{
 		onclick=location.href=BASE_URL+"general/Permisos";
 	}
+	
 		
 }
 

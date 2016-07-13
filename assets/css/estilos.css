@@ -9,6 +9,7 @@ body {
     -webkit-font-smoothing: antialiased;
     color:rgb(35,35,35);
     height:100%;   
+    
 }
 
 #wrapper
@@ -58,7 +59,7 @@ footer p
 	margin:0 auto;
 }
 
-#imagen_cierre_popup
+#imagen_cierre_popup_footer
 {
 	width:3%;
 	position:absolute;

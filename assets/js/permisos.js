@@ -49,7 +49,7 @@ $(document).ready(function()
 			alert("Selecciona un tipo de solicitud");			
 		}
 		
-		if($('#responsable_solicitud').val()==0)
+		if($('#responsable_solicitud').val()==0 && $('#tipo_solicitud').val()!=468)
 		{
 			cancelar_accion=true;			
 			alert("Selecciona un responsable");			
@@ -78,6 +78,7 @@ $(document).ready(function()
 		if(!cancelar_accion)
 		{
 			//location.href=BASE_URL+"general/Permisos/solicitar_permiso";
+			$('#responsable_solicitud').prop('disabled',false);
 			$('#form_nueva_solicitud').submit();
 		}
 	});
@@ -89,13 +90,30 @@ $(document).ready(function()
 		if($(this).val()==450)
 		{
 			$('#horas_jornada').prop('disabled',false);
+			$('#responsable_solicitud').prop('disabled',false);
+			$('#responsable_solicitud').prop('value',0);
 		}
 		//SI ES KEYOTROS DESHABILITAMOS LA CASILLA DE HORAS
 		if($(this).val()==468)
 		{
 			$('#horas_jornada').prop('disabled',true);
+			$('#responsable_solicitud').prop('disabled',true);
+			//$('#responsable_solicitud').prop('value',50);
+			
+			var k_proyecto=$(this).val();
+			$.ajax({        
+     	       type: "POST",
+     	       url: BASE_URL+"general/Permisos/get_resp_aut_rrhh",
+     	       data: { k_proyecto : k_proyecto},
+     	       success: function(respuesta) {
+     	    	  $('#responsable_solicitud').prop('value',respuesta);
+     	    	   //alert(respuesta);     	    	  
+     	       }
+     	    })
 		}
-	});
+	});	
+	
+	
 	
 	$('.eliminar_fila_img').on('click',function()
 			{

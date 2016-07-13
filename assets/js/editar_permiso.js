@@ -119,6 +119,8 @@ $("#dialog").css('display','none');
 		fila2['i_autorizado_n2']=diasDesdePhp[i].i_autorizado_n2;
 		fila2['k_permisos_solic']=diasDesdePhp[i].k_permisos_solic;
 		fila2['horas_solic']=diasDesdePhp[i].horas_solic;
+		fila2['year_vac']=diasDesdePhp[i].year_vac;
+		fila2['year_solic']=diasDesdePhp[i].year_solic;
 		//dias.push(fila2);
 		
 		//dias pendientes de aprobar
@@ -324,7 +326,14 @@ $("#dialog").css('display','none');
 				    		{	
 				    			//result = [false, 'dia_aceptado', null];	
 				    			desbloqueado=false;
-						    	clase='dia_aceptado';
+				    			if(diasOcupados[i].year_solic>diasOcupados[i].year_vac)
+				    			{
+				    				clase='dia_aceptado dia_anterior '+diasOcupados[i].fecha_formato_esp;
+				    			}
+				    			else
+				    			{
+				    				clase='dia_aceptado '+diasOcupados[i].fecha_formato_esp;
+				    			}
 				    		}
 				    		//DIAS RECHAZADOS
 				    		else if(diasOcupados[i].i_autorizado_n1==2||diasOcupados[i].i_autorizado_n2==2)
@@ -336,7 +345,15 @@ $("#dialog").css('display','none');
 				    		else//DIAS PENDIENTES
 				    		{
 				    			desbloqueado=false;
-						    	clase='dia_pendiente';
+				    			if(diasOcupados[i].year_solic>diasOcupados[i].year_vac)
+				    			{
+				    				clase='dia_pendiente dia_anterior '+diasOcupados[i].fecha_formato_esp;
+				    			}
+				    			else
+				    			{
+				    				clase='dia_pendiente '+diasOcupados[i].fecha_formato_esp;
+				    			}
+				    			
 				    		}
 			    		}			    		
 			    	}
@@ -534,13 +551,31 @@ $("#dialog").css('display','none');
 	
 	$("#grabar_solicitud").click(function(event) 
     {  				
-    	//AÑADIMOS EVENTO CLICK AL BOTON GRABAR  		    			
+    	//AÑADIMOS EVENTO CLICK AL BOTON GRABAR  		
+		
+		
+		
 		var numero_dias=$('#calendario').val().split(" ").length;
 		
 		if(numero_dias>0&&$('#calendario').val()!="")
 		{
 			//SI LOS DATOS SON INCORRECTOS NO EJECUTAREMOS EL GRABADO
 	    	var cancelar_envio=false;
+	    	
+	    	if($('#pendientesDebidosMostrar').html()!=$('#diasPendientesDebidos').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
+			{
+	    		alert("No se pueden solicitar permisos que incluyan días de vacaciones de dos años diferentes, " +
+				"debes hacer un primera solicitud agotando los días del primer año y posteriormente completar las vacaciones con una nueva solicitud.");
+				cancelar_envio=true;
+			}
+			
+			if($('#pendientesFuturoMostrar').html()!=$('#diasPendientesFuturo').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
+			{
+				alert("No se pueden solicitar permisos que incluyan días de vacaciones de dos años diferentes, " +
+				"debes hacer un primera solicitud agotando los días del primer año y posteriormente completar las vacaciones con una nueva solicitud.");
+				cancelar_envio=true;
+			}
+	    	
 	    	
 	    	//COMPROBAMOS QUE NO HAYA SOLICITADO MAS DIAS DE LOS QUE PUEDE,AUNQUE NUNCA DEBERIA PASAR POR AQUI
 	    	if( ((Number)($('#pendientesDebidosMostrar').html())<0 ) || ((Number)($('#pendientesMostrar').html())<0) )
@@ -683,13 +718,30 @@ $("#dialog").css('display','none');
 	
 	$("#enviar_solicitud").click(function(event) 
     {    
-    	//AÑADIMOS EVENTO CLICK AL BOTON GRABAR  		    			
+				
+    	//AÑADIMOS EVENTO CLICK AL BOTON GRABAR
+		
+				
 		var numero_dias=$('#calendario').val().split(" ").length;
 		
 		if(numero_dias>0&&$('#calendario').val()!="")
 		{
 			//SI LOS DATOS SON INCORRECTOS NO EJECUTAREMOS EL GRABADO
 	    	var cancelar_envio=false;
+	    	
+	    	if($('#pendientesDebidosMostrar').html()!=$('#diasPendientesDebidos').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
+			{
+	    		alert("No se pueden solicitar permisos que incluyan días de vacaciones de dos años diferentes, " +
+				"debes hacer un primera solicitud agotando los días del primer año y posteriormente completar las vacaciones con una nueva solicitud.");
+				cancelar_envio=true;
+			}
+			
+			if($('#pendientesFuturoMostrar').html()!=$('#diasPendientesFuturo').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
+			{
+				alert("No se pueden solicitar permisos que incluyan días de vacaciones de dos años diferentes, " +
+				"debes hacer un primera solicitud agotando los días del primer año y posteriormente completar las vacaciones con una nueva solicitud.");
+				cancelar_envio=true;
+			}
 	    	
 	    	//COMPROBAMOS QUE NO HAYA SOLICITADO MAS DIAS DE LOS QUE PUEDE,AUNQUE NUNCA DEBERIA PASAR POR AQUI
 	    	if( ((Number)($('#pendientesDebidosMostrar').html())<0 ) || ((Number)($('#pendientesMostrar').html())<0) )

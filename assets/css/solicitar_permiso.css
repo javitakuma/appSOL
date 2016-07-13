@@ -1,3 +1,4 @@
+
 #enviando
 {
 	width:30%;
@@ -252,10 +253,14 @@ overflow: auto;
 	margin-top: 50px;
 }
 
+
+
+
 td.dia_aceptado
 {
 	/*background: #EE3333 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;*/
-	background: #00AA00 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;		
+	background: #00AA00 url(no_pongo_nada_para_que_funcione.png) 50% 50% repeat-x;
+	
 }
 
 td.dia_aceptado span
@@ -288,6 +293,12 @@ td.dia_rechazado span
 td.dia_rechazado a
 {	
 	color: white !important;
+}
+
+td.dia_anterior span
+{	
+	color: black !important;
+	font-style:italic;
 }
 
 td:disabled

@@ -19,7 +19,7 @@ $(document).ready(function()
 	});	
 	
 	//LOS CERRAMOS Y HACEMOS INVISIBLES
-	$('#imagen_cierre_popup').on('click',function()
+	$('#imagen_cierre_popup_footer').on('click',function()
 	{
 		$("#reporte_incidencias").css('display','none');
 		$("#sombra").css('display','none');

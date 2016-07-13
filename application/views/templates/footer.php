@@ -13,7 +13,7 @@
 </div><!--/.Wrapper(abierto en header)-->
 
 <div id="reporte_incidencias">
-	<img title="Cerrar" id="imagen_cierre_popup" src="<?php echo base_url()?>assets/img/cross.png"/>	
+	<img title="Cerrar" id="imagen_cierre_popup_footer" src="<?php echo base_url()?>assets/img/cross.png"/>	
 	<p id="titulo_ayuda" class="centrado titulo-mediano">REPORTAR INCIDENCIA</p>
 	<div id="texto_ayuda">	
 		<p>- En caso de detectar una incidencia por favor envíe un email a la dirección de correo <a href="mailto:ESMAD.IT@keyruscorp.key">ESMAD.IT@keyruscorp.key</a>.</p>
