@@ -189,10 +189,10 @@
 		<h2 id ="tit_leyenda" class="titulo-peque">Leyenda colores.</h2>
 		<div id="contenedor_ayuda_colores">
 			<div id="cuadrado_aceptado" class="contenedor_tipo_estado">
-				<p>Autorizado</p>
+				<p>Autorizado*</p>
 			</div>
 			<div id="cuadrado_pendiente" class="contenedor_tipo_estado">
-				<p>Pendiente</p>
+				<p>Pendiente*</p>
 			</div>
 			<div id="cuadrado_rechazado" class="contenedor_tipo_estado">
 				<p>Rechazado</p>
@@ -200,8 +200,9 @@
 			<div id="cuadrado_seleccionado" class="contenedor_tipo_estado">
 				<p>Seleccionado</p>
 			</div>
+			
 		</div>
-		
+		<p>*En color negro y cursiva los días pendientes del año anterior.</p>
 		<div id="texto_ayuda">	
 			<p>- Situate con el ratón encima del dia solicitado que desees para ver su campo observaciones.</p>
 			

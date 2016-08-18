@@ -326,7 +326,8 @@ $("#dialog").css('display','none');
 				    		{	
 				    			//result = [false, 'dia_aceptado', null];	
 				    			desbloqueado=false;
-				    			if(diasOcupados[i].year_solic>diasOcupados[i].year_vac)
+				    			//CON EL DIFERENTE A NULL EVITAMOS QUE SE CUELEN KEYOTROS
+				    			if(diasOcupados[i].year_solic>diasOcupados[i].year_vac && diasOcupados[i].year_vac!=null)
 				    			{
 				    				clase='dia_aceptado dia_anterior '+diasOcupados[i].fecha_formato_esp;
 				    			}
@@ -345,7 +346,8 @@ $("#dialog").css('display','none');
 				    		else//DIAS PENDIENTES
 				    		{
 				    			desbloqueado=false;
-				    			if(diasOcupados[i].year_solic>diasOcupados[i].year_vac)
+				    			//CON EL DIFERENTE A NULL EVITAMOS QUE SE CUELEN KEYOTROS
+				    			if(diasOcupados[i].year_solic>diasOcupados[i].year_vac && diasOcupados[i].year_vac!=null)
 				    			{
 				    				clase='dia_pendiente dia_anterior '+diasOcupados[i].fecha_formato_esp;
 				    			}
@@ -363,7 +365,7 @@ $("#dialog").css('display','none');
 			    //DESHABILITAMOS TODAS LAS CELDAS DEL CALENDARIO HASTA 10 DIAS ANTES DE HOY
 			    var fechaActualMenosVariosDias=new Date();
 				
-			    fechaActualMenosVariosDias.setDate(fechaActualMenosVariosDias.getDate()-5);
+			    fechaActualMenosVariosDias.setDate(fechaActualMenosVariosDias.getDate()-50);
 			    
 			    if(date.valueOf()<fechaActualMenosVariosDias.valueOf())
 			    {
@@ -562,14 +564,14 @@ $("#dialog").css('display','none');
 			//SI LOS DATOS SON INCORRECTOS NO EJECUTAREMOS EL GRABADO
 	    	var cancelar_envio=false;
 	    	
-	    	if($('#pendientesDebidosMostrar').html()!=$('#diasPendientesDebidos').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
+	    	if($('#k_proyecto_solicitud').val()=='450' && $('#pendientesDebidosMostrar').html()!=$('#diasPendientesDebidos').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
 			{
 	    		alert("No se pueden solicitar permisos que incluyan días de vacaciones de dos años diferentes, " +
 				"debes hacer un primera solicitud agotando los días del primer año y posteriormente completar las vacaciones con una nueva solicitud.");
 				cancelar_envio=true;
 			}
 			
-			if($('#pendientesFuturoMostrar').html()!=$('#diasPendientesFuturo').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
+			if($('#k_proyecto_solicitud').val()=='450' && $('#pendientesFuturoMostrar').html()!=$('#diasPendientesFuturo').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
 			{
 				alert("No se pueden solicitar permisos que incluyan días de vacaciones de dos años diferentes, " +
 				"debes hacer un primera solicitud agotando los días del primer año y posteriormente completar las vacaciones con una nueva solicitud.");
@@ -729,14 +731,14 @@ $("#dialog").css('display','none');
 			//SI LOS DATOS SON INCORRECTOS NO EJECUTAREMOS EL GRABADO
 	    	var cancelar_envio=false;
 	    	
-	    	if($('#pendientesDebidosMostrar').html()!=$('#diasPendientesDebidos').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
+	    	if($('#k_proyecto_solicitud').val()=='450' && $('#pendientesDebidosMostrar').html()!=$('#diasPendientesDebidos').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
 			{
 	    		alert("No se pueden solicitar permisos que incluyan días de vacaciones de dos años diferentes, " +
 				"debes hacer un primera solicitud agotando los días del primer año y posteriormente completar las vacaciones con una nueva solicitud.");
 				cancelar_envio=true;
 			}
 			
-			if($('#pendientesFuturoMostrar').html()!=$('#diasPendientesFuturo').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
+			if($('#k_proyecto_solicitud').val()=='450' && $('#pendientesFuturoMostrar').html()!=$('#diasPendientesFuturo').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
 			{
 				alert("No se pueden solicitar permisos que incluyan días de vacaciones de dos años diferentes, " +
 				"debes hacer un primera solicitud agotando los días del primer año y posteriormente completar las vacaciones con una nueva solicitud.");

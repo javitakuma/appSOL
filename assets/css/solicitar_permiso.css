@@ -4,7 +4,7 @@
 	width:30%;
 	height:30%;
 	background-color: rgba(0,0,0,0.7);
-	position:absolute;
+	position: fixed;
 	top:35%;
 	left:35%;
 	border-radius:15px;
@@ -117,6 +117,7 @@ position:absolute;
 z-index:999;
 border-radius:15px;
 overflow: auto;
+display:none;
 }
 
 #tit_leyenda
@@ -130,6 +131,7 @@ overflow: auto;
 	width:99%;
 	display:inline-block;
 	margin:0 auto;
+	color: #FEFEFE;
 }
 
 .contenedor_tipo_estado

@@ -43,6 +43,29 @@ footer p
 	text-align: center;
 }
 
+/*ESTILOS VENTANA ENVIANDO*/
+
+#enviando
+{
+	width:30%;
+	height:30%;
+	background-color: rgba(0,0,0,0.7);
+	position: fixed;
+	top:35%;
+	left:35%;
+	border-radius:15px;
+	display: none;
+}
+
+#enviando p
+{
+	position: absolute;
+	top:60%;
+	left:50%;
+	color:white;
+	font-weight:bold;
+}
+
 
 
 /*ESTILOS REPORTE INCIDENCIAS*/
@@ -80,7 +103,7 @@ footer p
 	font-size:90%;
 }
 
-#sombra
+#sombra_footer
 {
 	background-color:rgba(0,0,0,0.5);
 	position:absolute;
@@ -96,7 +119,7 @@ width:50%;
 height:50%;
 top: 25%;
 left: 25%;
-position:absolute;
+position: fixed;
 z-index:999;
 border-radius:15px;
 /*display:none;*/
@@ -294,6 +317,23 @@ h1,h2,h3,h4,h5,h6,h7
 {
 	cursor:pointer;
 }
+
+
+#contenedor_working
+{
+	width:70%;
+	height:70%;
+	margin:0 auto;	
+}
+
+#contenedor_working img
+{
+	width:60%;
+	height:60%;
+	margin:0 20%;	
+}
+
+
 
 /*
 .volver

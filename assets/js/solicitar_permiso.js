@@ -319,8 +319,10 @@ $("#dialog").css('display','none');
 			    		//DIAS ACEPTADOS
 			    		if(diasOcupados[i].i_autorizado_n1==1&&diasOcupados[i].i_autorizado_n2==1)  
 			    		{		
-			    			desbloqueado=false;
-			    			if(diasOcupados[i].year_solic>diasOcupados[i].year_vac)
+			    			//desbloqueado=false;
+			    			desbloqueado=true;
+			    			//CON EL DIFERENTE A NULL EVITAMOS QUE SE CUELEN KEYOTROS
+			    			if(diasOcupados[i].year_solic>diasOcupados[i].year_vac && diasOcupados[i].year_vac!=null)
 			    			{
 			    				clase='dia_aceptado dia_anterior '+diasOcupados[i].fecha_formato_esp;
 			    			}
@@ -339,7 +341,8 @@ $("#dialog").css('display','none');
 			    		}			    		
 			    		else//DIAS PENDIENTES
 			    		{
-			    			if(diasOcupados[i].year_solic>diasOcupados[i].year_vac)
+			    			//CON EL DIFERENTE A NULL EVITAMOS QUE SE CUELEN KEYOTROS
+			    			if(diasOcupados[i].year_solic>diasOcupados[i].year_vac && diasOcupados[i].year_vac!=null)
 			    			{
 			    				clase='dia_pendiente dia_anterior '+diasOcupados[i].fecha_formato_esp;
 			    			}
@@ -553,16 +556,15 @@ $("#dialog").css('display','none');
 		{
 			//SI LOS DATOS SON INCORRECTOS NO EJECUTAREMOS EL GRABADO
 	    	var cancelar_envio=false;	   
-	    	
-	    	
-	    	if($('#pendientesDebidosMostrar').html()!=$('#diasPendientesDebidos').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
+	    		    	
+	    	if($('#k_proyecto_solicitud').val()=='450' && $('#pendientesDebidosMostrar').html()!=$('#diasPendientesDebidos').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
 			{
 				alert("No se pueden solicitar permisos que incluyan días de vacaciones de dos años diferentes, " +
 						"debes hacer un primera solicitud agotando los días del primer año y posteriormente completar las vacaciones con una nueva solicitud.");
 				cancelar_envio=true;
 			}
 			
-			if($('#pendientesFuturoMostrar').html()!=$('#diasPendientesFuturo').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
+			if($('#k_proyecto_solicitud').val()=='450' && $('#pendientesFuturoMostrar').html()!=$('#diasPendientesFuturo').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
 			{
 				alert("No se pueden solicitar permisos que incluyan días de vacaciones de dos años diferentes, " +
 				"debes hacer un primera solicitud agotando los días del primer año y posteriormente completar las vacaciones con una nueva solicitud.");
@@ -718,14 +720,14 @@ $("#dialog").css('display','none');
 	    	var cancelar_envio=false;
 	    	
 	    	
-	    	if($('#pendientesDebidosMostrar').html()!=$('#diasPendientesDebidos').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
+	    	if($('#k_proyecto_solicitud').val()=='450' && $('#pendientesDebidosMostrar').html()!=$('#diasPendientesDebidos').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
 			{
 	    		alert("No se pueden solicitar permisos que incluyan días de vacaciones de dos años diferentes, " +
 				"debes hacer un primera solicitud agotando los días del primer año y posteriormente completar las vacaciones con una nueva solicitud.");
 				cancelar_envio=true;
 			}
 			
-			if($('#pendientesFuturoMostrar').html()!=$('#diasPendientesFuturo').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
+			if($('#k_proyecto_solicitud').val()=='450' && $('#pendientesFuturoMostrar').html()!=$('#diasPendientesFuturo').val() && $('#pendientesMostrar').html()!=$('#diasPendientes').val())
 			{
 				alert("No se pueden solicitar permisos que incluyan días de vacaciones de dos años diferentes, " +
 				"debes hacer un primera solicitud agotando los días del primer año y posteriormente completar las vacaciones con una nueva solicitud.");
@@ -848,6 +850,8 @@ $("#dialog").css('display','none');
            var k_proyecto_solicitud=$('#k_proyecto_solicitud').val();
            
            bloqueoPeticiones=true;
+           
+           $('#enviando').css('display','block');
                                 
            $.ajax({        
     	       type: "POST",
@@ -855,6 +859,7 @@ $("#dialog").css('display','none');
     	       data: { observaciones : observaciones,responsable_solicitud : responsable_solicitud,diasPendientesDebidos : diasPendientesDebidos,diasPendientes : diasPendientes, diasPendientesFuturo:diasPendientesFuturo ,dias_solicitados : dias_solicitados,horas_jornada:horas_jornada,horas_por_dias : horas_por_dias,year_solicitud : year_solicitud, k_permisos_solic:k_permisos_solic, k_proyecto_solicitud:k_proyecto_solicitud},
     	       success: function(respuesta) 
     	       {
+    	    	   $('#enviando').css('display','none');
     	            alert(respuesta); 
     	            location.href=BASE_URL+"general/Permisos";
     	       }
@@ -1205,7 +1210,7 @@ function pintarInferiorInicial()
 		if((diasDesdePhp[i].i_autorizado_n1==1)&&(diasDesdePhp[i].i_autorizado_n2==1))
 		{
 			$('#'+fecha).addClass('aceptado_inferior');	
-			$('#'+fecha).attr('value','8');	//CAMBIAR BBDD REAL
+			$('#'+fecha).attr('value',diasDesdePhp[i].horas_solic);
 		}
 		
 		/*  DE MOMENTO NO PINTAMOS RECHAZADOS ABAJO

@@ -84,7 +84,7 @@ class Login extends MX_Controller
 			}
 			else			
 			{
-				header("Location:".base_url().'welcome/general');
+				header("Location:".base_url().'welcome/index');
 			}
 			
 			 

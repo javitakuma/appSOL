@@ -13,7 +13,7 @@
 	        <div id="permisos_superior">	        	
 	        	<div id="permisos_sup_izq">
 	        		<form id="form_nueva_solicitud" method="post" action="<?php echo base_url()?>general/Permisos/solicitar_permiso">	        		
-			        	<div class="contenedor_select_35 textoSmallCaps">
+			        	<div class="contenedor_select_35">
 				            <label>Tipo de solicitud</label>
 				            <select id="tipo_solicitud" name="tipo_solicitud">
 				            	<option value="0">Selecciona un tipo de permiso</option>
@@ -23,7 +23,7 @@
 				            </select>
 			            </div>
 			            
-				        <div class="contenedor_select_35 textoSmallCaps">
+				        <div class="contenedor_select_35">
 				            <label>Responsable</label>
 				            <select id="responsable_solicitud" name="responsable_solicitud">
 				                <option value="0">Selecciona un responsable</option>				                
@@ -73,7 +73,9 @@
         	
         	<div id="inferior">
 				<h3 id="titulo_historico_permisos" class="titulo-mediano">Histórico permisos</h3>
+				<p id="asterisco_anno_anterior">*(Días pendientes del año anterior)  &nbsp;&nbsp;&nbsp;#(Días solicitados del año próximo)</p>
 				<div onclick='location.href="<?php echo base_url()?>general/Permisos/mostrar_permisos_calendario"'  id="div_calendario_permisos">
+				    
 					<p class="titulo-peque">Ver todas </p><img id="permisos_en_calendario" src="<?php echo base_url()?>assets/img/ojo2.png"/>
 				</div>
 					<table id="listadoPermisos" class="tabla_key">
@@ -109,9 +111,16 @@
 														
 							
 							<!-- PINTAMOS ELIMINAR SOLO SI AMBOS SWITCH SON PENDIENTES -->						
-							<?php if(($fila['i_autorizado_n1']=='Pendiente')&&($fila['i_autorizado_n2']=='Pendiente')):?>
+							
+							
+							<?php if(($fila['k_proyecto']=='450') && ($fila['i_autorizado_n1']=='Pendiente') && ($fila['i_autorizado_n2']=='Pendiente')):?>
 								<td class="eliminar_fila borde_invisible no_fondo"><img title="Eliminar solicitud" class="eliminar_fila_img " src="<?php echo base_url()?>assets/img/red_cross_120px.png"/></td>	
-							<?php endif;?>	
+							<?php endif;?>
+							<?php if(($fila['k_proyecto']=='468') && ($fila['i_autorizado_n2']=='Pendiente')):?>
+								<td class="eliminar_fila borde_invisible no_fondo"><img title="Eliminar solicitud" class="eliminar_fila_img " src="<?php echo base_url()?>assets/img/red_cross_120px.png"/></td>	
+							<?php endif;?>
+							
+								
 							<!-- PINTAMOS EDITAR SOLO SI NO SE HA ENVIADO -->							
 							<?php if($fila['sw_envio_solicitud']==0):?>
 								<td  class="borde_invisible no_fondo"><img onclick="editar_solicitud(<?php echo $fila['k_permisos_solic']?>)" title="Editar solicitud" class="editar_fila " src="<?php echo base_url()?>assets/img/pen.png"/></td>	
@@ -131,18 +140,33 @@
 
 <!-- VENTANA EMERGENTE AYUDA -->
 
-<div id="dialog">
+<div id="dialog" >
 	<img title="Cerrar" id="imagen_cierre_popup" src="<?php echo base_url()?>assets/img/cross.png"/>	
 	<p id="titulo_ayuda" class="centrado titulo-mediano">AYUDA SOLICITUD PERMISOS</p>
 	<div id="texto_ayuda">	
-		<p>- Para generar una nueva solicitud es necesario imputar el número de horas de jornada laboral para el tipo de permiso Keyvacaciones, no siendo necesario para el tipo de permiso Keyotros(en este caso se ingresarán en la siguiente pantalla).</p>
-		<p>- Solicita los permisos dividiéndolos por paquetes vacacionales, evitando solicitar semanas no consecutivas.</p>
-		<p>- No se pueden solicitar permisos que incluyan días de vacaciones de dos años diferentes, debes hacer un primera solicitud agotando los días del primer año y posteriormente completar las vacaciones con una nueva solicitud.</p>
-		<p>- Una solicitud puede ser editada siempre y cuando no haya sido enviada.</p>
-		<p>- Una solicitud puede ser eliminada mientras se encuentre en estado pendiente de aprobación en ambos niveles de autorización.</p>
+		<p>- Para KEYVACACIONES deberá indicar el número de horas de la jornada laboral estándar según las condiciones contractuales que apliquen a cada empleado 
+			(las mismas horas de jornada estándar con las que se rellena el IMC). Para KEYOTROS no es necesario, para cada tipo de permiso según su naturaleza deberá 
+			indicarse manualmente el número de horas estimadas de la ausencia.
+		</p>
+		<p>- Las solicitudes tanto de vacaciones como de permisos retribuidos se piden en paquetes de jornadas.</p>
+		<p>- Para solicitudes de KEYVACACIONES en un mismo paquete se pueden incluir jornadas no consecutivas, aunque lo deseable es que se evite y se soliciten paquetes
+		 	de jornadas consecutivas o aisladas. En cualquier caso las jornadas de un paquete nunca podrán afectar a más de dos meses consecutivos. 
+			 Los paquetes de vacaciones se forman por la asociación de jornadas completas.</p>
+		<p>- Para solicitudes de KEYOTROS, los paquetes no deben mezclar jornadas que atiendan a dos permisos retribuidos de distinta naturaleza. Mayoritariamente serán 
+			paquetes que afecten a una jornada, aunque atendiendo a la naturaleza del permiso no tiene porqué. En cualquier caso serán siempre paquetes de días consecutivos y 
+			deberá informarse manualmente el número de horas estimadas de la ausencia.
+		</p>
+		<p>- Para solicitudes de KEYVACACIONES no se pueden mezclar en un mismo paquete jornadas de vacaciones que proceden del cómputo general de dos años naturales diferentes. 
+			Hay que crear dos paquetes de solicitud distintos, uno que agote las vacaciones pendientes de disfrutar del año anterior, y de seguido si se necesita crear un segundo 
+			paquete sobre el que empezar a hacer uso de las del año siguiente.
+		</p>
+		<p>Cualquier solicitud puede ser editada siempre y cuando no haya sido enviada.</p>
+		<p>Cualquier solicitud de KEYVACACIONES puede ser borrada siempre y cuando los dos niveles de autorización estén pendientes de validación.</p>
+		<p>En KEYOTROS el primer nivel de autorización es automático. Cualquier solicitud de KEYOTROS puede ser borrada siempre que el segundo nivel de autorización siga pendiente de validación.</p>
 	</div>
 	
 </div>
 
 <div id="sombra"></div>
+
 

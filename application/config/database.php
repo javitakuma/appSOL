@@ -75,6 +75,31 @@ $query_builder = TRUE;
 
 
 
+/*
+$db['default'] = array(
+'dsn'	=> '',
+'hostname' => 'qwc388.keyrus.es',
+'username' => 'qwc388',
+'password' => 'K3yru5123',
+'database' => 'qwc388',
+'dbdriver' => 'mysqli',
+'dbprefix' => '',
+'pconnect' => TRUE,//FALSE,
+'db_debug' => FALSE,//(ENVIRONMENT !== 'production'),
+'cache_on' => FALSE,
+'cachedir' => '',
+'char_set' => 'utf8',
+'dbcollat' => 'utf8_general_ci',
+'swap_pre' => '',
+'encrypt' => FALSE,
+'compress' => FALSE,
+'stricton' => FALSE,
+'failover' => array(),
+'save_queries' => TRUE
+);
+*/
+
+
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => '10.40.1.61',
@@ -98,7 +123,7 @@ $db['default'] = array(
 );
 
 
-
+/*
  $db['vacas'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
@@ -120,8 +145,13 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+
  
+
+
  
  
 
+
+ */
 

@@ -97,6 +97,7 @@ $(document).ready(function()
 		if($(this).val()==468)
 		{
 			$('#horas_jornada').prop('disabled',true);
+			$('#horas_jornada').prop('value',null);
 			$('#responsable_solicitud').prop('disabled',true);
 			//$('#responsable_solicitud').prop('value',50);
 			
@@ -111,6 +112,13 @@ $(document).ready(function()
      	       }
      	    })
 		}
+		if($(this).val()==0)
+		{
+			$('#responsable_solicitud').prop('disabled',false);
+			$('#responsable_solicitud').prop('value',0);
+			$('#horas_jornada').prop('disabled',false);
+			$('#horas_jornada').prop('value',null);
+		}
 	});	
 	
 	
@@ -123,12 +131,14 @@ $(document).ready(function()
 				
 				if(aceptado)
 				{
+					$('#enviando').css('display','block');
 					$.ajax({        
 		        	       type: "POST",
 		        	       url: BASE_URL+"general/Permisos/eliminar_solicitud",
 		        	       data: { k_permiso_solic : k_permiso_solic},
 		        	       success: function(respuesta) {
 		        	    	   
+		        	    	   $('#enviando').css('display','none');
 		        	    	   //alert("Su solicitud ha sido grabada");
 		        	    	   
 		        	    	   //LE MANDAMOS AL MENU PRINCIPAL PORQUE SI NO FALLA, NO SE PUEDE ACTUALIZAR EL k_permisos_solic

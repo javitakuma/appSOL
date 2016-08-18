@@ -14,6 +14,7 @@
   <input type="submit" class="button buttonGenerico" value="Entrar"/>
   
 </form>
+<p id="texto_ventanas_emergentes">*Esta aplicación hace uso de ventanas emergentes, el bloqueo de las mismas alterará su correcto funcionamiento.</p>
 </div>     
     
  

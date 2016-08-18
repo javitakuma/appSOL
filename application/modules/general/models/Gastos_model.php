@@ -279,7 +279,7 @@ class Gastos_model extends CI_Model
 					'k_linea_gasto_autorizado2' => 0,
 			);
 			
-			$this->db->where('k_hoja_gastos', $k_hoja_gastos);
+			$this->db->where('k_hoja_gasto', $k_hoja_gastos);
 			$this->db->update('t_linea_gasto', $data2);
 			
 			// Produces:

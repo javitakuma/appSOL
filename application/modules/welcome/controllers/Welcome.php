@@ -13,6 +13,7 @@ class Welcome extends MX_Controller
 	//FUNCION PRINCIPAL INDEX, MOSTRAR MENU
 	public function index()
 	{	
+		
 		$this->general();
 		
 		/*
@@ -57,6 +58,16 @@ class Welcome extends MX_Controller
 			$this->session->set_flashdata('errorLoginMensaje','Por favor inicia sesión');
 			header("Location:".base_url().'login');
 		}
+	}
+	
+	public function working()
+	{
+		
+		/*
+		 *   modules::load('welcome/Welcome/')->working();     FORMA DE LLAMAR A ESTE MODULO DESDE CUALQUIER PARTE 
+		 */				
+		$datos=[];
+		enmarcar($this,'Working',$datos);		
 	}
 	
 	public function operaciones()

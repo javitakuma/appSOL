@@ -10,6 +10,22 @@ class Prueba_model extends CI_Model
 		
 	}
 	
+	public function prueba()
+	{
+		$this->load->database();
+			$this->db->trans_start();
+			
+			$sql = "select * FROM prueba";		
+		
+		    $resultado=$this->db->query($sql)->result_array();
+		    
+		    var_dump($resultado);
+			
+			
+			$this->db->trans_complete();
+			$this->db->close();
+	}
+	
 	public function get_users()
 	{		
 		//$query = $this->db->get('users');

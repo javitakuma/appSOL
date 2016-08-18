@@ -1,3 +1,24 @@
+#enviando
+{
+	width:30%;
+	height:30%;
+	background-color: rgba(0,0,0,0.7);
+	position: fixed;
+	top:35%;
+	left:35%;
+	border-radius:15px;
+	display: none;
+}
+
+#enviando p
+{
+	position: absolute;
+	top:60%;
+	left:50%;
+	color:white;
+	font-weight:bold;
+}
+
 #div-volver
 {
 	width:10%;
@@ -131,6 +152,13 @@
 	visibility:hidden;
 }
 */
+
+#asterisco_anno_anterior
+{
+	position:relative;
+	top:16px;
+	
+}
 
 #div_calendario_permisos
 {
@@ -302,7 +330,7 @@
 
 #listadoPermisos .solicitanteCell
 {
-	width:9%;
+	width:8%;
 }
 
 #listadoPermisos .fechaInicialCell
@@ -313,6 +341,11 @@
 #listadoPermisos .fechaFinalCell
 {
 	width:9%;
+}
+
+#listadoPermisos .numeroDiasCell
+{
+	width:4%;
 }
 
 #listadoPermisos .autRespCell
@@ -392,7 +425,7 @@
 
 #imagen_cierre_popup
 {
-	width:3%;
+	width:2%;
 	position:absolute;
 	right:5%;
 	top:5%;
@@ -401,12 +434,13 @@
 
 #texto_ayuda
 {
-	padding-top:10%;
+	padding-top:5%;
 }
 
 #texto_ayuda p
 {
 	margin-top:3%;
+	margin-bottom:1%;
 	font-weight:600;
 	font-size:90%;
 }
@@ -423,13 +457,14 @@
 #dialog {
 padding:1% 1%;
 background-color:#EFEFEF;
-width:50%;
-height:50%;
-top: 25%;
-left: 25%;
-position:absolute;
+width:70%;
+height:70%;
+top: 15%;
+left: 15%;
+position: fixed;
 z-index:999;
 border-radius:15px;
+overflow:auto;
 /*display:none;*/
 }
 

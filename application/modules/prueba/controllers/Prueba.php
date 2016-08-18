@@ -11,10 +11,8 @@ class Prueba extends MX_Controller
 	}
 	
 	public function index()
-	{
-		
-		$data['users'] = $this->data_users();
-		$this->load->view('prueba',$data);
+	{		
+		$this->Prueba_model->prueba();
 			
 	}
 	

@@ -13,6 +13,7 @@ class Permisos extends MX_Controller
 	
 	public function index()
 	{
+		
 		$this->mostrar_permiso_anual();
 	}
 	
@@ -321,7 +322,6 @@ class Permisos extends MX_Controller
 	
 	public function eliminar_solicitud()
 	{
-		
 		//PARTE ANTI HACK
 		$this->load->model('welcome/Welcome_model');
 		$k_consultor_original=$this->session->userdata('login_original');
@@ -345,17 +345,18 @@ class Permisos extends MX_Controller
 				$validado=true;
 			}
 		}
-		
+		echo $validado;
 		$todosDatosTabla=$this->Permisos_model->cargar_datos_solicitud_activa($k_permiso_solic);
 		
-		//SI ES UN PERMISO QUE NO ESTA PENDIENTE LE REDIRIGIMOS
-		if($todosDatosTabla[0]['i_autorizado_n1']!=0||$todosDatosTabla[0]['i_autorizado_n1']!=0||!$validado)
+		//SI ES UN PERMISO QUE NO ESTA PENDIENTE LE REDIRIGIMOS(no funciona porque es ajax)
+		if($todosDatosTabla[0]['i_autorizado_n1']==2||$todosDatosTabla[0]['i_autorizado_n2']!=0||!$validado)
 		{
 			enmarcar($this,'AccesoDenegado.php',$datos);
-			DIE;
+			die;
 		}
 		else
 		{
+			echo 'eliminar';
 			$id_eliminar=$_REQUEST['k_permiso_solic'];
 			
 			$this->Permisos_model->eliminar_solicitud($id_eliminar);
@@ -394,7 +395,7 @@ class Permisos extends MX_Controller
 		}	
 		
 		
-		$this->Permisos_model->enviar_solicitud($k_permisos_solic);
+		$this->Permisos_model->enviar_solicitud($k_permisos_solic,$datos_guardar);
 		
 		echo "Solicitud enviada.";	
 	}

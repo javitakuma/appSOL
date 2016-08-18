@@ -77,7 +77,7 @@ class Permisos_model extends CI_Model
 	
 	//===================================VERSIONES PRODUCCION============(CON MOTIVO DE LAS "EÑES" EN POSTGRE)
 	
-	/*
+	
 	 //COGE LOS PERMISOS ACEPTADOS DE UN MES PARA LA AYUDA DEL IMC
 	 public function cargar_datos_para_imc($k_consultor,$year,$mes)//VERSION PROD
 	 {
@@ -230,14 +230,14 @@ class Permisos_model extends CI_Model
 	 if($k_permiso_solicitud_calendario==0)
 	 {
 	 	
-	 $sql ="SELECT A.dia_solic,A.mes_solic,A.\"año_solic\" year_solic,B.i_autorizado_n1,B.i_autorizado_n2,
+	 $sql ="SELECT A.dia_solic,A.mes_solic,A.\"año_solic\" year_solic,B.i_autorizado_n1,B.i_autorizado_n2,\"año_vac\" year_vac,
 	 A.k_permisos_solic,A.horas_solic ,B.desc_observaciones
 	 FROM t_permisos_solicitados_det A
 	 join t_permisos_solicitados B
 	 on A.k_permisos_solic=B.k_permisos_solic
-	 where B.k_consultor ='$k_consultor' AND i_autorizado_n1!=1 AND i_autorizado_n2!=1
+	 where B.k_consultor ='$k_consultor' AND (i_autorizado_n1!=1 OR i_autorizado_n2!=1)
 	 UNION ALL
-	 SELECT A.dia_cons dia_solic,B.mes_cons mes_solic,B.\"año_cons\" year_solic,1 i_autorizado_n1,1 i_autorizado_n2,
+	 SELECT A.dia_cons dia_solic,B.mes_cons mes_solic,B.\"año_cons\" year_solic,1 i_autorizado_n1,1 i_autorizado_n2,\"año_vac\" year_vac,
 	 9223372036854775807 k_permisos_solic,A.horas_cons horas_solic ,A.desc_observaciones
 	 FROM t_permisos_consumidos_det A
 	 JOIN t_permisos_consumidos B
@@ -247,7 +247,7 @@ class Permisos_model extends CI_Model
 	 }
 	 else//SOLOVISTA PARA UN k_permisos EN CONCRETO
 	 {
-	 $sql ="SELECT A.dia_solic,A.mes_solic,A.\"año_solic\" year_solic,B.i_autorizado_n1,B.i_autorizado_n2,A.k_permisos_solic,A.horas_solic ,B.desc_observaciones
+	 $sql ="SELECT A.dia_solic,A.mes_solic,A.\"año_solic\" year_solic,B.i_autorizado_n1,B.i_autorizado_n2,\"año_vac\" year_vac,A.k_permisos_solic,A.horas_solic ,B.desc_observaciones
 	 FROM t_permisos_solicitados_det A
 	 join t_permisos_solicitados B
 	 on A.k_permisos_solic=B.k_permisos_solic
@@ -270,13 +270,14 @@ class Permisos_model extends CI_Model
 
 	
 	 //CARGA DE DATOS PARA LA PANTALLA GENERAL DE PERMISOS Y PINTAR EL HISTORICO INFERIOR
+	 /*
 	 public  function cargar_historico_permisos($k_consultor)//VERSION PROD
 	 {
 	 $this->load->database();
 	 $this->db->trans_start();
 	
 	 //fecha_formato_original solo lo uso para ordenar
-	 $sql ="SELECT k_permisos_solic, to_char(f_solicitud, 'DD-MM-YYYY') f_solicitud,f_solicitud as fecha_formato_original,C.id_consultor,id_proyecto,
+	 $sql ="SELECT k_permisos_solic, to_char(f_solicitud, 'DD-MM-YYYY') f_solicitud,f_solicitud as fecha_formato_original,C.id_consultor,A.k_proyecto,id_proyecto,
 	 CASE i_autorizado_n1
 	 WHEN 0 THEN 'Pendiente'
 	 WHEN 1 THEN 'Autorizado'
@@ -327,7 +328,128 @@ class Permisos_model extends CI_Model
 	
 	 return $permisos;
 	 }
+	 */
 	 
+	 //CARGA DE DATOS PARA LA PANTALLA GENERAL DE PERMISOS Y PINTAR EL HISTORICO INFERIOR
+	 public  function cargar_historico_permisos($k_consultor)//VERSION DESARROLLO
+	 {
+	 	$this->load->database();
+	 	$this->db->trans_start();
+	 
+	 	//fecha_formato_original solo lo uso para ordenar
+	 	$sql ="SELECT k_permisos_solic, to_char(f_solicitud, 'DD-MM-YYYY') f_solicitud,f_solicitud as fecha_formato_original,C.id_consultor,A.k_proyecto,id_proyecto,
+	 	CASE i_autorizado_n1
+	 	WHEN 0 THEN 'Pendiente'
+	 	WHEN 1 THEN 'Autorizado'
+	 	WHEN 2 THEN 'No autorizado'
+	 	END i_autorizado_n1,
+	 	CASE i_autorizado_n2
+	 	WHEN 0 THEN 'Pendiente'
+	 	WHEN 1 THEN 'Autorizado'
+	 	WHEN 2 THEN 'No autorizado'
+	 	END i_autorizado_n2,
+	 	desc_observaciones,COALESCE(desc_rechazo,'') desc_rechazo,sw_envio_solicitud
+	 	FROM t_permisos_solicitados A
+	 	JOIN t_proyectos B on A.k_proyecto=B.k_proyecto
+	 	JOIN t_consultores C on A.k_consultor_solic=C.k_consultor
+	 	WHERE A.k_consultor=$k_consultor
+	 	ORDER BY fecha_formato_original DESC, k_permisos_solic DESC";
+	 
+	 
+	 
+	 	$permisos=$this->db->query($sql)->result_array();
+	 
+	 
+	 	for($i=0;$i<sizeof($permisos);$i++)
+	 	{
+	 		$sql_orden ="SELECT CONCAT(\"año_solic\",mes_solic,dia_solic) fecha_para_ordenar FROM t_permisos_solicitados_det
+	 		WHERE k_permisos_solic={$permisos[$i]['k_permisos_solic']} ORDER BY \"año_solic\",mes_solic,dia_solic ASC LIMIT 1";
+	 
+	 		$dia_ordenar=$this->db->query($sql_orden)->result_array();
+	 
+	 		$permisos[$i]['dia_orden']=$dia_ordenar[0]['fecha_para_ordenar'];
+	 	}
+	 
+	 	//ordeno el array por el primer dia
+	 	usort($permisos, function($a, $b) {
+	 		return $b['dia_orden'] - $a['dia_orden'];
+	 	});
+	 
+	 
+	 		for($i=0;$i<sizeof($permisos);$i++)
+	 		{
+	 			$sql ="SELECT CONCAT(dia_solic,'-',mes_solic,'-',\"año_solic\") primera_fecha FROM t_permisos_solicitados_det
+	 			WHERE k_permisos_solic={$permisos[$i]['k_permisos_solic']} ORDER BY \"año_solic\",mes_solic,dia_solic ASC LIMIT 1";
+	 
+	 			$primer_dia=$this->db->query($sql)->result_array();
+	 
+	 			$sql2 ="SELECT CONCAT(dia_solic,'-',mes_solic,'-',\"año_solic\") ultima_fecha FROM t_permisos_solicitados_det
+	 			WHERE k_permisos_solic={$permisos[$i]['k_permisos_solic']}  ORDER BY \"año_solic\" DESC,mes_solic DESC,dia_solic DESC LIMIT 1";
+	 
+	 			$ultimo_dia=$this->db->query($sql2)->result_array();
+	 
+	 			$sql3 ="SELECT COUNT(*) numero_dias FROM t_permisos_solicitados_det
+	 			WHERE k_permisos_solic={$permisos[$i]['k_permisos_solic']}";
+	 
+	 			$numero_dias=$this->db->query($sql3)->result_array();
+	 			
+	 			
+	 			
+	 			//CONTAMOS EL NUMERO DE DIAS DEL AÑO ANTERIOR
+	 			$sql4 ="SELECT COUNT(*) numero_dias_year_anterior FROM t_permisos_solicitados_det
+	 			WHERE k_permisos_solic={$permisos[$i]['k_permisos_solic']} AND \"año_vac\"<CAST(\"año_solic\" AS INTEGER)";
+	 				
+	 			$numero_dias_year_anterior=$this->db->query($sql4)->row_array();
+	 			
+	 			
+	 			//CONTAMOS EL NUMERO DE DIAS DEL AÑO SIGUIENTE
+	 			$sql5 ="SELECT COUNT(*) numero_dias_year_siguiente FROM t_permisos_solicitados_det
+	 			WHERE k_permisos_solic={$permisos[$i]['k_permisos_solic']} AND \"año_vac\">CAST(\"año_solic\" AS INTEGER)";
+	 			
+	 			$numero_dias_year_siguiente=$this->db->query($sql5)->row_array();
+	 			
+	 
+	 			$permisos[$i]['primer_dia']=$primer_dia[0]['primera_fecha'];
+	 			$permisos[$i]['ultimo_dia']=$ultimo_dia[0]['ultima_fecha'];
+	 			$permisos[$i]['numero_dias']=$numero_dias[0]['numero_dias'];
+	 				
+	 			//SI HAY DIAS DEL AÑO ANTERIOR FORMATEAMOS LA INFORMACION PARA MOSTRARSELO AL USUARIO
+	 			if($numero_dias_year_anterior['numero_dias_year_anterior']>0)
+	 			{
+	 				if($numero_dias_year_anterior['numero_dias_year_anterior']!=$permisos[$i]['numero_dias'])
+	 				{
+	 					$permisos[$i]['numero_dias']=$numero_dias_year_anterior['numero_dias_year_anterior'].'*+'.($permisos[$i]['numero_dias']-$numero_dias_year_anterior['numero_dias_year_anterior']);
+	 				}
+	 				else
+	 				{
+	 					$permisos[$i]['numero_dias']=$numero_dias_year_anterior['numero_dias_year_anterior'].'*';
+	 				}	 
+	 			}
+	 			
+	 			
+	 			//SI HAY DIAS DEL AÑO SIGUIENTE FORMATEAMOS LA INFORMACION PARA MOSTRARSELO AL USUARIO
+	 			if($numero_dias_year_siguiente['numero_dias_year_siguiente']>0)
+	 			{
+	 				if($numero_dias_year_siguiente['numero_dias_year_siguiente']!=$permisos[$i]['numero_dias'])
+	 				{
+	 					$permisos[$i]['numero_dias']=($permisos[$i]['numero_dias']-$numero_dias_year_siguiente['numero_dias_year_siguiente'])."+".$numero_dias_year_siguiente['numero_dias_year_siguiente'].'#';
+	 				}
+	 				else
+	 				{
+	 					$permisos[$i]['numero_dias']=$numero_dias_year_siguiente['numero_dias_year_siguiente'].'#';
+	 				}	 			
+	 			}
+	 			
+	 			
+	 			
+	 				
+	 		}
+	 			
+	 		$this->db->trans_complete();
+	 		$this->db->close();
+	 
+	 		return $permisos;
+	 }
 	
 	
 
@@ -377,78 +499,78 @@ class Permisos_model extends CI_Model
 	
 	 for($i=0;$i<sizeof($array_dias);$i++)
 	 {
-	 $horas;
+	 	$horas;
 	 	
-	 //NUMERO DE HORAS SI ES KEYVACACIONES(SERA SIEMPRE IGUAL)
-	 if($datos_guardar['k_proyecto_solicitud']==450)
-	 {
-	 $horas=$datos_guardar['horas_jornada'];
-	 }
+		 //NUMERO DE HORAS SI ES KEYVACACIONES(SERA SIEMPRE IGUAL)
+		 if($datos_guardar['k_proyecto_solicitud']==450)
+		 {
+		 $horas=$datos_guardar['horas_jornada'];
+		 }
 	 	
-	 //NUMERO DE HORAS SI ES KEYOTROS(COGEMOS LA POSICION DEL ARRAY SEGUN EL BUCLE)
-	 if($datos_guardar['k_proyecto_solicitud']==468)
-	 {
-	 $horas=$array_horas[$i];
-	 }
-	 	
-	 	
-	 $dia_partido=explode("-", $array_dias[$i]);
-	 $dia=$dia_partido[0];
-	 $mes=$dia_partido[1];
-	 $year=$dia_partido[2];
+		 //NUMERO DE HORAS SI ES KEYOTROS(COGEMOS LA POSICION DEL ARRAY SEGUN EL BUCLE)
+		 if($datos_guardar['k_proyecto_solicitud']==468)
+		 {
+		 $horas=$array_horas[$i];
+		 }
 	 	
 	 	
-	 $year_vac;
-	 //$year_vac=($datos_guardar['diasPendientesDebidos']>0)?$datos_guardar['year_solicitud']-1:$datos_guardar['year_solicitud'];
+		 $dia_partido=explode("-", $array_dias[$i]);
+		 $dia=$dia_partido[0];
+		 $mes=$dia_partido[1];
+		 $year=$dia_partido[2];
 	 	
-	 if($datos_guardar['diasPendientesDebidos']>0)
-	 {
-	 $year_vac=$datos_guardar['year_solicitud']-1;
-	 }
-	 else if($datos_guardar['diasPendientes']>0)
-	 {
-	 $year_vac=$datos_guardar['year_solicitud'];
-	 }
-	 else
-	 {
-	 $year_vac=$datos_guardar['year_solicitud']+1;
-	 }
+	 	
+		 $year_vac;
+		 //$year_vac=($datos_guardar['diasPendientesDebidos']>0)?$datos_guardar['year_solicitud']-1:$datos_guardar['year_solicitud'];
+		 	
+		 if($datos_guardar['diasPendientesDebidos']>0)
+		 {
+		 $year_vac=$datos_guardar['year_solicitud']-1;
+		 }
+		 else if($datos_guardar['diasPendientes']>0)
+		 {
+		 $year_vac=$datos_guardar['year_solicitud'];
+		 }
+		 else
+		 {
+		 $year_vac=$datos_guardar['year_solicitud']+1;
+		 }
 	 		 
 	 	
-	 if($datos_guardar['k_proyecto_solicitud']==468)
-	 {
-	 $year_vac=null;
-	 }
+		 if($datos_guardar['k_proyecto_solicitud']==468)
+		 {
+		 $year_vac=null;
+		 }
+		
+		 //INSERT
+		 $data = array(
+		 'k_permisos_solic'      =>   $datos_guardar['k_permisos_solic'],
+		 'horas_solic'         	=>   $horas,
+		 'dia_solic' 			=>   $dia,
+		 'mes_solic'      		=>   $mes,
+		 'año_solic'  	 	=>   $year,
+		 'año_vac'   		=>   $year_vac,
+		 );
 	
-	 //INSERT
-	 $data = array(
-	 'k_permisos_solic'      =>   $datos_guardar['k_permisos_solic'],
-	 'horas_solic'         	=>   $horas,
-	 'dia_solic' 			=>   $dia,
-	 'mes_solic'      		=>   $mes,
-	 '\"año_solic\"' 	 	=>   $year,
-	 '\"año_vac\"'   		=>   $year_vac,
-	 );
-	
-	 $resultado=$this->db->insert('t_permisos_solicitados_det',$data);
-	 	
-	 if($datos_guardar['diasPendientesDebidos']>0)
-	 {
-	 $datos_guardar['diasPendientesDebidos']--;
-	 }
-	 else if($datos_guardar['diasPendientes']>0)
-	 {
-	 $datos_guardar['diasPendientes']--;
-	 }
-	 else
-	 {
-	 $datos_guardar['diasPendientesFuturo']--;
-	 }
-	
-	 //$datos_guardar['diasPendientesDebidos']--;
-	 	
-	 	
-	 //FIN INSERT
+		 $resultado=$this->db->insert('t_permisos_solicitados_det',$data);
+		 	
+		 if($datos_guardar['diasPendientesDebidos']>0)
+		 {
+		 $datos_guardar['diasPendientesDebidos']--;
+		 }
+		 else if($datos_guardar['diasPendientes']>0)
+		 {
+		 $datos_guardar['diasPendientes']--;
+		 }
+		 else
+		 {
+		 $datos_guardar['diasPendientesFuturo']--;
+		 }
+		
+		 //$datos_guardar['diasPendientesDebidos']--;
+		 	
+		 	
+		 //FIN INSERT
 	
 	
 	 }
@@ -560,8 +682,8 @@ class Permisos_model extends CI_Model
 	 'horas_solic'         	=>   $horas,
 	 'dia_solic' 			=>   $dia,
 	 'mes_solic'      		=>   $mes,
-	 '\"año_solic\"' 	 	=>   $year,
-	 '\"año_vac\"'   		=>   $year_vac,
+	 'año_solic' 	 	=>   $year,
+	 'año_vac'   		=>   $year_vac,
 	 );
 	 	
 	 //RESTAMOS DIAS AL CONTADOR DE DIAS PENDIENTES SEGUN POR EL AÃ‘O QUE VAYAMOS
@@ -596,15 +718,15 @@ class Permisos_model extends CI_Model
 	 }
 	 
 	
+	 
 	
-	*/
 	
 	//===================================FINAL VERSIONES PRODUCCION============(CON MOTIVO DE LAS "EÑES" EN POSTGRE)
 	
 	
 	//===================================VERSIONES DESARROLLO============(CON MOTIVO DE LAS "EÑES" EN POSTGRE)
 	
-	 
+	 /*
 	 
 	 
 	//COGE LOS PERMISOS ACEPTADOS DE UN MES PARA LA AYUDA DEL IMC
@@ -767,7 +889,7 @@ class Permisos_model extends CI_Model
 			FROM t_permisos_solicitados_det A
 			join t_permisos_solicitados B
 			on A.k_permisos_solic=B.k_permisos_solic
-			where B.k_consultor ='$k_consultor' AND i_autorizado_n1!=1 AND i_autorizado_n2!=1
+			where B.k_consultor ='$k_consultor' AND i_autorizado_n2!=1
 			UNION ALL
 			SELECT A.dia_cons dia_solic,B.mes_cons mes_solic,B.año_cons year_solic,1 i_autorizado_n1,1 i_autorizado_n2,
 			9223372036854775807 k_permisos_solic,A.horas_cons horas_solic ,A.desc_observaciones, año_vac year_vac
@@ -806,7 +928,7 @@ class Permisos_model extends CI_Model
 		$this->db->trans_start();
 	
 	    //fecha_formato_original solo lo uso para ordenar
-		$sql ="SELECT k_permisos_solic, to_char(f_solicitud, 'DD-MM-YYYY') f_solicitud,f_solicitud as fecha_formato_original,C.id_consultor,id_proyecto,
+		$sql ="SELECT k_permisos_solic, to_char(f_solicitud, 'DD-MM-YYYY') f_solicitud,f_solicitud as fecha_formato_original,C.id_consultor,A.k_proyecto,id_proyecto,
 		CASE i_autorizado_n1
 		WHEN 0 THEN 'Pendiente'
 		WHEN 1 THEN 'Autorizado'
@@ -862,6 +984,7 @@ class Permisos_model extends CI_Model
 	
 			$numero_dias=$this->db->query($sql3)->result_array();
 			
+			//CONTAMOS EL NUMERO DE DIAS DEL AÑO ANTERIOR
 			$sql4 ="SELECT COUNT(*) numero_dias_year_anterior FROM t_permisos_solicitados_det
 			WHERE k_permisos_solic={$permisos[$i]['k_permisos_solic']} AND año_vac<CAST(año_solic AS INTEGER)";
 			
@@ -871,17 +994,24 @@ class Permisos_model extends CI_Model
 			$permisos[$i]['ultimo_dia']=$ultimo_dia[0]['ultima_fecha'];
 			$permisos[$i]['numero_dias']=$numero_dias[0]['numero_dias'];
 			
-			
+			//SI HAY DIAS DEL AÑO ANTERIOR FORMATEAMOS LA INFORMACION PARA MOSTRARSELO AL USUARIO
 			if($numero_dias_year_anterior['numero_dias_year_anterior']>0)
 			{
-				$permisos[$i]['numero_dias']=$numero_dias_year_anterior['numero_dias_year_anterior'].'*+'.($permisos[$i]['numero_dias']-$numero_dias_year_anterior['numero_dias_year_anterior']);
+				if($numero_dias_year_anterior['numero_dias_year_anterior']!=$permisos[$i]['numero_dias'])
+				{
+					$permisos[$i]['numero_dias']=$numero_dias_year_anterior['numero_dias_year_anterior'].'*+'.($permisos[$i]['numero_dias']-$numero_dias_year_anterior['numero_dias_year_anterior']);
+				}
+				else
+				{
+					$permisos[$i]['numero_dias']=$numero_dias_year_anterior['numero_dias_year_anterior'].'*';
+				}
+				
 			}
 			
 		}
 			
 		$this->db->trans_complete();
 		$this->db->close();
-	
 	
 		return $permisos;
 	}
@@ -1150,7 +1280,7 @@ class Permisos_model extends CI_Model
 	}
 	
 	
-	
+	*/
 	
 	//===================================FINAL VERSIONES DESARROLLO============(CON MOTIVO DE LAS "EÑES" EN POSTGRE)
 	
@@ -1301,7 +1431,7 @@ class Permisos_model extends CI_Model
 	
 	
 	public function eliminar_solicitud($id_eliminar)
-	{		
+	{				
 		$this->load->database();
 		$this->db->trans_start();
 				
@@ -1317,7 +1447,7 @@ class Permisos_model extends CI_Model
 		$this->db->close();
 	}
 	
-	public function enviar_solicitud($k_permisos_solic)
+	public function enviar_solicitud($k_permisos_solic,$datos_guardar)
 	{
 		//SOLO PONEMOS EL sw_envio_solicitud a -1
 		
@@ -1329,6 +1459,7 @@ class Permisos_model extends CI_Model
 		
 		$es_key_otros=$this->db->query($sql)->row_array();
 		
+		$fechaActual = date('Y-m-d');
 		
 		//ESTE VALOR SERA 0 SI ES VACACIONES Y 1 SI ES KEYOTROS PORQUE SOLO AUTORIZA RRHH
 		$aut_1=0;
@@ -1338,8 +1469,10 @@ class Permisos_model extends CI_Model
 		}
 				
 		$data = array(
-				'sw_envio_solicitud'    => -1,
-				'i_autorizado_n1'      	=> $aut_1,
+				'k_consultor_solic'     =>   $datos_guardar['k_consultor_solic'],
+				'sw_envio_solicitud'    =>   -1,
+				'i_autorizado_n1'      	=>   $aut_1,
+				'f_solicitud' 	 		=>   $fechaActual,
 		);
 		
 		$this->db->where('k_permisos_solic', $k_permisos_solic);

@@ -22,7 +22,11 @@
 	</div>	
 </div>
 
-<div id="sombra"></div>
+<div id="sombra_footer"></div>
+
+<div id="enviando">
+   <p class="titulo-grande">ESPERE POR FAVOR...</p>
+</div>
 
 </body>
 
